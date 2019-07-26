@@ -98,13 +98,13 @@ export default {
     },
     openInfoForm (index, row) {
       //获取单个患者一般信息
-      let para = {page: this.page,url: row.url}
+      let para = {page: this.page, url: row.url}
       console.log("获取单个患者一般信息",para)
       getPatientInfoForm(para)
       .then((res)=> {
         console.log(res.data)
         //父组件通过emit发送 事件 及 所需的参数
-        this.$refs.infoForm.$emit("openEvent",res.data)
+        this.$refs.infoForm.$emit("openEvent", res.data)
       })
       .catch(() => {})
     },
@@ -145,41 +145,7 @@ export default {
 
       })
     },
-    // 显示新增界面
-    handleAdd: function () {
-      this.addFormVisible = true
-      this.addForm = {
-        name: '',
-        sex: -1,
-        age: 0,
-        birth: '',
-        addr: ''
-      }
-    },
-    // 新增
-    addSubmit: function () {
-      this.$refs.addForm.validate((valid) => {
-        if (valid) {
-          this.$confirm('确认提交吗？', '提示', {}).then(() => {
-            this.addLoading = true
-            // NProgress.start();
-            let para = Object.assign({}, this.addForm)
-            para.birth = (!para.birth || para.birth === '') ? '' : util.formatDate.format(new Date(para.birth), 'yyyy-MM-dd')
-            addUser(para).then((res) => {
-              this.addLoading = false
-              // NProgress.done();
-              this.$message({
-                message: '提交成功',
-                type: 'success'
-              })
-              this.$refs['addForm'].resetFields()
-              this.addFormVisible = false
-              this.getUsers()
-            })
-          })
-        }
-      })
-    },
+
     selsChange: function (sels) {
       this.sels = sels
     },

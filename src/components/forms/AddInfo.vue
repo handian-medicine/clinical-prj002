@@ -39,7 +39,7 @@ export default {
     name:'AddInfo',
     data () {
       return {
-        patientInfo:{name:'测试', phone:'13110983476', hospital:'汉典医院', birth:'1980-09', career:'个体'},
+        patientInfo: {name:'测试', phone:'13110983476', hospital:'汉典医院', birth:'1980-09', career:'个体'},
         dialogVisible: false
       }
 
@@ -53,6 +53,7 @@ export default {
         .then( (res)=> {
           this.$message({message: '提交成功',type: 'success'})
           this.dialogVisible = false
+          this.$parent.getUsers()
           }
         )
         .catch()
@@ -60,9 +61,33 @@ export default {
     },
     created() {
       this.$on("addEvent", function(data) {
-        // this.infoForm = data;
         this.dialogVisible = true;
       });
     }
 }
+
+    // // 新增
+    // addSubmit: function () {
+    //   this.$refs.addForm.validate((valid) => {
+    //     if (valid) {
+    //       this.$confirm('确认提交吗？', '提示', {}).then(() => {
+    //         this.addLoading = true
+    //         // NProgress.start();
+    //         let para = Object.assign({}, this.addForm)
+    //         para.birth = (!para.birth || para.birth === '') ? '' : util.formatDate.format(new Date(para.birth), 'yyyy-MM-dd')
+    //         addUser(para).then((res) => {
+    //           this.addLoading = false
+    //           // NProgress.done();
+    //           this.$message({
+    //             message: '提交成功',
+    //             type: 'success'
+    //           })
+    //           this.$refs['addForm'].resetFields()
+    //           this.addFormVisible = false
+    //           this.getUsers()
+    //         })
+    //       })
+    //     }
+    //   })
+    // },
 </script>
