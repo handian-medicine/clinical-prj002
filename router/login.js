@@ -23,7 +23,7 @@ const tokenInfo = {
 */
 
 //登录请求
-router.post('/',function (req,res, next) {
+router.post('/',function (req, res, next) {
     // 1. 接受vue请求         网页通过axios的发送请求是这里的req,params是req.body,包括用户名和密码
     console.log('login.js 1. ', req.body)
 
@@ -34,20 +34,26 @@ router.post('/',function (req,res, next) {
         console.log('login.js 2. ', response.body)
         // tip 返回的状态码存在statusCode,200表示成功
         console.log('login.js 3. ', response.statusCode)
-        // tip 注意直接从server拿到的body信息都是json的字符串格式,程序里要使用需要先把body转换为js里的 object 格式
-        var tokenInfo = JSON.parse(body)
+        if ( !error && response.statusCode == 200 ) {
+          // tip 注意直接从server拿到的body信息都是json的字符串格式,程序里要使用需要先把body转换为js里的 object 格式
+          var tokenInfo = JSON.parse(body)
 
     // 4. 必要信息存入cookie   把body里的token信息存入cookie,后续再向服务器发送请求就不必每次把token写到请求里了
-        // tip maxAge表示cookie有4小时有效时间
-        res.cookie("prj002token", tokenInfo, {maxAge: 1000 * 60 * 60 * 8, httpOnly: true})
-        res.cookie("userinfo", {"username": req.body.username,"password": req.body.password}, {maxAge: 1000 * 60 * 60 * 8, httpOnly: true})
-        // tip 所有的cookie信息可以在Set-Cookie查看
-        console.log(res.get('Set-Cookie'))
+          // tip maxAge表示cookie有4小时有效时间
+          res.cookie("prj002token", tokenInfo, {maxAge: 1000 * 60 * 60 * 8, httpOnly: true})
+          res.cookie("userinfo", {"username": req.body.username,"password": req.body.password}, {maxAge: 1000 * 60 * 60 * 8, httpOnly: true})
+          // tip 所有的cookie信息可以在Set-Cookie查看
+          console.log(res.get('Set-Cookie'))
 
-    // 5. 向vue返回登录结果    把server返回的登录信息(成功或者失败)再返回到vue前端
-        //TODO
-        let user = {'username':'admin','password':'123456'}
-        res.send({ code: 200, msg: '请求成功', user })
+    // 5. 向vue返回登录结果     把server返回的登录信息(成功或者失败)再返回到vue前端
+          //TODO
+          let user = {'username':'admin', 'password':'123456'}
+          res.send({ code: response.statusCode, msg: '登录成功', user })
+        } else {
+          let user = {'username':'admin', 'password':'123456'}
+          res.send({ code: response.statusCode, msg: '登录失败', user})
+        }
+
     })
 
 })

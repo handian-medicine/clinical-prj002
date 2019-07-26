@@ -100,7 +100,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="updateInfo">确定</el-button>
+        <el-button type="primary" @click="updateInfoForm">确定</el-button>
         <el-button @click="dialogVisible=false">取消</el-button>
       </el-form-item>
 
@@ -137,7 +137,7 @@ export default {
       }
   },
   methods: {
-    updateInfo () {
+    updateInfoForm () {
       let para = {
         url: this.infoForm.url,
         infoForm: this.infoForm
@@ -145,18 +145,16 @@ export default {
       console.log("提交参数",para)
       updatePatientInfoForm(para)
       .then((res)=> {
-        console.log(res.data)
+        this.$message({message: '提交成功',type: 'success'})
         this.dialogVisible = false
       })
-      .catch(() => {})
-      // console.log(this.infoForm)
-      // let para = Object.assign({}, this.infoForm)
+      .catch(
+        this.$message({message: '修改失败',type: 'error'})
+      )
     }
   },
   created() {
-      this.$on("open", function(data) {
-        // console.log("infoForm创建");
-        // console.log("InfoForm父组件传入的数据", data);
+      this.$on("openEvent", (data)=>{
         this.infoForm = data;
         this.dialogVisible = true;
       });

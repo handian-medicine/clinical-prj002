@@ -51,7 +51,7 @@ export default {
             let { msg, code, user } = data
             if (code !== 200) {
               this.$message({
-                message: msg,
+                message: msg + ' 错误码 ' + code,
                 type: 'error'
               })
             } else {

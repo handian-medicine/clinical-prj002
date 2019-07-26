@@ -5,12 +5,18 @@
 ## Build Setup
 
 ``` bash
+1、安装环境
 # install dependencies
 npm install
 
-# serve with hot reload at localhost:8080
+2、运行Vue前端
+# serve with hot reload at 127.0.0.1:8080
 npm run dev
 
+3、运行express后端
+node app.js
+
+4、打包命令
 # build for production with minification
 npm run build
 

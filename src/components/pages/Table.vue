@@ -10,7 +10,7 @@
           <el-button type="primary" @click="getUsers">查询</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="handleAdd">新增</el-button>
+          <el-button type="primary" @click="addInfo">新增</el-button>
         </el-form-item>
         <!-- 测试 -->
         <!-- <el-form-item>
@@ -28,17 +28,20 @@
       </el-table-column>
       <el-table-column prop="name" label="姓名" width="120" sortable fixed>
       </el-table-column>
-      <el-table-column prop="age" label="年龄" width="100" sortable>
+      <el-table-column prop="birth" label="出生日期" width="100" sortable>
       </el-table-column>
-      <el-table-column prop="birth" label="出生日期" width="120" sortable>
+      <!-- <el-table-column prop="age" label="年龄" width="100" sortable>
+      </el-table-column> -->
+      <el-table-column prop="phone" label="手机号码" width="110" sortable>
       </el-table-column>
-      <el-table-column prop="address" label="地址" min-width="180" sortable>
+      <el-table-column prop="hospital" label="就诊医院" width="150" sortable>
+      </el-table-column>
+      <el-table-column prop="career" label="职业" min-width="90" sortable>
       </el-table-column>
       <el-table-column label="操作" width="610">
         <template v-slot="scope">
           <el-button-group>
-          <!-- <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">一般情况</el-button> -->
-          <el-button type="primary" size="small" @click="openInfo(scope.$index, scope.row)">一般情况</el-button>
+          <el-button type="primary" size="small" @click="openInfoForm(scope.$index, scope.row)">一般情况</el-button>
           <el-button type="success" size="small">病情概要</el-button>
           <el-button type="info"    size="small">专科病史</el-button>
           <el-button type="warning" size="small">实验室检查</el-button>
@@ -61,47 +64,20 @@
 
     <!--一般情况dialog-->
     <InfoForm ref="infoForm" ></InfoForm>
+    <!-- 新增界面 -->
+    <AddInfo ref="addInfo" ></AddInfo>
 
-    <!--新增dialog-->
-    <el-dialog title="新增" :visible.sync="addFormVisible" :close-on-click-modal="false">
-      <el-form :model="addForm" label-width="80px" :rules="addFormRules" ref="addForm">
-        <el-form-item label="姓名" prop="name">
-          <el-input v-model="addForm.name" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="性别">
-          <el-radio-group v-model="addForm.sex">
-            <el-radio class="radio" :label="1">男</el-radio>
-            <el-radio class="radio" :label="0">女</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="年龄">
-          <el-input-number v-model="addForm.age" :min="0" :max="200"></el-input-number>
-        </el-form-item>
-        <el-form-item label="生日">
-          <el-date-picker type="date" placeholder="选择日期" v-model="addForm.birth"></el-date-picker>
-        </el-form-item>
-        <el-form-item label="地址">
-          <el-input type="textarea" v-model="addForm.addr"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click.native="addFormVisible = false">取消</el-button>
-        <el-button type="primary" @click.native="addSubmit" :loading="addLoading">提交</el-button>
-      </div>
-    </el-dialog>
   </section>
 </template>
 
 <script>
 import util from '@/common/js/util'
-import { getPatientsListPage, removeUser, batchRemoveUser, editUser, addUser } from '@/api/api'
-import { getPatientInfoForm } from '@/api/api'
-// import axios from 'axios'
-// import Test from '@/components/Test'
+import { getPatientsList, getPatientInfoForm, removeUser, batchRemoveUser, editUser, addUser } from '@/api/api'
 import InfoForm from '@/components/forms/InfoForm'
+import AddInfo from '@/components/forms/AddInfo'
 export default {
   name:'Table',
-  components:{InfoForm},
+  components:{InfoForm,AddInfo},
   data () {
     return {
       filters: {
@@ -114,39 +90,23 @@ export default {
       listLoading: false,
       sels: [], // 列表选中列
 
-      addFormVisible: false, // 新增界面是否显示
-      addLoading: false,
-      addFormRules: {
-        name: [
-          { required: true, message: '请输入姓名', trigger: 'blur' }
-        ]
-      },
-      // 新增界面数据
-      addForm: {
-        name: '',
-        sex: -1,
-        age: 0,
-        birth: '',
-        addr: ''
-      }
-
     }
   },
   methods: {
-    openInfo (index, row) {
+    addInfo ( ) {
+      this.$refs.addInfo.$emit("addEvent")
+    },
+    openInfoForm (index, row) {
       //获取单个患者一般信息
-      let para = {
-        page: this.page,
-        url: row.url
-      }
+      let para = {page: this.page,url: row.url}
       console.log("获取单个患者一般信息",para)
       getPatientInfoForm(para)
       .then((res)=> {
         console.log(res.data)
-        this.$refs.infoForm.$emit("open",res.data)
+        //父组件通过emit发送 事件 及 所需的参数
+        this.$refs.infoForm.$emit("openEvent",res.data)
       })
       .catch(() => {})
-
     },
     handleCurrentChange (val) {
       this.page = val
@@ -159,7 +119,7 @@ export default {
       }
       console.log("获取数据列表时需要传的参数",para)
       this.listLoading = true
-      getPatientsListPage(para).then((res) => {
+      getPatientsList(para).then((res) => {
         console.log(res.data)
         this.patientsList = res.data.patientsList
         this.totalNum = res.data.totalNum
@@ -184,12 +144,6 @@ export default {
       }).catch(() => {
 
       })
-    },
-    // 显示编辑界面
-    handleEdit: function (index, row) {
-      console.log(row)
-      this.editFormVisible = true
-      this.editForm = Object.assign({}, row)
     },
     // 显示新增界面
     handleAdd: function () {

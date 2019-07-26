@@ -7,8 +7,34 @@ const express = require("express");
 const router = express.Router();
 var myConst = require("./const");
 
+// 添加患者
+router.post('/add', function (req, res, next) {
+  // console.log('req.body.name->', req.body.patientInfo.name)
+  const patientInfo = {
+    name:req.body.patientInfo.name,
+    phone:req.body.patientInfo.phone,
+    hospital:req.body.patientInfo.hospital,
+    birth:req.body.patientInfo.birth,
+    career:req.body.patientInfo.career,
+  }
+  const options = {
+    url: myConst.apiurl + "/prj002/info/",
+    form: patientInfo,
+    headers: {'Authorization': 'Bearer ' + req.cookies.prj002token.access_token}
+  }
+  request.post(options, function (error, response, body) {
+    console.log("增加信息", body)
+    // var bodyParse = JSON.parse(body)
+    // var totalNum = bodyParse.count
+    // var patientsList = bodyParse.results
+    // console.log('user.js 3.',patientsList)
+    res.send({msg:'成功了'})
+  })
+
+})
+
 // 信息列表
-router.post('/listpage', function(req, res, next) {
+router.post('/list', function(req, res, next) {
   console.log('user.js 1.req.body->', req.body)
   console.log('user.js 2.req.cookies->', req.cookies)
   const options = {
