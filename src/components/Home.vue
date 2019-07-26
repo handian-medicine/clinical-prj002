@@ -12,13 +12,12 @@
           <i class="fa fa-align-justify"></i>
         </div>
       </el-col>
-      <el-col :span="4" class="userinfo">
+      <el-col :span="8" class="userinfo">
         <el-dropdown trigger="hover">
           <span class="el-dropdown-link userinfo-inner">
             <img src="@/assets/user.png" />
             {{sysUserName}}
           </span>
-          <!-- <span class="el-dropdown-link userinfo-inner"><img :src="this.sysUserAvatar"/> {{sysUserName}}</span> -->
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>我的消息</el-dropdown-item>
             <el-dropdown-item>设置</el-dropdown-item>
@@ -205,7 +204,7 @@ export default {
     if (user) {
       user = JSON.parse(user);
       console.log(user);
-      this.sysUserName = user.name || "";
+      this.sysUserName = user.username || "";
       this.sysUserAvatar = user.avatar || "";
     }
   }

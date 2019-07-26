@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="一般情况" :visible.sync="dialogVisible" :close-on-click-modal="false" width="100%">
+  <el-dialog title="一般情况" :visible.sync="dialogVisible" :close-on-click-modal="false" width="70%">
 
     <el-form ref="infoForm" :model="patientInfo" label-width="130px" label-position="left">
 

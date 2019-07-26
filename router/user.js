@@ -35,8 +35,8 @@ router.post('/add', function (req, res, next) {
 
 // 信息列表
 router.post('/list', function(req, res, next) {
-  console.log('user.js 1.req.body->', req.body)
-  console.log('user.js 2.req.cookies->', req.cookies)
+  // console.log('user.js 1.req.body->', req.body)
+  // console.log('user.js 2.req.cookies->', req.cookies)
   const options = {
     url: myConst.apiurl + "/prj002/info/",
     headers: {'Authorization': 'Bearer ' + req.cookies.prj002token.access_token}
@@ -45,7 +45,7 @@ router.post('/list', function(req, res, next) {
     var bodyParse = JSON.parse(body)
     var totalNum = bodyParse.count
     var patientsList = bodyParse.results
-    console.log('user.js 3.',patientsList)
+    // console.log('user.js 3.',patientsList)
     res.send({patientsList,totalNum})
   })
 

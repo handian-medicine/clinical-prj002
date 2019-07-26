@@ -2,16 +2,6 @@ const express = require("express");
 const request = require("request");
 const router = express.Router();
 var myConst = require("./const");
-//登录信息
-const loginInfo = {
-    "username":"test03@handian.com",
-    "password":"asdf1234",
-    "grant_type":"password",
-    "scope":"prj002",
-    "client_id": myConst.client_id,
-    "client_secret":myConst.client_secret
-    }
-const url = myConst.apiurl + "/o/token/"
 
 /* 返回的token信息,这一段信息不会出现在实际代码中,会存储在cookie里。每隔4小时access_token要重新获取
 const tokenInfo = {
@@ -24,8 +14,18 @@ const tokenInfo = {
 
 //登录请求
 router.post('/',function (req, res, next) {
-    // 1. 接受vue请求         网页通过axios的发送请求是这里的req,params是req.body,包括用户名和密码
+    // 1. 接受vue请求         网页通过axios的发送请求是这里的req,req.body包含用户名和密码
     console.log('login.js 1. ', req.body)
+      //登录参数
+    const loginInfo = {
+      "username":req.body.username,
+      "password":req.body.password,
+      "grant_type":"password",
+      "scope":"prj002",
+      "client_id": myConst.client_id,
+      "client_secret":myConst.client_secret
+      }
+    const url = myConst.apiurl + "/o/token/"
 
     // 2. 发送server请求      结合req.body里的信息和其它关键信息,通过request向服务器(server)发送请求,获取token
     request.post({url: url, form: loginInfo}, function (error, response, body) {
@@ -47,10 +47,10 @@ router.post('/',function (req, res, next) {
 
     // 5. 向vue返回登录结果     把server返回的登录信息(成功或者失败)再返回到vue前端
           //TODO
-          let user = {'username':'admin', 'password':'123456'}
+          let user = {'username':loginInfo.username, 'password':loginInfo.password}
           res.send({ code: response.statusCode, msg: '登录成功', user })
         } else {
-          let user = {'username':'admin', 'password':'123456'}
+          let user = {'username':loginInfo.username, 'password':loginInfo.password}
           res.send({ code: response.statusCode, msg: '登录失败', user})
         }
 
