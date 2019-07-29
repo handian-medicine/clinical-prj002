@@ -24,7 +24,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="addInfo">确定</el-button>
+        <el-button type="primary" @click="addPatient">确定</el-button>
         <el-button @click="dialogVisible=false">取消</el-button>
       </el-form-item>
 
@@ -34,9 +34,9 @@
 </template>
 
 <script>
-import { addPatientInfo } from '@/api/api'
+import { apiAddPatient } from '@/api/api'
 export default {
-    name:'AddInfo',
+    name:'AddPatient',
     data () {
       return {
         patientInfo: {name:'测试', phone:'13110983476', hospital:'汉典医院', birth:'1980-09', career:'个体'},
@@ -45,15 +45,15 @@ export default {
 
     },
     methods: {
-      addInfo () {
+      addPatient () {
         let para = {
           patientInfo: this.patientInfo
         }
-        addPatientInfo(para)
+        apiAddPatient(para)
         .then( (res)=> {
           this.$message({message: '提交成功',type: 'success'})
           this.dialogVisible = false
-          this.$parent.getUsers()
+          this.$parent.getPatients()
           }
         )
         .catch()
@@ -84,7 +84,7 @@ export default {
     //           })
     //           this.$refs['addForm'].resetFields()
     //           this.addFormVisible = false
-    //           this.getUsers()
+    //           this.getPatients()
     //         })
     //       })
     //     }

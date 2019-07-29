@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { requestLogin } from '@/api/api'
+import { apiLogin } from '@/api/api'
 export default {
   data () {
     return {
@@ -43,7 +43,7 @@ export default {
         if (valid) {
           this.logining = true
           var loginParams = { username: this.loginForm.username, password: this.loginForm.password }
-          requestLogin(loginParams).then(res => {
+          apiLogin(loginParams).then(res => {
             this.logining = false
             let { msg, code, user } = res
             if (code !== 200) {

@@ -108,7 +108,7 @@
   </el-dialog>
 </template>
 <script>
-import { updatePatientInfoForm } from '@/api/api'
+import { apiUpdatePatientInfoForm } from '@/api/api'
 export default {
   name: "InfoForm",
   data() {
@@ -143,13 +143,14 @@ export default {
         infoForm: this.infoForm
       }
       console.log("提交参数",para)
-      updatePatientInfoForm(para)
+      apiUpdatePatientInfoForm(para)
       .then((res)=> {
         this.$message({message: '提交成功',type: 'success'})
         this.dialogVisible = false
+        this.$parent.getPatients()
       })
       .catch(
-        this.$message({message: '修改失败',type: 'error'})
+        // this.$message({message: '修改失败',type: 'error'})
       )
     }
   },

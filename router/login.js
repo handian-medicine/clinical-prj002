@@ -37,13 +37,14 @@ router.post('/',function (req, res, next) {
         if ( !error && response.statusCode == 200 ) {
           // tip 注意直接从server拿到的body信息都是json的字符串格式,程序里要使用需要先把body转换为js里的 object 格式
           var tokenInfo = JSON.parse(body)
+          console.log('获取的token',tokenInfo)
 
     // 4. 必要信息存入cookie   把body里的token信息存入cookie,后续再向服务器发送请求就不必每次把token写到请求里了
           // tip maxAge表示cookie有4小时有效时间
           res.cookie("prj002token", tokenInfo, {maxAge: 1000 * 60 * 60 * 8, httpOnly: true})
           res.cookie("userinfo", {"username": req.body.username,"password": req.body.password}, {maxAge: 1000 * 60 * 60 * 8, httpOnly: true})
           // tip 所有的cookie信息可以在Set-Cookie查看
-          console.log(res.get('Set-Cookie'))
+          // console.log(res.get('Set-Cookie字段信息:', 'Set-Cookie'))
 
     // 5. 向vue返回登录结果     把server返回的登录信息(成功或者失败)再返回到vue前端
           //TODO

@@ -7,10 +7,10 @@
           <el-input v-model="filters.name" placeholder="姓名"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="getUsers">查询</el-button>
+          <el-button type="primary" @click="searchPatient">查询</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="addInfo">新增</el-button>
+          <el-button type="primary" @click="addPatient">新增</el-button>
         </el-form-item>
         <!-- 测试 -->
         <!-- <el-form-item>
@@ -24,9 +24,9 @@
               style="width: 100%;" height="500"><!--height固定表头-->
       <el-table-column type="selection" width="55">
       </el-table-column>
-      <el-table-column type="index" width="60">
+      <el-table-column type="index" width="40" fixed>
       </el-table-column>
-      <el-table-column prop="name" label="姓名" width="120" sortable fixed>
+      <el-table-column prop="name" label="姓名" width="90" sortable fixed>
       </el-table-column>
       <el-table-column prop="birth" label="出生日期" width="100" sortable>
       </el-table-column>
@@ -57,27 +57,31 @@
     <!--下方工具条-->
     <el-col :span="24" class="toolbar">
       <el-button type="danger" @click="batchRemove" :disabled="this.sels.length===0">批量删除</el-button>
-      <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total"
+      <el-pagination layout="prev, pager, next, jumper"
+                    @current-change="handleCurrentChange"
+                    :page-size="10" :total="totalNum"
                     style="float:right;">
       </el-pagination>
     </el-col>
+    <!-- <span>共{{totalNum}}条</span> -->
 
-    <!--一般情况dialog-->
+    <!-- 一般情况dialog -->
     <InfoForm ref="infoForm" ></InfoForm>
-    <!-- 新增界面 -->
-    <AddInfo ref="addInfo" ></AddInfo>
+    <!-- 新增信息dialog -->
+    <AddPatient ref="addPatient" ></AddPatient>
 
   </section>
 </template>
 
 <script>
 import util from '@/common/js/util'
-import { getPatientsList, getPatientInfoForm, removeUser, batchRemoveUser, editUser, addUser } from '@/api/api'
-import InfoForm from '@/components/forms/InfoForm'
-import AddInfo from '@/components/forms/AddInfo'
+// axios请求,向express做请求
+import { apiGetPatientsList, apiGetPatientInfoForm, apiRemovePatient, apiSearchPatient, batchRemoveUser} from '@/api/api'
+// 批量导入子组件
+import {AddPatient,InfoForm,SummaryForm,HistoryForm,ExperimentForm,BxrayForm,CureForm} from '@/components/forms'
 export default {
   name:'Table',
-  components:{InfoForm,AddInfo},
+  components:{AddPatient,InfoForm,SummaryForm,HistoryForm,ExperimentForm,BxrayForm,CureForm},
   data () {
     return {
       filters: {
@@ -85,22 +89,36 @@ export default {
       },
       patientsList: [], // 数据列表
       totalNum: 0, //  数据总条数
-      page: 1,
-      total: 0,
+      page: 1, //当前页码
       listLoading: false,
       sels: [], // 列表选中列
 
     }
   },
   methods: {
-    addInfo ( ) {
-      this.$refs.addInfo.$emit("addEvent")
+    searchPatient () {
+      console.log('开始搜索')
+      let para = {
+        name:'测试',
+        page:1
+        //phone:'', hospital:'', birth:'', career:'', address:''
+      }
+      apiSearchPatient(para).then( (res) => {
+        console.log('修改前',this.patientsList)
+        this.patientsList = res.data.searchResults
+        this.totalNum = res.data.searchResultsNum
+        console.log('修改前',this.patientsList)
+        this.listLoading = false
+      })
+    },
+    addPatient ( ) {
+      this.$refs.addPatient.$emit("addEvent")
     },
     openInfoForm (index, row) {
       //获取单个患者一般信息
       let para = {page: this.page, url: row.url}
       console.log("获取单个患者一般信息",para)
-      getPatientInfoForm(para)
+      apiGetPatientInfoForm(para)
       .then((res)=> {
         console.log(res.data)
         //父组件通过emit发送 事件 及 所需的参数
@@ -110,16 +128,16 @@ export default {
     },
     handleCurrentChange (val) {
       this.page = val
-      this.getUsers()
+      this.getPatients()
     },
     // 获取患者列表
-    getUsers () {
+    getPatients () {
       let para = {
-        page: this.page,
+        page: this.page
       }
       console.log("获取数据列表时需要传的参数",para)
       this.listLoading = true
-      getPatientsList(para).then((res) => {
+      apiGetPatientsList(para).then((res) => {
         console.log(res.data)
         this.patientsList = res.data.patientsList
         this.totalNum = res.data.totalNum
@@ -128,22 +146,20 @@ export default {
     },
     // 删除
     handleDel: function (index, row) {
-      this.$confirm('确认删除该记录吗?', '提示', {
-        type: 'warning'
-      }).then(() => {
+      this.$confirm('确认删除该记录吗?', '提示', {type: 'warning'})
+      .then(() => {
         this.listLoading = true
-        let para = { id: row.id }
-        removeUser(para).then((res) => {
+        let para = { url: row.url }
+        console.log(row.url)
+        apiRemovePatient(para).then((res) => {
           this.listLoading = false
           this.$message({
             message: '删除成功',
             type: 'success'
           })
-          this.getUsers()
+          this.getPatients()
         })
-      }).catch(() => {
-
-      })
+      }).catch(() => {})
     },
 
     selsChange: function (sels) {
@@ -163,7 +179,7 @@ export default {
             message: '删除成功',
             type: 'success'
           })
-          this.getUsers()
+          this.getPatients()
         })
       }).catch(() => {
 
@@ -171,7 +187,7 @@ export default {
     }
   },
   mounted () {
-    this.getUsers()
+    this.getPatients()
   }
 }
 

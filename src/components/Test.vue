@@ -66,7 +66,7 @@ export default {
               })
               this.$refs['editForm'].resetFields()
               this.editFormVisible = false
-              this.getUsers()
+              this.getPatients()
             })
           })
         }
