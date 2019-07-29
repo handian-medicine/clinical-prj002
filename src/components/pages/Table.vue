@@ -12,10 +12,6 @@
         <el-form-item>
           <el-button type="primary" @click="addPatient">新增</el-button>
         </el-form-item>
-        <!-- 测试 -->
-        <!-- <el-form-item>
-          <el-button type="primary" @click="showDialog = true">test</el-button>
-        </el-form-item> -->
       </el-form>
     </el-col>
 
@@ -42,11 +38,11 @@
         <template v-slot="scope">
           <el-button-group>
           <el-button type="primary" size="small" @click="openInfoForm(scope.$index, scope.row)">一般情况</el-button>
-          <el-button type="success" size="small">病情概要</el-button>
-          <el-button type="info"    size="small">专科病史</el-button>
-          <el-button type="warning" size="small">实验室检查</el-button>
-          <el-button type="primary" size="small">经阴道或经肛门B超</el-button>
-          <el-button type="success" size="small">治疗</el-button>
+          <el-button type="success" size="small" @click="openSummaryForm(scope.$index, scope.row)">病情概要</el-button>
+          <el-button type="info"    size="small" @click="openHistoryForm(scope.$index, scope.row)">专科病史</el-button>
+          <el-button type="warning" size="small" @click="openExperimentForm(scope.$index, scope.row)">实验室检查</el-button>
+          <el-button type="primary" size="small" @click="openBxrayForm(scope.$index, scope.row)">经阴道或经肛门B超</el-button>
+          <el-button type="success" size="small" @click="openCureForm(scope.$index, scope.row)">治疗</el-button>
           <!-- <el-button size="small" style="background:purple">治疗</el-button> -->
           </el-button-group>
           <el-button type="danger" size="small" style="margin-left:8px" @click="handleDel(scope.$index, scope.row)">删除</el-button>
@@ -57,16 +53,27 @@
     <!--下方工具条-->
     <el-col :span="24" class="toolbar">
       <el-button type="danger" @click="batchRemove" :disabled="this.sels.length===0">批量删除</el-button>
+      <span style="margin-left:100px">共{{totalNum}}条</span>
       <el-pagination layout="prev, pager, next, jumper"
                     @current-change="handleCurrentChange"
                     :page-size="10" :total="totalNum"
                     style="float:right;">
       </el-pagination>
     </el-col>
-    <!-- <span>共{{totalNum}}条</span> -->
 
     <!-- 一般情况dialog -->
-    <InfoForm ref="infoForm" ></InfoForm>
+    <InfoForm ref="infoForm"></InfoForm>
+    <!-- 病情概要dialog -->
+    <SummaryForm ref="summaryForm"></SummaryForm>
+    <!-- 专科病史dialog -->
+    <HistoryForm ref="historyForm"></HistoryForm>
+    <!-- 实验室检查dialog -->
+    <ExperimentForm ref="experimentForm"></ExperimentForm>
+    <!-- B超dialog -->
+    <BxrayForm ref="bxrayForm"></BxrayForm>
+    <!-- 治疗dialog -->
+    <CureForm ref="cureForm"></CureForm>
+
     <!-- 新增信息dialog -->
     <AddPatient ref="addPatient" ></AddPatient>
 
@@ -76,7 +83,10 @@
 <script>
 import util from '@/common/js/util'
 // axios请求,向express做请求
-import { apiGetPatientsList, apiGetPatientInfoForm, apiRemovePatient, apiSearchPatient, batchRemoveUser} from '@/api/api'
+import {apiGetPatientsList, apiRemovePatient, apiSearchPatient, batchRemoveUser} from '@/api/api'
+// 请求各表单内容的api
+import {apiGetPatientInfoForm,apiGetPatientSummaryForm,apiGetPatientHistoryForm,
+        apiGetPatientExperimentForm,apiGetPatientBxrayForm,apiGetPatientCureForm } from '@/api/api'
 // 批量导入子组件
 import {AddPatient,InfoForm,SummaryForm,HistoryForm,ExperimentForm,BxrayForm,CureForm} from '@/components/forms'
 export default {
@@ -96,35 +106,22 @@ export default {
     }
   },
   methods: {
+    // 搜索功能
     searchPatient () {
-      console.log('开始搜索')
       let para = {
         name:'测试',
         page:1
         //phone:'', hospital:'', birth:'', career:'', address:''
       }
       apiSearchPatient(para).then( (res) => {
-        console.log('修改前',this.patientsList)
         this.patientsList = res.data.searchResults
         this.totalNum = res.data.searchResultsNum
-        console.log('修改前',this.patientsList)
         this.listLoading = false
       })
     },
+    // 新增信息dialog
     addPatient ( ) {
       this.$refs.addPatient.$emit("addEvent")
-    },
-    openInfoForm (index, row) {
-      //获取单个患者一般信息
-      let para = {page: this.page, url: row.url}
-      console.log("获取单个患者一般信息",para)
-      apiGetPatientInfoForm(para)
-      .then((res)=> {
-        console.log(res.data)
-        //父组件通过emit发送 事件 及 所需的参数
-        this.$refs.infoForm.$emit("openEvent", res.data)
-      })
-      .catch(() => {})
     },
     handleCurrentChange (val) {
       this.page = val
@@ -135,7 +132,6 @@ export default {
       let para = {
         page: this.page
       }
-      console.log("获取数据列表时需要传的参数",para)
       this.listLoading = true
       apiGetPatientsList(para).then((res) => {
         console.log(res.data)
@@ -184,7 +180,70 @@ export default {
       }).catch(() => {
 
       })
-    }
+    },
+    //获取单个患者一般信息
+    openInfoForm (index, row) {
+      let para = {page: this.page, url: row.url}
+      apiGetPatientInfoForm(para)
+      .then((res)=> {
+        console.log(res.data)
+        //父组件通过emit发送 事件 及 所需的参数
+        this.$refs.infoForm.$emit("openEvent", res.data)
+      })
+      .catch(() => {})
+    },
+    openSummaryForm (index, row) {
+      this.$refs.summaryForm.$emit("openEvent")
+      // let para = {page: this.page, url: row.url}
+      // apiGetPatientSummaryForm(para)
+      // .then((res)=> {
+      //   console.log(res.data)
+      //   //父组件通过emit发送 事件 及 所需的参数
+      //   this.$refs.summaryForm.$emit("openEvent", res.data)
+      // })
+      // .catch(() => {})
+    },
+    openHistoryForm (index, row) {
+      let para = {page: this.page, url: row.url}
+      apiGetPatientHistoryForm(para)
+      .then((res)=> {
+        console.log(res.data)
+        //父组件通过emit发送 事件 及 所需的参数
+        this.$refs.historyForm.$emit("openEvent", res.data)
+      })
+      .catch(() => {})
+    },
+    openExperimentForm (index, row) {
+      let para = {page: this.page, url: row.url}
+      apiGetPatientExperimentForm(para)
+      .then((res)=> {
+        console.log(res.data)
+        //父组件通过emit发送 事件 及 所需的参数
+        this.$refs.experimentForm.$emit("openEvent", res.data)
+      })
+      .catch(() => {})
+    },
+    openBxrayForm (index, row) {
+      let para = {page: this.page, url: row.url}
+      apiGetPatientBxrayForm(para)
+      .then((res)=> {
+        console.log(res.data)
+        //父组件通过emit发送 事件 及 所需的参数
+        this.$refs.bxrayForm.$emit("openEvent", res.data)
+      })
+      .catch(() => {})
+    },
+    openCureForm (index, row) {
+      let para = {page: this.page, url: row.url}
+      apiGetPatientCureForm(para)
+      .then((res)=> {
+        console.log(res.data)
+        //父组件通过emit发送 事件 及 所需的参数
+        this.$refs.cureForm.$emit("openEvent", res.data)
+      })
+      .catch(() => {})
+    },
+
   },
   mounted () {
     this.getPatients()
