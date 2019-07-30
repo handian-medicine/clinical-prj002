@@ -83,9 +83,9 @@ router.get('/info', function(req, res, next) {
   })
 })
 
-// POST修改一般信息表
+// PATCH修改一般信息表
 router.post('/info', function(req, res, next) {
-  console.log('user.js POST修改一般信息表', req.body.params)
+  console.log('user.js PATCH修改一般信息表', req.body.params)
   var options = {
     url: req.body.url,
     form: req.body.infoForm,
@@ -96,11 +96,12 @@ router.post('/info', function(req, res, next) {
     res.send({msg:'ok'})
   })
 })
-
+/* 病情概要summary */
+// 获取
 router.get('/summary', function(req, res, next) {
-  console.log('user.js GET获取病情概要', req.query.summary_url)
+  console.log('user.js GET获取病情概要', req.query.url)
     var options = {
-      url: req.query.summary_url,
+      url: req.query.url,
       headers: {'Authorization': 'Bearer ' + req.cookies.prj002token.access_token}
     }
     request.get(options, function (error, response, body) {
@@ -108,10 +109,69 @@ router.get('/summary', function(req, res, next) {
       res.send(patientSummary)
     })
 })
-
-router.get('/history', function(req, res, next) {
-  res.send({name:"hello"})
+// 创建
+router.post('/summary', function(req, res, next) {
+  console.log('user.js POST创建病情概要')
+  var options = {
+    url: myConst.apiurl + "/prj002/summary/",
+    form: req.body,
+    headers: {'Authorization': 'Bearer ' + req.cookies.prj002token.access_token}
+  }
+    request.post(options, function (error, response, body) {
+      res.send({msg:'ok'})
+    })
 })
+// 修改
+router.patch('/summary', function(req, res, next) {
+  console.log('user.js PATCH修改病情概要',req.body)
+  var options = {
+    url: req.body.url,
+    form: req.body,
+    headers: {'Authorization': 'Bearer ' + req.cookies.prj002token.access_token}
+  }
+    request.patch(options, function (error, response, body) {
+      res.send({msg:'ok'})
+    })
+})
+
+/* 专科病史history */
+//获取
+router.get('/history', function(req, res, next) {
+  console.log('user.js GET获取专科病史', req.query.url)
+    var options = {
+      url: req.query.url,
+      headers: {'Authorization': 'Bearer ' + req.cookies.prj002token.access_token}
+    }
+    request.get(options, function (error, response, body) {
+      var patientSummary = JSON.parse(body)
+      res.send(patientSummary)
+    })
+})
+//创建
+router.post('/history', function(req, res, next) {
+  console.log('user.js POST创建专科病史history')
+  var options = {
+    url: myConst.apiurl + "/prj002/history/",
+    form: req.body,
+    headers: {'Authorization': 'Bearer ' + req.cookies.prj002token.access_token}
+  }
+    request.post(options, function (error, response, body) {
+      res.send({msg:'ok'})
+    })
+})
+//修改
+router.patch('/history', function(req, res, next) {
+  console.log('user.js PATCH修改专科病史history',req.body)
+  var options = {
+    url: req.body.url,
+    form: req.body,
+    headers: {'Authorization': 'Bearer ' + req.cookies.prj002token.access_token}
+  }
+    request.patch(options, function (error, response, body) {
+      res.send({msg:'ok'})
+    })
+})
+
 router.get('/experiment', function(req, res, next) {
   res.send({name:"hello"})
 })

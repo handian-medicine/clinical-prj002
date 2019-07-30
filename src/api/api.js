@@ -23,26 +23,36 @@ export const apiUpdatePatientInfoForm = params => { return axios.post(`${baseUrl
 
 // 获取单个患者病情概要
 export const apiGetPatientSummaryForm = params => { return axios.get(`${baseUrl}/user/summary`, {params:params}) }
+// 创建单个患者病情概要
+export const apiCreatePatientSummaryForm = params => { return axios.post(`${baseUrl}/user/summary`, params) }
 // 修改单个患者病情概要
-export const apiUpdatePatientSummaryForm = params => { return axios.post(`${baseUrl}/user/summary`, params) }
+export const apiUpdatePatientSummaryForm = params => { return axios.patch(`${baseUrl}/user/summary`, params) }
 
 // 获取单个患者专科病史
 export const apiGetPatientHistoryForm = params => { return axios.get(`${baseUrl}/user/history`, {params:params}) }
+// 创建单个患者专科病史
+export const apiCreatePatientHistoryForm = params => { return axios.post(`${baseUrl}/user/history`, params) }
 // 修改单个患者专科病史
 export const apiUpdatePatientHistoryForm = params => { return axios.post(`${baseUrl}/user/history`, params) }
 
 // 获取单个患者实验室检查
 export const apiGetPatientExperimentForm = params => { return axios.get(`${baseUrl}/user/experiment`, {params:params}) }
+// 创建单个患者实验室检查
+export const apiCreatePatientExperimentForm = params => { return axios.post(`${baseUrl}/user/experiment`, params) }
 // 修改单个患者实验室检查
 export const apiUpdatePatientExperimentForm = params => { return axios.post(`${baseUrl}/user/experiment`, params) }
 
 // 获取单个患者B超
 export const apiGetPatientBxrayForm = params => { return axios.get(`${baseUrl}/user/bxray`, {params:params}) }
+// 创建单个患者B超
+export const apiCreatePatientBxrayForm = params => { return axios.post(`${baseUrl}/user/bxray`, params) }
 // 修改单个患者B超
 export const apiUpdatePatientBxrayForm = params => { return axios.post(`${baseUrl}/user/bxray`, params) }
 
 // 获取单个患者治疗
 export const apiGetPatientCureForm = params => { return axios.get(`${baseUrl}/user/cure`, {params:params}) }
+// 创建单个患者治疗
+export const apiCreatePatientCureForm = params => { return axios.post(`${baseUrl}/user/cure`, params) }
 // 修改单个患者治疗
 export const apiUpdatePatientCureForm = params => { return axios.post(`${baseUrl}/user/cure`, params) }
 

@@ -194,34 +194,38 @@ export default {
       .catch(() => {})
     },
     openSummaryForm (index, row) {
-      //如果summary表未创建,不需要请求后端,直接显示空表
+      // 如果summary表未创建,不需要请求后端,直接显示空表
       if (row.summary==null) {
-        console.log('if流程')
-        let para = {}
-        this.$refs.summaryForm.$emit("openEvent", {})//传一个更新此summary的url进去
-      //如果summary表已创建,需要请求后端,拿到数据
+        console.log('创建流程')
+        // 传一个创建此summary的url进去,这个url是info的url
+        this.$refs.summaryForm.$emit("openEvent", {exist:false, summaryForm:{info:row.url} } )
+      // 如果summary表已创建,需要请求后端,拿到数据
       } else {
-        console.log('else流程')
-        let para = {page: this.page, summary_url: row.summary}
+        console.log('修改流程')
+        // 此时当前患者的summary已经存在
+        let para = {page: this.page, url: row.summary}// ,formName:'summary'}
+        console.log('row.summary',row.summary)
         apiGetPatientSummaryForm(para)
         .then((res)=> {
-          console.log(res.data)
-          //父组件通过emit发送 事件 及 所需的参数
-          this.$refs.summaryForm.$emit("openEvent", res.data)
+          console.log('拿到的已创建的summary表',res.data)
+          this.$refs.summaryForm.$emit("openEvent", {exist:true, summaryForm:res.data})
         })
         .catch(() => {})
       }
     },
-
     openHistoryForm (index, row) {
-      let para = {page: this.page, url: row.url}
-      apiGetPatientHistoryForm(para)
-      .then((res)=> {
-        console.log(res.data)
-        //父组件通过emit发送 事件 及 所需的参数
-        this.$refs.historyForm.$emit("openEvent", res.data)
-      })
-      .catch(() => {})
+      if (row.history==null) {
+        console.log('HistoryForm创建流程')
+        this.$refs.historyForm.$emit("openEvent", {exist:false, historyForm:{info:row.url} } )
+      } else {
+        console.log('HistoryForm修改流程')
+        let para = {page: this.page, url: row.history}
+        apiGetPatientHistoryForm(para)
+        .then((res)=> {
+          this.$refs.historyForm.$emit("openEvent", {exist:true, historyForm:res.data})
+        })
+        .catch(() => {})
+      }
     },
     openExperimentForm (index, row) {
       let para = {page: this.page, url: row.url}

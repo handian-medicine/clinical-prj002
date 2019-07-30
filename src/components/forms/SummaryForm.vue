@@ -1,15 +1,13 @@
 <template>
-  <el-dialog title="病情概要" :visible.sync="dialogVisible" :close-on-click-modal="false" width="100%">
+  <el-dialog title="病情概要"
+            :visible.sync="dialogVisible"
+            :close-on-click-modal="false" width="100%"
+            @close='resetDialog'>
     <el-form ref="summaryForm" :model="summaryForm" label-width="130px" label-position="left">
 
       <template v-for="(q_val,q_key) in mydata">
-        <!-- {{q_val}} -- {{q_key}}
-        <div v-for="(val, key) in q_val" :key="key">
-          {{val}} -- {{key}}
-        </div> -->
         <el-form-item label="正常" :key="q_key">
-          <el-radio-group v-model="summaryForm[q_key]">
-          </el-radio-group>
+          <el-switch v-model="summaryForm[q_key]" active-text="是" inactive-text="否"></el-switch>
         </el-form-item>
         <el-form-item v-for="(val, key) in q_val" :label="val" :key="key">
           <el-radio-group v-model="summaryForm[key]">
@@ -21,12 +19,35 @@
         </el-form-item>
       </template>
 
+      <el-form-item label="舌质">
+        <el-checkbox v-for="(val, key) in tongue_texture" :key="key" :label="val" v-model="summaryForm[key]">
+        </el-checkbox>
+      </el-form-item>
+      <el-form-item label="舌苔">
+        <el-checkbox v-for="(val, key) in tongue_coating" :key="key" :label="val" v-model="summaryForm[key]">
+        </el-checkbox>
+      </el-form-item>
+      <el-form-item label="舌体">
+        <el-checkbox v-for="(val, key) in tongue_body" :key="key" :label="val" v-model="summaryForm[key]">
+        </el-checkbox>
+      </el-form-item>
+      <el-form-item label="脉象">
+        <el-checkbox v-for="(val, key) in pulse" :key="key" :label="val" v-model="summaryForm[key]">
+        </el-checkbox>
+      </el-form-item>
+
+      <el-form-item>
+        <el-button type="primary" v-if="exist"  @click="updateSummaryForm">确定</el-button>
+        <el-button type="primary" v-else  @click="createSummaryForm">确定</el-button>
+        <el-button @click="dialogVisible=false">取消</el-button>
+      </el-form-item>
     </el-form>
   </el-dialog>
 </template>
 <script>
+import { apiUpdatePatientSummaryForm, apiCreatePatientSummaryForm } from '@/api/api'
 export default {
-  name:'SummaryForm',//改
+  name:'SummaryForm',
   data() {
     return {
       mydata: {
@@ -44,14 +65,14 @@ export default {
         'skin':      {'skin_xihsu':'毛发稀疏','skin_nong':'毛发浓密','skin_cu':'皮肤粗糙','skin_zhi':'汗粘油脂多','skin_re':'身热不扬','skin_jia':'肌肤甲错'},
         'pee':       {'pee_pin':'频数','pee_ji':'尿急尿痛','pee_ye':'夜尿频多','pee_li':'余沥不尽','pee_qing':'小便清长','pee_chi':'小便黄赤'},
         'feces':     {'feces_tang':'大便溏','feces_mi':'大便秘结','feces_xi':'时干时稀','feces_xie':'天亮前泄泻','feces_nian':'大便黏腻','feces_jia':'夹杂未消化食物'},
-
-        'tongue_texture': {'texture_danhong':'淡红','texture_danbai':'淡白','texture_xianhong':'鲜红','texture_shenhong':'深红','texture_zihong':'紫红','texture_anhong':'黯红','texture_danan':'淡黯','texture_zian':'紫黯','texture_yudian':'有瘀点或瘀斑','texture_jianhong':'舌边尖红','texture_qita':'其他'},
-        'tongue_coating': {'coating_bai':'','coating_huang':'','coating_bo':'','coating_hou':'','coating_ni':'','coating_run':'','coating_hua':'','coating_gan':'','coating_shaotai':'','coating_huabo':'','coating_wutai':'','coating_qita':''},
-        'tongue_body':    {'tongue_zhengchang':'','tongue_shouxiao':'','tongue_pangda':'','tongue_youchihen':'','tongue_youliewen':'','tongue_qita':''},
-        'pulse':          {'pulse_fu':'','pulse_chen':'','pulse_hua':'','pulse_shu':'','pulse_xian':'','pulse_xi':'','pulse_ruo':'','pulse_huan':'','pulse_chi':'','pulse_se':'','pulse_jin':'','pulse_qita':''},
-
       },
+      tongue_texture: {'texture_danhong':'淡红','texture_danbai':'淡白','texture_xianhong':'鲜红','texture_shenhong':'深红','texture_zihong':'紫红','texture_anhong':'黯红','texture_danan':'淡黯','texture_zian':'紫黯','texture_yudian':'有瘀点或瘀斑','texture_jianhong':'舌边尖红','texture_qita':'其他'},
+      tongue_coating: {'coating_bai':'白','coating_huang':'黄','coating_bo':'薄','coating_hou':'厚','coating_ni':'腻','coating_run':'润','coating_hua':'滑','coating_gan':'干','coating_shaotai':'少苔','coating_huabo':'花剥','coating_wutai':'无苔','coating_qita':'其他'},
+      tongue_body:    {'tongue_zhengchang':'正常','tongue_shouxiao':'瘦小','tongue_pangda':'胖大','tongue_youchihen':'有齿痕','tongue_youliewen':'有裂纹','tongue_qita':'其他'},
+      pulse:          {'pulse_fu':'浮','pulse_chen':'沉','pulse_hua':'滑','pulse_shu':'数','pulse_xian':'弦','pulse_xi':'细','pulse_ruo':'弱','pulse_huan':'缓','pulse_chi':'迟','pulse_se':'涩','pulse_jin':'紧','pulse_qita':'其他'},
+
       summaryForm:{
+          info:'',//如果summaryForm未创建,需要从infoForm取到url;如果summaryForm已创建,summaryForm都会被传入的summaryForm覆盖
           face_head:'',face_head_tou:'',face_head_er:'',face_head_muxuan:'',face_head_muse:'',face_head_zhong:'',
           face_color:'',face_color_bai:'',face_color_an:'',face_color_huang:'',face_color_dan:'',face_color_hong:'',face_color_hei:'',face_color_chi:'',
           mouth:'',mouth_chi:'',mouth_gan:'',mouth_nian:'',mouth_ku:'',mouth_throat:'',mouth_yi:'',
@@ -70,34 +91,54 @@ export default {
           coating_bai:'',coating_huang:'',coating_bo:'',coating_hou:'',coating_ni:'',coating_run:'',coating_hua:'',coating_gan:'',coating_shaotai:'',coating_huabo:'',coating_wutai:'',coating_qita:'',
           tongue_zhengchang:'',tongue_shouxiao:'',tongue_pangda:'',tongue_youchihen:'',tongue_youliewen:'',tongue_qita:'',
           pulse_fu:'',pulse_chen:'',pulse_hua:'',pulse_shu:'',pulse_xian:'',pulse_xi:'',pulse_ruo:'',pulse_huan:'',pulse_chi:'',pulse_se:'',pulse_jin:'',pulse_qita:'',
-      },//改
+      },
       dialogVisible: false,
+      exist: true,
     }
   },
   methods: {
-    updateSummaryForm () { //改
-      // let para = {
-      //   url: this.infoForm.url,
-      //   infoForm: this.infoForm
-      // }
-      // console.log("提交参数",para)
-      // apiUpdatePatientInfoForm(para)
-      // .then((res)=> {
-      //   this.$message({message: '提交成功',type: 'success'})
-      //   this.dialogVisible = false
-      //   this.$parent.getPatients()
-      // })
-      // .catch(
-      //   // this.$message({message: '修改失败',type: 'error'})
-      // )
+    updateSummaryForm () {
+      apiUpdatePatientSummaryForm(this.summaryForm)
+      .then((res)=> {
+        this.resetDialog()
+        this.$message({message: '提交成功',type: 'success'})
+        this.dialogVisible = false
+        this.$parent.getPatients()
+      })
+      .catch(
+        // this.$message({message: '修改失败',type: 'error'})
+      )
+    },
+    createSummaryForm () {
+      apiCreatePatientSummaryForm(this.summaryForm)
+      .then((res)=> {
+        this.resetDialog()
+        this.$message({message: '提交成功',type: 'success'})
+        this.dialogVisible = false
+        this.$parent.getPatients()
+      })
+      .catch(
+      )
+    },
+    resetDialog () {
+      // 清空
+      this.summaryForm = {}
     }
   },
   created() {
     this.$on("openEvent", (data)=>{
-      console.log('打印',data)
-      //如果summary表未创建,这里data为空{};如果summary表已创建,这里data为从api请求得到的数据
-      this.summaryForm = data
-      this.dialogVisible = true
+      if (!data.exist) {
+        //未创建,summaryForm的info接受data.url的值,其余字段初始化为空
+        this.summaryForm.info = data.summaryForm.info
+        this.dialogVisible = true
+        this.exist = data.exist
+      } else {
+        //已创建(修改),summaryForm初始化为从api请求得到的数据
+        this.summaryForm = data.summaryForm
+        this.dialogVisible = true
+        this.exist = data.exist
+      }
+
     })
   }
 }
