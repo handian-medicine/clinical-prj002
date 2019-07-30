@@ -85,8 +85,8 @@ import util from '@/common/js/util'
 // axios请求,向express做请求
 import {apiGetPatientsList, apiRemovePatient, apiSearchPatient, batchRemoveUser} from '@/api/api'
 // 请求各表单内容的api
-import {apiGetPatientInfoForm,apiGetPatientSummaryForm,apiGetPatientHistoryForm,
-        apiGetPatientExperimentForm,apiGetPatientBxrayForm,apiGetPatientCureForm } from '@/api/api'
+import {apiGetPatientInfoForm, apiGetPatientSummaryForm, apiGetPatientHistoryForm,
+        apiGetPatientExperimentForm, apiGetPatientBxrayForm, apiGetPatientCureForm } from '@/api/api'
 // 批量导入子组件
 import {AddPatient,InfoForm,SummaryForm,HistoryForm,ExperimentForm,BxrayForm,CureForm} from '@/components/forms'
 export default {
@@ -181,6 +181,7 @@ export default {
 
       })
     },
+
     //获取单个患者一般信息
     openInfoForm (index, row) {
       let para = {page: this.page, url: row.url}
@@ -193,16 +194,25 @@ export default {
       .catch(() => {})
     },
     openSummaryForm (index, row) {
-      this.$refs.summaryForm.$emit("openEvent")
-      // let para = {page: this.page, url: row.url}
-      // apiGetPatientSummaryForm(para)
-      // .then((res)=> {
-      //   console.log(res.data)
-      //   //父组件通过emit发送 事件 及 所需的参数
-      //   this.$refs.summaryForm.$emit("openEvent", res.data)
-      // })
-      // .catch(() => {})
+      //如果summary表未创建,不需要请求后端,直接显示空表
+      if (row.summary==null) {
+        console.log('if流程')
+        let para = {}
+        this.$refs.summaryForm.$emit("openEvent", {})//传一个更新此summary的url进去
+      //如果summary表已创建,需要请求后端,拿到数据
+      } else {
+        console.log('else流程')
+        let para = {page: this.page, summary_url: row.summary}
+        apiGetPatientSummaryForm(para)
+        .then((res)=> {
+          console.log(res.data)
+          //父组件通过emit发送 事件 及 所需的参数
+          this.$refs.summaryForm.$emit("openEvent", res.data)
+        })
+        .catch(() => {})
+      }
     },
+
     openHistoryForm (index, row) {
       let para = {page: this.page, url: row.url}
       apiGetPatientHistoryForm(para)

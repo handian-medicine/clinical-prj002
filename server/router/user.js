@@ -98,8 +98,17 @@ router.post('/info', function(req, res, next) {
 })
 
 router.get('/summary', function(req, res, next) {
-  res.send({name:"hello"})
+  console.log('user.js GET获取病情概要', req.query.summary_url)
+    var options = {
+      url: req.query.summary_url,
+      headers: {'Authorization': 'Bearer ' + req.cookies.prj002token.access_token}
+    }
+    request.get(options, function (error, response, body) {
+      var patientSummary = JSON.parse(body)
+      res.send(patientSummary)
+    })
 })
+
 router.get('/history', function(req, res, next) {
   res.send({name:"hello"})
 })
