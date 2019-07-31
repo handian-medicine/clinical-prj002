@@ -203,8 +203,8 @@ export default {
       } else {
         console.log('修改流程')
         // 此时当前患者的summary已经存在
-        let para = {page: this.page, url: row.summary}// ,formName:'summary'}
         console.log('row.summary',row.summary)
+        let para = {page: this.page, url: row.summary}// ,formName:'summary'}
         apiGetPatientSummaryForm(para)
         .then((res)=> {
           console.log('拿到的已创建的summary表',res.data)

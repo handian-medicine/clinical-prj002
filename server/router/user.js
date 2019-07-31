@@ -210,13 +210,81 @@ router.patch('/experiment', function(req, res, next) {
     })
 })
 
-
-
+/* B超Bxray */
+//获取
 router.get('/bxray', function(req, res, next) {
-  res.send({name:"hello"})
+  console.log('user.js GET获取B超Bxray', req.query.url)
+    var options = {
+      url: req.query.url,
+      headers: {'Authorization': 'Bearer ' + req.cookies.prj002token.access_token}
+    }
+    request.get(options, function (error, response, body) {
+      var patientBxray = JSON.parse(body)
+      res.send(patientBxray)
+    })
 })
+//创建
+router.post('/bxray', function(req, res, next) {
+  console.log('user.js POST创建B超Bxray',req.body)
+  var options = {
+    url: myConst.apiurl + "/prj002/bxray/",
+    form: req.body,
+    headers: {'Authorization': 'Bearer ' + req.cookies.prj002token.access_token}
+  }
+    request.post(options, function (error, response, body) {
+      res.send({msg:'ok'})
+    })
+})
+//修改
+router.patch('/bxray', function(req, res, next) {
+  console.log('user.js PATCH修改B超Bxray',req.body)
+  var options = {
+    url: req.body.url,
+    form: req.body,
+    headers: {'Authorization': 'Bearer ' + req.cookies.prj002token.access_token}
+  }
+    request.patch(options, function (error, response, body) {
+      res.send({msg:'ok'})
+    })
+})
+
+/* 治疗Cure */
+//获取
 router.get('/cure', function(req, res, next) {
-  res.send({name:"hello"})
+  console.log('user.js GET获取治疗Curey', req.query.url)
+    var options = {
+      url: req.query.url,
+      headers: {'Authorization': 'Bearer ' + req.cookies.prj002token.access_token}
+    }
+    request.get(options, function (error, response, body) {
+      var patientCure = JSON.parse(body)
+      res.send(patientCure)
+    })
 })
+//创建
+router.post('/cure', function(req, res, next) {
+  console.log('user.js POST创建治疗Cure',req.body)
+  var options = {
+    url: myConst.apiurl + "/prj002/cure/",
+    form: req.body,
+    headers: {'Authorization': 'Bearer ' + req.cookies.prj002token.access_token}
+  }
+    request.post(options, function (error, response, body) {
+      res.send({msg:'ok'})
+    })
+})
+//修改
+router.patch('/cure', function(req, res, next) {
+  console.log('user.js PATCH修改治疗Cure',req.body)
+  var options = {
+    url: req.body.url,
+    form: req.body,
+    headers: {'Authorization': 'Bearer ' + req.cookies.prj002token.access_token}
+  }
+    request.patch(options, function (error, response, body) {
+      res.send({msg:'ok'})
+    })
+})
+
 
 module.exports = router;

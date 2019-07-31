@@ -35,12 +35,12 @@
       </el-form-item>
 
       <el-form-item label="总出血量">
-        <el-radio v-model="historyForm.blood_cond" label="≤5张卫生巾（日用）"></el-radio>
-        <el-radio v-model="historyForm.blood_cond" label="6-10张卫生巾（日用）"></el-radio>
-        <el-radio v-model="historyForm.blood_cond" label="11-19张卫生巾（日用）"></el-radio>
-        <el-radio v-model="historyForm.blood_cond" label="≥20张卫生巾（日用或夜用）"></el-radio>
-        <el-radio v-model="historyForm.blood_cond" label="几乎不用卫生巾，用护垫即可"></el-radio>
-        <el-input v-model="historyForm.blood_color_qita"></el-input>
+        <el-radio v-model="historyForm.blood_cond" label="≤5张卫生巾(日用)"></el-radio>
+        <el-radio v-model="historyForm.blood_cond" label="6-10张卫生巾(日用)"></el-radio>
+        <el-radio v-model="historyForm.blood_cond" label="11-19张卫生巾(日用)"></el-radio>
+        <el-radio v-model="historyForm.blood_cond" label="≥20张卫生巾(日用或夜用)"></el-radio>
+        <el-radio v-model="historyForm.blood_cond" label="几乎不用卫生巾,用护垫即可"></el-radio>
+        <el-input v-model="historyForm.blood_cond_qita"></el-input>
       </el-form-item>
 
       <el-form-item label="出血颜色">
@@ -63,6 +63,7 @@
         <el-radio v-model="historyForm.blood_block" label="偶有血块"></el-radio>
         <el-radio v-model="historyForm.blood_block" label="夹少量小血块"></el-radio>
         <el-radio v-model="historyForm.blood_block" label="夹较大血块"></el-radio>
+        <el-radio v-model="historyForm.blood_block" label="其他"></el-radio>
       </el-form-item>
 
       <el-form-item label="出血特点">
@@ -70,7 +71,6 @@
         <el-radio v-model="historyForm.blood_character" label="势急暴下"></el-radio>
         <el-radio v-model="historyForm.blood_character" label="淋漓不断"></el-radio>
         <el-radio v-model="historyForm.blood_character" label="点滴即净"></el-radio>
-        <el-input v-model="historyForm.first_time_qita"></el-input>
       </el-form-item>
 
       <el-form-item label="经期伴随症状">
@@ -112,14 +112,15 @@
 
       <el-form-item label="孕产史">
           怀孕次数<el-input v-model="historyForm.pastpreg_yuncount"></el-input>
-          顺产次数<el-input v-model="historyForm.pastpreg_yuncount"></el-input>
-          剖宫产次数<el-input v-model="historyForm.pastpreg_yuncount"></el-input>
-          早产次数<el-input v-model="historyForm.pastpreg_yuncount"></el-input>
-          药物流产次数<el-input v-model="historyForm.pastpreg_yuncount"></el-input>
-          人工流产次数<el-input v-model="historyForm.pastpreg_yuncount"></el-input>
-          自然流产次数<el-input v-model="historyForm.pastpreg_yuncount"></el-input>
-          异位妊娠次数<el-input v-model="historyForm.pastpreg_yuncount"></el-input>
-          清宫术次数<el-input v-model="historyForm.pastpreg_yuncount"></el-input>
+          顺产次数<el-input v-model="historyForm.pastpreg_shunchan"></el-input>
+          剖宫产次数<el-input v-model="historyForm.pastpreg_pougong"></el-input>
+          早产次数<el-input v-model="historyForm.pastpreg_zaochan"></el-input>
+          药物流产次数<el-input v-model="historyForm.pastpreg_yaoliu"></el-input>
+          人工流产次数<el-input v-model="historyForm.pastpreg_renliu"></el-input>
+          自然流产次数<el-input v-model="historyForm.pastpreg_ziranliu"></el-input>
+          异位妊娠次数<el-input v-model="historyForm.pastpreg_yiweirenshen"></el-input>
+          清宫术次数<el-input v-model="historyForm.pastpreg_qinggongshu"></el-input>
+          其他<el-input v-model="historyForm.pastpreg_qita"></el-input>
       </el-form-item>
 
       <el-form-item label="避孕措施">

@@ -88,7 +88,7 @@
       <el-form-item label="患者是否有雄性脱发">
         <el-switch v-model="infoForm.male" active-text="是" inactive-text="否"></el-switch>
         <div v-if="infoForm.male">
-          <el-form-item label="患者是否有雄性脱发">
+          <el-form-item label="如果是,请描述具体部位">
             <el-input v-model="infoForm.male_part"></el-input>
           </el-form-item>
           <el-form-item label="脱发程度">
