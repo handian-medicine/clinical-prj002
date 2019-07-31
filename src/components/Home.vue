@@ -7,7 +7,7 @@
         class="logo"
         :class="collapsed?'logo-collapse-width':'logo-width'"
       >{{collapsed?'':sysName}}</el-col>
-      <el-col :span="10">
+      <el-col :span="6">
         <div class="tools" @click.prevent="collapse">
           <i class="fa fa-align-justify"></i>
         </div>
@@ -143,7 +143,7 @@ export default {
   data() {
     return {
       sysName: "中医流调数据平台",
-      collapsed: false,
+      collapsed: true,
       sysUserName: "",
       sysUserAvatar: "",
     };

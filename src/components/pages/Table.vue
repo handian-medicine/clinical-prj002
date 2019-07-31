@@ -228,34 +228,46 @@ export default {
       }
     },
     openExperimentForm (index, row) {
-      let para = {page: this.page, url: row.url}
-      apiGetPatientExperimentForm(para)
-      .then((res)=> {
-        console.log(res.data)
-        //父组件通过emit发送 事件 及 所需的参数
-        this.$refs.experimentForm.$emit("openEvent", res.data)
-      })
-      .catch(() => {})
+      if (row.experiment==null) {
+        console.log('ExperimentForm创建流程')
+        this.$refs.experimentForm.$emit("openEvent", {exist:false, experimentForm:{info:row.url} } )
+      } else {
+        console.log('ExperimentForm修改流程')
+        let para = {page: this.page, url: row.experiment}
+        apiGetPatientExperimentForm(para)
+        .then((res)=> {
+          this.$refs.experimentForm.$emit("openEvent", {exist:true, experimentForm:res.data})
+        })
+        .catch(() => {})
+      }
     },
     openBxrayForm (index, row) {
-      let para = {page: this.page, url: row.url}
-      apiGetPatientBxrayForm(para)
-      .then((res)=> {
-        console.log(res.data)
-        //父组件通过emit发送 事件 及 所需的参数
-        this.$refs.bxrayForm.$emit("openEvent", res.data)
-      })
-      .catch(() => {})
+      if (row.bxray==null) {
+        console.log('BxrayForm创建流程')
+        this.$refs.bxrayForm.$emit("openEvent", {exist:false, bxrayForm:{info:row.url} } )
+      } else {
+        console.log('BxrayForm修改流程')
+        let para = {page: this.page, url: row.bxray}
+        apiGetPatientBxrayForm(para)
+        .then((res)=> {
+          this.$refs.bxrayForm.$emit("openEvent", {exist:true, bxrayForm:res.data})
+        })
+        .catch(() => {})
+      }
     },
     openCureForm (index, row) {
-      let para = {page: this.page, url: row.url}
-      apiGetPatientCureForm(para)
-      .then((res)=> {
-        console.log(res.data)
-        //父组件通过emit发送 事件 及 所需的参数
-        this.$refs.cureForm.$emit("openEvent", res.data)
-      })
-      .catch(() => {})
+      if (row.cure==null) {
+        console.log('CureForm创建流程')
+        this.$refs.cureForm.$emit("openEvent", {exist:false, cureForm:{info:row.url} } )
+      } else {
+        console.log('CureForm修改流程')
+        let para = {page: this.page, url: row.cure}
+        apiGetPatientCureForm(para)
+        .then((res)=> {
+          this.$refs.cureForm.$emit("openEvent", {exist:true, cureForm:res.data})
+        })
+        .catch(() => {})
+      }
     },
 
   },

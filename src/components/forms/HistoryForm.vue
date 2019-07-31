@@ -19,12 +19,12 @@
         <el-radio v-model="historyForm.normal" label="31-35天"></el-radio>
       </el-form-item>
       <el-form-item label="月经周期 不规律">
-        <el-radio v-model="historyForm.normal" label="或1月多次"></el-radio>
-        <el-radio v-model="historyForm.normal" label="1-2个月1行"></el-radio>
-        <el-radio v-model="historyForm.normal" label="2-3个月1行"></el-radio>
-        <el-radio v-model="historyForm.normal" label="3-4个月1行"></el-radio>
-        <el-radio v-model="historyForm.normal" label="4-6个月1行"></el-radio>
-        <el-radio v-model="historyForm.normal" label="＞6个月1行"></el-radio>
+        <el-radio v-model="historyForm.abnormal" label="或1月多次"></el-radio>
+        <el-radio v-model="historyForm.abnormal" label="1-2个月1行"></el-radio>
+        <el-radio v-model="historyForm.abnormal" label="2-3个月1行"></el-radio>
+        <el-radio v-model="historyForm.abnormal" label="3-4个月1行"></el-radio>
+        <el-radio v-model="historyForm.abnormal" label="4-6个月1行"></el-radio>
+        <el-radio v-model="historyForm.abnormal" label="＞6个月1行"></el-radio>
       </el-form-item>
 
       <el-form-item label="行经天数">
@@ -83,30 +83,69 @@
 
       <el-form-item label="平素带下情况">
         <el-form-item label="量">
-          <el-radio v-model="historyForm.leucorrhea_quantity" label="顺畅"></el-radio>
-          <el-radio v-model="historyForm.leucorrhea_quantity" label="势急暴下"></el-radio>
-          <el-radio v-model="historyForm.leucorrhea_quantity" label="淋漓不断"></el-radio>
+          <el-radio v-model="historyForm.leucorrhea_quantity" label="带下量正常"></el-radio>
+          <el-radio v-model="historyForm.leucorrhea_quantity" label="带下量少"></el-radio>
+          <el-radio v-model="historyForm.leucorrhea_quantity" label="带下量多"></el-radio>
         </el-form-item>
         <el-form-item label="色">
-          <el-radio v-model="historyForm.leucorrhea_color" label="顺畅"></el-radio>
-          <el-radio v-model="historyForm.leucorrhea_color" label="势急暴下"></el-radio>
-          <el-radio v-model="historyForm.leucorrhea_color" label="淋漓不断"></el-radio>
+          <el-radio v-model="historyForm.leucorrhea_color" label="带下透明"></el-radio>
+          <el-radio v-model="historyForm.leucorrhea_color" label="带下色黄"></el-radio>
+          <el-radio v-model="historyForm.leucorrhea_color" label="带下色白"></el-radio>
+          <el-radio v-model="historyForm.leucorrhea_color" label="带下色黄绿"></el-radio>
           <el-input v-model="historyForm.leucorrhea_color_qita"></el-input>
         </el-form-item>
         <el-form-item label="质">
-          <el-radio v-model="historyForm.leucorrhea_feature" label="顺畅"></el-radio>
-          <el-radio v-model="historyForm.leucorrhea_feature" label="势急暴下"></el-radio>
-          <el-radio v-model="historyForm.leucorrhea_feature" label="淋漓不断"></el-radio>
+          <el-radio v-model="historyForm.leucorrhea_feature" label="带下质黏而不稠"></el-radio>
+          <el-radio v-model="historyForm.leucorrhea_feature" label="带下质清稀"></el-radio>
+          <el-radio v-model="historyForm.leucorrhea_feature" label="带下质稠"></el-radio>
         </el-form-item>
       </el-form-item>
 
+      <el-form-item label="婚姻史">
+        <el-radio v-model="historyForm.marriage" label="未婚无性生活"></el-radio>
+        <el-radio v-model="historyForm.marriage" label="未婚有性生活"></el-radio>
+        <el-radio v-model="historyForm.marriage" label="已婚同居"></el-radio>
+        <el-radio v-model="historyForm.marriage" label="已婚分居"></el-radio>
+        <el-radio v-model="historyForm.marriage" label="离婚"></el-radio>
+        <el-radio v-model="historyForm.marriage" label="丧偶"></el-radio>
+      </el-form-item>
+
       <el-form-item label="孕产史">
+          怀孕次数<el-input v-model="historyForm.pastpreg_yuncount"></el-input>
+          顺产次数<el-input v-model="historyForm.pastpreg_yuncount"></el-input>
+          剖宫产次数<el-input v-model="historyForm.pastpreg_yuncount"></el-input>
+          早产次数<el-input v-model="historyForm.pastpreg_yuncount"></el-input>
+          药物流产次数<el-input v-model="historyForm.pastpreg_yuncount"></el-input>
+          人工流产次数<el-input v-model="historyForm.pastpreg_yuncount"></el-input>
+          自然流产次数<el-input v-model="historyForm.pastpreg_yuncount"></el-input>
+          异位妊娠次数<el-input v-model="historyForm.pastpreg_yuncount"></el-input>
+          清宫术次数<el-input v-model="historyForm.pastpreg_yuncount"></el-input>
       </el-form-item>
 
       <el-form-item label="避孕措施">
+        <el-switch v-model="historyForm.prevent_wu" active-text="有" inactive-text="无"></el-switch>
+        <el-checkbox v-model="historyForm.prevent_jieza"  label="结扎" ></el-checkbox>
+        <el-checkbox v-model="historyForm.prevent_jieyuqi"  label="宫内节育器" ></el-checkbox>
+        <el-checkbox v-model="historyForm.prevent_biyuntao"  label="避孕套" ></el-checkbox>
+        <el-checkbox v-model="historyForm.prevent_biyunyao"  label="口服避孕药" ></el-checkbox>
       </el-form-item>
 
       <el-form-item label="家族史">
+        一级亲属（父母、兄弟姐妹、子女）其他疾病史
+        <el-switch v-model="historyForm.is_pastfamily_womb" active-text="有" inactive-text="无"></el-switch>
+        <br>
+        <el-checkbox v-model="historyForm.pastfamily_minus"  label="甲减" ></el-checkbox>
+        <el-checkbox v-model="historyForm.pastfamily_plus"  label="甲亢" ></el-checkbox>
+        <el-checkbox v-model="historyForm.pastfamily_duonangluanchao"  label="多囊卵巢综合征" ></el-checkbox>
+        <el-checkbox v-model="historyForm.pastfamily_tangniaobing"  label="糖尿病" ></el-checkbox>
+        <el-checkbox v-model="historyForm.pastfamily_buxiang"  label="不详" ></el-checkbox>
+        <el-input v-model="historyForm.pastfamily_qita"></el-input>
+      </el-form-item>
+
+      <el-form-item>
+        <el-button type="primary" v-if="exist"  @click="updateHistoryForm">确定</el-button>
+        <el-button type="primary" v-else  @click="createHistoryForm">确定</el-button>
+        <el-button @click="dialogVisible=false">取消</el-button>
       </el-form-item>
 
     </el-form>
@@ -172,18 +211,15 @@ export default {
   },
   created() {
     this.$on("openEvent", (data)=>{
+      this.dialogVisible = true
+      this.exist = data.exist
       if (!data.exist) {
         //未创建
         this.historyForm.info = data.historyForm.info
-        this.dialogVisible = true
-        this.exist = data.exist
       } else {
         //已创建(修改)
         this.historyForm = data.historyForm
-        this.dialogVisible = true
-        this.exist = data.exist
       }
-
     })
   }
 

@@ -72,7 +72,6 @@ export default {
       pulse:          {'pulse_fu':'浮','pulse_chen':'沉','pulse_hua':'滑','pulse_shu':'数','pulse_xian':'弦','pulse_xi':'细','pulse_ruo':'弱','pulse_huan':'缓','pulse_chi':'迟','pulse_se':'涩','pulse_jin':'紧','pulse_qita':'其他'},
 
       summaryForm:{
-          info:'',//如果summaryForm未创建,需要从infoForm取到url;如果summaryForm已创建,summaryForm都会被传入的summaryForm覆盖
           face_head:'',face_head_tou:'',face_head_er:'',face_head_muxuan:'',face_head_muse:'',face_head_zhong:'',
           face_color:'',face_color_bai:'',face_color_an:'',face_color_huang:'',face_color_dan:'',face_color_hong:'',face_color_hei:'',face_color_chi:'',
           mouth:'',mouth_chi:'',mouth_gan:'',mouth_nian:'',mouth_ku:'',mouth_throat:'',mouth_yi:'',
@@ -127,18 +126,16 @@ export default {
   },
   created() {
     this.$on("openEvent", (data)=>{
+      this.dialogVisible = true
+      this.exist = data.exist
+      //如果summaryForm未创建,需要从infoForm取到url;如果summaryForm已创建,summaryForm都会被传入的summaryForm覆盖
       if (!data.exist) {
         //未创建,summaryForm的info接受data.url的值,其余字段初始化为空
         this.summaryForm.info = data.summaryForm.info
-        this.dialogVisible = true
-        this.exist = data.exist
       } else {
         //已创建(修改),summaryForm初始化为从api请求得到的数据
         this.summaryForm = data.summaryForm
-        this.dialogVisible = true
-        this.exist = data.exist
       }
-
     })
   }
 }

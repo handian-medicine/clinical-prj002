@@ -143,8 +143,8 @@ router.get('/history', function(req, res, next) {
       headers: {'Authorization': 'Bearer ' + req.cookies.prj002token.access_token}
     }
     request.get(options, function (error, response, body) {
-      var patientSummary = JSON.parse(body)
-      res.send(patientSummary)
+      var patientHistory = JSON.parse(body)
+      res.send(patientHistory)
     })
 })
 //创建
@@ -172,9 +172,46 @@ router.patch('/history', function(req, res, next) {
     })
 })
 
+/* 实验室检查experiment */
+//获取
 router.get('/experiment', function(req, res, next) {
-  res.send({name:"hello"})
+  console.log('user.js GET获取实验室检查', req.query.url)
+    var options = {
+      url: req.query.url,
+      headers: {'Authorization': 'Bearer ' + req.cookies.prj002token.access_token}
+    }
+    request.get(options, function (error, response, body) {
+      var patientExperiment = JSON.parse(body)
+      res.send(patientExperiment)
+    })
 })
+//创建
+router.post('/experiment', function(req, res, next) {
+  console.log('user.js POST创建实验室检查experiment',req.body)
+  var options = {
+    url: myConst.apiurl + "/prj002/experiment/",
+    form: req.body,
+    headers: {'Authorization': 'Bearer ' + req.cookies.prj002token.access_token}
+  }
+    request.post(options, function (error, response, body) {
+      res.send({msg:'ok'})
+    })
+})
+//修改
+router.patch('/experiment', function(req, res, next) {
+  console.log('user.js PATCH修改实验室检查experiment',req.body)
+  var options = {
+    url: req.body.url,
+    form: req.body,
+    headers: {'Authorization': 'Bearer ' + req.cookies.prj002token.access_token}
+  }
+    request.patch(options, function (error, response, body) {
+      res.send({msg:'ok'})
+    })
+})
+
+
+
 router.get('/bxray', function(req, res, next) {
   res.send({name:"hello"})
 })
