@@ -22,18 +22,23 @@
       <el-form-item label="舌质">
         <el-checkbox v-for="(val, key) in tongue_texture" :key="key" :label="val" v-model="summaryForm[key]">
         </el-checkbox>
+        <el-input v-model="summaryForm.texture_qita"></el-input>
       </el-form-item>
       <el-form-item label="舌苔">
         <el-checkbox v-for="(val, key) in tongue_coating" :key="key" :label="val" v-model="summaryForm[key]">
         </el-checkbox>
+        <el-input v-model="summaryForm.coating_qita"></el-input>
       </el-form-item>
       <el-form-item label="舌体">
         <el-checkbox v-for="(val, key) in tongue_body" :key="key" :label="val" v-model="summaryForm[key]">
         </el-checkbox>
+        <el-input v-model="summaryForm.tongue_qita"></el-input>
       </el-form-item>
       <el-form-item label="脉象">
         <el-checkbox v-for="(val, key) in pulse" :key="key" :label="val" v-model="summaryForm[key]">
         </el-checkbox>
+        <el-input v-model="summaryForm.pulse_qita"></el-input>
+
       </el-form-item>
 
       <el-form-item>
@@ -66,11 +71,14 @@ export default {
         'pee':       {'pee_pin':'频数','pee_ji':'尿急尿痛','pee_ye':'夜尿频多','pee_li':'余沥不尽','pee_qing':'小便清长','pee_chi':'小便黄赤'},
         'feces':     {'feces_tang':'大便溏','feces_mi':'大便秘结','feces_xi':'时干时稀','feces_xie':'天亮前泄泻','feces_nian':'大便黏腻','feces_jia':'夹杂未消化食物'},
       },
-      tongue_texture: {'texture_danhong':'淡红','texture_danbai':'淡白','texture_xianhong':'鲜红','texture_shenhong':'深红','texture_zihong':'紫红','texture_anhong':'黯红','texture_danan':'淡黯','texture_zian':'紫黯','texture_yudian':'有瘀点或瘀斑','texture_jianhong':'舌边尖红','texture_qita':'其他'},
-      tongue_coating: {'coating_bai':'白','coating_huang':'黄','coating_bo':'薄','coating_hou':'厚','coating_ni':'腻','coating_run':'润','coating_hua':'滑','coating_gan':'干','coating_shaotai':'少苔','coating_huabo':'花剥','coating_wutai':'无苔','coating_qita':'其他'},
-      tongue_body:    {'tongue_zhengchang':'正常','tongue_shouxiao':'瘦小','tongue_pangda':'胖大','tongue_youchihen':'有齿痕','tongue_youliewen':'有裂纹','tongue_qita':'其他'},
-      pulse:          {'pulse_fu':'浮','pulse_chen':'沉','pulse_hua':'滑','pulse_shu':'数','pulse_xian':'弦','pulse_xi':'细','pulse_ruo':'弱','pulse_huan':'缓','pulse_chi':'迟','pulse_se':'涩','pulse_jin':'紧','pulse_qita':'其他'},
-
+      tongue_texture: {'texture_danhong':'淡红','texture_danbai':'淡白','texture_xianhong':'鲜红','texture_shenhong':'深红','texture_zihong':'紫红','texture_anhong':'黯红','texture_danan':'淡黯','texture_zian':'紫黯','texture_yudian':'有瘀点或瘀斑','texture_jianhong':'舌边尖红'},
+      texture_qita:   '其他',
+      tongue_coating: {'coating_bai':'白','coating_huang':'黄','coating_bo':'薄','coating_hou':'厚','coating_ni':'腻','coating_run':'润','coating_hua':'滑','coating_gan':'干','coating_shaotai':'少苔','coating_huabo':'花剥','coating_wutai':'无苔'},
+      coating_qita:   '其他',
+      tongue_body:    {'tongue_zhengchang':'正常','tongue_shouxiao':'瘦小','tongue_pangda':'胖大','tongue_youchihen':'有齿痕','tongue_youliewen':'有裂纹'},
+      tongue_qita:    '其他',
+      pulse:          {'pulse_fu':'浮','pulse_chen':'沉','pulse_hua':'滑','pulse_shu':'数','pulse_xian':'弦','pulse_xi':'细','pulse_ruo':'弱','pulse_huan':'缓','pulse_chi':'迟','pulse_se':'涩','pulse_jin':'紧'},
+      pulse_qita:     '其他',
       summaryForm:{
           face_head:'',face_head_tou:'',face_head_er:'',face_head_muxuan:'',face_head_muse:'',face_head_zhong:'',
           face_color:'',face_color_bai:'',face_color_an:'',face_color_huang:'',face_color_dan:'',face_color_hong:'',face_color_hei:'',face_color_chi:'',

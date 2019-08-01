@@ -1,13 +1,16 @@
 <template>
   <section>
-    <!--上方工具条-->
+    <!--上方工具条 搜索和新增-->
     <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-      <el-form :inline="true" :model="filters">
-        <el-form-item>
-          <el-input v-model="filters.name" placeholder="姓名"></el-input>
+      <el-form :inline="true" :model="search">
+        <el-form-item v-for="(val, key, index) in search" :key="index">
+          <el-input v-model="search[key]" :placeholder="searchName[key]"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="searchPatient">查询</el-button>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="getPatients">重置</el-button>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="addPatient">新增</el-button>
@@ -18,11 +21,11 @@
     <!--主要内容 列表-->
     <el-table :data="patientsList" highlight-current-row v-loading="listLoading" @selection-change="selsChange"
               style="width: 100%;" height="500"><!--height固定表头-->
-      <el-table-column type="selection" width="55">
+      <!-- <el-table-column type="selection" width="55">
+      </el-table-column> -->
+      <el-table-column type="index" width="40">
       </el-table-column>
-      <el-table-column type="index" width="40" fixed>
-      </el-table-column>
-      <el-table-column prop="name" label="姓名" width="90" sortable fixed>
+      <el-table-column prop="name" label="姓名" width="90" sortable>
       </el-table-column>
       <el-table-column prop="birth" label="出生日期" width="100" sortable>
       </el-table-column>
@@ -41,7 +44,7 @@
           <el-button type="success" size="small" @click="openSummaryForm(scope.$index, scope.row)">病情概要</el-button>
           <el-button type="info"    size="small" @click="openHistoryForm(scope.$index, scope.row)">专科病史</el-button>
           <el-button type="warning" size="small" @click="openExperimentForm(scope.$index, scope.row)">实验室检查</el-button>
-          <el-button type="primary" size="small" @click="openBxrayForm(scope.$index, scope.row)">经阴道或经肛门B超</el-button>
+          <el-button type="primary" size="small" @click="openBxrayForm(scope.$index, scope.row)">B超</el-button>
           <el-button type="success" size="small" @click="openCureForm(scope.$index, scope.row)">治疗</el-button>
           <!-- <el-button size="small" style="background:purple">治疗</el-button> -->
           </el-button-group>
@@ -54,8 +57,13 @@
     <el-col :span="24" class="toolbar">
       <el-button type="danger" @click="batchRemove" :disabled="this.sels.length===0">批量删除</el-button>
       <span style="margin-left:100px">共{{totalNum}}条</span>
-      <el-pagination layout="prev, pager, next, jumper"
-                    @current-change="handleCurrentChange"
+      <el-pagination v-show="pagination_flag" layout="prev, pager, next, jumper"
+                    @current-change="handleListPagination"
+                    :page-size="10" :total="totalNum"
+                    style="float:right;">
+      </el-pagination>
+      <el-pagination v-show="!pagination_flag" layout="prev, pager, next, jumper"
+                    @current-change="handleSearchPagination"
                     :page-size="10" :total="totalNum"
                     style="float:right;">
       </el-pagination>
@@ -94,38 +102,48 @@ export default {
   components:{AddPatient,InfoForm,SummaryForm,HistoryForm,ExperimentForm,BxrayForm,CureForm},
   data () {
     return {
-      filters: {
-        name: ''
+      search: {
+        name: '', phone:'', hospital:'', birth:'', career:'', address:''
       },
+      searchName: {name:'姓名',phone:'电话',hospital:'医院',birth:'出生日期',career:'职业',address:'地址'},
       patientsList: [], // 数据列表
       totalNum: 0, //  数据总条数
       page: 1, //当前页码
+      search_page: 1, //搜索结果的当前页码
       listLoading: false,
       sels: [], // 列表选中列
-
+      pagination_flag: true //true表示所有数据的分页,false表示搜索数据的分页
     }
   },
   methods: {
+    // 新增信息dialog
+    addPatient () {
+      this.$refs.addPatient.$emit("addEvent")
+    },
     // 搜索功能
     searchPatient () {
+      console.log('搜索字段',this.search)
       let para = {
-        name:'测试',
-        page:1
-        //phone:'', hospital:'', birth:'', career:'', address:''
+        page: this.search_page,
+        search:this.search
       }
+      this.pagination_flag = false
       apiSearchPatient(para).then( (res) => {
+        // console.log('搜索返回结果',res.data.searchResults)
         this.patientsList = res.data.searchResults
         this.totalNum = res.data.searchResultsNum
         this.listLoading = false
       })
     },
-    // 新增信息dialog
-    addPatient ( ) {
-      this.$refs.addPatient.$emit("addEvent")
-    },
-    handleCurrentChange (val) {
-      this.page = val
+    handleListPagination (currentPage) {
+      console.log('分页',currentPage)
+      this.page = currentPage,
       this.getPatients()
+    },
+    handleSearchPagination (currentPage) {
+      console.log('分页',currentPage)
+      this.search_page = currentPage
+      this.searchPatient()
     },
     // 获取患者列表
     getPatients () {
@@ -182,7 +200,7 @@ export default {
       })
     },
 
-    //获取单个患者一般信息
+    //核心的Form表单
     openInfoForm (index, row) {
       let para = {page: this.page, url: row.url}
       apiGetPatientInfoForm(para)

@@ -16,11 +16,19 @@
       </el-form-item>
 
       <el-form-item label="出生日期">
-        <el-input v-model="patientInfo.birth"></el-input>
+        <!-- format表示显示在页面的日期格式, value-format表示传递给后台的真实的数据格式 -->
+        <el-date-picker v-model="patientInfo.birth"
+                        type="month" placeholder="选择日期"
+                        format="yyyy 年 MM 月"
+                        value-format="yyyy-MM">
+        </el-date-picker>
       </el-form-item>
 
-      <el-form-item label="职业呢">
-        <el-input v-model="patientInfo.career"></el-input>
+      <el-form-item label="职业">
+        <el-select v-model="patientInfo.career" placeholder="请选择">
+          <el-option v-for="item in careerSelection" :key="item" :label="item" :value="item">
+          </el-option>
+        </el-select>
       </el-form-item>
 
       <el-form-item>
@@ -40,6 +48,7 @@ export default {
     data () {
       return {
         patientInfo: {name:'测试', phone:'13110983476', hospital:'汉典医院', birth:'1980-09', career:'个体'},
+        careerSelection: ["学生","个体","农民","军人","工人","财会人员","技术人员","服务业","科教文卫","行政管理","无业","其它"],
         dialogVisible: false
       }
 

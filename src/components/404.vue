@@ -1,5 +1,7 @@
 <template>
-  <p class="page-container">404 page not found</p>
+<div>
+  <p class="page-container">404 page not found,<a href='/login'>重新登录</a></p>
+</div>
 </template>
 
 <style lang="scss" scoped>

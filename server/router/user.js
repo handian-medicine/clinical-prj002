@@ -11,14 +11,14 @@ var myConst = require("./const");
 router.post('/search', function (req, res, next) {
   const options = {
     url: myConst.apiurl + "/prj002/search/",
-    // 我怎么知道搜索结果有几个
-    form: {name:req.body.name, page:req.body.page},//, phone:'', hospital:'', birth:'', career:'', address:''
+    form: req.body.search,//浏览器发送过来的req的body  和  后端返回的response的body格式类型不一样?
+    qs: {page:req.body.page},
     headers: {'Authorization': 'Bearer ' + req.cookies.prj002token.access_token}
   }
+    console.log("搜索option", options)
   request.post(options, function (error, response, body) {
     var bodyParse = JSON.parse(body)
-    console.log("搜索", bodyParse.count)
-    console.log("搜索", bodyParse.next)
+    console.log("搜索返回结果", bodyParse.count)
     var searchResultsNum = bodyParse.count
     var searchResults = bodyParse.results
     res.send({searchResults, searchResultsNum})
@@ -49,7 +49,6 @@ router.post('/remove', function (req, res, next) {
   })
 
 })
-
 
 // 所有患者信息列表
 router.post('/list', function(req, res, next) {

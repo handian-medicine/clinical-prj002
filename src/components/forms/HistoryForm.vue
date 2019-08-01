@@ -6,71 +6,66 @@
     <el-form ref="historyForm" :model="historyForm" label-width="130px" label-position="left">
 
       <el-form-item label="月经初潮年龄">
-        <el-radio v-model="historyForm.first_time" label="10岁以前"></el-radio>
-        <el-radio v-model="historyForm.first_time" label="11岁以后"></el-radio>
-        <el-radio v-model="historyForm.first_time" label="14岁以后"></el-radio>
-        <el-radio v-model="historyForm.first_time" label="16岁以后"></el-radio>
+        <el-radio v-model="historyForm.first_time"
+                  v-for="item in mydata.first_time"
+                  :key="item" :label="item">
+        </el-radio>
         <el-input v-model="historyForm.first_time_qita"></el-input>
       </el-form-item>
 
       <el-form-item label="月经周期 尚规律">
-        <el-radio v-model="historyForm.normal" label="21-25天"></el-radio>
-        <el-radio v-model="historyForm.normal" label="26-30天"></el-radio>
-        <el-radio v-model="historyForm.normal" label="31-35天"></el-radio>
+        <el-radio v-model="historyForm.normal"
+                  v-for="item in mydata.normal"
+                  :key="item" :label="item">
+        </el-radio>
       </el-form-item>
       <el-form-item label="月经周期 不规律">
-        <el-radio v-model="historyForm.abnormal" label="或1月多次"></el-radio>
-        <el-radio v-model="historyForm.abnormal" label="1-2个月1行"></el-radio>
-        <el-radio v-model="historyForm.abnormal" label="2-3个月1行"></el-radio>
-        <el-radio v-model="historyForm.abnormal" label="3-4个月1行"></el-radio>
-        <el-radio v-model="historyForm.abnormal" label="4-6个月1行"></el-radio>
-        <el-radio v-model="historyForm.abnormal" label="＞6个月1行"></el-radio>
+        <el-radio v-model="historyForm.abnormal"
+                  v-for="item in mydata.abnormal"
+                  :key="item" :label="item">
+        </el-radio>
       </el-form-item>
 
       <el-form-item label="行经天数">
-        <el-radio v-model="historyForm.cyclicity_sum" label="≤2天"></el-radio>
-        <el-radio v-model="historyForm.cyclicity_sum" label="3-7天"></el-radio>
-        <el-radio v-model="historyForm.cyclicity_sum" label="7日以上甚至半月"></el-radio>
+        <el-radio v-model="historyForm.cyclicity_sum"
+                  v-for="item in mydata.cyclicity_sum"
+                  :key="item" :label="item">
+        </el-radio>
         <el-input v-model="historyForm.cyclicity_sum_qita"></el-input>
       </el-form-item>
 
       <el-form-item label="总出血量">
-        <el-radio v-model="historyForm.blood_cond" label="≤5张卫生巾(日用)"></el-radio>
-        <el-radio v-model="historyForm.blood_cond" label="6-10张卫生巾(日用)"></el-radio>
-        <el-radio v-model="historyForm.blood_cond" label="11-19张卫生巾(日用)"></el-radio>
-        <el-radio v-model="historyForm.blood_cond" label="≥20张卫生巾(日用或夜用)"></el-radio>
-        <el-radio v-model="historyForm.blood_cond" label="几乎不用卫生巾,用护垫即可"></el-radio>
+        <el-radio v-model="historyForm.blood_cond"
+                  v-for="item in mydata.blood_cond"
+                  :key="item" :label="item">
+        </el-radio>
         <el-input v-model="historyForm.blood_cond_qita"></el-input>
       </el-form-item>
 
       <el-form-item label="出血颜色">
-        <el-radio v-model="historyForm.blood_color" label="淡红"></el-radio>
-        <el-radio v-model="historyForm.blood_color" label="鲜红"></el-radio>
-        <el-radio v-model="historyForm.blood_color" label="暗红"></el-radio>
-        <el-radio v-model="historyForm.blood_color" label="紫红"></el-radio>
-        <el-radio v-model="historyForm.blood_color" label="紫黯"></el-radio>
-        <el-radio v-model="historyForm.blood_color" label="紫黑"></el-radio>
-        <el-radio v-model="historyForm.blood_color" label="褐色"></el-radio>
+        <el-radio v-model="historyForm.blood_color"
+                  v-for="item in mydata.blood_color"
+                  :key="item" :label="item">
+        </el-radio>
         <el-input v-model="historyForm.blood_color_qita"></el-input>
       </el-form-item>
 
       <el-form-item label="出血质地">
-        <el-radio v-model="historyForm.blood_quality" label="正常"></el-radio>
-        <el-radio v-model="historyForm.blood_quality" label="粘稠"></el-radio>
-        <el-radio v-model="historyForm.blood_quality" label="清稀"></el-radio>
-        <el-radio v-model="historyForm.blood_block" label="无血块"></el-radio>
-        <el-radio v-model="historyForm.blood_block" label="经常出现血块"></el-radio>
-        <el-radio v-model="historyForm.blood_block" label="偶有血块"></el-radio>
-        <el-radio v-model="historyForm.blood_block" label="夹少量小血块"></el-radio>
-        <el-radio v-model="historyForm.blood_block" label="夹较大血块"></el-radio>
-        <el-radio v-model="historyForm.blood_block" label="其他"></el-radio>
+        <el-radio v-model="historyForm.blood_quality"
+                  v-for="item in mydata.blood_quality"
+                  :key="item" :label="item">
+        </el-radio>
+        <el-radio v-model="historyForm.blood_block"
+                  v-for="item in mydata.blood_block"
+                  :key="item" :label="item">
+        </el-radio>
       </el-form-item>
 
       <el-form-item label="出血特点">
-        <el-radio v-model="historyForm.blood_character" label="顺畅"></el-radio>
-        <el-radio v-model="historyForm.blood_character" label="势急暴下"></el-radio>
-        <el-radio v-model="historyForm.blood_character" label="淋漓不断"></el-radio>
-        <el-radio v-model="historyForm.blood_character" label="点滴即净"></el-radio>
+        <el-radio v-model="historyForm.blood_character"
+                  v-for="item in mydata.blood_character"
+                  :key="item" :label="item">
+        </el-radio>
       </el-form-item>
 
       <el-form-item label="经期伴随症状">
@@ -78,36 +73,40 @@
       </el-form-item>
 
       <el-form-item label="末次行经日期">
-        <el-input v-model="historyForm.last_time"></el-input>
+        <el-date-picker v-model="historyForm.last_time"
+                        type="date" placeholder="选择日期"
+                        format="yyyy 年 MM 月 dd 日"
+                        value-format="yyyy-MM-dd">
+        </el-date-picker>
       </el-form-item>
 
       <el-form-item label="平素带下情况">
         <el-form-item label="量">
-          <el-radio v-model="historyForm.leucorrhea_quantity" label="带下量正常"></el-radio>
-          <el-radio v-model="historyForm.leucorrhea_quantity" label="带下量少"></el-radio>
-          <el-radio v-model="historyForm.leucorrhea_quantity" label="带下量多"></el-radio>
+          <el-radio v-model="historyForm.leucorrhea_quantity"
+                  v-for="item in mydata.leucorrhea_quantity"
+                  :key="item" :label="item">
+          </el-radio>
         </el-form-item>
         <el-form-item label="色">
-          <el-radio v-model="historyForm.leucorrhea_color" label="带下透明"></el-radio>
-          <el-radio v-model="historyForm.leucorrhea_color" label="带下色黄"></el-radio>
-          <el-radio v-model="historyForm.leucorrhea_color" label="带下色白"></el-radio>
-          <el-radio v-model="historyForm.leucorrhea_color" label="带下色黄绿"></el-radio>
+          <el-radio v-model="historyForm.leucorrhea_color"
+                  v-for="item in mydata.leucorrhea_color"
+                  :key="item" :label="item">
+          </el-radio>
           <el-input v-model="historyForm.leucorrhea_color_qita"></el-input>
         </el-form-item>
         <el-form-item label="质">
-          <el-radio v-model="historyForm.leucorrhea_feature" label="带下质黏而不稠"></el-radio>
-          <el-radio v-model="historyForm.leucorrhea_feature" label="带下质清稀"></el-radio>
-          <el-radio v-model="historyForm.leucorrhea_feature" label="带下质稠"></el-radio>
+          <el-radio v-model="historyForm.leucorrhea_feature"
+                  v-for="item in mydata.leucorrhea_feature"
+                  :key="item" :label="item">
+          </el-radio>
         </el-form-item>
       </el-form-item>
 
       <el-form-item label="婚姻史">
-        <el-radio v-model="historyForm.marriage" label="未婚无性生活"></el-radio>
-        <el-radio v-model="historyForm.marriage" label="未婚有性生活"></el-radio>
-        <el-radio v-model="historyForm.marriage" label="已婚同居"></el-radio>
-        <el-radio v-model="historyForm.marriage" label="已婚分居"></el-radio>
-        <el-radio v-model="historyForm.marriage" label="离婚"></el-radio>
-        <el-radio v-model="historyForm.marriage" label="丧偶"></el-radio>
+        <el-radio v-model="historyForm.marriage"
+                v-for="item in mydata.marriage"
+                :key="item" :label="item">
+        </el-radio>
       </el-form-item>
 
       <el-form-item label="孕产史">
@@ -158,6 +157,21 @@ export default {
   name:'HistoryForm',
   data() {
     return {
+      mydata:{
+        first_time:["10岁以前","11岁以后","14岁以后","16岁以后"],
+        normal:["21-25天","26-30天","31-35天"],
+        abnormal:["或1月多次","1-2个月1行","2-3个月1行","3-4个月1行","4-6个月1行","＞6个月1行"],
+        cyclicity_sum:["≤2天","3-7天","7日以上甚至半月"],
+        blood_cond:["≤5张卫生巾(日用)","6-10张卫生巾(日用)","11-19张卫生巾(日用)","≥20张卫生巾(日用或夜用)","几乎不用卫生巾,用护垫即可"],
+        blood_color:["淡红","鲜红","暗红","紫红","紫黯","紫黑","褐色",],
+        blood_quality:["正常","粘稠","清稀"],
+        blood_block:["无血块","经常出现血块","偶有血块","夹少量小血块","夹较大血块","其他"],
+        blood_character:["顺畅","势急暴下","淋漓不断","点滴即净"],
+        leucorrhea_quantity:["带下量正常","带下量少","带下量多"],
+        leucorrhea_color:["带下透明","带下色黄","带下色白","带下色黄绿"],
+        leucorrhea_feature:["带下质黏而不稠","带下质清稀","带下质稠"],
+        marriage:["未婚无性生活","未婚有性生活","已婚同居","已婚分居","离婚","丧偶"],
+      },
       historyForm:{
         first_time:'', first_time_qita:'',            //月经初潮年龄
         normal:'', abnormal:'',                       //月经周期
@@ -185,6 +199,7 @@ export default {
   },
   methods: {
     updateHistoryForm () {
+      console.log('日期内容',this.historyForm.last_time)
       apiUpdatePatientHistoryForm(this.historyForm)
       .then((res)=> {
         this.resetDialog()

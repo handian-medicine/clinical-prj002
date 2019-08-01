@@ -15,9 +15,9 @@ app.use('/static', express.static(path.join(__dirname, './static')))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use('/', login)
 app.use('/user', user)
 app.use('/login', login)
-app.use('/', login)
 
 app.listen(3000, () => {
     // console.log(path.join(__dirname, 'dist'))
