@@ -30,32 +30,32 @@ export default new Router({
     },
     {
       path: '/prj002',
-      component: () => import('@/components/Prj002.vue'),
+      component: () => import('@/components/prj002/Prj002.vue'),
       name: 'List',
       iconCls: 'fa fa-address-card',
       leaf: false, //用户自定义属性,用来确定某条菜单是否还有下级菜单
       children: [
-        { path: '/prj002/table', component: () => import('@/components/pages/Table.vue'), name: '数据列表' }
+        { path: '/prj002/table', component: () => import('@/components/prj002/pages/Table.vue'), name: '数据列表' }
       ]
     },
     {
       path: '/prj002',
-      component: () => import('@/components/Prj002.vue'),
+      component: () => import('@/components/prj002/Prj002.vue'),
       name: 'Charts',
       iconCls: 'fa fa-bar-chart',
       leaf: false,
       children: [
-        { path: '/prj002/echarts', component: () => import('@/components/pages/Echarts.vue'), name: '数据分析' }
+        { path: '/prj002/echarts', component: () => import('@/components/prj002/pages/Echarts.vue'), name: '数据分析' }
       ]
     },
     {
       path: '/prj002',
-      component: () => import('@/components/Prj002.vue'),
+      component: () => import('@/components/prj002/Prj002.vue'),
       name: 'Test',
       iconCls: 'fa fa-id-card-o',
       leaf:false,
       children: [
-        { path: '/prj002/vuex', component: () => import('@/components/pages/Vuex.vue'), name: 'Vuex' }
+        { path: '/prj002/vuex', component: () => import('@/components/prj002/pages/Vuex.vue'), name: 'Vuex' }
       ]
     },
     // {
