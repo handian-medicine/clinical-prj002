@@ -53,8 +53,9 @@ export default {
                 type: 'error'
               })
             } else {
+              console.log("登录成功")
               sessionStorage.setItem('user', JSON.stringify(user))
-              this.$router.push({ path: '/home/table' })
+              this.$router.push({ path: '/prj002/table' })
             }
           })
         } else {

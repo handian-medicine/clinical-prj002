@@ -9,7 +9,7 @@
         <el-form-item label="正常" :key="q_key">
           <el-switch v-model="summaryForm[q_key]" active-text="是" inactive-text="否"></el-switch>
         </el-form-item>
-        <el-form-item v-for="(val, key) in q_val" :label="val" :key="key">
+        <el-form-item v-show="!summaryForm[q_key]" v-for="(val, key) in q_val" :label="val" :key="key">
           <el-radio-group v-model="summaryForm[key]">
             <el-radio-button label="无"></el-radio-button>
             <el-radio-button label="轻"></el-radio-button>
@@ -50,7 +50,7 @@
   </el-dialog>
 </template>
 <script>
-import { apiUpdatePatientSummaryForm, apiCreatePatientSummaryForm } from '@/api/api'
+import { apiUpdatePatientDataForm, apiCreatePatientDataForm } from '@/api/api'
 export default {
   name:'SummaryForm',
   data() {
@@ -101,11 +101,12 @@ export default {
       },
       dialogVisible: false,
       exist: true,
+      formName:''
     }
   },
   methods: {
     updateSummaryForm () {
-      apiUpdatePatientSummaryForm(this.summaryForm)
+      apiUpdatePatientDataForm({formData:this.summaryForm,formName:this.formName})
       .then((res)=> {
         this.resetDialog()
         this.$message({message: '提交成功',type: 'success'})
@@ -117,7 +118,7 @@ export default {
       )
     },
     createSummaryForm () {
-      apiCreatePatientSummaryForm(this.summaryForm)
+      apiCreatePatientDataForm({formData:this.summaryForm,formName:this.formName})
       .then((res)=> {
         this.resetDialog()
         this.$message({message: '提交成功',type: 'success'})
@@ -136,13 +137,14 @@ export default {
     this.$on("openEvent", (data)=>{
       this.dialogVisible = true
       this.exist = data.exist
+      this.formName = data.formName
       //如果summaryForm未创建,需要从infoForm取到url;如果summaryForm已创建,summaryForm都会被传入的summaryForm覆盖
       if (!data.exist) {
         //未创建,summaryForm的info接受data.url的值,其余字段初始化为空
-        this.summaryForm.info = data.summaryForm.info
+        this.summaryForm.info = data.formData.info
       } else {
         //已创建(修改),summaryForm初始化为从api请求得到的数据
-        this.summaryForm = data.summaryForm
+        this.summaryForm = data.formData
       }
     })
   }

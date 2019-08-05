@@ -149,7 +149,7 @@
   </el-dialog>
 </template>
 <script>
-import { apiUpdatePatientHistoryForm, apiCreatePatientHistoryForm } from '@/api/api'
+import { apiUpdatePatientDataForm, apiCreatePatientDataForm } from '@/api/api'
 export default {
   name:'HistoryForm',
   data() {
@@ -196,12 +196,12 @@ export default {
       },
       dialogVisible: false,
       exist: true,
+      formName:''
     }
   },
   methods: {
     updateHistoryForm () {
-      console.log('日期内容',this.historyForm.last_time)
-      apiUpdatePatientHistoryForm(this.historyForm)
+      apiUpdatePatientDataForm({formData:this.historyForm,formName:this.formName})
       .then((res)=> {
         this.resetDialog()
         this.$message({message: '提交成功',type: 'success'})
@@ -212,7 +212,7 @@ export default {
       )
     },
     createHistoryForm () {
-      apiCreatePatientHistoryForm(this.historyForm)
+      apiCreatePatientDataForm({formData:this.historyForm,formName:this.formName})
       .then((res)=> {
         this.resetDialog()
         this.$message({message: '提交成功',type: 'success'})
@@ -230,12 +230,13 @@ export default {
     this.$on("openEvent", (data)=>{
       this.dialogVisible = true
       this.exist = data.exist
+      this.formName = data.formName
       if (!data.exist) {
         //未创建
-        this.historyForm.info = data.historyForm.info
+        this.historyForm.info = data.formData.info
       } else {
         //已创建(修改)
-        this.historyForm = data.historyForm
+        this.historyForm = data.formData
       }
     })
   }

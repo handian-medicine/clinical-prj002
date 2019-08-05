@@ -63,14 +63,14 @@ export default {
     },
     methods: {
       addPatient (formName) {
-        this.$refs.patientInfo.validate( (valid) => {
-          if (valid) {
-            alert('submit!');
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
+        // this.$refs.patientInfo.validate( (valid) => {
+        //   if (valid) {
+        //     alert('submit!');
+        //   } else {
+        //     console.log('error submit!!');
+        //     return false;
+        //   }
+        // });
         let para = {
           patientInfo: this.patientInfo
         }

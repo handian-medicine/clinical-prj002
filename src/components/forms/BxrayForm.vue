@@ -219,7 +219,7 @@
   </el-dialog>
 </template>
 <script>
-import { apiUpdatePatientBxrayForm, apiCreatePatientBxrayForm } from '@/api/api'
+import { apiUpdatePatientDataForm, apiCreatePatientDataForm } from '@/api/api'
 export default {
   name:'BxrayForm',
   data() {
@@ -241,12 +241,12 @@ export default {
         },
       dialogVisible: false,
       exist: true,
-
+      formName:''
     }
   },
   methods: {
     updateBxrayForm () {
-      apiUpdatePatientBxrayForm(this.bxrayForm)
+      apiUpdatePatientDataForm({formData:this.bxrayForm,formName:this.formName})
       .then((res)=> {
         this.resetDialog()
         this.$message({message: '提交成功',type: 'success'})
@@ -257,7 +257,7 @@ export default {
       )
     },
     createBxrayForm () {
-      apiCreatePatientBxrayForm(this.bxrayForm)
+      apiCreatePatientDataForm({formData:this.bxrayForm,formName:this.formName})
       .then((res)=> {
         this.resetDialog()
         this.$message({message: '提交成功',type: 'success'})
@@ -276,12 +276,13 @@ export default {
       console.log('B超获取到的数据',data)
       this.dialogVisible = true
       this.exist = data.exist
+      this.formName = data.formName
       if (!data.exist) {
         //未创建
-        this.bxrayForm.info = data.bxrayForm.info
+        this.bxrayForm.info = data.formData.info
       } else {
         //已创建(修改)
-        this.bxrayForm = data.bxrayForm
+        this.bxrayForm = data.formData
       }
 
     })

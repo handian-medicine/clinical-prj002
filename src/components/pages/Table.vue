@@ -39,11 +39,11 @@
         <template v-slot="scope">
           <el-button-group>
           <el-button type="btn-info" size="small" @click="openInfoForm(scope.$index, scope.row)">一般情况</el-button>
-          <el-button type="btn-summary" size="small" @click="openSummaryForm(scope.$index, scope.row)">病情概要</el-button>
-          <el-button type="btn-history"    size="small" @click="openHistoryForm(scope.$index, scope.row)">专科病史</el-button>
-          <el-button type="btn-experiment" size="small" @click="openExperimentForm(scope.$index, scope.row)">实验室检查</el-button>
-          <el-button type="btn-bxray" size="small" @click="openBxrayForm(scope.$index, scope.row)">B超</el-button>
-          <el-button type="btn-cure" size="small" @click="openCureForm(scope.$index, scope.row)">治疗</el-button>
+          <el-button type="btn-summary" size="small" @click="openSummaryForm(scope.$index, scope.row, 'summary')">病情概要</el-button>
+          <el-button type="btn-history"    size="small" @click="openSummaryForm(scope.$index, scope.row, 'history')">专科病史</el-button>
+          <el-button type="btn-experiment" size="small" @click="openSummaryForm(scope.$index, scope.row, 'experiment')">实验室检查</el-button>
+          <el-button type="btn-bxray" size="small" @click="openSummaryForm(scope.$index, scope.row, 'bxray')">B超</el-button>
+          <el-button type="btn-cure" size="small" @click="openSummaryForm(scope.$index, scope.row, 'cure')">治疗</el-button>
           </el-button-group>
           <el-button type="danger" size="small" style="margin-left:8px" @click="handleDel(scope.$index, scope.row)">删除</el-button>
         </template>
@@ -65,15 +65,15 @@
     <!-- 一般情况dialog -->
     <InfoForm ref="infoForm"></InfoForm>
     <!-- 病情概要dialog -->
-    <SummaryForm ref="summaryForm"></SummaryForm>
+    <SummaryForm ref="summary"></SummaryForm>
     <!-- 专科病史dialog -->
-    <HistoryForm ref="historyForm"></HistoryForm>
+    <HistoryForm ref="history"></HistoryForm>
     <!-- 实验室检查dialog -->
-    <ExperimentForm ref="experimentForm"></ExperimentForm>
+    <ExperimentForm ref="experiment"></ExperimentForm>
     <!-- B超dialog -->
-    <BxrayForm ref="bxrayForm"></BxrayForm>
+    <BxrayForm ref="bxray"></BxrayForm>
     <!-- 治疗dialog -->
-    <CureForm ref="cureForm"></CureForm>
+    <CureForm ref="cure"></CureForm>
 
     <!-- 新增信息dialog -->
     <AddPatient ref="addPatient" ></AddPatient>
@@ -86,7 +86,7 @@ import util from '@/common/js/util'
 // axios请求,向express做请求
 import {apiGetPatientsList, apiRemovePatient, apiSearchPatient, batchRemoveUser} from '@/api/api'
 // 请求各表单内容的api
-import {apiGetPatientInfoForm, apiGetPatientSummaryForm, apiGetPatientHistoryForm,
+import {apiGetPatientInfoForm, apiGetPatientDataForm, apiGetPatientHistoryForm,
         apiGetPatientExperimentForm, apiGetPatientBxrayForm, apiGetPatientCureForm } from '@/api/api'
 // 批量导入子组件
 import {AddPatient,InfoForm,SummaryForm,HistoryForm,ExperimentForm,BxrayForm,CureForm} from '@/components/forms'
@@ -204,78 +204,23 @@ export default {
       })
       .catch(() => {})
     },
-    openSummaryForm (index, row) {
+    openSummaryForm (index, row, formName) {
+      console.log('formName',formName)
       // 如果summary表未创建,不需要请求后端,直接显示空表
-      if (row.summary==null) {
+      if (row[formName]==null) {
         console.log('创建流程')
         // 传一个创建此summary的url进去,这个url是info的url
-        this.$refs.summaryForm.$emit("openEvent", {exist:false, summaryForm:{info:row.url} } )
+        this.$refs[formName].$emit("openEvent", {exist:false, formData:{info:row.url}, formName:formName } )
       // 如果summary表已创建,需要请求后端,拿到数据
       } else {
         console.log('修改流程')
         // 此时当前患者的summary已经存在
-        console.log('row.summary',row.summary)
-        let para = {page: this.page, url: row.summary}// ,formName:'summary'}
-        apiGetPatientSummaryForm(para)
+        console.log('row[formName]',row[formName])
+        let para = {page: this.page, url: row[formName]}
+        apiGetPatientDataForm(para)
         .then((res)=> {
           console.log('拿到的已创建的summary表',res.data)
-          this.$refs.summaryForm.$emit("openEvent", {exist:true, summaryForm:res.data})
-        })
-        .catch(() => {})
-      }
-    },
-    openHistoryForm (index, row) {
-      if (row.history==null) {
-        console.log('HistoryForm创建流程')
-        this.$refs.historyForm.$emit("openEvent", {exist:false, historyForm:{info:row.url} } )
-      } else {
-        console.log('HistoryForm修改流程')
-        let para = {page: this.page, url: row.history}
-        apiGetPatientHistoryForm(para)
-        .then((res)=> {
-          this.$refs.historyForm.$emit("openEvent", {exist:true, historyForm:res.data})
-        })
-        .catch(() => {})
-      }
-    },
-    openExperimentForm (index, row) {
-      if (row.experiment==null) {
-        console.log('ExperimentForm创建流程')
-        this.$refs.experimentForm.$emit("openEvent", {exist:false, experimentForm:{info:row.url} } )
-      } else {
-        console.log('ExperimentForm修改流程')
-        let para = {page: this.page, url: row.experiment}
-        apiGetPatientExperimentForm(para)
-        .then((res)=> {
-          this.$refs.experimentForm.$emit("openEvent", {exist:true, experimentForm:res.data})
-        })
-        .catch(() => {})
-      }
-    },
-    openBxrayForm (index, row) {
-      if (row.bxray==null) {
-        console.log('BxrayForm创建流程')
-        this.$refs.bxrayForm.$emit("openEvent", {exist:false, bxrayForm:{info:row.url} } )
-      } else {
-        console.log('BxrayForm修改流程')
-        let para = {page: this.page, url: row.bxray}
-        apiGetPatientBxrayForm(para)
-        .then((res)=> {
-          this.$refs.bxrayForm.$emit("openEvent", {exist:true, bxrayForm:res.data})
-        })
-        .catch(() => {})
-      }
-    },
-    openCureForm (index, row) {
-      if (row.cure==null) {
-        console.log('CureForm创建流程')
-        this.$refs.cureForm.$emit("openEvent", {exist:false, cureForm:{info:row.url} } )
-      } else {
-        console.log('CureForm修改流程')
-        let para = {page: this.page, url: row.cure}
-        apiGetPatientCureForm(para)
-        .then((res)=> {
-          this.$refs.cureForm.$emit("openEvent", {exist:true, cureForm:res.data})
+          this.$refs[formName].$emit("openEvent", {exist:true, formData:res.data})
         })
         .catch(() => {})
       }

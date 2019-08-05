@@ -1,14 +1,10 @@
-const express = require("express");
-const router = express.Router();
+const express = require("express")
+const router = express.Router()
 
-const user = require('./user');
-const login = require('./login');
+const prj001 = require('./prj001/index')
+const prj002 = require('./prj002/index')
 
-router.use('/user',user)
-router.use('/login',login)
+router.use('/prj001',prj001)
+router.use('/prj002',prj002)
 
-// 重定向
-router.get('/',function(req,res){
-    res.redirect('/login');
-});
 module.exports = router

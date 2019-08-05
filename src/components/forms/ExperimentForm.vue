@@ -20,7 +20,7 @@
   </el-dialog>
 </template>
 <script>
-import { apiUpdatePatientExperimentForm, apiCreatePatientExperimentForm } from '@/api/api'
+import { apiUpdatePatientDataForm, apiCreatePatientDataForm } from '@/api/api'
 export default {
   name:'ExperimentForm',
   data() {
@@ -54,11 +54,12 @@ export default {
       },
       dialogVisible: false,
       exist: true,
+      formName:''
     }
   },
   methods: {
     updateExperimentForm () {
-      apiUpdatePatientExperimentForm(this.experimentForm)
+      apiUpdatePatientDataForm({formData:this.experimentForm,formName:this.formName})
       .then((res)=> {
         this.resetDialog()
         this.$message({message: '提交成功',type: 'success'})
@@ -69,7 +70,7 @@ export default {
       )
     },
     createExperimentForm () {
-      apiCreatePatientExperimentForm(this.experimentForm)
+      apiCreatePatientDataForm({formData:this.experimentForm,formName:this.formName})
       .then((res)=> {
         this.resetDialog()
         this.$message({message: '提交成功',type: 'success'})
@@ -87,12 +88,13 @@ export default {
     this.$on("openEvent", (data)=>{
       this.dialogVisible = true
       this.exist = data.exist
+      this.formName = data.formName
       if (!data.exist) {
         //未创建
-        this.experimentForm.info = data.experimentForm.info
+        this.experimentForm.info = data.formData.info
       } else {
         //已创建(修改)
-        this.experimentForm = data.experimentForm
+        this.experimentForm = data.formData
       }
     })
   }

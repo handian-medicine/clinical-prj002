@@ -1,7 +1,7 @@
 const express = require("express");
 const request = require("request");
 const router = express.Router();
-var myConst = require("./const");
+var myConst = require("../const");
 // let html = require('fs').readFileSync(__dirname + '/../views/index.html')
 
 /* 返回的token信息,这一段信息不会出现在实际代码中,会存储在cookie里。每隔4小时access_token要重新获取
