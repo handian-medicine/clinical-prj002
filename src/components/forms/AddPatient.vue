@@ -1,9 +1,12 @@
 <template>
-  <el-dialog title="一般情况" :visible.sync="dialogVisible" :close-on-click-modal="false" width="70%">
+  <el-dialog title="一般情况"
+            :visible.sync="dialogVisible"
+            :rules="rules"
+            :close-on-click-modal="false" width="70%">
 
-    <el-form ref="infoForm" :model="patientInfo" label-width="130px" label-position="left">
+    <el-form ref="patientInfo" :model="patientInfo" label-width="130px" label-position="left">
 
-      <el-form-item label="姓名">
+      <el-form-item label="姓名" prop="name">
         <el-input v-model="patientInfo.name"></el-input>
       </el-form-item>
 
@@ -47,14 +50,27 @@ export default {
     name:'AddPatient',
     data () {
       return {
-        patientInfo: {name:'测试', phone:'13110983476', hospital:'汉典医院', birth:'1980-09', career:'个体'},
+        patientInfo: {name:'', phone:'13110983476', hospital:'汉典医院', birth:'1980-09', career:'个体'},
         careerSelection: ["学生","个体","农民","军人","工人","财会人员","技术人员","服务业","科教文卫","行政管理","无业","其它"],
-        dialogVisible: false
+        dialogVisible: false,
+        rules:{
+          name: [
+            { required: true, message: '请输入活动名称', trigger: 'blur' }
+          ],
+        }
       }
 
     },
     methods: {
-      addPatient () {
+      addPatient (formName) {
+        this.$refs.patientInfo.validate( (valid) => {
+          if (valid) {
+            alert('submit!');
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
         let para = {
           patientInfo: this.patientInfo
         }

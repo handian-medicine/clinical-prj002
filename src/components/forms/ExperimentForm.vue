@@ -1,12 +1,12 @@
 <template>
   <el-dialog title="实验室检查"
             :visible.sync="dialogVisible"
-            :close-on-click-modal="false" width="100%"
+            :close-on-click-modal="false" width="100%" center
             @close='resetDialog'>
     <el-form ref="experimentForm" :model="experimentForm" label-width="210px" label-position="left">
       <el-form-item v-for="(val, key) in mydata" :key="key" :label="val">
         <!-- 这里应该提供度量单位 -->
-        <el-input v-model="experimentForm[key]"></el-input>
+        <el-input v-model="experimentForm[key]" type="number" min="0"></el-input>
       </el-form-item>
 
       <el-form-item>

@@ -1,7 +1,7 @@
 <template>
   <el-dialog title="病情概要"
             :visible.sync="dialogVisible"
-            :close-on-click-modal="false" width="100%"
+            :close-on-click-modal="false" width="100%" center
             @close='resetDialog'>
     <el-form ref="summaryForm" :model="summaryForm" label-width="130px" label-position="left">
 

@@ -7,10 +7,10 @@
           <el-input v-model="search[key]" :placeholder="searchName[key]"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="searchPatient">查询</el-button>
+          <el-button type="primary" icon="el-icon-search" @click="searchPatient">查询</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="getPatients">重置</el-button>
+          <el-button type="primary" icon="el-icon-refresh-right" @click="getPatients">重置</el-button>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="addPatient">新增</el-button>
@@ -27,26 +27,23 @@
       </el-table-column>
       <el-table-column prop="name" label="姓名" width="90" sortable>
       </el-table-column>
-      <el-table-column prop="birth" label="出生日期" width="100" sortable>
+      <el-table-column prop="birth" label="出生日期" width="100">
       </el-table-column>
-      <!-- <el-table-column prop="age" label="年龄" width="100" sortable>
-      </el-table-column> -->
-      <el-table-column prop="phone" label="手机号码" width="110" sortable>
+      <el-table-column prop="phone" label="手机号码" width="110">
       </el-table-column>
-      <el-table-column prop="hospital" label="就诊医院" width="150" sortable>
+      <el-table-column prop="hospital" label="就诊医院" width="150">
       </el-table-column>
-      <el-table-column prop="career" label="职业" min-width="90" sortable>
+      <el-table-column prop="career" label="职业" min-width="90">
       </el-table-column>
-      <el-table-column label="操作" width="610">
+      <el-table-column label="操作" width="550">
         <template v-slot="scope">
           <el-button-group>
-          <el-button type="primary" size="small" @click="openInfoForm(scope.$index, scope.row)">一般情况</el-button>
-          <el-button type="success" size="small" @click="openSummaryForm(scope.$index, scope.row)">病情概要</el-button>
-          <el-button type="info"    size="small" @click="openHistoryForm(scope.$index, scope.row)">专科病史</el-button>
-          <el-button type="warning" size="small" @click="openExperimentForm(scope.$index, scope.row)">实验室检查</el-button>
-          <el-button type="primary" size="small" @click="openBxrayForm(scope.$index, scope.row)">B超</el-button>
-          <el-button type="success" size="small" @click="openCureForm(scope.$index, scope.row)">治疗</el-button>
-          <!-- <el-button size="small" style="background:purple">治疗</el-button> -->
+          <el-button type="btn-info" size="small" @click="openInfoForm(scope.$index, scope.row)">一般情况</el-button>
+          <el-button type="btn-summary" size="small" @click="openSummaryForm(scope.$index, scope.row)">病情概要</el-button>
+          <el-button type="btn-history"    size="small" @click="openHistoryForm(scope.$index, scope.row)">专科病史</el-button>
+          <el-button type="btn-experiment" size="small" @click="openExperimentForm(scope.$index, scope.row)">实验室检查</el-button>
+          <el-button type="btn-bxray" size="small" @click="openBxrayForm(scope.$index, scope.row)">B超</el-button>
+          <el-button type="btn-cure" size="small" @click="openCureForm(scope.$index, scope.row)">治疗</el-button>
           </el-button-group>
           <el-button type="danger" size="small" style="margin-left:8px" @click="handleDel(scope.$index, scope.row)">删除</el-button>
         </template>
@@ -55,15 +52,11 @@
 
     <!--下方工具条-->
     <el-col :span="24" class="toolbar">
-      <el-button type="danger" @click="batchRemove" :disabled="this.sels.length===0">批量删除</el-button>
-      <span style="margin-left:100px">共{{totalNum}}条</span>
-      <el-pagination v-show="pagination_flag" layout="prev, pager, next, jumper"
-                    @current-change="handleListPagination"
-                    :page-size="10" :total="totalNum"
-                    style="float:right;">
-      </el-pagination>
-      <el-pagination v-show="!pagination_flag" layout="prev, pager, next, jumper"
-                    @current-change="handleSearchPagination"
+      <!-- <el-button type="danger" @click="batchRemove" :disabled="this.sels.length===0">批量删除</el-button> -->
+      <!-- v-on绑定的函数加括号和不加括号有区别,如果加括号要达到和不加括号的效果,需要传$event参数,然后跟函数自定义的参数 -->
+      <!-- v-on绑定的内容有两种Function | Inline Statement,一旦函数名跟了() 这时Function就变成了Inline Statement-->
+      <el-pagination layout="total, prev, pager, next, jumper"
+                    @current-change="pagination_flag ? handleListPagination($event,page) : handleSearchPagination($event,search_page)"
                     :page-size="10" :total="totalNum"
                     style="float:right;">
       </el-pagination>
@@ -297,5 +290,32 @@ export default {
 </script>
 
 <style scoped>
-
+.el-button--btn-info {
+  background:#a8d8ea;
+  border:1px solid #a8d8ea
+}
+.el-button--btn-summary {
+  background:#aa96da;
+  border:1px solid #aa96da
+}
+.el-button--btn-history {
+  background:#fcbad3;
+  border:1px solid #fcbad3
+}
+.el-button--btn-experiment {
+  background:#ffffd2;
+  border:1px solid #ffffd2
+}
+.el-button--btn-bxray {
+  background:#c7f0db;
+  border:1px solid #c7f0db
+}
+.el-button--btn-cure {
+  background:#d7d1c9;
+  border:1px solid #d7d1c9
+}
+.el-button--myinfo {
+background:red;
+border:1px solid red;
+}
 </style>

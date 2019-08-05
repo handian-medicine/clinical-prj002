@@ -48,7 +48,8 @@ export default {
             let { msg, code, user } = res
             if (code !== 200) {
               this.$message({
-                message: msg + ' 错误码 ' + code,
+                // message: msg + ' 错误码 ' + code,
+                message: msg + ' 密码或用户名错误',
                 type: 'error'
               })
             } else {

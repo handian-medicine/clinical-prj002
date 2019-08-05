@@ -1,7 +1,7 @@
 <template>
   <el-dialog title="B超"
-            :visible.sync="dialogVisible" 
-            :close-on-click-modal="false" width="100%" 
+            :visible.sync="dialogVisible"
+            :close-on-click-modal="false" width="100%" center
             @close='resetDialog'
             >
     <el-form ref="bxrayForm" :model="bxrayForm" label-width="140px" label-position="right">
@@ -147,7 +147,7 @@
       </div>
 
       <div>
-        <h3>2、右卵巢</h3>
+        <h3>3、右卵巢</h3>
         <el-form-item label="大小">
             <el-col :sm="12" :md="6" :lg="6">
               <el-input v-model="bxrayForm.you_chang" type="number" min="0">

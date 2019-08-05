@@ -1,9 +1,9 @@
 <template>
   <el-dialog title="治疗" 
             :visible.sync="dialogVisible" 
-            :close-on-click-modal="false" width="100%" 
+            :close-on-click-modal="false" width="100%" center
             @close='resetDialog'>
-    <el-form ref="historyForm" :model="cureForm" label-width="auto" label-position="left">
+    <el-form ref="cureForm" :model="cureForm" label-width="auto" label-position="left">
 
       <el-form-item label="中西医结合治疗">
         <el-switch v-model="cureForm.is_jiehe" active-text="是" inactive-text="否"></el-switch>
@@ -41,32 +41,30 @@
           <h4>(3)中成药</h4>
           <el-form-item label="是否使用中成药">
             <el-switch v-model="cureForm.zhongcheng" active-text="是" inactive-text="否"></el-switch>
-          </el-form-item>
-          <el-form-item label="具体药物">
-            <el-input v-model="cureForm.zhongcheng_juti"></el-input>
+            <el-input v-model="cureForm.zhongcheng_juti" v-show="cureForm.zhongcheng" placeholder="具体药物"></el-input>
           </el-form-item>
         </div>
         <div>
           <h3>西医治疗</h3>
           <el-form-item label="高雄激素血症的治疗">
             <el-switch v-model="cureForm.gaoxiong" active-text="是" inactive-text="否"></el-switch>
-            <el-input v-model="cureForm.gaoxiong_juti" placeholder="具体药物"></el-input>
+            <el-input v-model="cureForm.gaoxiong_juti" v-show="cureForm.gaoxiong" placeholder="具体药物"></el-input>
           </el-form-item>
           <el-form-item label="高胰岛素血症的治疗">
             <el-switch v-model="cureForm.yidao" active-text="是" inactive-text="否"></el-switch>
-            <el-input v-model="cureForm.yidao_juti" placeholder="具体药物"></el-input>
+            <el-input v-model="cureForm.yidao_juti" v-show="cureForm.yidao" placeholder="具体药物"></el-input>
           </el-form-item>
           <el-form-item label="调周治疗">
             <el-switch v-model="cureForm.tiaozhou" active-text="是" inactive-text="否"></el-switch>
-            <el-input v-model="cureForm.tiaozhou_juti" placeholder="具体药物"></el-input>
+            <el-input v-model="cureForm.tiaozhou_juti" v-show="cureForm.tiaozhou" placeholder="具体药物"></el-input>
           </el-form-item>
           <el-form-item label="促排卵治疗">
             <el-switch v-model="cureForm.pailuan" active-text="是" inactive-text="否"></el-switch>
-            <el-input v-model="cureForm.pailuan_juti" placeholder="具体药物"></el-input>
+            <el-input v-model="cureForm.pailuan_juti" v-show="cureForm.pailuan" placeholder="具体药物"></el-input>
           </el-form-item>
           <el-form-item label="手术治疗">
             <el-switch v-model="cureForm.shoushu" active-text="是" inactive-text="否"></el-switch>
-            <el-input v-model="cureForm.shoushu_juti" placeholder="具体手术方式"></el-input>
+            <el-input v-model="cureForm.shoushu_juti" v-show="cureForm.shoushu" placeholder="具体手术方式"></el-input>
           </el-form-item>
           <el-form-item label="其他治疗">
             <el-input v-model="cureForm.gaoxiong_juti"></el-input>

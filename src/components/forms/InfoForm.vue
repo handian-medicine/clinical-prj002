@@ -1,6 +1,9 @@
 <template>
-  <el-dialog title="一般情况" :visible.sync="dialogVisible" :close-on-click-modal="false" width="100%">
-    <el-form ref="infoForm" :model="infoForm" label-width="130px" label-position="left">
+  <el-dialog title="一般情况"
+            :visible.sync="dialogVisible"
+            :close-on-click-modal="false"
+            width="100%" center>
+    <el-form ref="infoForm" :model="infoForm" label-width="130px" label-position="right">
       <el-form-item label="患者姓名">
         <el-input v-model="infoForm.name"></el-input>
         <!-- <el-input v-model="infoForm.name"><template slot="prepend">患者姓名</template></el-input> -->
@@ -21,7 +24,7 @@
       </el-form-item>
 
       <el-form-item label="特殊工作环境">
-        <el-checkbox v-for="item in specialCheckbox" :key="item.content" :label="item.content" v-model="infoForm[item.name]">
+        <el-checkbox v-for="(val, key) in specialCheckbox" :key="key" :label="val" v-model="infoForm[key]">
         </el-checkbox>
       </el-form-item>
 
@@ -30,47 +33,60 @@
       </el-form-item>
 
       <el-form-item label="饮食偏好">
-        <el-checkbox v-for="item in dietCheckbox" :key="item.content" :label="item.content" v-model="infoForm[item.name]">
+        <el-checkbox v-for="(val, key) in dietCheckbox" :key="key" :label="val" v-model="infoForm[key]">
         </el-checkbox>
+        <el-input v-model="infoForm.yinshi_qita" placeholder="其他"></el-input>
       </el-form-item>
 
       <el-form-item label="身高">
-        <el-input v-model="infoForm.height"></el-input>
+        <el-input v-model="infoForm.height" type="number" min="0">
+            <template slot="append">cm</template>
+        </el-input>
       </el-form-item>
 
       <el-form-item label="体重">
-        <el-input v-model="infoForm.weight"></el-input>
+        <el-input v-model="infoForm.weight" type="number" min="0">
+          <template slot="append">kg</template>
+        </el-input>
       </el-form-item>
 
       <el-form-item label="臀围">
-        <el-input v-model="infoForm.hipline"></el-input>
+        <el-input v-model="infoForm.hipline" type="number" min="0">
+          <template slot="append">cm</template>
+        </el-input>
       </el-form-item>
 
       <el-form-item label="腰围">
-        <el-input v-model="infoForm.waistline"></el-input>
+        <el-input v-model="infoForm.waistline" type="number" min="0">
+          <template slot="append">cm</template>
+        </el-input>
       </el-form-item>
 
       <el-form-item label="多毛评分">
-        <el-input v-model="infoForm.hairy"></el-input>
+        <el-input v-model="infoForm.hairy" type="number" min="0"></el-input>
       </el-form-item>
 
       <el-form-item label="患者是否有痤疮">
         <el-switch v-model="infoForm.acne" active-text="是" inactive-text="否"></el-switch>
-        <div v-if="infoForm.acne">
-          <el-form-item label="请描述具体部位">
-            <el-input v-model="infoForm.acne_part"></el-input>
-          </el-form-item>
-          <el-form-item label="评分">
-            <el-slider v-model="infoForm.acne_score" :max="5" show-stops></el-slider>
-          </el-form-item>
+        <div v-show="infoForm.acne">
+          <el-col :sm="24" :md="12">
+            <el-input v-model="infoForm.acne_part">
+              <template slot="prepend">请描述具体部位</template>
+            </el-input>
+          </el-col>
+          <el-col :sm="24" :md="12">
+            <el-input v-model="infoForm.acne_score" type="number" min="0" max="5">
+              <template slot="prepend">评分</template>
+            </el-input>
+          </el-col>
             <el-table :data="acneData" style="width: 100%">
               <el-table-column prop="field1" label="评分"></el-table-column>
               <el-table-column prop="field2" label="类型"></el-table-column>
-              <el-table-column prop="field3" label="地址"></el-table-column>
+              <el-table-column prop="field3" label="部位"></el-table-column>
             </el-table>
         </div>
       </el-form-item>
-
+这里
       <el-form-item label="患者是否有皮脂腺分泌过旺">
         <el-switch v-model="infoForm.glandula" active-text="是" inactive-text="否"></el-switch>
         <div v-if="infoForm.glandula">
@@ -78,9 +94,11 @@
             <el-input v-model="infoForm.glandula_part"></el-input>
           </el-form-item>
           <el-form-item label="分泌过旺程度">
-            <el-radio v-model="infoForm.glandula_level" label="轻">轻</el-radio>
-            <el-radio v-model="infoForm.glandula_level" label="中">中</el-radio>
-            <el-radio v-model="infoForm.glandula_level" label="重">重</el-radio>
+            <el-radio-group v-model="infoForm.glandula_level">
+              <el-radio label="轻">轻</el-radio>
+              <el-radio label="中">中</el-radio>
+              <el-radio label="重">重</el-radio>
+            </el-radio-group>
           </el-form-item>
         </div>
       </el-form-item>
@@ -92,9 +110,11 @@
             <el-input v-model="infoForm.male_part"></el-input>
           </el-form-item>
           <el-form-item label="脱发程度">
-            <el-radio v-model="infoForm.male_level" label="轻">轻</el-radio>
-            <el-radio v-model="infoForm.male_level" label="中">中</el-radio>
-            <el-radio v-model="infoForm.male_level" label="重">重</el-radio>
+            <el-radio-group v-model="infoForm.male_level">
+              <el-radio label="轻">轻</el-radio>
+              <el-radio label="中">中</el-radio>
+              <el-radio label="重">重</el-radio>
+            </el-radio-group>
           </el-form-item>
         </div>
       </el-form-item>
@@ -121,13 +141,8 @@ export default {
                         "毛难族","仡佬族","锡伯族","阿昌族","普米族","塔吉克族","怒族","乌孜别克族","俄罗斯族","鄂温克族",
                         "崩龙族","保安族","裕固族","京族","塔塔尔族","独龙族","鄂伦春族","赫哲族","门巴族","珞巴族","基诺族","其它"],
       careerSelection: ["学生","个体","农民","军人","工人","财会人员","技术人员","服务业","科教文卫","行政管理","无业","其它"],
-      specialCheckbox: [{content:"高温", name:"special_gaowen"},{content:"低温", name:"special_diwen"},{content:"夜班", name:"special_yeban"},
-                        {content:"噪声", name:"special_zao"},{content:"辐射", name:"special_fu"},{content:"化工污染", name:"special_hua"},
-                        {content:"剧烈运动", name:"special_ju"},{content:"汽油", name:"special_qi"},{content:"高空", name:"special_kong"},
-                        {content:"无", name:"special_wu"}],
-      dietCheckbox:    [{content:"无特殊",name:"yinshi_wuteshu"},{content:"素食",name:"yinshi_sushi"},{content:"酸",name:"yinshi_suan"},
-                        {content:"咸",name:"yinshi_xian"},{content:"辛辣",name:"yinshi_xinla"},{content:"油",name:"yinshi_you"},
-                        {content:"生冷",name:"yinshi_shengleng"},{content:"含咖啡因食物或饮品",name:"yinshi_cafei"},{content:"其他",name:"yinshi_qita"}],
+      specialCheckbox: {"special_gaowen":"高温","special_diwen":"低温","special_yeban":"夜班","special_zao":"噪声","special_fu":"辐射","special_hua":"化工污染","special_ju":"剧烈运动","special_qi":"汽油","special_kong":"高空","special_wu":"无"},
+      dietCheckbox:    {"yinshi_wuteshu":"无特殊","yinshi_sushi":"素食","yinshi_suan":"酸","yinshi_xian":"咸","yinshi_xinla":"辛辣","yinshi_you":"油","yinshi_shengleng":"生冷","yinshi_cafei":"含咖啡因食物或饮品"},
       acneData:[{field1: '0', field2: '无', field3: '无'},
                 {field1: '1', field2: '轻微', field3: '痤疮≥2mm，面部或躯干<10个'},
                 {field1: '2', field2: '轻', field3: '痤疮10-20个'},

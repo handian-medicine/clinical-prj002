@@ -2,11 +2,9 @@
   <el-row class="container">
     <!-- 头部栏 -->
     <el-col :span="24" class="header">
-      <el-col
-        :span="10"
-        class="logo"
-        :class="collapsed?'logo-collapse-width':'logo-width'"
-      >{{collapsed?'':sysName}}</el-col>
+      <el-col :span="10" class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">
+        {{collapsed?'':sysName}}
+      </el-col>
       <el-col :span="6">
         <div class="tools" @click.prevent="collapse">
           <i class="fa fa-align-justify"></i>
@@ -95,7 +93,7 @@
                   v-for="child in item.children"
                   :key="child.path"
                   class="el-menu-item"
-                  style="padding-left: 40px;"
+                  style="padding-left: 40px;background: #f2f2f2;"
                   :class="$route.path===child.path?'is-active':''"
                   @click="$router.push(child.path)"
                 >{{child.name}}</li>
@@ -299,7 +297,7 @@ export default {
       .collapsed {
         width: 60px;
 
-        .item {
+      .item {
           position: relative;
         }
 

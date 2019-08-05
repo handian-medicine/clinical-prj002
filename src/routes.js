@@ -6,6 +6,17 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      path: '*',
+      hidden: true,
+      redirect: { path: '/404' }
+    },
+    {
+      path: '/',
+      name: '',
+      redirect:'/login',
+      hidden: true //用户自定义属性,主要用来控制本条路由是否显示在菜单中
+    },
+    {
       path: '/login',
       component: () => import('@/components/Login.vue'),
       name: '',
@@ -20,11 +31,31 @@ export default new Router({
     {
       path: '/home',
       component: () => import('@/components/Home.vue'),
-      name: '',
+      name: 'List',
       iconCls: 'fa fa-address-card',
       leaf: false, //用户自定义属性,用来确定某条菜单是否还有下级菜单
       children: [
         { path: '/home/table', component: () => import('@/components/pages/Table.vue'), name: '数据列表' }
+      ]
+    },
+    {
+      path: '/home',
+      component: () => import('@/components/Home.vue'),
+      name: 'Charts',
+      iconCls: 'fa fa-bar-chart',
+      leaf: false,
+      children: [
+        { path: '/home/echarts', component: () => import('@/components/pages/Echarts.vue'), name: '数据分析' }
+      ]
+    },
+    {
+      path: '/home',
+      component: () => import('@/components/Home.vue'),
+      name: 'Test',
+      iconCls: 'fa fa-id-card-o',
+      leaf:false,
+      children: [
+        { path: '/home/vuex', component: () => import('@/components/pages/Vuex.vue'), name: 'Vuex' }
       ]
     },
     // {
@@ -39,30 +70,5 @@ export default new Router({
     //     { path: '/home/list', component: () => import('@/components/views/nav1/List.vue'), name: 'List' }
     //   ]
     // },
-    {
-      path: '/home',
-      component: () => import('@/components/Home.vue'),
-      name: '测试',
-      iconCls: 'fa fa-id-card-o',
-      leaf:true,
-      children: [
-        { path: '/home/vuex', component: () => import('@/components/pages/Vuex.vue'), name: 'Vuex' }
-      ]
-    },
-    {
-      path: '/home',
-      component: () => import('@/components/Home.vue'),
-      name: 'Charts',
-      iconCls: 'fa fa-bar-chart',
-      leaf: false,
-      children: [
-        { path: '/home/echarts', component: () => import('@/components/pages/Echarts.vue'), name: '数据分析' }
-      ]
-    },
-    {
-      path: '*',
-      hidden: true,
-      redirect: { path: '/404' }
-    }
   ]
 })
