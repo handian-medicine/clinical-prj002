@@ -29,6 +29,12 @@ export default new Router({
       hidden: true
     },
     {
+      path: '/home',
+      component: () => import('@/components/Home.vue'),
+      name: '',
+      hidden: true
+    },
+    {
       path: '/prj002',
       component: () => import('@/components/prj002/Prj002.vue'),
       name: 'List',

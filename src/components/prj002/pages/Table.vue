@@ -140,6 +140,7 @@ export default {
     },
     // 获取患者列表
     getPatients () {
+      this.search = {name: '', phone:'', hospital:'', birth:'', career:'', address:''}
       let para = {
         page: this.page
       }

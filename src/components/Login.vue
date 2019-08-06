@@ -2,8 +2,8 @@
   <el-form :model="loginForm" :rules="rules" ref="loginForm" label-position="left" label-width="0px"
           class="login-container">
     <h3 class="title">系统登录</h3>
-    <el-form-item prop="username">
-      <el-input type="text" v-model="loginForm.username" auto-complete="off" placeholder="账号"></el-input>
+    <el-form-item prop="email">
+      <el-input type="text" v-model="loginForm.email" auto-complete="off" placeholder="账号"></el-input>
     </el-form-item>
     <el-form-item prop="password">
       <el-input type="password" v-model="loginForm.password" auto-complete="off" placeholder="密码"></el-input>
@@ -23,11 +23,11 @@ export default {
     return {
       logining: false,
       loginForm: {
-        username: 'test03@handian.com',
+        email: 'test03@handian.com',
         password: 'asdf1234'
       },
       rules: {
-        username: [
+        email: [
           { required: true, message: '请输入账号', trigger: 'blur' }
         ],
         password: [
@@ -42,20 +42,20 @@ export default {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           this.logining = true
-          var loginParams = { username: this.loginForm.username, password: this.loginForm.password }
+          var loginParams = { email: this.loginForm.email, password: this.loginForm.password }
           apiLogin(loginParams).then(res => {
             this.logining = false
-            let { msg, code, user } = res
-            if (code !== 200) {
+            if (res.code !== 200) {
               this.$message({
                 // message: msg + ' 错误码 ' + code,
-                message: msg + ' 密码或用户名错误',
+                message: res.msg + ' 密码或用户名错误',
                 type: 'error'
               })
             } else {
               console.log("登录成功")
-              sessionStorage.setItem('user', JSON.stringify(user))
-              this.$router.push({ path: '/prj002/table' })
+              sessionStorage.setItem('user', JSON.stringify(res.user))
+              this.$router.push({ path: '/home' })
+              // this.$router.push({ path: '/prj002/table' })
             }
           })
         } else {

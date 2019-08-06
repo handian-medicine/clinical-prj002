@@ -157,8 +157,8 @@ export default {
       mydata:{
         first_time:["10岁以前","11岁以后","14岁以后","16岁以后"],
         normal:["21-25天","26-30天","31-35天"],
-        abnormal:["或1月多次","1-2个月1行","2-3个月1行","3-4个月1行","4-6个月1行","＞6个月1行"],
-        cyclicity_sum:["≤2天","3-7天","7日以上甚至半月"],
+        abnormal:["或1月多次","1-2个月1行","2-3个月1行","3-4个月1行","4-6个月1行",">6个月1行"],
+        cyclicity_sum:["≤2天","3-7天","7天以上甚至半月"],
         blood_cond:["≤5张卫生巾(日用)","6-10张卫生巾(日用)","11-19张卫生巾(日用)","≥20张卫生巾(日用或夜用)","几乎不用卫生巾,用护垫即可"],
         blood_color:["淡红","鲜红","暗红","紫红","紫黯","紫黑","褐色",],
         blood_quality:["正常","粘稠","清稀"],
@@ -201,7 +201,7 @@ export default {
   },
   methods: {
     updateHistoryForm () {
-      apiUpdatePatientDataForm({formData:this.historyForm,formName:this.formName})
+      apiUpdatePatientDataForm({formData:this.historyForm, formName:this.formName})
       .then((res)=> {
         this.resetDialog()
         this.$message({message: '提交成功',type: 'success'})

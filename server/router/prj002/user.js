@@ -84,7 +84,7 @@ router.get('/info', function(req, res, next) {
 
 // PATCH修改一般信息表
 router.post('/info', function(req, res, next) {
-  console.log('user.js PATCH修改一般信息表', req.body.params)
+  console.log('user.js PATCH修改一般信息表', req.body)
   var options = {
     url: req.body.url,
     form: req.body.infoForm,

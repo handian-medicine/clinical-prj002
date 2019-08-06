@@ -202,7 +202,7 @@ export default {
     if (user) {
       user = JSON.parse(user);
       console.log(user);
-      this.sysUserName = user.username || "";
+      this.sysUserName = user.email || "";
       this.sysUserAvatar = user.avatar || "";
     }
   }
