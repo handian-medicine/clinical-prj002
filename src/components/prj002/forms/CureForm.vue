@@ -1,6 +1,6 @@
 <template>
-  <el-dialog title="治疗" 
-            :visible.sync="dialogVisible" 
+  <el-dialog title="治疗" class="my-dialog"
+            :visible.sync="dialogVisible"
             :close-on-click-modal="false" width="100%" center
             @close='resetDialog'>
     <el-form ref="cureForm" :model="cureForm" label-width="auto" label-position="left">
@@ -72,12 +72,14 @@
         </div>
 
       </div>
-      <el-form-item>
-        <el-button type="primary" v-if="exist"  @click="updateCureForm">确定</el-button>
-        <el-button type="primary" v-else  @click="createCureForm">确定</el-button>
-        <el-button @click="dialogVisible=false">取消</el-button>
-      </el-form-item>
     </el-form>
+
+    <span slot="footer">
+      <el-button type="primary" v-if="exist"  @click="updateCureForm">确定</el-button>
+      <el-button type="primary" v-else  @click="createCureForm">确定</el-button>
+      <el-button @click="dialogVisible=false">取消</el-button>
+    </span>
+
   </el-dialog>
 </template>
 <script>

@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="病情概要"
+  <el-dialog title="病情概要" class="my-dialog"
             :visible.sync="dialogVisible"
             :close-on-click-modal="false" width="100%" center
             @close='resetDialog'>
@@ -41,12 +41,13 @@
 
       </el-form-item>
 
-      <el-form-item>
+    </el-form>
+    <span slot="footer">
         <el-button type="primary" v-if="exist"  @click="updateSummaryForm">确定</el-button>
         <el-button type="primary" v-else  @click="createSummaryForm">确定</el-button>
         <el-button @click="dialogVisible=false">取消</el-button>
-      </el-form-item>
-    </el-form>
+    </span>
+
   </el-dialog>
 </template>
 <script>

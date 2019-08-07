@@ -13,25 +13,25 @@
         <el-dropdown trigger="hover">
           <span class="el-dropdown-link userinfo-inner">
             <img src="@/assets/user.png" />
-            {{sysUserName}}
+            {{userinfo.user_name}}
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>我的消息</el-dropdown-item>
+            <el-dropdown-item>账户信息</el-dropdown-item>
             <el-dropdown-item>设置</el-dropdown-item>
-            <!-- <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item> -->
+            <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-col>
   </el-col>
   <el-col :span="24">
-    <el-table :data="myprojects" highlight-current-row style="width: 100%;" height="500"><!--height固定表头-->
+    <el-table :data="userinfo.myprojects" highlight-current-row style="width: 100%;" height="500"><!--height固定表头-->
       <el-table-column prop="name" label="项目名称" width="90">
       </el-table-column>
       <el-table-column prop="status" label="状态" width="90">
       </el-table-column>
       <el-table-column prop="linkurl" label="进入项目" width="90">
         <template v-slot="scope">
-          <el-button type="btn-info" size="small" @click="test(scope.$index, scope.row)">进入</el-button>
+          <el-button type="btn-info" size="small" @click="enterPrj(scope.$index, scope.row)">进入</el-button>
         </template>
       </el-table-column>
       <el-table-column prop="description" label="项目描述" width="90">
@@ -47,20 +47,34 @@ export default {
     name:"Home",
     data () {
         return {
-            myprojects:[],
-            sysName: "中医流调数据平台",
+            userinfo:{},
+            sysName: "中医妇科临床流调数据中心",
             collapsed: true,
-            sysUserName: "",
-            sysUserAvatar: "",
         }
     },
     methods: {
+        // 退出登录
+        logout: function() {
+          var _this = this; //这条语句是防止this指向当前函数,这样赋值_this就指向vm对象了
+          this.$confirm("确认退出吗?", "提示", {
+            type: "warning"
+          })
+            .then(() => {
+              sessionStorage.removeItem("user");
+              _this.$router.push("/login");
+            })
+            .catch(() => {});
+        },
         collapse: function() {
           this.collapsed = !this.collapsed;
         },
-        test (index, row) {
-            // console.log(row.linkurl)
-            apiPrj002()
+        enterPrj (index, row) {
+            const user = JSON.parse(sessionStorage.getItem("user"))
+            let params = {
+                email:user.email,
+                password:user.password
+            }
+            apiPrj002(params)
             .then( (res) => {
                 this.$router.push(`${row.linkurl}table`)
             })
@@ -69,18 +83,17 @@ export default {
         }
     },
     created () {
-        var user = sessionStorage.getItem("user")
-        console.log("Home->user",user)
+        const user = JSON.parse(sessionStorage.getItem("user"))
         let params = {
             email:user.email,
             password:user.password
         }
         apiHome(params)
         .then( (res)=> {
-            this.myprojects = res.data.userinfo.myprojects
+          sessionStorage.setItem('userinfo', JSON.stringify(res.data.userinfo))
+          this.userinfo = res.data.userinfo
         })
         .catch()
-        //  sessionStorage.setItem('user', JSON.stringify(user))
     }
 }
 </script>

@@ -60,4 +60,19 @@ export default {
   .fade-leave-active {
     opacity: 0;
   }
+
+  //dialog头部样式
+  .my-dialog {
+    .el-dialog__title {
+      color:#f2f2f2;
+    };
+    .el-dialog__header {
+      // margin: 0px auto 40px auto;
+      background-color: cornflowerblue;
+      font-size:1.5em
+    };
+    .el-icon-close:before{
+      color:black;
+    }
+  }
 </style>

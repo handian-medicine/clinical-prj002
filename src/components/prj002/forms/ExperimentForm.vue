@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="实验室检查"
+  <el-dialog title="实验室检查" class="my-dialog"
             :visible.sync="dialogVisible"
             :close-on-click-modal="false" width="100%" center
             @close='resetDialog'>
@@ -9,13 +9,13 @@
         <el-input v-model="experimentForm[key]" type="number" min="0"></el-input>
       </el-form-item>
 
-      <el-form-item>
-        <el-button type="primary" v-if="exist"  @click="updateExperimentForm">确定</el-button>
-        <el-button type="primary" v-else  @click="createExperimentForm">确定</el-button>
-        <el-button @click="dialogVisible=false">取消</el-button>
-      </el-form-item>
-
     </el-form>
+
+    <span slot="footer">
+      <el-button type="primary" v-if="exist"  @click="updateExperimentForm">确定</el-button>
+      <el-button type="primary" v-else  @click="createExperimentForm">确定</el-button>
+      <el-button @click="dialogVisible=false">取消</el-button>
+    </span>
 
   </el-dialog>
 </template>

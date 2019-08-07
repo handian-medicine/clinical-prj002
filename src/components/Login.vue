@@ -1,4 +1,6 @@
 <template>
+<!-- <div> -->
+  <!-- <h1 class="title">中医数据平台</h1> -->
   <el-form :model="loginForm" :rules="rules" ref="loginForm" label-position="left" label-width="0px"
           class="login-container">
     <h3 class="title">系统登录</h3>
@@ -10,10 +12,12 @@
     </el-form-item>
     <el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox>
     <el-form-item style="width:100%;">
-      <el-button type="primary" style="width:100%;" @click.native.prevent="handleSubmit" :loading="logining">登录
+      <el-button type="primary" style="width:100%;" @click="handleSubmit" :loading="logining">登录
+      <!-- <el-button type="primary" style="width:100%;" @click.native.prevent="handleSubmit" :loading="logining">登录 -->
       </el-button>
     </el-form-item>
   </el-form>
+<!-- </div> -->
 </template>
 
 <script>
@@ -42,8 +46,8 @@ export default {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           this.logining = true
-          var loginParams = { email: this.loginForm.email, password: this.loginForm.password }
-          apiLogin(loginParams).then(res => {
+          var params = { email: this.loginForm.email, password: this.loginForm.password }
+          apiLogin(params).then(res => {
             this.logining = false
             if (res.code !== 200) {
               this.$message({
@@ -53,11 +57,13 @@ export default {
               })
             } else {
               console.log("登录成功")
+              // sessionStorage 这一行务必写在跳转页面前面!!!!!! 注意使用JSON.stringify()
               sessionStorage.setItem('user', JSON.stringify(res.user))
               this.$router.push({ path: '/home' })
               // this.$router.push({ path: '/prj002/table' })
             }
           })
+
         } else {
           console.log('error submit!!')
           return false

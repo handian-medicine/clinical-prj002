@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="一般情况"
+  <el-dialog title="一般情况" class="my-dialog"
             :visible.sync="dialogVisible"
             :close-on-click-modal="false"
             width="100%" center>
@@ -119,12 +119,12 @@
         </div>
       </el-form-item>
 
-      <el-form-item>
+    </el-form>
+    <span slot="footer">
         <el-button type="primary" @click="updateInfoForm">确定</el-button>
         <el-button @click="dialogVisible=false">取消</el-button>
-      </el-form-item>
+    </span>
 
-    </el-form>
   </el-dialog>
 </template>
 <script>

@@ -1,9 +1,9 @@
 <template>
-  <el-dialog title="专科病史"
+  <el-dialog title="专科病史" class="my-dialog"
             :visible.sync="dialogVisible"
             :close-on-click-modal="false" width="100%" center
             @close='resetDialog'>
-    <el-form ref="historyForm" :model="historyForm" label-width="120px" label-position="right">
+    <el-form ref="historyForm" :model="historyForm" label-width="130px" label-position="right">
 
       <el-form-item label="月经初潮年龄">
         <el-radio v-model="historyForm.first_time"
@@ -13,13 +13,16 @@
         <el-input v-model="historyForm.first_time_qita" placeholder="其他情况"></el-input>
       </el-form-item>
 
-      <el-form-item label="月经周期 尚规律">
+      <el-form-item label="月经周期是否规律">
+        <el-switch v-model="historyForm.is_normal" active-text="是" inactive-text="否"></el-switch>
+      </el-form-item>
+      <el-form-item v-show="historyForm.is_normal" label="尚规律">
         <el-radio v-model="historyForm.normal"
                   v-for="item in mydata.normal"
                   :key="item" :label="item">
         </el-radio>
       </el-form-item>
-      <el-form-item label="月经周期 不规律">
+      <el-form-item v-show="!historyForm.is_normal" label="不规律">
         <el-radio v-model="historyForm.abnormal"
                   v-for="item in mydata.abnormal"
                   :key="item" :label="item">
@@ -139,13 +142,13 @@
         </div>
       </el-form-item>
 
-      <el-form-item>
-        <el-button type="primary" v-if="exist"  @click="updateHistoryForm">确定</el-button>
-        <el-button type="primary" v-else  @click="createHistoryForm">确定</el-button>
-        <el-button @click="dialogVisible=false">取消</el-button>
-      </el-form-item>
-
     </el-form>
+
+    <span slot="footer">
+      <el-button type="primary" v-if="exist"  @click="updateHistoryForm">确定</el-button>
+      <el-button type="primary" v-else  @click="createHistoryForm">确定</el-button>
+      <el-button @click="dialogVisible=false">取消</el-button>
+    </span>
   </el-dialog>
 </template>
 <script>
@@ -156,6 +159,7 @@ export default {
     return {
       mydata:{
         first_time:["10岁以前","11岁以后","14岁以后","16岁以后"],
+        is_normal:true,
         normal:["21-25天","26-30天","31-35天"],
         abnormal:["或1月多次","1-2个月1行","2-3个月1行","3-4个月1行","4-6个月1行",">6个月1行"],
         cyclicity_sum:["≤2天","3-7天","7天以上甚至半月"],
@@ -175,7 +179,7 @@ export default {
       },
       historyForm:{
         first_time:'', first_time_qita:'',            //月经初潮年龄
-        normal:'', abnormal:'',                       //月经周期
+        is_normal:true, normal:'', abnormal:'',       //月经周期
         cyclicity_sum:'', cyclicity_sum_qita:'',      //行经天数
         blood_cond:'', blood_cond_qita:'',            //总出血量
         blood_color:'', blood_color_qita:'',          //出血颜色

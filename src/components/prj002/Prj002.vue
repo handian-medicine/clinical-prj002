@@ -17,7 +17,7 @@
             {{sysUserName}}
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>我的消息</el-dropdown-item>
+            <el-dropdown-item @click.native="getUserInfo">我的消息</el-dropdown-item>
             <el-dropdown-item>设置</el-dropdown-item>
             <!-- 这里的native不能删,native用来触发原生的事件,可以理解为把一个vue组件转化为一个普通的HTML标签 -->
             <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
@@ -25,6 +25,7 @@
         </el-dropdown>
       </el-col>
     </el-col>
+    <UserInfo ref="userInfo"></UserInfo>
     <el-col :span="24" class="main">
       <!-- 侧边栏 -->
       <aside :class="collapsed?'menu-collapsed':'menu-expanded'">
@@ -136,14 +137,15 @@
 </template>
 
 <script>
+import UserInfo from '@/components/prj002/UserInfo'
 export default {
   name:'Pjr002',
+  components:{UserInfo},
   data() {
     return {
-      sysName: "中医流调数据平台",
+      sysName: "中医妇科临床流调数据中心",
       collapsed: true,
       sysUserName: "",
-      sysUserAvatar: "",
     };
   },
   computed: {
@@ -163,6 +165,9 @@ export default {
     }
   },
   methods: {
+    getUserInfo() {
+      this.$refs['userInfo'].$emit("getUserEvent")
+    },
     onSubmit() {
       console.log("submit!");
     },
@@ -203,7 +208,6 @@ export default {
       user = JSON.parse(user);
       console.log(user);
       this.sysUserName = user.email || "";
-      this.sysUserAvatar = user.avatar || "";
     }
   }
 };
@@ -245,7 +249,7 @@ export default {
 
     .logo {
       height: 60px;
-      font-size: 19px;
+      font-size: 17px;
       padding-left: 20px;
       padding-right: 20px;
       border-color: rgba(238, 241, 146, 0.3);
@@ -264,7 +268,7 @@ export default {
     }
 
     .logo-width {
-      width: 230px;
+      width: $aside-width;
     }
 
     .logo-collapse-width {
@@ -288,8 +292,8 @@ export default {
     overflow: hidden;
 
     aside {
-      flex: 0 0 230px;
-      width: 230px;
+      flex: 0 0 $aside-width;
+      width: $aside-width;
       .el-menu {
         height: 100%;
       }
@@ -318,8 +322,8 @@ export default {
     }
 
     .menu-expanded {
-      flex: 0 0 230px;
-      width: 230px;
+      flex: 0 0 $aside-width;
+      width: $aside-width;
 
       .el-menu {
         /*打补丁的方式解决左侧菜单宽度显示不全*/

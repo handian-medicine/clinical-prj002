@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="B超"
+  <el-dialog title="B超" class="my-dialog"
             :visible.sync="dialogVisible"
             :close-on-click-modal="false" width="100%" center
             @close='resetDialog'
@@ -208,13 +208,13 @@
 
       </div>
 
-      <el-form-item>
+    </el-form>
+
+      <span slot="footer">
         <el-button type="primary" v-if="exist"  @click="updateBxrayForm">确定</el-button>
         <el-button type="primary" v-else  @click="createBxrayForm">确定</el-button>
         <el-button @click="dialogVisible=false">取消</el-button>
-      </el-form-item>
-
-    </el-form>
+      </span>
 
   </el-dialog>
 </template>
