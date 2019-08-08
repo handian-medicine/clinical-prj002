@@ -4,14 +4,6 @@ import axios from 'axios'
 let baseUrl = 'http://127.0.0.1:8080/api/api' //开发环境用
 // let baseUrl = '/api'
 
-
-// 登录
-export const apiLogin = params => { return axios.post(`${baseUrl}/login`, params).then(res => res.data) }
-//进入项目列表
-export const apiHome = params => { return axios.post(`${baseUrl}/home`, params) }
-//进入项目主页
-export const apiPrj002 = params => { return axios.post(`${baseUrl}/home/prj002`, params) }
-
 // 添加患者
 export const apiAddPatient = params => { return axios.post(`${baseUrl}/prj002/user/add`, params) }
 // 搜索患者

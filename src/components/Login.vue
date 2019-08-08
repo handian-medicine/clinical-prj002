@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { apiLogin } from '@/api/api'
+import { apiLogin } from '@/api/api-common'
 export default {
   data () {
     return {
@@ -51,7 +51,7 @@ export default {
             this.logining = false
             if (res.code !== 200) {
               this.$message({
-                // message: msg + ' 错误码 ' + code,
+                // message: msg + ' 错误码 ' + res.code,
                 message: res.msg + ' 密码或用户名错误',
                 type: 'error'
               })
@@ -60,7 +60,6 @@ export default {
               // sessionStorage 这一行务必写在跳转页面前面!!!!!! 注意使用JSON.stringify()
               sessionStorage.setItem('user', JSON.stringify(res.user))
               this.$router.push({ path: '/home' })
-              // this.$router.push({ path: '/prj002/table' })
             }
           })
 

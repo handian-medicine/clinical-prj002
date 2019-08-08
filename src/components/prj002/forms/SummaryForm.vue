@@ -51,7 +51,7 @@
   </el-dialog>
 </template>
 <script>
-import { apiUpdatePatientDataForm, apiCreatePatientDataForm } from '@/api/api'
+import { apiUpdatePatientDataForm, apiCreatePatientDataForm } from '@/api/api-prj002'
 export default {
   name:'SummaryForm',
   data() {

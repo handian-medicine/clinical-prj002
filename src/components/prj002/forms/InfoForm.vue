@@ -2,7 +2,7 @@
   <el-dialog title="一般情况" class="my-dialog"
             :visible.sync="dialogVisible"
             :close-on-click-modal="false"
-            width="100%" center>
+            width="90%" center>
     <el-form ref="infoForm" :model="infoForm" label-width="130px" label-position="right">
       <el-form-item label="患者姓名">
         <el-input v-model="infoForm.name"></el-input>
@@ -50,6 +50,12 @@
         </el-input>
       </el-form-item>
 
+      <el-form-item label="体重指数(BMI)">
+        <el-tag>
+          {{infoForm.weight2height = BMI }}kg/m<sup>2</sup>
+        </el-tag>
+      </el-form-item>
+
       <el-form-item label="臀围">
         <el-input v-model="infoForm.hipline" type="number" min="0">
           <template slot="append">cm</template>
@@ -60,6 +66,12 @@
         <el-input v-model="infoForm.waistline" type="number" min="0">
           <template slot="append">cm</template>
         </el-input>
+      </el-form-item>
+
+      <el-form-item label="腰臀比(WHR)">
+        <el-tag>
+          {{infoForm.waist2hip =  waist2hip }}
+        </el-tag>
       </el-form-item>
 
       <el-form-item label="多毛评分">
@@ -86,7 +98,7 @@
             </el-table>
         </div>
       </el-form-item>
-这里
+
       <el-form-item label="患者是否有皮脂腺分泌过旺">
         <el-switch v-model="infoForm.glandula" active-text="是" inactive-text="否"></el-switch>
         <div v-if="infoForm.glandula">
@@ -128,7 +140,7 @@
   </el-dialog>
 </template>
 <script>
-import { apiUpdatePatientInfoForm } from '@/api/api'
+import { apiUpdatePatientInfoForm } from '@/api/api-prj002'
 export default {
   name: "InfoForm",
   data() {
@@ -151,7 +163,32 @@ export default {
                 {field1: '5', field2: '囊性', field3: '炎性病损≥5mm'}],
       }
   },
+  computed:{
+    BMI () {
+      const flag = (this.infoForm.weight==undefined) || (this.infoForm.height==undefined) || (this.infoForm.weight==null) || (this.infoForm.height==null) || Number(this.infoForm.height)== 0
+      if (!flag) {
+        var bmi = 10000 * Number(this.infoForm.weight) / (Number(this.infoForm.height) * Number(this.infoForm.height))
+        return bmi.toFixed(1)
+      }
+      else {
+        return 0
+      }
+    },
+    waist2hip () {
+      const flag = (this.infoForm.waistline==undefined) || (this.infoForm.hipline==undefined) || (this.infoForm.waistline==null) || (this.infoForm.hipline==null) || Number(this.infoForm.hipline)== 0
+      if (!flag) {
+        var ratio = Number(this.infoForm.waistline) / Number(this.infoForm.hipline)
+        return ratio.toFixed(2)
+      }
+      else {
+        return 0
+      }
+    }
+  },
   methods: {
+    showmsg(message){
+      console.log(message)
+    },
     updateInfoForm () {
       let para = {
         url: this.infoForm.url,

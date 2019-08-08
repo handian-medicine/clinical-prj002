@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { apiAddPatient } from '@/api/api'
+import { apiAddPatient } from '@/api/api-prj002'
 export default {
     name:'AddPatient',
     data () {
@@ -56,7 +56,7 @@ export default {
             {required: true, message: '请输入姓名', trigger: 'blur' }
           ],
           phone: [
-            {required: true, pattern: /^1\d{10}$/, message: '请输入正确的手机号码',trigger: 'blur'}
+            {required: true, pattern: /^1\d{10}$/, message: '请输入11位手机号码',trigger: 'blur'}
           ],
           hospital:[{required: true, message: '请填写就诊医院名称'}],
           birth:   [{required: true, message: '请填写出生日期'}],

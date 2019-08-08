@@ -9,6 +9,12 @@
         <el-input v-model="experimentForm[key]" type="number" min="0"></el-input>
       </el-form-item>
 
+      <el-form-item label="胰岛素抵抗指数(HOMA-IR)">
+        <el-input type="number" min="0" v-model="HOMAIR" disabled></el-input>
+      </el-form-item>
+      <el-form-item label="胰岛素敏感指数(ISI)">
+        <el-input type="number" min="0" v-model="ISI" disabled></el-input>
+      </el-form-item>
     </el-form>
 
     <span slot="footer">
@@ -20,7 +26,7 @@
   </el-dialog>
 </template>
 <script>
-import { apiUpdatePatientDataForm, apiCreatePatientDataForm } from '@/api/api'
+import { apiUpdatePatientDataForm, apiCreatePatientDataForm } from '@/api/api-prj002'
 export default {
   name:'ExperimentForm',
   data() {
@@ -32,6 +38,7 @@ export default {
           check_luanpao:'',           //卵泡刺激素（FSH）
           check_xue:'',               //血清泌乳素（PRL）
           check_xuetang:'',           //空腹血糖（FPG）
+          check_kangmiao:'',          //抗苗勒氏测定（AMH
           check_yidaosu:'',           //空腹胰岛素（FINS）
           check_canxue:'',            //餐后30mins血糖（FPG）
           check_canyi:'',             //餐后30mins胰岛素（FINS）
@@ -41,7 +48,9 @@ export default {
           check_canyidao:'',          //餐后1200mins胰岛素（FINS）
           check_xuezhi:'',            //空腹血脂
           check_gaomizhi:'',          //空腹高密度脂蛋白
-          check_dimizhi:''            //空腹低密度脂蛋白
+          check_dimizhi:'',           //空腹低密度脂蛋白
+          yidaosu_dikang:'',          //胰岛素抵抗指数（HOMA-IR） （空腹血糖×空腹胰岛素）/22.5
+          yidaosu_mingan:''           //胰岛素敏感指数（ISI） 1/（空腹血糖×空腹胰岛素）
       },
       mydata:{
             'check_gaotong':'睾酮（T）','check_ci':'雌二醇（E2）','check_huangti':'黄体生成素（LH）',
@@ -57,6 +66,26 @@ export default {
       formName:''
     }
   },
+  computed:{
+    HOMAIR () {
+      const ratio = Number(this.experimentForm.check_xuetang) * Number(this.experimentForm.check_yidaosu) / 22.5
+      this.experimentForm.yidaosu_dikang = ratio.toFixed(2)
+      return ratio.toFixed(2)
+    },
+    ISI () {
+      const flag = (this.experimentForm.check_xuetang == undefined) || (this.experimentForm.check_yidaosu == undefined)
+                || (this.experimentForm.check_xuetang == null) || (this.experimentForm.check_yidaosu == null)
+                || Number(this.experimentForm.check_xuetang)== 0 || Number(this.experimentForm.check_yidaosu == 0)
+      if (!flag) {
+        const ratio = 1 / ( Number(this.experimentForm.check_xuetang) * Number(this.experimentForm.check_yidaosu) )
+        this.experimentForm.yidaosu_mingan = ratio.toFixed(5)
+        return ratio.toFixed(5)
+      } else {
+        this.experimentForm.yidaosu_mingan = 0
+        return 0
+      }
+    }
+  },
   methods: {
     updateExperimentForm () {
       apiUpdatePatientDataForm({formData:this.experimentForm,formName:this.formName})
@@ -66,8 +95,7 @@ export default {
         this.dialogVisible = false
         this.$parent.getPatients()
       })
-      .catch(
-      )
+      .catch()
     },
     createExperimentForm () {
       apiCreatePatientDataForm({formData:this.experimentForm,formName:this.formName})
@@ -77,8 +105,7 @@ export default {
         this.dialogVisible = false
         this.$parent.getPatients()
       })
-      .catch(
-      )
+      .catch()
     },
     resetDialog () {
       this.experimentForm = {}

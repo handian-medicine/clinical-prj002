@@ -63,13 +63,17 @@ export default {
 
   //dialog头部样式
   .my-dialog {
+    .el-dialog {
+      border-radius:12px;
+    }
     .el-dialog__title {
       color:#f2f2f2;
     };
     .el-dialog__header {
       // margin: 0px auto 40px auto;
       background-color: cornflowerblue;
-      font-size:1.5em
+      font-size:1.5em;
+      border-radius:12px 12px 0 0;
     };
     .el-icon-close:before{
       color:black;

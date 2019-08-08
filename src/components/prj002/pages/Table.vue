@@ -35,7 +35,7 @@
       </el-table-column>
       <el-table-column prop="career" label="职业" min-width="90">
       </el-table-column>
-      <el-table-column label="操作" width="550">
+      <el-table-column label="操作" width="610">
         <template v-slot="scope">
           <el-button-group>
           <el-button type="btn-info" size="small" @click="openInfoForm(scope.$index, scope.row)">一般情况</el-button>
@@ -43,6 +43,7 @@
           <el-button type="btn-history"    size="small" @click="openDataForm(scope.$index, scope.row, 'history')">专科病史</el-button>
           <el-button type="btn-experiment" size="small" @click="openDataForm(scope.$index, scope.row, 'experiment')">实验室检查</el-button>
           <el-button type="btn-bxray" size="small" @click="openDataForm(scope.$index, scope.row, 'bxray')">B超</el-button>
+          <el-button type="btn-clinical" size="small" @click="openDataForm(scope.$index, scope.row, 'clinical')">临床诊断</el-button>
           <el-button type="btn-cure" size="small" @click="openDataForm(scope.$index, scope.row, 'cure')">治疗</el-button>
           </el-button-group>
           <el-button type="danger" size="small" style="margin-left:8px" @click="handleDel(scope.$index, scope.row)">删除</el-button>
@@ -72,6 +73,8 @@
     <ExperimentForm ref="experiment"></ExperimentForm>
     <!-- B超dialog -->
     <BxrayForm ref="bxray"></BxrayForm>
+    <!-- 临床诊断dialog -->
+    <ClinicalForm ref="clinical"></ClinicalForm>
     <!-- 治疗dialog -->
     <CureForm ref="cure"></CureForm>
 
@@ -84,15 +87,14 @@
 <script>
 import util from '@/common/js/util'
 // axios请求,向express做请求
-import {apiGetPatientsList, apiRemovePatient, apiSearchPatient, batchRemoveUser} from '@/api/api'
+import {apiGetPatientsList, apiRemovePatient, apiSearchPatient, batchRemoveUser} from '@/api/api-prj002'
 // 请求各表单内容的api
-import {apiGetPatientInfoForm, apiGetPatientDataForm, apiGetPatientHistoryForm,
-        apiGetPatientExperimentForm, apiGetPatientBxrayForm, apiGetPatientCureForm } from '@/api/api'
+import {apiGetPatientInfoForm, apiGetPatientDataForm } from '@/api/api-prj002'
 // 批量导入子组件
-import {AddPatient,InfoForm,SummaryForm,HistoryForm,ExperimentForm,BxrayForm,CureForm} from '@/components/prj002/forms'
+import {AddPatient,InfoForm,SummaryForm,HistoryForm,ExperimentForm,BxrayForm,ClinicalForm,CureForm} from '@/components/prj002/forms'
 export default {
   name:'Table',
-  components:{AddPatient,InfoForm,SummaryForm,HistoryForm,ExperimentForm,BxrayForm,CureForm},
+  components:{AddPatient,InfoForm,SummaryForm,HistoryForm,ExperimentForm,BxrayForm,ClinicalForm,CureForm},
   data () {
     return {
       search: {
@@ -207,20 +209,20 @@ export default {
     },
     openDataForm (index, row, formName) {
       console.log('formName',formName)
-      // 如果summary表未创建,不需要请求后端,直接显示空表
+      // 如果DataForm表未创建,不需要请求后端,直接显示空表
       if (row[formName]==null) {
         console.log('创建流程')
-        // 传一个创建此summary的url进去,这个url是info的url
+        // 传一个创建此DataForm的url进去,这个url是info的url
         this.$refs[formName].$emit("openEvent", {exist:false, formData:{info:row.url}, formName:formName } )
-      // 如果summary表已创建,需要请求后端,拿到数据
+      // 如果DataForm表已创建,需要请求后端,拿到数据
       } else {
         console.log('修改流程')
-        // 此时当前患者的summary已经存在
+        // 此时当前患者的DataForm已经存在
         console.log('row[formName]',row[formName])
         let para = {page: this.page, url: row[formName]}
         apiGetPatientDataForm(para)
         .then((res)=> {
-          console.log('拿到的已创建的summary表',res.data)
+          console.log('拿到的已创建的DataForm表',res.data)
           this.$refs[formName].$emit("openEvent", {exist:true, formData:res.data})
         })
         .catch(() => {})
@@ -255,6 +257,10 @@ export default {
 .el-button--btn-bxray {
   background:#c7f0db;
   border:1px solid #c7f0db
+}
+.el-button--btn-clinical {
+  background:#41b6e6;
+  border:1px solid #41b6e6
 }
 .el-button--btn-cure {
   background:#d7d1c9;

@@ -1,6 +1,6 @@
 <template>
 <el-row class="container">
-  <el-col :span="24" class="header">
+  <!-- <el-col :span="24" class="header">
       <el-col :span="10" class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">
         {{collapsed?'':sysName}}
       </el-col>
@@ -22,7 +22,9 @@
           </el-dropdown-menu>
         </el-dropdown>
       </el-col>
-  </el-col>
+  </el-col> -->
+  <Header @headerEvent="ret=>(collapsed=ret)"></Header>
+
   <el-col :span="24">
     <el-table :data="userinfo.myprojects" highlight-current-row style="width: 100%;" height="500"><!--height固定表头-->
       <el-table-column prop="name" label="项目名称" width="90">
@@ -42,9 +44,12 @@
 </template>
 
 <script>
-import {apiHome,apiPrj002} from '@/api/api'
+import {apiHome,apiPrj002} from '@/api/api-common'
+import Header from '@/components/prj002/Header'
+
 export default {
     name:"Home",
+    components:{Header},
     data () {
         return {
             userinfo:{},
@@ -134,7 +139,7 @@ export default {
 
     .logo {
       height: 60px;
-      font-size: 19px;
+      font-size: 17px;
       padding-left: 20px;
       padding-right: 20px;
       border-color: rgba(238, 241, 146, 0.3);
@@ -153,7 +158,7 @@ export default {
     }
 
     .logo-width {
-      width: 230px;
+      width: $aside-width;
     }
 
     .logo-collapse-width {
@@ -176,39 +181,14 @@ export default {
     bottom: 0px;
     overflow: hidden;
 
-    aside {
-      flex: 0 0 230px;
-      width: 230px;
-      .el-menu {
-        height: 100%;
-      }
-
-      .collapsed {
-        width: 60px;
-
-      .item {
-          position: relative;
-        }
-
-        .submenu {
-          position: absolute;
-          top: 0;
-          left: 60px;
-          z-index: 99999;
-          height: auto;
-          display: none;
-        }
-      }
-    }
-
     .menu-collapsed {
       flex: 0 0 60px;
       width: 60px;
     }
 
     .menu-expanded {
-      flex: 0 0 230px;
-      width: 230px;
+      flex: 0 0 $aside-width;
+      width: $aside-width;
 
       .el-menu {
         /*打补丁的方式解决左侧菜单宽度显示不全*/
