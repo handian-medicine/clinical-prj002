@@ -35,46 +35,58 @@ export default new Router({
       hidden: true
     },
     {
-      path: '/prj002',
-      component: () => import('@/components/prj002/Prj002.vue'),
-      name: 'List',
-      iconCls: 'fa fa-address-card',
+      path: '/prj001',
+      component: () => import('@/components/prj001/Prj001.vue'),
+      name: 'Prj001',
+      iconCls: 'fa fa-address-card',  //用户自定义属性
       leaf: false, //用户自定义属性,用来确定某条菜单是否还有下级菜单
       children: [
-        { path: '/prj002/table', component: () => import('@/components/prj002/pages/Table.vue'), name: '数据列表' }
+        { path: '/prj001/table',
+          name: '数据列表',
+          component: () => import('@/components/prj001/pages/Table.vue'),
+          iconCls: 'fa fa-address-card',
+          leaf: false
+        },
+        { path: '/prj001/echarts',
+          name: '数据分析',
+          component: () => import('@/components/prj001/pages/Echarts.vue'),
+          iconCls: 'fa fa-bar-chart',
+          leaf: false
+        },
+        { path: '/prj001/about',
+          name: '关于',
+          component: () => import('@/components/prj001/pages/About.vue'),
+          iconCls: 'fa fa-id-card-o',
+          leaf: false
+        }
       ]
     },
     {
       path: '/prj002',
       component: () => import('@/components/prj002/Prj002.vue'),
-      name: 'Charts',
-      iconCls: 'fa fa-bar-chart',
-      leaf: false,
+      name: 'Prj002',
+      iconCls: 'fa fa-address-card',  //用户自定义属性
+      leaf: false, //用户自定义属性,用来确定某条菜单是否还有下级菜单
       children: [
-        { path: '/prj002/echarts', component: () => import('@/components/prj002/pages/Echarts.vue'), name: '数据分析' }
+        { path: '/prj002/table',
+          name: '数据列表',
+          component: () => import('@/components/prj002/pages/Table.vue'),
+          iconCls: 'fa fa-address-card',
+          leaf: false
+        },
+        { path: '/prj002/echarts',
+          name: '数据分析',
+          component: () => import('@/components/prj002/pages/Echarts.vue'),
+          iconCls: 'fa fa-bar-chart',
+          leaf: false
+        },
+        { path: '/prj002/vuex',
+          name: 'Vuex',
+          component: () => import('@/components/prj002/pages/Vuex.vue'),
+          iconCls: 'fa fa-id-card-o',
+          leaf: false
+        }
       ]
     },
-    {
-      path: '/prj002',
-      component: () => import('@/components/prj002/Prj002.vue'),
-      name: 'Test',
-      iconCls: 'fa fa-id-card-o',
-      leaf:false,
-      children: [
-        { path: '/prj002/vuex', component: () => import('@/components/prj002/pages/Vuex.vue'), name: 'Vuex' }
-      ]
-    },
-    // {
-    //   path: '/home',
-    //   component: () => import('@/components/Home.vue'),
-    //   name: '导航二',
-    //   iconCls: 'el-icon-message', // 用户自定义属性,图标样式class
-    //   leaf:true,
-    //   // 路由嵌套参数,vue-router定义的参数
-    //   children: [
-    //     { path: '/home/form', component: () => import('@/components/views/nav1/Form.vue'), name: 'Form' },
-    //     { path: '/home/list', component: () => import('@/components/views/nav1/List.vue'), name: 'List' }
-    //   ]
-    // },
   ]
 })

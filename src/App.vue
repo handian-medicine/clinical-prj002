@@ -19,7 +19,8 @@ export default {
   body {
     margin: 0;
     padding: 0;
-    font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
+    // font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
+    font-family: "PingFangSC-Light", Tahoma, Arial, "SimSun", "Microsoft Yahei", sans-serif;
     font-size: 14px;
     -webkit-font-smoothing: antialiased;
   }
@@ -29,6 +30,7 @@ export default {
     top: 0;
     bottom: 0;
     width: 100%;
+    background-color: rgb(250,250,250)
   }
 
   .el-submenu [class^=fa] {

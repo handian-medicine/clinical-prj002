@@ -19,75 +19,32 @@
           active-text-color="#ffd04b"
           unique-opened
           router
-          v-show="!collapsed"
-        >
-          <template v-for="(item,index) in routes">
-            <!--if 有次级菜单, leaf是判断的flag -->
-            <el-submenu :index="index+''" :key="item.name" v-if="item.leaf">
-              <!-- slot插槽，必须有slot -->
-              <template slot="title">
-                <i :class="item.iconCls"></i>
-                {{item.name}}
-              </template>
-              <el-menu-item
-                v-for="child in routeChildren(item)"
-                :index="child.path"
-                :key="child.path"
-              >{{child.name}}</el-menu-item>
-            </el-submenu>
-            <!--else 普通的没有次级的菜单项 -->
+          v-show="!collapsed">
+          <template v-for="item in routes[0].children">
             <el-menu-item
-              v-if="!item.leaf&&item.children.length>0"
+              v-if="!item.leaf"
               :key="item.name"
-              :index="item.children[0].path"
-            >
+              :index="item.path">
               <i :class="item.iconCls"></i>
-              {{item.children[0].name}}
+              {{item.name}}
             </el-menu-item>
           </template>
         </el-menu>
         <!-- 导航菜单-折叠 -->
         <ul class="el-menu el-menu-vertical-demo collapsed" v-show="collapsed" ref="menuCollapsed">
-          <li v-for="(item,index) in routes" :key="item.name" class="el-submenu item">
-            <!--多级菜单route渲染-->
-            <template v-if="!item.leaf">
-              <!--经过菜单显示对应ul的事件-->
-              <div
-                class="el-submenu__title"
-                style="padding-left: 20px;"
-                @mouseover="showMenu(index,true)"
-                @mouseout="showMenu(index,false)"
-              >
-                <i :class="item.iconCls"></i>
-              </div>
-              <ul
-                class="el-menu submenu"
-                :class="'submenu-hook-'+index"
-                @mouseover="showMenu(index,true)"
-                @mouseout="showMenu(index,false)"
-              >
-                <li
-                  v-for="child in item.children"
-                  :key="child.path"
-                  class="el-menu-item"
-                  style="padding-left: 40px;background: #f2f2f2;"
-                  :class="$route.path===child.path?'is-active':''"
-                  @click="$router.push(child.path)"
-                >{{child.name}}</li>
-              </ul>
-            </template>
+          <li v-for="item in routes[0].children" :key="item.name" class="el-submenu item">
             <!-- 单级菜单 -->
-            <template v-else>
-              <li class="el-submenu">
+            <template>
                 <div
-                  class="el-submenu__title el-menu-item"
+                  class="el-submenu__title"
                   style="height: 56px;line-height: 56px;padding: 0 20px;"
-                  :class="$route.path===item.children[0].path?'is-active':''"
-                  @click="$router.push(item.children[0].path)"
-                >
-                  <i :class="item.iconCls"></i>
+                  :class="$route.path===item.path?'is-active':''"
+                  @click="$router.push(item.path)">
+                  <el-tooltip class="item" effect="dark" placement="right">
+                    <div slot="content">{{item.name}}</div>
+                    <i :class="item.iconCls"></i>
+                  </el-tooltip>
                 </div>
-              </li>
             </template>
           </li>
         </ul>
@@ -128,8 +85,11 @@ export default {
     // 关于v-for v-if，data里未定义的变量遍历使用计算属性。否则使用v-for v-if配合使用
     routes: function() {
       return this.$router.options.routes.filter(function(item) {
-        return !item.hidden;
+        return item.name == 'Prj002';
       });
+      // return this.$router.options.routes.filter(function(item) {
+      //   return !item.hidden;
+      // });
     },
     // 利用闭包实现计算属性传参。 从当前route中取出符合条件的子路由
     routeChildren: function(route) {
@@ -166,7 +126,7 @@ export default {
     },
     // 折叠导航栏
     collapse: function() {
-      this.collapsed = !this.collapsed;
+      this.collapsed = !this.collapsed
     },
     showMenu(i, status) {
       this.$refs.menuCollapsed.getElementsByClassName(

@@ -25,18 +25,21 @@
   </el-col> -->
   <Header @headerEvent="ret=>(collapsed=ret)"></Header>
 
-  <el-col :span="24">
-    <el-table :data="userinfo.myprojects" highlight-current-row style="width: 100%;" height="500"><!--height固定表头-->
-      <el-table-column prop="name" label="项目名称" width="90">
+  <el-col :span="23">
+    <el-table :data="userinfo.myprojects"
+              highlight-current-row
+              style="width: 100%;"
+              border>
+      <el-table-column prop="name" label="项目名称">
       </el-table-column>
-      <el-table-column prop="status" label="状态" width="90">
+      <el-table-column prop="status" label="状态">
       </el-table-column>
-      <el-table-column prop="linkurl" label="进入项目" width="90">
+      <el-table-column prop="linkurl" label="进入项目">
         <template v-slot="scope">
           <el-button type="btn-info" size="small" @click="enterPrj(scope.$index, scope.row)">进入</el-button>
         </template>
       </el-table-column>
-      <el-table-column prop="description" label="项目描述" width="90">
+      <el-table-column prop="description" label="项目描述">
       </el-table-column>
     </el-table>
   </el-col>
@@ -59,7 +62,7 @@ export default {
     },
     methods: {
         // 退出登录
-        logout: function() {
+        logout: function () {
           var _this = this; //这条语句是防止this指向当前函数,这样赋值_this就指向vm对象了
           this.$confirm("确认退出吗?", "提示", {
             type: "warning"

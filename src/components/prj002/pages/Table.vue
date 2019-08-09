@@ -38,7 +38,7 @@
       <el-table-column label="操作" width="610">
         <template v-slot="scope">
           <el-button-group>
-          <el-button type="btn-info" size="small" @click="openInfoForm(scope.$index, scope.row)">一般情况</el-button>
+          <el-button type="btn-info" size="small" @click="openDataForm(scope.$index, scope.row, 'info')">一般情况</el-button>
           <el-button type="btn-summary" size="small" @click="openDataForm(scope.$index, scope.row, 'summary')">病情概要</el-button>
           <el-button type="btn-history"    size="small" @click="openDataForm(scope.$index, scope.row, 'history')">专科病史</el-button>
           <el-button type="btn-experiment" size="small" @click="openDataForm(scope.$index, scope.row, 'experiment')">实验室检查</el-button>
@@ -64,7 +64,7 @@
     </el-col>
 
     <!-- 一般情况dialog -->
-    <InfoForm ref="infoForm"></InfoForm>
+    <InfoForm ref="info"></InfoForm>
     <!-- 病情概要dialog -->
     <SummaryForm ref="summary"></SummaryForm>
     <!-- 专科病史dialog -->
@@ -89,7 +89,7 @@ import util from '@/common/js/util'
 // axios请求,向express做请求
 import {apiGetPatientsList, apiRemovePatient, apiSearchPatient, batchRemoveUser} from '@/api/api-prj002'
 // 请求各表单内容的api
-import {apiGetPatientInfoForm, apiGetPatientDataForm } from '@/api/api-prj002'
+import {apiGetPatientDataForm } from '@/api/api-prj002'
 // 批量导入子组件
 import {AddPatient,InfoForm,SummaryForm,HistoryForm,ExperimentForm,BxrayForm,ClinicalForm,CureForm} from '@/components/prj002/forms'
 export default {
@@ -197,18 +197,14 @@ export default {
     },
 
     //核心的Form表单
-    openInfoForm (index, row) {
-      let para = {page: this.page, url: row.url}
-      apiGetPatientInfoForm(para)
-      .then((res)=> {
-        console.log(res.data)
-        //父组件通过emit发送 事件 及 所需的参数
-        this.$refs.infoForm.$emit("openEvent", res.data)
-      })
-      .catch(() => {})
-    },
     openDataForm (index, row, formName) {
       console.log('formName',formName)
+
+      // if (formName == 'info') {
+      //   console.log("看这里",row);
+      //   row[formName] = row['url'];
+      //   console.log("看这里",row)}
+
       // 如果DataForm表未创建,不需要请求后端,直接显示空表
       if (row[formName]==null) {
         console.log('创建流程')

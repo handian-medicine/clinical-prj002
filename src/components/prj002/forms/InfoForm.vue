@@ -140,7 +140,7 @@
   </el-dialog>
 </template>
 <script>
-import { apiUpdatePatientInfoForm } from '@/api/api-prj002'
+import { apiUpdatePatientDataForm } from '@/api/api-prj002'
 export default {
   name: "InfoForm",
   data() {
@@ -161,7 +161,9 @@ export default {
                 {field1: '3', field2: '中', field3: '痤疮>20个或脓疱<20个'},
                 {field1: '4', field2: '重', field3: '脓疱≥20个'},
                 {field1: '5', field2: '囊性', field3: '炎性病损≥5mm'}],
-      }
+      exist: true,
+      formName:''
+    }
   },
   computed:{
     BMI () {
@@ -190,12 +192,7 @@ export default {
       console.log(message)
     },
     updateInfoForm () {
-      let para = {
-        url: this.infoForm.url,
-        infoForm: this.infoForm
-      }
-      console.log("提交参数",para)
-      apiUpdatePatientInfoForm(para)
+      apiUpdatePatientDataForm({formData:this.infoForm,formName:this.formName})
       .then((res)=> {
         this.$message({message: '提交成功',type: 'success'})
         this.dialogVisible = false
@@ -208,8 +205,17 @@ export default {
   },
   created() {
       this.$on("openEvent", (data)=>{
-        this.infoForm = data;
-        this.dialogVisible = true;
+        console.log('一般情况获取到的数据',data)
+        this.dialogVisible = true
+        this.exist = data.exist
+        this.formName = data.formName
+        if (!data.exist) {
+          //未创建
+          this.infoForm.info = data.formData.info
+        } else {
+          //已创建(修改)
+          this.infoForm = data.formData
+        }
       });
     }
 };

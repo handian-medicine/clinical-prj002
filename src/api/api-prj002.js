@@ -13,11 +13,7 @@ export const apiGetPatientsList = params => { return axios.post(`${baseUrl}/prj0
 // 删除单个患者信息
 export const apiRemovePatient = params => { return axios.post(`${baseUrl}/prj002/user/remove`, params) }
 
-// 获取单个患者一般信息
 // tip 使用params,对于get请求,会把params的参数附加在url后面,实际发送的是一个完整的带参数url请求
-export const apiGetPatientInfoForm = params => { return axios.get(`${baseUrl}/prj002/user/info`, {params:params}) }
-// 修改单个患者一般信息
-export const apiUpdatePatientInfoForm = params => { return axios.post(`${baseUrl}/prj002/user/info`, params) }
 
 // 获取单个患者某个Form
 export const apiGetPatientDataForm = params => { return axios.get(`${baseUrl}/prj002/user/form`, {params:params}) }

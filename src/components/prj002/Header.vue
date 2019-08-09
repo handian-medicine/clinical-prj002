@@ -11,11 +11,11 @@
       <el-col :span="8" class="userinfo">
         <el-dropdown trigger="hover">
           <span class="el-dropdown-link userinfo-inner">
-            <img src="@/assets/user.png" />
+            <img src="@/assets/Nurse.png" />
             {{userinfo.user_name}}
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item @click.native="dialogVisible=true">我的消息</el-dropdown-item>
+            <el-dropdown-item @click.native="dialogVisible=true">账户信息</el-dropdown-item>
             <el-dropdown-item>设置</el-dropdown-item>
             <!-- 这里的native不能删,native用来触发原生的事件,可以理解为把一个vue组件转化为一个普通的HTML标签 -->
             <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
