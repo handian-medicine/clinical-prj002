@@ -41,7 +41,7 @@
       </el-table-column>
       <el-table-column prop="career" label="审核状态" width="100">
       </el-table-column>
-      <el-table-column label="数据修改" width="610">
+      <el-table-column label="数据修改" width="700">
         <template v-slot="scope">
           <el-button-group>
           <el-button type="btn-info" size="small" @click="openDataForm(scope.$index, scope.row, 'info')">基本信息</el-button>
@@ -52,6 +52,8 @@
           <el-button type="btn-cure" size="small" @click="openDataForm(scope.$index, scope.row, 'cure')">中西治疗</el-button>
           <el-button type="btn-results" size="small" @click="openDataForm(scope.$index, scope.row, 'results')">疗效</el-button>
           </el-button-group>
+          <el-button type="danger" size="small" style="margin-left:8px" v-if="is_admin"
+                    @click="checkPatient(scope.$index, scope.row)">审核</el-button>
           <el-button type="danger" size="small" style="margin-left:8px" @click="handleDel(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
@@ -85,6 +87,8 @@
 
     <!-- 新增信息dialog -->
     <AddPatient ref="addPatient" ></AddPatient>
+    <!-- 审查dialog -->
+    <CheckPatient ref="checkPatient" ></CheckPatient>
 
   </section>
 </template>
@@ -95,10 +99,11 @@ import {apiGetPatientsList, apiRemovePatient, apiSearchPatient} from '@/api/api-
 // 请求各表单内容的api
 import {apiGetPatientDataForm } from '@/api/api-prj001'
 // 批量导入子组件
-import {AddPatient,InfoForm,SummaryForm,HistoryForm,RelevantForm,CcForm,CureForm,ResultsForm} from '@/components/prj001/forms'
+import {AddPatient, CheckPatient} from '@/components/prj001/forms'
+import {InfoForm,SummaryForm,HistoryForm,RelevantForm,CcForm,CureForm,ResultsForm} from '@/components/prj001/forms'
 export default {
   name:'Table',
-  components:{AddPatient,InfoForm,SummaryForm,HistoryForm,RelevantForm,CcForm,CureForm,ResultsForm},
+  components:{AddPatient,CheckPatient,InfoForm,SummaryForm,HistoryForm,RelevantForm,CcForm,CureForm,ResultsForm},
   data () {
     return {
       is_admin:true,
@@ -111,7 +116,6 @@ export default {
       page: 1, //当前页码
       search_page: 1, //搜索结果的当前页码
       listLoading: false,
-      sels: [], // 列表选中列
       pagination_flag: true //true表示所有数据的分页,false表示搜索数据的分页
     }
   },
@@ -119,6 +123,18 @@ export default {
     // 新增信息dialog
     addPatient () {
       this.$refs.addPatient.$emit("addEvent")
+    },
+    // 审核
+    checkPatient (index, row) {
+      const checkData = {
+        // id:row.id,
+        // is_checked:row.is_checked,
+        // reasons_for_not_passing:row.reasons_for_not_passing
+        id:3,
+        is_checked:"未通过",
+        reasons_for_not_passing:"原因"
+        }
+      this.$refs.checkPatient.$emit("checkEvent",{ checkData:checkData })
     },
     // 搜索功能
     searchPatient () {
@@ -181,6 +197,9 @@ export default {
     openDataForm (index, row, formName) {
       console.log('formName',formName)
       // 如果DataForm表未创建,不需要请求后端,直接显示空表
+
+      if (formName == 'info') { row[formName] = row['url'] }// 临时
+
       if (row[formName]==null) {
         console.log('创建流程')
         // 传一个创建此DataForm的url进去,这个url是info的url
@@ -220,7 +239,7 @@ export default {
   background:#fcbad3;
   border:1px solid #fcbad3
 }
-.el-button--btn-experiment {
+.el-button--btn-relevant {
   background:#ffffd2;
   border:1px solid #ffffd2
 }
@@ -228,13 +247,17 @@ export default {
   background:#c7f0db;
   border:1px solid #c7f0db
 }
-.el-button--btn-clinical {
+.el-button--btn-cc {
   background:#41b6e6;
   border:1px solid #41b6e6
 }
 .el-button--btn-cure {
   background:#d7d1c9;
   border:1px solid #d7d1c9
+}
+.el-button--btn-results {
+  background:#d5a4cf;
+  border:1px solid #d5a4cf
 }
 .el-button--myinfo {
 background:red;

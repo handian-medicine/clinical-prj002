@@ -6,7 +6,7 @@
     <el-form ref="patientInfo" :model="checkData" label-width="130px" label-position="left">
 
       <el-form-item label="审核结果">
-        <el-radio-group v-model="checkData.is_checked">
+        <el-radio-group v-model="checkData.check_status">
           <el-radio label="未审核">未审核</el-radio>
           <el-radio label="审核通过">审核通过</el-radio>
           <el-radio label="审核不通过">审核不通过</el-radio>
@@ -14,9 +14,9 @@
       </el-form-item>
       <el-form-item label="不通过原因">
         <el-input type="textarea"
-                  :disabled="checkData.is_checked != '审核不通过'"
+                  :disabled="checkData.check_status != '审核不通过'"
                   :autosize="{ minRows: 2, maxRows: 100}"
-                  v-model="checkData.reasons_for_not_passing"></el-input>
+                  v-model="checkData.reason_for_check"></el-input>
       </el-form-item>
 
     </el-form>
@@ -33,7 +33,7 @@ export default {
     name:'CheckPatient',
     data () {
       return {
-        checkData: {id:1, is_checked:'未审核', reasons_for_not_passing:'填写原因'},
+        checkData: {check:'', check_status:'未审核', reason_for_check:'填写原因'},
         dialogVisible: false,
       }
 

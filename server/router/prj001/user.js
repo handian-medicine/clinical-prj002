@@ -28,10 +28,11 @@ router.post('/search', function (req, res, next) {
 router.post('/add', function (req, res, next) {
   // console.log('req.body.name->', req.body.patientInfo.name)
   const options = {
-    url: myConst.apiurl + "/prj001/info/",
+    url: myConst.apiurl + "/prj001/info/create/",
     form: req.body.patientInfo,
     headers: {'Authorization': 'Bearer ' + req.cookies.prj001token.access_token}
   }
+  console.log(options)
   request.post(options, function (error, response, body) {
     console.log("增加信息", body)
     res.send({msg:'成功了'})

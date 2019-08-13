@@ -4,10 +4,10 @@
     <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
       <el-form :inline="true" :model="search">
         <el-form-item v-for="(val, key, index) in search" :key="index">
-          <el-input v-if="key!='is_checked'" v-model="search[key]" :placeholder="searchName[key]"></el-input>
+          <el-input v-if="key!='check_status'" v-model="search[key]" :placeholder="searchName[key]"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-select v-model="search.is_checked" placeholder="查询审核状态">
+          <el-select v-model="search.check_status" placeholder="查询审核状态">
             <el-option value="未审核" label="未通过"></el-option>
             <el-option value="审核通过" label="审核通过"></el-option>
             <el-option value="审核不通过" label="审核未通过"></el-option>
@@ -45,8 +45,11 @@
       <el-table-column prop="owner" label="录入人" width="80">
       </el-table-column>
       <el-table-column prop="degree_of_completion" label="信息完整度" width="90">
+        <!-- <template v-slot="scope">
+          <el-progress :text-inside="true" :stroke-width="24" :percentage="scope.row.degree_of_completion" status="success"></el-progress>
+        </template> -->
       </el-table-column>
-      <el-table-column prop="is_checked" label="审核状态" width="80">
+      <el-table-column prop="check_status" label="审核状态" width="80">
       </el-table-column>
       <!-- <el-table-column prop="birth" label="出生日期" width="100">
       </el-table-column> -->
@@ -121,7 +124,7 @@ export default {
     return {
       is_admin:true,
       search: {
-        name: '', phone:'', hospital:'', address:'', is_checked:''//career:'',birth:''
+        name: '', phone:'', hospital:'', address:'', check_status:''//career:'',birth:''
       },
       searchName: {name:'姓名',phone:'电话',hospital:'医院',address:'地址'},//career:'职业',birth:'出生日期',
       patientsList: [], // 数据列表
@@ -129,7 +132,6 @@ export default {
       page: 1, //当前页码
       search_page: 1, //搜索结果的当前页码
       listLoading: false,
-      sels: [], // 列表选中列
       pagination_flag: true //true表示所有数据的分页,false表示搜索数据的分页
     }
   },
@@ -141,14 +143,11 @@ export default {
     // 审核
     checkPatient (index, row) {
       const checkData = {
-        // id:row.id,
-        // is_checked:row.is_checked,
-        // reasons_for_not_passing:row.reasons_for_not_passing
-        id:3,
-        is_checked:"未通过",
-        reasons_for_not_passing:"原因"
+        check:row.check, //url
+        check_status:row.check_status,
+        reason_for_check:row.reason_for_check
         }
-      this.$refs.checkPatient.$emit("checkEvent",{ checkData:checkData })
+      this.$refs.checkPatient.$emit("checkEvent",checkData)
     },
     // 删除
     delPatient: function (index, row) {
@@ -193,7 +192,7 @@ export default {
     },
     // 获取患者列表
     getPatients () {
-      this.search = {name: '', phone:'', hospital:'', address:'', is_checked:''}//career:'', birth:''
+      this.search = {name: '', phone:'', hospital:'', address:'', check_status:''}//career:'', birth:''
       let para = {page: this.page}
       this.listLoading = true
       apiGetPatientsList(para).then((res) => {

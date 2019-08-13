@@ -3,7 +3,35 @@
             :visible.sync="dialogVisible"
             :close-on-click-modal="false"
             width="90%" center>
+
     <el-form ref="infoForm" :model="infoForm" label-width="130px" label-position="right">
+      <el-form-item label="就诊日期" prop="recdate">
+        <!-- format表示显示在页面的日期格式, value-format表示传递给后台的真实的数据格式 -->
+        <el-date-picker v-model="infoForm.recdate"
+                        type="month" placeholder="选择日期"
+                        format="yyyy 年 MM 月 dd 日"
+                        value-format="yyyy-MM-dd">
+        </el-date-picker>
+      </el-form-item>
+      <el-form-item label="问卷编码">
+        <el-input v-model="infoForm.serial"></el-input>
+      </el-form-item>
+      <el-form-item label="辅助医生邮箱">
+        <el-input v-model="infoForm.owner"></el-input>
+      </el-form-item>
+      <el-form-item label="医院名称">
+        <el-input v-model="infoForm.hospital"></el-input>
+      </el-form-item>
+      <el-form-item label="填表专家姓名">
+        <el-input v-model="infoForm.expert"></el-input>
+      </el-form-item>
+      <el-form-item label="职称">
+        <el-select v-model="infoForm.title" placeholder="请选择">
+          <el-option v-for="item in titleSelection" :key="item" :label="item" :value="item">
+          </el-option>
+        </el-select>
+      </el-form-item>
+
       <el-form-item label="患者姓名">
         <el-input v-model="infoForm.name"></el-input>
       </el-form-item>
@@ -49,87 +77,6 @@
         </el-input>
       </el-form-item>
 
-      <el-form-item label="体重指数(BMI)">
-        <el-tag>
-          {{infoForm.weight2height = BMI }}kg/m<sup>2</sup>
-        </el-tag>
-      </el-form-item>
-
-      <el-form-item label="臀围">
-        <el-input v-model="infoForm.hipline" type="number" min="0">
-          <template slot="append">cm</template>
-        </el-input>
-      </el-form-item>
-
-      <el-form-item label="腰围">
-        <el-input v-model="infoForm.waistline" type="number" min="0">
-          <template slot="append">cm</template>
-        </el-input>
-      </el-form-item>
-
-      <el-form-item label="腰臀比(WHR)">
-        <el-tag>
-          {{infoForm.waist2hip =  waist2hip }}
-        </el-tag>
-      </el-form-item>
-
-      <el-form-item label="多毛评分">
-        <el-input v-model="infoForm.hairy" type="number" min="0"></el-input>
-      </el-form-item>
-
-      <el-form-item label="患者是否有痤疮">
-        <el-switch v-model="infoForm.acne" active-text="是" inactive-text="否"></el-switch>
-        <div v-show="infoForm.acne">
-          <el-col :sm="24" :md="12">
-            <el-input v-model="infoForm.acne_part">
-              <template slot="prepend">请描述具体部位</template>
-            </el-input>
-          </el-col>
-          <el-col :sm="24" :md="12">
-            <el-input v-model="infoForm.acne_score" type="number" min="0" max="5">
-              <template slot="prepend">评分</template>
-            </el-input>
-          </el-col>
-            <el-table :data="acneData" style="width: 100%">
-              <el-table-column prop="field1" label="评分"></el-table-column>
-              <el-table-column prop="field2" label="类型"></el-table-column>
-              <el-table-column prop="field3" label="部位"></el-table-column>
-            </el-table>
-        </div>
-      </el-form-item>
-
-      <el-form-item label="患者是否有皮脂腺分泌过旺">
-        <el-switch v-model="infoForm.glandula" active-text="是" inactive-text="否"></el-switch>
-        <div v-if="infoForm.glandula">
-          <el-form-item label="分泌过旺具体部位">
-            <el-input v-model="infoForm.glandula_part"></el-input>
-          </el-form-item>
-          <el-form-item label="分泌过旺程度">
-            <el-radio-group v-model="infoForm.glandula_level">
-              <el-radio label="轻">轻</el-radio>
-              <el-radio label="中">中</el-radio>
-              <el-radio label="重">重</el-radio>
-            </el-radio-group>
-          </el-form-item>
-        </div>
-      </el-form-item>
-
-      <el-form-item label="患者是否有雄性脱发">
-        <el-switch v-model="infoForm.male" active-text="是" inactive-text="否"></el-switch>
-        <div v-if="infoForm.male">
-          <el-form-item label="如果是,请描述具体部位">
-            <el-input v-model="infoForm.male_part"></el-input>
-          </el-form-item>
-          <el-form-item label="脱发程度">
-            <el-radio-group v-model="infoForm.male_level">
-              <el-radio label="轻">轻</el-radio>
-              <el-radio label="中">中</el-radio>
-              <el-radio label="重">重</el-radio>
-            </el-radio-group>
-          </el-form-item>
-        </div>
-      </el-form-item>
-
     </el-form>
     <span slot="footer">
         <el-button type="primary" @click="updateInfoForm">确定</el-button>
@@ -139,13 +86,14 @@
   </el-dialog>
 </template>
 <script>
-import { apiUpdatePatientDataForm } from '@/api/api-prj002'
+import { apiUpdatePatientDataForm } from '@/api/api-prj001'
 export default {
   name: "InfoForm",
   data() {
     return {
       dialogVisible: false,
       infoForm: {},
+      titleSelection: ["主任医师","副主任医师","主治医师"],
       nationSelection: ["汉族","蒙古族","回族","藏族","维吾尔族","苗族","彝族","壮族","布依族","朝鲜族","满族","侗族",
                         "瑶族","白族","土家族","哈尼族","哈萨克族","傣族","黎族","傈傈族","佤族","畲族","高山族","拉祜族",
                         "水族","东乡族","纳西族","景颇族","科尔克孜族","土族","达斡尔族","仫佬族","羌族","布朗族","撒拉族",
@@ -154,37 +102,11 @@ export default {
       careerSelection: ["学生","个体","农民","军人","工人","财会人员","技术人员","服务业","科教文卫","行政管理","无业","其它"],
       specialCheckbox: {"special_gaowen":"高温","special_diwen":"低温","special_yeban":"夜班","special_zao":"噪声","special_fu":"辐射","special_hua":"化工污染","special_ju":"剧烈运动","special_qi":"汽油","special_kong":"高空","special_wu":"无"},
       dietCheckbox:    {"yinshi_wuteshu":"无特殊","yinshi_sushi":"素食","yinshi_suan":"酸","yinshi_xian":"咸","yinshi_xinla":"辛辣","yinshi_you":"油","yinshi_shengleng":"生冷","yinshi_cafei":"含咖啡因食物或饮品"},
-      acneData:[{field1: '0', field2: '无', field3: '无'},
-                {field1: '1', field2: '轻微', field3: '痤疮≥2mm，面部或躯干<10个'},
-                {field1: '2', field2: '轻', field3: '痤疮10-20个'},
-                {field1: '3', field2: '中', field3: '痤疮>20个或脓疱<20个'},
-                {field1: '4', field2: '重', field3: '脓疱≥20个'},
-                {field1: '5', field2: '囊性', field3: '炎性病损≥5mm'}],
       exist: true,
       formName:''
     }
   },
   computed:{
-    BMI () {
-      const flag = (this.infoForm.weight==undefined) || (this.infoForm.height==undefined) || (this.infoForm.weight==null) || (this.infoForm.height==null) || Number(this.infoForm.height)== 0
-      if (!flag) {
-        var bmi = 10000 * Number(this.infoForm.weight) / (Number(this.infoForm.height) * Number(this.infoForm.height))
-        return bmi.toFixed(1)
-      }
-      else {
-        return 0
-      }
-    },
-    waist2hip () {
-      const flag = (this.infoForm.waistline==undefined) || (this.infoForm.hipline==undefined) || (this.infoForm.waistline==null) || (this.infoForm.hipline==null) || Number(this.infoForm.hipline)== 0
-      if (!flag) {
-        var ratio = Number(this.infoForm.waistline) / Number(this.infoForm.hipline)
-        return ratio.toFixed(2)
-      }
-      else {
-        return 0
-      }
-    }
   },
   methods: {
     showmsg(message){

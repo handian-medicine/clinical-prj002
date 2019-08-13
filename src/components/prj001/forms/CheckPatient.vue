@@ -1,12 +1,22 @@
 <template>
-  <el-dialog title="审查" class="my-dialog"
+  <el-dialog title="审核" class="my-dialog"
             :visible.sync="dialogVisible"
             :close-on-click-modal="false" width="70%" center>
 
-    <el-form ref="patientInfo" :model="patientInfo" :rules="rules" label-width="130px" label-position="left">
+    <el-form ref="patientInfo" :model="checkData" label-width="130px" label-position="left">
 
-      <el-form-item label="就诊医院" prop="hospital">
-        <el-input v-model="patientInfo.hospital"></el-input>
+      <el-form-item label="审核结果">
+        <el-radio-group v-model="checkData.is_checked">
+          <el-radio label="未审核">未审核</el-radio>
+          <el-radio label="审核通过">审核通过</el-radio>
+          <el-radio label="审核不通过">审核不通过</el-radio>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item label="不通过原因">
+        <el-input type="textarea"
+                  :disabled="checkData.is_checked != '审核不通过'"
+                  :autosize="{ minRows: 2, maxRows: 100}"
+                  v-model="checkData.reasons_for_not_passing"></el-input>
       </el-form-item>
 
     </el-form>
@@ -18,55 +28,32 @@
 </template>
 
 <script>
-import { apiCheckPatient } from '@/api/api-prj002'
+import { apiCheckPatient } from '@/api/api-prj001'
 export default {
-    name:'AddPatient',
+    name:'CheckPatient',
     data () {
       return {
-        patientInfo: {name:'测试用', phone:'13110983476', hospital:'汉典医院', birth:'1980-09', career:'个体'},
-        // patientInfo: {name:'', phone:'', hospital:'', birth:'', career:''},
-        careerSelection: ["学生","个体","农民","军人","工人","财会人员","技术人员","服务业","科教文卫","行政管理","无业","其它"],
+        checkData: {id:1, is_checked:'未审核', reasons_for_not_passing:'填写原因'},
         dialogVisible: false,
-        rules:{
-          name: [
-            {required: true, message: '请输入姓名', trigger: 'blur' }
-          ],
-          phone: [
-            {required: true, pattern: /^1\d{10}$/, message: '请输入11位手机号码',trigger: 'blur'}
-          ],
-          hospital:[{required: true, message: '请填写就诊医院名称'}],
-          birth:   [{required: true, message: '请填写出生日期'}],
-          career:  [{required: true, message: '请填写职业'}]
-        }
       }
 
     },
     methods: {
       checkPatient () {
-        this.$refs.patientInfo.validate( (valid) => {
-          if (valid) {
-            let para = {
-              patientInfo: this.patientInfo
+          apiCheckPatient(this.checkData)
+          .then( (res)=> {
+            this.$message({message: '提交成功',type: 'success'})
+            this.dialogVisible = false
+            this.$parent.getPatients()
             }
-            apiAddPatient(para)
-            .then( (res)=> {
-              this.$message({message: '提交成功',type: 'success'})
-              this.dialogVisible = false
-              this.$parent.getPatients()
-              }
-            )
-            .catch()
-          } else {
-            this.$message({message: '请填写完整信息',type: 'warning'})
-            return false;
-          }
-        })
-
+          )
+          .catch()
       }
     },
     created() {
-      this.$on("addEvent", function(data) {
-        this.dialogVisible = true;
+        this.$on("checkEvent", function(data) {
+        this.dialogVisible = true
+        this.checkData = data
       });
     }
 }

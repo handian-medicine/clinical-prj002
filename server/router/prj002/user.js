@@ -52,7 +52,8 @@ router.post('/remove', function (req, res, next) {
 // 审查
 router.post('/check', function (req, res, next){
   var options = {
-        url: myConst.apiurl + "/prj002/info/" + req.body.id +'/checked/',
+        // url: myConst.apiurl + "/prj002/info/check/" + 1 + '/',//req.body.id,
+        url: req.body.check,
         form:req.body,
         headers: {
             'Authorization': 'Bearer ' + req.cookies.prj002token.access_token
@@ -60,7 +61,7 @@ router.post('/check', function (req, res, next){
       }
   console.log("审核",options)
   request.post(options, function (error, response, body) {
-    console.log("发送")
+    console.log("发送",body)
     if (!error && response.statusCode == 200) {
       res.send({msg:'审查成功'})
       } else {
@@ -84,39 +85,13 @@ router.post('/list', function(req, res, next) {
     var bodyParse = JSON.parse(body)
     var totalNum = bodyParse.count
     var patientsList = bodyParse.results
-    // console.log('user.js 3.',patientsList)
     res.send({patientsList,totalNum})
   })
 
 })
 
-// GET获取一般信息表
-router.get('/info', function(req, res, next) {
-  console.log('user.js GET获取一般信息表', req.query)
-  var options = {
-    url: req.query.url,
-    headers: {'Authorization': 'Bearer ' + req.cookies.prj002token.access_token}
-  }
-  request.get(options, function (error, response, body) {
-    var patientInfo = JSON.parse(body)
-    res.send(patientInfo)
-  })
-})
-
-// PATCH修改一般信息表
-router.post('/info', function(req, res, next) {
-  console.log('user.js PATCH修改一般信息表', req.body)
-  var options = {
-    url: req.body.url,
-    form: req.body.infoForm,
-    headers: {'Authorization': 'Bearer ' + req.cookies.prj002token.access_token}
-  }
-  request.patch(options, function (error, response, body) {
-    console.log('user.js 更新')
-    res.send({msg:'ok'})
-  })
-})
-/* summary history experiment bxray cure等5个表单 */
+/* info summary history experiment bxray cure等6个表单 */
+/* 增加权限设置 */
 // 获取
 router.get('/form', function(req, res, next) {
   console.log('user.js GET获取Form ', req.query.url)
@@ -125,8 +100,8 @@ router.get('/form', function(req, res, next) {
       headers: {'Authorization': 'Bearer ' + req.cookies.prj002token.access_token}
     }
     request.get(options, function (error, response, body) {
-      var patientSummary = JSON.parse(body)
-      res.send(patientSummary)
+      var patientForm = JSON.parse(body)
+      res.send(patientForm)
     })
 })
 // 创建
@@ -137,14 +112,14 @@ router.post('/form', function(req, res, next) {
     form: req.body.formData,
     headers: {'Authorization': 'Bearer ' + req.cookies.prj002token.access_token}
   }
-    request.post(options, function (error, response, body) {
-      res.send({msg:'ok'})
-    })
+  request.post(options, function (error, response, body) {
+    // console.log(response)
+    res.send({msg:'ok'})
+  })
 })
 // 修改
 router.patch('/form', function(req, res, next) {
   console.log('user.js PATCH修改Form ')
-  console.log("打印",req.body.formData)
   var options = {
     url: req.body.formData.url,
     form: req.body.formData,
