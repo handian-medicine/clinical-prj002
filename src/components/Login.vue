@@ -37,7 +37,7 @@ export default {
     return {
       logining: false,
       loginForm: {
-        email: 'test03@handian.com',
+        email: 'audit01@handian.com',
         password: 'asdf1234'
       },
       rules: {

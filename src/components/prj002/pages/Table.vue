@@ -4,7 +4,14 @@
     <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
       <el-form :inline="true" :model="search">
         <el-form-item v-for="(val, key, index) in search" :key="index">
-          <el-input v-model="search[key]" :placeholder="searchName[key]"></el-input>
+          <el-input v-if="key!='is_checked'" v-model="search[key]" :placeholder="searchName[key]"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-select v-model="search.is_checked" placeholder="查询审核状态">
+            <el-option value="未审核" label="未通过"></el-option>
+            <el-option value="审核通过" label="审核通过"></el-option>
+            <el-option value="审核不通过" label="审核未通过"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="searchPatient">查询</el-button>
@@ -19,7 +26,7 @@
     </el-col>
 
     <!--主要内容 列表-->
-    <el-table :data="patientsList" highlight-current-row v-loading="listLoading" @selection-change="selsChange"
+    <el-table :data="patientsList" highlight-current-row v-loading="listLoading"
               style="width: 100%;" height="500"><!--height固定表头-->
       <!-- <el-table-column type="selection" width="55">
       </el-table-column> -->
@@ -27,15 +34,27 @@
       </el-table-column>
       <el-table-column prop="name" label="姓名" width="90" sortable>
       </el-table-column>
-      <el-table-column prop="birth" label="出生日期" width="100">
+      <el-table-column prop="serial" label="编码" width="90" sortable>
       </el-table-column>
-      <el-table-column prop="phone" label="手机号码" width="110">
+      <el-table-column prop="hospital" label="医院" width="150">
       </el-table-column>
-      <el-table-column prop="hospital" label="就诊医院" width="150">
+      <el-table-column prop="address" label="住址" width="150">
       </el-table-column>
-      <el-table-column prop="career" label="职业" min-width="90">
+      <el-table-column prop="expert" label="专家" width="80">
       </el-table-column>
-      <el-table-column label="操作" width="610">
+      <el-table-column prop="owner" label="录入人" width="80">
+      </el-table-column>
+      <el-table-column prop="degree_of_completion" label="信息完整度" width="90">
+      </el-table-column>
+      <el-table-column prop="is_checked" label="审核状态" width="80">
+      </el-table-column>
+      <!-- <el-table-column prop="birth" label="出生日期" width="100">
+      </el-table-column> -->
+      <!-- <el-table-column prop="phone" label="手机号码" width="110">
+      </el-table-column> -->
+      <!-- <el-table-column prop="career" label="职业" min-width="90">
+      </el-table-column> -->
+      <el-table-column label="数据修改" width="680">
         <template v-slot="scope">
           <el-button-group>
           <el-button type="btn-info" size="small" @click="openDataForm(scope.$index, scope.row, 'info')">一般情况</el-button>
@@ -46,7 +65,9 @@
           <el-button type="btn-clinical" size="small" @click="openDataForm(scope.$index, scope.row, 'clinical')">临床诊断</el-button>
           <el-button type="btn-cure" size="small" @click="openDataForm(scope.$index, scope.row, 'cure')">治疗</el-button>
           </el-button-group>
-          <el-button type="danger" size="small" style="margin-left:8px" @click="handleDel(scope.$index, scope.row)">删除</el-button>
+          <el-button type="danger" size="small" style="margin-left:8px" v-if="is_admin"
+                    @click="checkPatient(scope.$index, scope.row)">审核</el-button>
+          <el-button type="danger" size="small" style="margin-left:8px" @click="delPatient(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -80,6 +101,8 @@
 
     <!-- 新增信息dialog -->
     <AddPatient ref="addPatient" ></AddPatient>
+    <!-- 审查dialog -->
+    <CheckPatient ref="checkPatient" ></CheckPatient>
 
   </section>
 </template>
@@ -87,22 +110,22 @@
 <script>
 import util from '@/common/js/util'
 // axios请求,向express做请求
-import {apiGetPatientsList, apiRemovePatient, apiSearchPatient, batchRemoveUser} from '@/api/api-prj002'
-// 请求各表单内容的api
-import {apiGetPatientDataForm } from '@/api/api-prj002'
+import {apiGetPatientsList, apiRemovePatient, apiSearchPatient, apiGetPatientDataForm} from '@/api/api-prj002'
 // 批量导入子组件
-import {AddPatient,InfoForm,SummaryForm,HistoryForm,ExperimentForm,BxrayForm,ClinicalForm,CureForm} from '@/components/prj002/forms'
+import {AddPatient, CheckPatient} from '@/components/prj002/forms'
+import {InfoForm,SummaryForm,HistoryForm,ExperimentForm,BxrayForm,ClinicalForm,CureForm} from '@/components/prj002/forms'
 export default {
   name:'Table',
-  components:{AddPatient,InfoForm,SummaryForm,HistoryForm,ExperimentForm,BxrayForm,ClinicalForm,CureForm},
+  components:{AddPatient,CheckPatient,InfoForm,SummaryForm,HistoryForm,ExperimentForm,BxrayForm,ClinicalForm,CureForm},
   data () {
     return {
+      is_admin:true,
       search: {
-        name: '', phone:'', hospital:'', birth:'', career:'', address:''
+        name: '', phone:'', hospital:'', address:'', is_checked:''//career:'',birth:''
       },
-      searchName: {name:'姓名',phone:'电话',hospital:'医院',birth:'出生日期',career:'职业',address:'地址'},
+      searchName: {name:'姓名',phone:'电话',hospital:'医院',address:'地址'},//career:'职业',birth:'出生日期',
       patientsList: [], // 数据列表
-      totalNum: 0, //  数据总条数
+      totalNum: 0, // 数据总条数
       page: 1, //当前页码
       search_page: 1, //搜索结果的当前页码
       listLoading: false,
@@ -115,12 +138,40 @@ export default {
     addPatient () {
       this.$refs.addPatient.$emit("addEvent")
     },
+    // 审核
+    checkPatient (index, row) {
+      const checkData = {
+        // id:row.id,
+        // is_checked:row.is_checked,
+        // reasons_for_not_passing:row.reasons_for_not_passing
+        id:3,
+        is_checked:"未通过",
+        reasons_for_not_passing:"原因"
+        }
+      this.$refs.checkPatient.$emit("checkEvent",{ checkData:checkData })
+    },
+    // 删除
+    delPatient: function (index, row) {
+      this.$confirm('确认删除该记录吗?', '提示', {type: 'warning'})
+      .then(() => {
+        this.listLoading = true
+        let para = { url: row.url }
+        apiRemovePatient(para).then((res) => {
+          this.listLoading = false
+          this.$message({
+            message: '删除成功',
+            type: 'success'
+          })
+          this.getPatients()
+        })
+      }).catch()
+    },
     // 搜索功能
     searchPatient () {
       console.log('搜索字段',this.search)
       let para = {
         page: this.search_page,
-        search:this.search
+        search: this.search
       }
       this.pagination_flag = false
       apiSearchPatient(para).then( (res) => {
@@ -142,71 +193,23 @@ export default {
     },
     // 获取患者列表
     getPatients () {
-      this.search = {name: '', phone:'', hospital:'', birth:'', career:'', address:''}
-      let para = {
-        page: this.page
-      }
+      this.search = {name: '', phone:'', hospital:'', address:'', is_checked:''}//career:'', birth:''
+      let para = {page: this.page}
       this.listLoading = true
       apiGetPatientsList(para).then((res) => {
         console.log(res.data)
         this.patientsList = res.data.patientsList
+        this.is_admin = true//res.data.is_admin
         this.totalNum = res.data.totalNum
         this.listLoading = false
-      })
-    },
-    // 删除
-    handleDel: function (index, row) {
-      this.$confirm('确认删除该记录吗?', '提示', {type: 'warning'})
-      .then(() => {
-        this.listLoading = true
-        let para = { url: row.url }
-        console.log(row.url)
-        apiRemovePatient(para).then((res) => {
-          this.listLoading = false
-          this.$message({
-            message: '删除成功',
-            type: 'success'
-          })
-          this.getPatients()
-        })
-      }).catch(() => {})
-    },
-
-    selsChange: function (sels) {
-      this.sels = sels
-    },
-    // 批量删除
-    batchRemove: function () {
-      var ids = this.sels.map(item => item.id).toString()
-      this.$confirm('确认删除选中记录吗？', '提示', {
-        type: 'warning'
-      }).then(() => {
-        this.listLoading = true
-        let para = { ids: ids }
-        batchRemoveUser(para).then((res) => {
-          this.listLoading = false
-          this.$message({
-            message: '删除成功',
-            type: 'success'
-          })
-          this.getPatients()
-        })
-      }).catch(() => {
-
       })
     },
 
     //核心的Form表单
     openDataForm (index, row, formName) {
       console.log('formName',formName)
-
-      // if (formName == 'info') {
-      //   console.log("看这里",row);
-      //   row[formName] = row['url'];
-      //   console.log("看这里",row)}
-
       // 如果DataForm表未创建,不需要请求后端,直接显示空表
-      if (row[formName]==null) {
+      if (row[formName] == null) {
         console.log('创建流程')
         // 传一个创建此DataForm的url进去,这个url是info的url
         this.$refs[formName].$emit("openEvent", {exist:false, formData:{info:row.url}, formName:formName } )
@@ -221,7 +224,7 @@ export default {
           console.log('拿到的已创建的DataForm表',res.data)
           this.$refs[formName].$emit("openEvent", {exist:true, formData:res.data})
         })
-        .catch(() => {})
+        .catch()
       }
     },
 
@@ -231,6 +234,28 @@ export default {
   }
 }
 
+    // selsChange: function (sels) {
+    //   this.sels = sels
+    // },
+    // // 批量删除
+    // batchRemove: function () {
+    //   var ids = this.sels.map(item => item.id).toString()
+    //   this.$confirm('确认删除选中记录吗？', '提示', {
+    //     type: 'warning'
+    //   }).then(() => {
+    //     this.listLoading = true
+    //     let para = { ids: ids }
+    //     batchRemoveUser(para).then((res) => {
+    //       this.listLoading = false
+    //       this.$message({
+    //         message: '删除成功',
+    //         type: 'success'
+    //       })
+    //       this.getPatients()
+    //     })
+    //   }).catch(() => {
+    //   })
+    // }
 </script>
 
 <style scoped>

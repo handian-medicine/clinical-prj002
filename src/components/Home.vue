@@ -47,8 +47,8 @@
 </template>
 
 <script>
-import {apiHome,apiPrj002} from '@/api/api-common'
-import Header from '@/components/prj002/Header'
+import {apiHome,apiPrj} from '@/api/api-common'
+import Header from '@/components/common/Header'
 
 export default {
     name:"Home",
@@ -77,12 +77,14 @@ export default {
           this.collapsed = !this.collapsed;
         },
         enterPrj (index, row) {
+            console.log(row.linkurl)
             const user = JSON.parse(sessionStorage.getItem("user"))
             let params = {
+                linkurl:row.linkurl,
                 email:user.email,
                 password:user.password
             }
-            apiPrj002(params)
+            apiPrj(params)
             .then( (res) => {
                 this.$router.push(`${row.linkurl}table`)
             })

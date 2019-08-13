@@ -37,9 +37,8 @@ router.post('/', function (req, res, next) {
     })
 
 })
-
-router.post('/prj002', function (req, res, next) {
-    console.log("测试看这里",req.body)
+router.post('/:prjname', function (req, res, next) {
+    var  prjname = req.params.prjname
     var url = myConst.apiurl + "/o/token/";
     var options = {
         url: url,
@@ -47,15 +46,16 @@ router.post('/prj002', function (req, res, next) {
             "username": req.body.email,
             "password": req.body.password,
             "grant_type": "password",
-            "scope": myConst.scope_prj002,
+            "scope":eval('myConst.scope_'+prjname),
+            // "scope":prjname,
             "client_id": myConst.client_id,
             "client_secret": myConst.client_secret
         }
     }
     request.post(options, function (error, response, body) {
-        var prj002token = JSON.parse(body)
-        console.log('获取的prj002token',prj002token)
-        res.cookie("prj002token", prj002token, {maxAge: 1000 * 60 * 60 * 8, httpOnly: true})
+        var prjToken = JSON.parse(body)
+        console.log('获取的'+ prjname + 'token',prjToken)
+        res.cookie(prjname+"token", prjToken, {maxAge: 1000 * 60 * 60 * 8, httpOnly: true})
         res.send({msg:"ok"})
     })
 })

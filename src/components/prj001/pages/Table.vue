@@ -19,7 +19,7 @@
     </el-col>
 
     <!--主要内容 列表-->
-    <el-table :data="patientsList" highlight-current-row v-loading="listLoading" @selection-change="selsChange"
+    <el-table :data="patientsList" highlight-current-row v-loading="listLoading"
               style="width: 100%;" height="500"><!--height固定表头-->
       <!-- <el-table-column type="selection" width="55">
       </el-table-column> -->
@@ -44,13 +44,13 @@
       <el-table-column label="数据修改" width="610">
         <template v-slot="scope">
           <el-button-group>
-          <el-button type="btn-info" size="small" @click="openDataForm(scope.$index, scope.row)">基本信息</el-button>
+          <el-button type="btn-info" size="small" @click="openDataForm(scope.$index, scope.row, 'info')">基本信息</el-button>
           <el-button type="btn-summary" size="small" @click="openDataForm(scope.$index, scope.row, 'summary')">病情概要</el-button>
           <el-button type="btn-history"    size="small" @click="openDataForm(scope.$index, scope.row, 'history')">患者病史</el-button>
-          <el-button type="btn-experiment" size="small" @click="openDataForm(scope.$index, scope.row, 'experiment')">相关检查</el-button>
-          <el-button type="btn-clinical" size="small" @click="openDataForm(scope.$index, scope.row, 'clinical')">临床诊断</el-button>
-          <el-button type="btn-bxray" size="small" @click="openDataForm(scope.$index, scope.row, 'bxray')">中西治疗</el-button>
-          <el-button type="btn-cure" size="small" @click="openDataForm(scope.$index, scope.row, 'cure')">疗效</el-button>
+          <el-button type="btn-relevant" size="small" @click="openDataForm(scope.$index, scope.row, 'relevant')">相关检查</el-button>
+          <el-button type="btn-cc" size="small" @click="openDataForm(scope.$index, scope.row, 'cc')">临床诊断</el-button>
+          <el-button type="btn-cure" size="small" @click="openDataForm(scope.$index, scope.row, 'cure')">中西治疗</el-button>
+          <el-button type="btn-results" size="small" @click="openDataForm(scope.$index, scope.row, 'results')">疗效</el-button>
           </el-button-group>
           <el-button type="danger" size="small" style="margin-left:8px" @click="handleDel(scope.$index, scope.row)">删除</el-button>
         </template>
@@ -68,20 +68,20 @@
       </el-pagination>
     </el-col>
 
-    <!-- 基本信息dialog -->
+    <!-- 基本信息 dialog -->
     <InfoForm ref="info"></InfoForm>
-    <!-- 病情概要dialog -->
+    <!-- 病情概要 dialog -->
     <SummaryForm ref="summary"></SummaryForm>
-    <!-- 专科病史dialog -->
+    <!-- 患者病史 dialog -->
     <HistoryForm ref="history"></HistoryForm>
-    <!-- 实验室检查dialog -->
-    <ExperimentForm ref="experiment"></ExperimentForm>
-    <!-- B超dialog -->
-    <BxrayForm ref="bxray"></BxrayForm>
-    <!-- 临床诊断dialog -->
-    <ClinicalForm ref="clinical"></ClinicalForm>
-    <!-- 治疗dialog -->
+    <!-- 相关检查 dialog -->
+    <RelevantForm ref="relevant"></RelevantForm>
+    <!-- 临床诊断 dialog -->
+    <CcForm ref="cc"></CcForm>
+    <!-- 中西治疗 dialog -->
     <CureForm ref="cure"></CureForm>
+    <!-- 疗效 dialog -->
+    <ResultsForm ref="results"></ResultsForm>
 
     <!-- 新增信息dialog -->
     <AddPatient ref="addPatient" ></AddPatient>
@@ -90,11 +90,10 @@
 </template>
 
 <script>
-import util from '@/common/js/util'
 // axios请求,向express做请求
-import {apiGetPatientsList, apiRemovePatient, apiSearchPatient, batchRemoveUser} from '@/api/api-prj002'
+import {apiGetPatientsList, apiRemovePatient, apiSearchPatient} from '@/api/api-prj001'
 // 请求各表单内容的api
-import {apiGetPatientDataForm } from '@/api/api-prj002'
+import {apiGetPatientDataForm } from '@/api/api-prj001'
 // 批量导入子组件
 import {AddPatient,InfoForm,SummaryForm,HistoryForm,RelevantForm,CcForm,CureForm,ResultsForm} from '@/components/prj001/forms'
 export default {
@@ -102,10 +101,11 @@ export default {
   components:{AddPatient,InfoForm,SummaryForm,HistoryForm,RelevantForm,CcForm,CureForm,ResultsForm},
   data () {
     return {
+      is_admin:true,
       search: {
-        name: '', phone:'', hospital:'', birth:'', career:'', address:''
+        name: '', phone:'', hospital:'', address:'', is_checked:''//career:'',birth:''
       },
-      searchName: {name:'姓名',phone:'电话',hospital:'医院',birth:'出生日期',career:'职业',address:'地址'},
+      searchName: {name:'姓名',phone:'电话',hospital:'医院',address:'地址'},//career:'职业',birth:'出生日期',
       patientsList: [], // 数据列表
       totalNum: 0, //  数据总条数
       page: 1, //当前页码
@@ -147,7 +147,7 @@ export default {
     },
     // 获取患者列表
     getPatients () {
-      this.search = {name: '', phone:'', hospital:'', birth:'', career:'', address:''}
+      this.search = {name: '', phone:'', hospital:'', address:''}
       let para = {
         page: this.page
       }
@@ -177,39 +177,9 @@ export default {
       }).catch(() => {})
     },
 
-    selsChange: function (sels) {
-      this.sels = sels
-    },
-    // 批量删除
-    batchRemove: function () {
-      var ids = this.sels.map(item => item.id).toString()
-      this.$confirm('确认删除选中记录吗？', '提示', {
-        type: 'warning'
-      }).then(() => {
-        this.listLoading = true
-        let para = { ids: ids }
-        batchRemoveUser(para).then((res) => {
-          this.listLoading = false
-          this.$message({
-            message: '删除成功',
-            type: 'success'
-          })
-          this.getPatients()
-        })
-      }).catch(() => {
-
-      })
-    },
-
     //核心的Form表单
     openDataForm (index, row, formName) {
       console.log('formName',formName)
-
-      if (formName == 'info') {
-        console.log("看这里",row);
-        row[formName] = row['url'];
-        console.log("看这里",row)}
-
       // 如果DataForm表未创建,不需要请求后端,直接显示空表
       if (row[formName]==null) {
         console.log('创建流程')

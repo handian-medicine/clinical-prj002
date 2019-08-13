@@ -6,7 +6,6 @@
     <el-form ref="infoForm" :model="infoForm" label-width="130px" label-position="right">
       <el-form-item label="患者姓名">
         <el-input v-model="infoForm.name"></el-input>
-        <!-- <el-input v-model="infoForm.name"><template slot="prepend">患者姓名</template></el-input> -->
       </el-form-item>
 
       <el-form-item label="民族">

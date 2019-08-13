@@ -49,6 +49,27 @@ router.post('/remove', function (req, res, next) {
   })
 
 })
+// 审查
+router.post('/check', function (req, res, next){
+  var options = {
+        url: myConst.apiurl + "/prj002/info/" + req.body.id +'/checked/',
+        form:req.body,
+        headers: {
+            'Authorization': 'Bearer ' + req.cookies.prj002token.access_token
+        }
+      }
+  console.log("审核",options)
+  request.post(options, function (error, response, body) {
+    console.log("发送")
+    if (!error && response.statusCode == 200) {
+      res.send({msg:'审查成功'})
+      } else {
+      res.send({msg:'审查失败'})
+    }
+
+  })
+})
+
 
 // 所有患者信息列表
 router.post('/list', function(req, res, next) {
@@ -123,6 +144,7 @@ router.post('/form', function(req, res, next) {
 // 修改
 router.patch('/form', function(req, res, next) {
   console.log('user.js PATCH修改Form ')
+  console.log("打印",req.body.formData)
   var options = {
     url: req.body.formData.url,
     form: req.body.formData,

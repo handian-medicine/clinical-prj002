@@ -10,6 +10,4 @@ export const apiLogin = params => { return axios.post(`${baseUrl}/login`, params
 //进入项目列表
 export const apiHome = params => { return axios.post(`${baseUrl}/home`, params) }
 //进入项目主页
-export const apiPrj001 = params => { return axios.post(`${baseUrl}/home/prj001`, params) } // 空
-export const apiPrj002 = params => { return axios.post(`${baseUrl}/home/prj002`, params) } // 完成
-export const apiPrj003 = params => { return axios.post(`${baseUrl}/home/prj003`, params) } // 空
+export const apiPrj = params => { return axios.post(`${baseUrl}/home` + params.linkurl, params) }

@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import Header from '@/components/prj002/Header'
+import Header from '@/components/common/Header'
 export default {
   name:'Pjr002',
   components:{Header},

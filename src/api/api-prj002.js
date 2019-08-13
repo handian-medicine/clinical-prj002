@@ -6,6 +6,8 @@ let baseUrl = 'http://127.0.0.1:8080/api/api' //开发环境用
 
 // 添加患者
 export const apiAddPatient = params => { return axios.post(`${baseUrl}/prj002/user/add`, params) }
+// 审查信息
+export const apiCheckPatient = params => { return axios.post(`${baseUrl}/prj002/user/check`, params) }
 // 搜索患者
 export const apiSearchPatient = params => { return axios.post(`${baseUrl}/prj002/user/search`, params) }
 // 获取患者列表

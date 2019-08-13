@@ -4,9 +4,11 @@
             :close-on-click-modal="false" width="100%" center
             @close='resetDialog'>
     <el-form ref="experimentForm" :model="experimentForm" label-width="210px" label-position="left">
-      <el-form-item v-for="(val, key) in mydata" :key="key" :label="val">
+      <el-form-item v-for="(val, key) in mydata" :key="key" :label="val[0]">
         <!-- 这里应该提供度量单位 -->
-        <el-input v-model="experimentForm[key]" type="number" min="0"></el-input>
+        <el-input v-model="experimentForm[key]" type="number" min="0">
+          <template slot="append">{{val[1]}}</template>
+        </el-input>
       </el-form-item>
 
       <el-form-item label="胰岛素抵抗指数(HOMA-IR)">
@@ -53,13 +55,13 @@ export default {
           yidaosu_mingan:''           //胰岛素敏感指数（ISI） 1/（空腹血糖×空腹胰岛素）
       },
       mydata:{
-            'check_gaotong':'睾酮（T）','check_ci':'雌二醇（E2）','check_huangti':'黄体生成素（LH）',
-            'check_luanpao':'卵泡刺激素（FSH）','check_xue':'血清泌乳素（PRL）','check_xuetang':'空腹血糖（FPG）',
-            'check_yidaosu':'空腹胰岛素（FINS）','check_canxue':'餐后30mins血糖（FPG）',
-            'check_canyi':'餐后30mins胰岛素（FINS）','check_cantang':'餐后60mins血糖（FPG）',
-            'check_candao':'餐后60mins胰岛素（FINS）','check_canxuetang':'餐后120mins血糖（FPG）',
-            'check_canyidao':'餐后1200mins胰岛素（FINS）','check_xuezhi':'空腹血脂','check_gaomizhi':'空腹高密度脂蛋白',
-            'check_dimizhi':'空腹低密度脂蛋白'
+            'check_gaotong':['睾酮（T）','ng/dl'],'check_ci':['雌二醇（E2）','pg/ml'],'check_huangti':['黄体生成素（LH）','W/ml'],
+            'check_luanpao':['卵泡刺激素（FSH）','W/l'],'check_xue':['血清泌乳素（PRL）','ng/ml'],'check_xuetang':['空腹血糖（FPG）','uV/ml'],
+            'check_yidaosu':['空腹胰岛素（FINS）',' mmol/l'],'check_canxue':['餐后30mins血糖（FPG）',' uV/ml'],
+            'check_canyi':['餐后30mins胰岛素（FINS）','mmol/l'],'check_cantang':['餐后60mins血糖（FPG）',' uV/ml'],
+            'check_candao':['餐后60mins胰岛素（FINS）','mmol/l'],'check_canxuetang':['餐后120mins血糖（FPG）','uV/ml'],
+            'check_canyidao':['餐后1200mins胰岛素（FINS）','mmol/l'],'check_xuezhi':['空腹血脂','mmol/l'],'check_gaomizhi':['空腹高密度脂蛋白','mmol/l'],
+            'check_dimizhi':['空腹低密度脂蛋白','mmol/l']
       },
       dialogVisible: false,
       exist: true,
