@@ -4,8 +4,10 @@
             :close-on-click-modal="false"
             width="90%" center>
 
-    <el-form ref="infoForm" :model="infoForm" label-width="130px" label-position="right">
-      <el-alert v-if="is_checked=='审核通过'" title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态" type="warning" :closable="false" show-icon></el-alert>
+    <el-form ref="infoForm" :model="infoForm" label-width="100px" label-position="left">
+      <el-alert v-if="is_checked=='审核通过'"
+                title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
+                type="warning" :closable="false" show-icon></el-alert>
       <el-form-item label="就诊日期" prop="recdate">
         <!-- format表示显示在页面的日期格式, value-format表示传递给后台的真实的数据格式 -->
         <el-date-picker v-model="infoForm.recdate"
@@ -15,7 +17,7 @@
         </el-date-picker>
       </el-form-item>
       <el-form-item label="问卷编码">
-        <el-input v-model="infoForm.serial"></el-input>
+        <el-input v-model="infoForm.serial" :disabled="true"></el-input>
       </el-form-item>
       <el-form-item label="辅助医生邮箱">
         <el-input v-model="infoForm.owner"></el-input>
@@ -43,7 +45,10 @@
         <el-input v-model="infoForm.address"></el-input>
       </el-form-item>
       <el-form-item label="患者来源">
-        <el-input v-model="infoForm.entrance"></el-input>
+        <el-select v-model="infoForm.entrance" placeholder="请选择">
+          <el-option v-for="item in entranceSelection" :key="item" :label="item" :value="item">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="患者出生年月">
         <el-date-picker v-model="infoForm.birth"
@@ -111,6 +116,7 @@ export default {
     return {
       dialogVisible: false,
       infoForm: {},
+      entranceSelection:["门诊","病房"],
       titleSelection: ["主任医师","副主任医师","主治医师"],
       nationSelection: ["汉族","蒙古族","回族","藏族","维吾尔族","苗族","彝族","壮族","布依族","朝鲜族","满族","侗族",
                         "瑶族","白族","土家族","哈尼族","哈萨克族","傣族","黎族","傈傈族","佤族","畲族","高山族","拉祜族",

@@ -45,7 +45,13 @@ router.post('/remove', function (req, res, next) {
     headers: {'Authorization': 'Bearer ' + req.cookies.prj002token.access_token}
   }
   request.del(options, function (error, response, body) {
-    res.send({msg:'删除成功了'})
+    console.log("删除",response.statusCode)
+    if (response.statusCode == 204) {
+      res.send({msg:''})
+    } else {
+      var bodyParse = JSON.parse(body)
+      res.send({msg:bodyParse.detail})
+    }
   })
 
 })

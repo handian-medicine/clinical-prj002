@@ -77,6 +77,11 @@ export default {
       font-size:1.5em;
       border-radius:12px 12px 0 0;
     };
+    .el-form-item__label {
+      color:cornflowerblue;
+      font-weight:600;
+
+    }
     .el-icon-close:before{
       color:black;
     }

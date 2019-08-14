@@ -10,7 +10,7 @@
           <el-select v-model="search.check_status" placeholder="查询审核状态">
             <el-option value="未审核" label="未通过"></el-option>
             <el-option value="审核通过" label="审核通过"></el-option>
-            <el-option value="审核不通过" label="审核未通过"></el-option>
+            <el-option value="审核不通过" label="审核不通过"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -64,7 +64,9 @@
           </el-button-group>
           <el-button type="danger" size="small" style="margin-left:8px" v-if="is_admin"
                     @click="checkPatient(scope.$index, scope.row)">审核</el-button>
-          <el-button type="danger" size="small" style="margin-left:8px" @click="delPatient(scope.$index, scope.row)">删除</el-button>
+          <el-button v-show="scope.row.check_status!='审核通过'" icon="el-icon-delete" circle
+                      type="danger" size="mini" style="margin-left:8px" 
+                      @click="delPatient(scope.$index, scope.row)"></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -157,10 +159,11 @@ export default {
         let para = { url: row.url }
         apiRemovePatient(para).then((res) => {
           this.listLoading = false
-          this.$message({
-            message: '删除成功',
-            type: 'success'
-          })
+          if (res.data.msg) {
+            this.$message({message: '您没有执行该操作的权限', type: 'error'})
+          } else {
+            this.$message({message: '删除成功', type: 'success'})
+          }
           this.getPatients()
         })
       }).catch()

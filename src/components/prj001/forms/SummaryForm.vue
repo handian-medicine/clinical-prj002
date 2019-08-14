@@ -5,6 +5,16 @@
             @close='resetDialog'>
     <el-form ref="summaryForm" :model="summaryForm" label-width="130px" label-position="left">
 
+                <!-- <p style="color:#871F78">(1)阴道不规则流血<input class="summary-number" id="owner_buguize"  name="owner_buguize" type="number" value="" style="width:30px; border:0; border-bottom:1px solid #000; text-align:center;"/>天 -->
+                <!-- <p style="color:#871F78">(2)月经周期缩短<input class="summary-number" id="owner_suoduan"  name="owner_suoduan" type="number" value="" style="width:30px; border:0; border-bottom:1px solid #000; text-align:center;"/>月     -->
+                <!-- <p style="color:#871F78">(3)行经时间延长<input class="summary-number" id="owner_yanchang" name="owner_yanchang" type="number" value="" style="width:30px; border:0; border-bottom:1px solid #000; text-align:center;"/>月 -->
+                <!-- <p style="color:#871F78">(4)月经量多<input class="summary-number" id="owner_liangduo" name="owner_liangduo" type="number" value="" style="width:30px; border:0; border-bottom:1px solid #000; text-align:center;"/>月 -->
+                <!-- <p style="color:#871F78">(5)排卵期出血<input class="summary-number" id="owner_pailuan"  name="owner_pailuan" type="number" value="" style="width:30px; border:0; border-bottom:1px solid #000; text-align:center;"/>月  -->
+                <!-- <p style="color:#871F78">其他:<input class="summary-text" id="owner_qita" name="owner_qita" type="text" value=""/> -->
+      <el-form-item class="my-input" label="主诉">
+        <el-input v-model="summaryForm.owner_buguize"></el-input>
+      </el-form-item>
+
       <template v-for="(q_val,q_key) in mydata">
         <el-form-item label="正常" :key="q_key">
           <el-switch v-model="summaryForm[q_key]" active-text="是" inactive-text="否"></el-switch>
@@ -38,7 +48,6 @@
         <el-checkbox v-for="(val, key) in pulse" :key="key" :label="val" v-model="summaryForm[key]">
         </el-checkbox>
         <el-input v-model="summaryForm.pulse_qita"></el-input>
-
       </el-form-item>
 
     </el-form>
@@ -47,6 +56,7 @@
         <el-button type="primary" v-else  @click="createSummaryForm">确定</el-button>
         <el-button @click="dialogVisible=false">取消</el-button>
     </span>
+    <el-backtop target=".my-dialog .el-dialog__header"></el-backtop>
 
   </el-dialog>
 </template>
@@ -152,5 +162,13 @@ export default {
 }
 </script>
 <style lang="">
+  .my-input .el-input__inner {
+    width: 220px;
+    border-top-width: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    border-bottom-width: 1px;
+    /*outline: medium;*/
+}
 </style>
 
