@@ -3,7 +3,14 @@
             :visible.sync="dialogVisible"
             :close-on-click-modal="false"
             width="90%" center>
-    <el-form ref="infoForm" :model="infoForm" label-width="130px" label-position="right">
+    <el-form ref="infoForm" :model="infoForm" label-width="90px" label-position="right">
+      <el-alert v-if="check_status=='审核通过'" effect="dark"
+                  title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
+                  type="warning" :closable="false" show-icon>
+      </el-alert>
+
+      <el-divider></el-divider>
+
       <el-form-item label="患者姓名">
         <el-input v-model="infoForm.name"></el-input>
         <!-- <el-input v-model="infoForm.name"><template slot="prepend">患者姓名</template></el-input> -->
@@ -23,19 +30,8 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item label="特殊工作环境">
-        <el-checkbox v-for="(val, key) in specialCheckbox" :key="key" :label="val" v-model="infoForm[key]">
-        </el-checkbox>
-      </el-form-item>
-
       <el-form-item label="病人现住址">
         <el-input v-model="infoForm.address"></el-input>
-      </el-form-item>
-
-      <el-form-item label="饮食偏好">
-        <el-checkbox v-for="(val, key) in dietCheckbox" :key="key" :label="val" v-model="infoForm[key]">
-        </el-checkbox>
-        <el-input v-model="infoForm.yinshi_qita" placeholder="其他"></el-input>
       </el-form-item>
 
       <el-form-item label="身高">
@@ -50,7 +46,7 @@
         </el-input>
       </el-form-item>
 
-      <el-form-item label="体重指数(BMI)">
+      <el-form-item label="体重指数">
         <el-tag>
           {{infoForm.weight2height = BMI }}kg/m<sup>2</sup>
         </el-tag>
@@ -68,18 +64,28 @@
         </el-input>
       </el-form-item>
 
-      <el-form-item label="腰臀比(WHR)">
+      <el-form-item label="腰臀比">
         <el-tag>
           {{infoForm.waist2hip =  waist2hip }}
         </el-tag>
+      </el-form-item>
+
+      <el-form-item label="特殊工作环境">
+        <el-checkbox v-for="(val, key) in specialCheckbox" :key="key" :label="val" v-model="infoForm[key]">
+        </el-checkbox>
+      </el-form-item>
+
+      <el-form-item label="饮食偏好">
+        <el-checkbox v-for="(val, key) in dietCheckbox" :key="key" :label="val" v-model="infoForm[key]">
+        </el-checkbox>
+        <el-input v-model="infoForm.yinshi_qita" placeholder="其他"></el-input>
       </el-form-item>
 
       <el-form-item label="多毛评分">
         <el-input v-model="infoForm.hairy" type="number" min="0"></el-input>
       </el-form-item>
 
-      <el-form-item label="患者是否有痤疮">
-        <el-switch v-model="infoForm.acne" active-text="是" inactive-text="否"></el-switch>
+      <h4>患者是否有痤疮&nbsp;&nbsp;<el-switch v-model="infoForm.acne" active-text="是" inactive-text="否"></el-switch></h4>
         <div v-show="infoForm.acne">
           <el-col :sm="24" :md="12">
             <el-input v-model="infoForm.acne_part">
@@ -97,15 +103,13 @@
               <el-table-column prop="field3" label="部位"></el-table-column>
             </el-table>
         </div>
-      </el-form-item>
 
-      <el-form-item label="患者是否有皮脂腺分泌过旺">
-        <el-switch v-model="infoForm.glandula" active-text="是" inactive-text="否"></el-switch>
+      <h4>患者是否有皮脂腺分泌过旺 &nbsp;&nbsp;<el-switch v-model="infoForm.glandula" active-text="是" inactive-text="否"></el-switch></h4>
         <div v-if="infoForm.glandula">
-          <el-form-item label="分泌过旺具体部位">
+          <el-form-item label="具体部位">
             <el-input v-model="infoForm.glandula_part"></el-input>
           </el-form-item>
-          <el-form-item label="分泌过旺程度">
+          <el-form-item label="分泌程度">
             <el-radio-group v-model="infoForm.glandula_level">
               <el-radio label="轻">轻</el-radio>
               <el-radio label="中">中</el-radio>
@@ -113,12 +117,10 @@
             </el-radio-group>
           </el-form-item>
         </div>
-      </el-form-item>
 
-      <el-form-item label="患者是否有雄性脱发">
-        <el-switch v-model="infoForm.male" active-text="是" inactive-text="否"></el-switch>
+      <h4>患者是否有雄性脱发&nbsp;&nbsp;<el-switch v-model="infoForm.male" active-text="是" inactive-text="否"></el-switch></h4>
         <div v-if="infoForm.male">
-          <el-form-item label="如果是,请描述具体部位">
+          <el-form-item label="具体部位">
             <el-input v-model="infoForm.male_part"></el-input>
           </el-form-item>
           <el-form-item label="脱发程度">
@@ -129,11 +131,10 @@
             </el-radio-group>
           </el-form-item>
         </div>
-      </el-form-item>
 
     </el-form>
     <span slot="footer">
-        <el-button type="primary" @click="updateInfoForm">确定</el-button>
+        <el-button :disabled="check_status=='审核通过'" type="primary" @click="updateInfoForm">确定</el-button>
         <el-button @click="dialogVisible=false">取消</el-button>
     </span>
 
@@ -162,7 +163,8 @@ export default {
                 {field1: '4', field2: '重', field3: '脓疱≥20个'},
                 {field1: '5', field2: '囊性', field3: '炎性病损≥5mm'}],
       exist: true,
-      formName:''
+      formName:'',
+      check_status:''
     }
   },
   computed:{
@@ -209,6 +211,7 @@ export default {
         this.dialogVisible = true
         this.exist = data.exist
         this.formName = data.formName
+        this.check_status = data.check_status
         if (!data.exist) {
           //未创建
           this.infoForm.info = data.formData.info

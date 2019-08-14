@@ -5,7 +5,7 @@
 
     <el-form ref="patientInfo" :model="checkData" label-width="130px" label-position="left">
 
-      <el-form-item label="审核结果">
+      <el-form-item label="审核状态">
         <el-radio-group v-model="checkData.is_checked">
           <el-radio label="未审核">未审核</el-radio>
           <el-radio label="审核通过">审核通过</el-radio>

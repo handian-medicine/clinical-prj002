@@ -4,6 +4,13 @@
             :close-on-click-modal="false" width="100%" center
             @close='resetDialog'>
     <el-form ref="experimentForm" :model="experimentForm" label-width="210px" label-position="left">
+      <el-alert v-if="check_status=='审核通过'" effect="dark"
+                  title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
+                  type="warning" :closable="false" show-icon>
+      </el-alert>
+
+      <el-divider></el-divider>
+
       <el-form-item v-for="(val, key) in mydata" :key="key" :label="val[0]">
         <!-- 这里应该提供度量单位 -->
         <el-input v-model="experimentForm[key]" type="number" min="0">
@@ -20,7 +27,7 @@
     </el-form>
 
     <span slot="footer">
-      <el-button type="primary" v-if="exist"  @click="updateExperimentForm">确定</el-button>
+      <el-button :disabled="check_status=='审核通过'" type="primary" v-if="exist"  @click="updateExperimentForm">确定</el-button>
       <el-button type="primary" v-else  @click="createExperimentForm">确定</el-button>
       <el-button @click="dialogVisible=false">取消</el-button>
     </span>
@@ -65,7 +72,8 @@ export default {
       },
       dialogVisible: false,
       exist: true,
-      formName:''
+      formName:'',
+      check_status:''
     }
   },
   computed:{
@@ -118,6 +126,7 @@ export default {
       this.dialogVisible = true
       this.exist = data.exist
       this.formName = data.formName
+      this.check_status = data.check_status
       if (!data.exist) {
         //未创建
         this.experimentForm.info = data.formData.info

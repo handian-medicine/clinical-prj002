@@ -39,7 +39,7 @@
       </el-table-column>
       <el-table-column prop="degree_of_completion" label="信息完整度" width="100px">
       </el-table-column>
-      <el-table-column prop="career" label="审核状态" width="100">
+      <el-table-column prop="is_checked" label="审核状态" width="100">
       </el-table-column>
       <el-table-column label="数据修改" width="700">
         <template v-slot="scope">
@@ -127,14 +127,11 @@ export default {
     // 审核
     checkPatient (index, row) {
       const checkData = {
-        // id:row.id,
-        // is_checked:row.is_checked,
-        // reasons_for_not_passing:row.reasons_for_not_passing
-        id:3,
-        is_checked:"未通过",
-        reasons_for_not_passing:"原因"
+        id:row.id,
+        is_checked:row.is_checked,
+        reasons_for_not_passing:row.reasons_for_not_passing
         }
-      this.$refs.checkPatient.$emit("checkEvent",{ checkData:checkData })
+      this.$refs.checkPatient.$emit("checkEvent", checkData)
     },
     // 搜索功能
     searchPatient () {
@@ -151,6 +148,7 @@ export default {
         this.listLoading = false
       })
     },
+    // 分页功能
     handleListPagination (currentPage) {
       console.log('分页',currentPage)
       this.page = currentPage,
@@ -201,19 +199,18 @@ export default {
       if (formName == 'info') { row[formName] = row['url'] }// 临时
 
       if (row[formName]==null) {
-        console.log('创建流程')
+        console.log('创建流程', formName)
         // 传一个创建此DataForm的url进去,这个url是info的url
         this.$refs[formName].$emit("openEvent", {exist:false, formData:{info:row.url}, formName:formName } )
-      // 如果DataForm表已创建,需要请求后端,拿到数据
       } else {
-        console.log('修改流程')
+      // 如果DataForm表已创建,需要请求后端,拿到数据
+        console.log('修改流程', formName)
         // 此时当前患者的DataForm已经存在
-        console.log('row[formName]',row[formName])
         let para = {page: this.page, url: row[formName]}
         apiGetPatientDataForm(para)
         .then((res)=> {
           console.log('拿到的已创建的DataForm表',res.data)
-          this.$refs[formName].$emit("openEvent", {exist:true, formData:res.data})
+          this.$refs[formName].$emit("openEvent", {exist:true, formData:res.data, is_checked:row.is_checked})
         })
         .catch(() => {})
       }

@@ -34,7 +34,7 @@
       </el-table-column>
       <el-table-column prop="name" label="姓名" width="90" sortable>
       </el-table-column>
-      <el-table-column prop="serial" label="编码" width="90" sortable>
+      <el-table-column prop="serial" label="编码" width="120" sortable>
       </el-table-column>
       <el-table-column prop="hospital" label="医院" width="150">
       </el-table-column>
@@ -42,21 +42,15 @@
       </el-table-column>
       <el-table-column prop="expert" label="专家" width="80">
       </el-table-column>
-      <el-table-column prop="owner" label="录入人" width="80">
-      </el-table-column>
+      <!-- <el-table-column prop="owner" label="录入人" width="80">
+      </el-table-column> -->
       <el-table-column prop="degree_of_completion" label="信息完整度" width="90">
-        <!-- <template v-slot="scope">
-          <el-progress :text-inside="true" :stroke-width="24" :percentage="scope.row.degree_of_completion" status="success"></el-progress>
-        </template> -->
+        <template v-slot="scope">
+          <el-progress :text-inside="true" :stroke-width="15" :percentage="Number(scope.row.degree_of_completion)" :color="customColors"></el-progress>
+        </template>
       </el-table-column>
       <el-table-column prop="check_status" label="审核状态" width="80">
       </el-table-column>
-      <!-- <el-table-column prop="birth" label="出生日期" width="100">
-      </el-table-column> -->
-      <!-- <el-table-column prop="phone" label="手机号码" width="110">
-      </el-table-column> -->
-      <!-- <el-table-column prop="career" label="职业" min-width="90">
-      </el-table-column> -->
       <el-table-column label="数据修改" width="680">
         <template v-slot="scope">
           <el-button-group>
@@ -132,7 +126,13 @@ export default {
       page: 1, //当前页码
       search_page: 1, //搜索结果的当前页码
       listLoading: false,
-      pagination_flag: true //true表示所有数据的分页,false表示搜索数据的分页
+      pagination_flag: true, //true表示所有数据的分页,false表示搜索数据的分页
+      customColors: [
+          {color: '#f56c6c', percentage: 20},
+          {color: '#6f7ad3', percentage: 40},
+          {color: '#e6a23c', percentage: 80},
+          {color: '#5cb87a', percentage: 100},
+        ]
     }
   },
   methods: {
@@ -143,7 +143,7 @@ export default {
     // 审核
     checkPatient (index, row) {
       const checkData = {
-        check:row.check, //url
+        check:row.check,// check字段是一个url
         check_status:row.check_status,
         reason_for_check:row.reason_for_check
         }
@@ -174,7 +174,6 @@ export default {
       }
       this.pagination_flag = false
       apiSearchPatient(para).then( (res) => {
-        // console.log('搜索返回结果',res.data.searchResults)
         this.patientsList = res.data.searchResults
         this.totalNum = res.data.searchResultsNum
         this.listLoading = false
@@ -198,7 +197,7 @@ export default {
       apiGetPatientsList(para).then((res) => {
         console.log(res.data)
         this.patientsList = res.data.patientsList
-        this.is_admin = true//res.data.is_admin
+        this.is_admin = res.data.is_admin
         this.totalNum = res.data.totalNum
         this.listLoading = false
       })
@@ -209,19 +208,19 @@ export default {
       console.log('formName',formName)
       // 如果DataForm表未创建,不需要请求后端,直接显示空表
       if (row[formName] == null) {
-        console.log('创建流程')
+        console.log('创建流程',formName)
         // 传一个创建此DataForm的url进去,这个url是info的url
-        this.$refs[formName].$emit("openEvent", {exist:false, formData:{info:row.url}, formName:formName } )
-      // 如果DataForm表已创建,需要请求后端,拿到数据
+        this.$refs[formName].$emit("openEvent", {exist:false, formData:{info:row.info}, formName:formName } )
       } else {
-        console.log('修改流程')
+      // 如果DataForm表已创建,需要请求后端,拿到数据
+        console.log('修改流程',formName)
         // 此时当前患者的DataForm已经存在
         console.log('row[formName]',row[formName])
         let para = {page: this.page, url: row[formName]}
         apiGetPatientDataForm(para)
         .then((res)=> {
           console.log('拿到的已创建的DataForm表',res.data)
-          this.$refs[formName].$emit("openEvent", {exist:true, formData:res.data})
+          this.$refs[formName].$emit("openEvent", {exist:true, formData:res.data, formName:formName, check_status:row.check_status})
         })
         .catch()
       }

@@ -4,6 +4,12 @@
             :close-on-click-modal="false" width="100%" center
             @close='resetDialog'>
     <el-form ref="historyForm" :model="historyForm" label-width="130px" label-position="right">
+      <el-alert v-if="check_status=='审核通过'" effect="dark"
+                  title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
+                  type="warning" :closable="false" show-icon>
+      </el-alert>
+
+      <el-divider></el-divider>
 
       <el-form-item label="月经初潮年龄">
         <el-radio v-model="historyForm.first_time"
@@ -145,7 +151,7 @@
     </el-form>
 
     <span slot="footer">
-      <el-button type="primary" v-if="exist"  @click="updateHistoryForm">确定</el-button>
+      <el-button type="primary" :disabled="check_status=='审核通过'" v-if="exist"  @click="updateHistoryForm">确定</el-button>
       <el-button type="primary" v-else  @click="createHistoryForm">确定</el-button>
       <el-button @click="dialogVisible=false">取消</el-button>
     </span>
@@ -200,7 +206,8 @@ export default {
       },
       dialogVisible: false,
       exist: true,
-      formName:''
+      formName:'',
+      check_status:''
     }
   },
   methods: {
@@ -235,6 +242,7 @@ export default {
       this.dialogVisible = true
       this.exist = data.exist
       this.formName = data.formName
+      this.check_status = data.check_status
       if (!data.exist) {
         //未创建
         this.historyForm.info = data.formData.info

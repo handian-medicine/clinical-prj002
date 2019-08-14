@@ -5,10 +5,11 @@
             width="90%" center>
 
     <el-form ref="infoForm" :model="infoForm" label-width="130px" label-position="right">
+      <el-alert v-if="is_checked=='审核通过'" title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态" type="warning" :closable="false" show-icon></el-alert>
       <el-form-item label="就诊日期" prop="recdate">
         <!-- format表示显示在页面的日期格式, value-format表示传递给后台的真实的数据格式 -->
         <el-date-picker v-model="infoForm.recdate"
-                        type="month" placeholder="选择日期"
+                        type="date" placeholder="选择日期"
                         format="yyyy 年 MM 月 dd 日"
                         value-format="yyyy-MM-dd">
         </el-date-picker>
@@ -35,6 +36,32 @@
       <el-form-item label="患者姓名">
         <el-input v-model="infoForm.name"></el-input>
       </el-form-item>
+      <el-form-item label="电话(手机)">
+        <el-input v-model="infoForm.telephone"></el-input>
+      </el-form-item>
+      <el-form-item label="患者现住址">
+        <el-input v-model="infoForm.address"></el-input>
+      </el-form-item>
+      <el-form-item label="患者来源">
+        <el-input v-model="infoForm.entrance"></el-input>
+      </el-form-item>
+      <el-form-item label="患者出生年月">
+        <el-date-picker v-model="infoForm.birth"
+                        type="month" placeholder="选择日期"
+                        format="yyyy 年 MM 月"
+                        value-format="yyyy-MM">
+        </el-date-picker>
+      </el-form-item>
+      <el-form-item label="身高">
+        <el-input v-model="infoForm.height" type="number" min="0">
+            <template slot="append">cm</template>
+        </el-input>
+      </el-form-item>
+      <el-form-item label="体重">
+        <el-input v-model="infoForm.weight" type="number" min="0">
+          <template slot="append">kg</template>
+        </el-input>
+      </el-form-item>
 
       <el-form-item label="民族">
         <el-select v-model="infoForm.nation" placeholder="请选择">
@@ -50,13 +77,16 @@
         </el-select>
       </el-form-item>
 
+      <el-form-item label="文化程度">
+        <el-select v-model="infoForm.culture" placeholder="请选择">
+          <el-option v-for="item in cultureSelection" :key="item" :label="item" :value="item">
+          </el-option>
+        </el-select>
+      </el-form-item>
+
       <el-form-item label="特殊工作环境">
         <el-checkbox v-for="(val, key) in specialCheckbox" :key="key" :label="val" v-model="infoForm[key]">
         </el-checkbox>
-      </el-form-item>
-
-      <el-form-item label="病人现住址">
-        <el-input v-model="infoForm.address"></el-input>
       </el-form-item>
 
       <el-form-item label="饮食偏好">
@@ -65,21 +95,9 @@
         <el-input v-model="infoForm.yinshi_qita" placeholder="其他"></el-input>
       </el-form-item>
 
-      <el-form-item label="身高">
-        <el-input v-model="infoForm.height" type="number" min="0">
-            <template slot="append">cm</template>
-        </el-input>
-      </el-form-item>
-
-      <el-form-item label="体重">
-        <el-input v-model="infoForm.weight" type="number" min="0">
-          <template slot="append">kg</template>
-        </el-input>
-      </el-form-item>
-
     </el-form>
     <span slot="footer">
-        <el-button type="primary" @click="updateInfoForm">确定</el-button>
+        <el-button type="primary" :disabled="is_checked=='审核通过'" @click="updateInfoForm">确定</el-button>
         <el-button @click="dialogVisible=false">取消</el-button>
     </span>
 
@@ -100,10 +118,12 @@ export default {
                         "毛难族","仡佬族","锡伯族","阿昌族","普米族","塔吉克族","怒族","乌孜别克族","俄罗斯族","鄂温克族",
                         "崩龙族","保安族","裕固族","京族","塔塔尔族","独龙族","鄂伦春族","赫哲族","门巴族","珞巴族","基诺族","其它"],
       careerSelection: ["学生","个体","农民","军人","工人","财会人员","技术人员","服务业","科教文卫","行政管理","无业","其它"],
+      cultureSelection: ["未接受国家教育","小学及以下","初中","高中","大专","本科","研究生及以上"],
       specialCheckbox: {"special_gaowen":"高温","special_diwen":"低温","special_yeban":"夜班","special_zao":"噪声","special_fu":"辐射","special_hua":"化工污染","special_ju":"剧烈运动","special_qi":"汽油","special_kong":"高空","special_wu":"无"},
       dietCheckbox:    {"yinshi_wuteshu":"无特殊","yinshi_sushi":"素食","yinshi_suan":"酸","yinshi_xian":"咸","yinshi_xinla":"辛辣","yinshi_you":"油","yinshi_shengleng":"生冷","yinshi_cafei":"含咖啡因食物或饮品"},
       exist: true,
-      formName:''
+      formName:'',
+      is_checked:''
     }
   },
   computed:{
@@ -130,6 +150,7 @@ export default {
         this.dialogVisible = true
         this.exist = data.exist
         this.formName = data.formName
+        this.is_checked = data.is_checked
         if (!data.exist) {
           //未创建
           this.infoForm.info = data.formData.info

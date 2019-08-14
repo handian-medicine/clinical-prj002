@@ -4,6 +4,11 @@
             :close-on-click-modal="false" width="100%" center
             @close='resetDialog'>
     <el-form ref="cureForm" :model="cureForm" label-width="auto" label-position="left">
+      <el-alert v-if="check_status=='审核通过'" effect="dark"
+                  title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
+                  type="warning" :closable="false" show-icon>
+      </el-alert>
+      <el-divider></el-divider>
 
       <el-form-item label="中西医结合治疗">
         <el-switch v-model="cureForm.is_jiehe" active-text="是" inactive-text="否"></el-switch>
@@ -75,7 +80,7 @@
     </el-form>
 
     <span slot="footer">
-      <el-button type="primary" v-if="exist"  @click="updateCureForm">确定</el-button>
+      <el-button :disabled="check_status=='审核通过'" type="primary" v-if="exist"  @click="updateCureForm">确定</el-button>
       <el-button type="primary" v-else  @click="createCureForm">确定</el-button>
       <el-button @click="dialogVisible=false">取消</el-button>
     </span>
@@ -155,7 +160,8 @@ export default {
         },
       dialogVisible: false,
       exist: true,
-      formName:''
+      formName:'',
+      check_status:''
     }
   },
   methods: {
@@ -190,6 +196,7 @@ export default {
       this.dialogVisible = true
       this.exist = data.exist
       this.formName = data.formName
+      this.check_status = data.check_status
       if (!data.exist) {
         //未创建
         this.cureForm.info = data.formData.info

@@ -52,7 +52,6 @@ router.post('/remove', function (req, res, next) {
 // 审查
 router.post('/check', function (req, res, next){
   var options = {
-        // url: myConst.apiurl + "/prj002/info/check/" + 1 + '/',//req.body.id,
         url: req.body.check,
         form:req.body,
         headers: {
@@ -85,7 +84,8 @@ router.post('/list', function(req, res, next) {
     var bodyParse = JSON.parse(body)
     var totalNum = bodyParse.count
     var patientsList = bodyParse.results
-    res.send({patientsList,totalNum})
+    var is_admin = bodyParse.is_admin
+    res.send({patientsList,totalNum,is_admin})
   })
 
 })

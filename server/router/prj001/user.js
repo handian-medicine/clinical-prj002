@@ -117,14 +117,15 @@ router.post('/form', function(req, res, next) {
     })
 })
 // 修改
-router.patch('/form', function(req, res, next) {
+router.put('/form', function(req, res, next) {
   console.log('user.js PATCH修改Form ')
   var options = {
     url: req.body.formData.url,
     form: req.body.formData,
     headers: {'Authorization': 'Bearer ' + req.cookies.prj001token.access_token}
   }
-    request.patch(options, function (error, response, body) {
+    request.put(options, function (error, response, body) {
+      console.log('user.js PATCH修改Form ',body)
       res.send({msg:'ok'})
     })
 })

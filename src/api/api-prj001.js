@@ -22,7 +22,7 @@ export const apiGetPatientDataForm = params => { return axios.get(`${baseUrl}/pr
 // 创建单个患者某个Form
 export const apiCreatePatientDataForm = params => { return axios.post(`${baseUrl}/prj001/user/form`, params) }
 // 修改单个患者某个Form
-export const apiUpdatePatientDataForm = params => { return axios.patch(`${baseUrl}/prj001/user/form`, params) }
+export const apiUpdatePatientDataForm = params => { return axios.put(`${baseUrl}/prj001/user/form`, params) }
 
 
-export const batchRemoveUser = params => { return axios.get(`${baseUrl}/prj001/user/batchremove`, { params: params }) }
+// export const batchRemoveUser = params => { return axios.get(`${baseUrl}/prj001/user/batchremove`, { params: params }) }
