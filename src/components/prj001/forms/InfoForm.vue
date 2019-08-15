@@ -7,7 +7,10 @@
     <el-form ref="infoForm" :model="infoForm" label-width="100px" label-position="left">
       <el-alert v-if="is_checked=='审核通过'"
                 title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
-                type="warning" :closable="false" show-icon></el-alert>
+                type="warning" :closable="false" show-icon>
+      </el-alert>
+      <el-divider v-if="is_checked=='审核通过'"></el-divider>
+
       <el-form-item label="就诊日期" prop="recdate">
         <!-- format表示显示在页面的日期格式, value-format表示传递给后台的真实的数据格式 -->
         <el-date-picker v-model="infoForm.recdate"

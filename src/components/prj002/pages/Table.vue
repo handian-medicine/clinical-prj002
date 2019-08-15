@@ -51,7 +51,7 @@
       </el-table-column>
       <el-table-column prop="check_status" label="审核状态" width="80">
       </el-table-column>
-      <el-table-column label="数据修改" width="680">
+      <el-table-column label="数据修改" width="640">
         <template v-slot="scope">
           <el-button-group>
           <el-button type="btn-info" size="small" @click="openDataForm(scope.$index, scope.row, 'info')">一般情况</el-button>
@@ -62,8 +62,9 @@
           <el-button type="btn-clinical" size="small" @click="openDataForm(scope.$index, scope.row, 'clinical')">临床诊断</el-button>
           <el-button type="btn-cure" size="small" @click="openDataForm(scope.$index, scope.row, 'cure')">治疗</el-button>
           </el-button-group>
-          <el-button type="danger" size="small" style="margin-left:8px" v-if="is_admin"
-                    @click="checkPatient(scope.$index, scope.row)">审核</el-button>
+          <el-button type="danger" size="mini" style="margin-left:8px" v-if="is_admin"
+                    @click="checkPatient(scope.$index, scope.row)" icon="el-icon-view" circle>
+                    </el-button>
           <el-button v-show="scope.row.check_status!='审核通过'" icon="el-icon-delete" circle
                       type="danger" size="mini" style="margin-left:8px" 
                       @click="delPatient(scope.$index, scope.row)"></el-button>
@@ -153,7 +154,7 @@ export default {
     },
     // 删除
     delPatient: function (index, row) {
-      this.$confirm('确认删除该记录吗?', '提示', {type: 'warning'})
+      this.$confirm('此操作将永久删除该条记录, 是否继续', '提示', {type: 'warning',center: true})
       .then(() => {
         this.listLoading = true
         let para = { url: row.url }

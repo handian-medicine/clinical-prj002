@@ -1,10 +1,70 @@
 <template>
-  <el-dialog title="专科病史" class="my-dialog"
+  <el-dialog title="患者病史" class="my-dialog"
             :visible.sync="dialogVisible"
             :close-on-click-modal="false" width="100%" center
             @close='resetDialog'>
-    <el-form ref="historyForm" :model="historyForm" label-width="130px" label-position="right">
+    <el-form ref="historyForm" :model="historyForm" label-width="100px" label-position="left">
+      <el-alert v-if="is_checked=='审核通过'"
+                title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
+                type="warning" :closable="false" show-icon>
+      </el-alert>
+      <el-divider v-if="is_checked=='审核通过'"></el-divider>
 
+    <h3>一、既往史</h3>
+      <el-form-item label="既往史">
+        <el-checkbox v-for="(val, key) in mydata.pasthistory" :key="key" :label="val" v-model="historyForm[key]">
+        </el-checkbox>
+      </el-form-item>
+
+    <h3>二、个人史</h3>
+      <el-form-item label="1、特殊嗜好">
+        <el-checkbox v-for="(val, key) in mydata.hobbies" :key="key" :label="val" v-model="historyForm[key]">
+        </el-checkbox>
+      </el-form-item>
+      <el-form-item label="2、体力状况">
+        <el-radio v-model="historyForm.body_cond"
+                  v-for="item in mydata.body_cond"
+                  :key="item" :label="item">
+        </el-radio>
+      </el-form-item>
+      <el-form-item label="3、职业体力活动">
+        <el-radio v-model="historyForm.career_labor"
+                  v-for="item in mydata.career_labor"
+                  :key="item" :label="item">
+        </el-radio>
+      </el-form-item>
+      <el-form-item label="4、体育锻炼">
+        <el-radio v-model="historyForm.physical" label="是"></el-radio>
+        <el-radio v-model="historyForm.physical" label="否"></el-radio>
+        <el-form-item label="(1)频率">
+          <el-radio v-model="historyForm.physical_exercise"
+                    v-for="item in mydata.physical_exercise"
+                    :key="item" :label="item">
+          </el-radio>
+        </el-form-item>
+        <el-form-item label="(2)强度">
+          <el-radio v-model="historyForm.physical_intensity"
+                    v-for="item in mydata.physical_intensity"
+                    :key="item" :label="item">
+          </el-radio>
+        </el-form-item>
+      </el-form-item>
+      <el-form-item label="5、减肥情况">
+        <el-radio v-model="historyForm.reducefat" label="是"></el-radio>
+        <el-radio v-model="historyForm.reducefat" label="否"></el-radio>
+        <el-form-item label="(1)减肥时长">
+          <el-input v-model="historyForm.reducefat_persist" type="number" min="0">
+            <template slot="append">月</template>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="(2)减肥方式">
+          <el-checkbox v-for="(val, key) in mydata.reducefat_methdod" :key="key" :label="val" v-model="historyForm[key]">
+          </el-checkbox>
+          <el-input v-model="historyForm.reducefat_qita" placeholder="其他"></el-input>
+        </el-form-item>
+      </el-form-item>
+
+    <h3>三、月经带下史</h3>
       <el-form-item label="月经初潮年龄">
         <el-radio v-model="historyForm.first_time"
                   v-for="item in mydata.first_time"
@@ -99,9 +159,9 @@
           <el-option v-for="item in mydata.leucorrhea_feature" :key="item" :value="item">
           </el-option>
         </el-select>
-        <el-input v-model="historyForm.leucorrhea_color_qita" placeholder="其他情况"></el-input>
       </el-form-item>
 
+    <h3>四、婚姻史</h3>
       <el-form-item label="婚姻史">
         <el-radio v-model="historyForm.marriage"
                   v-for="item in mydata.marriage"
@@ -109,7 +169,8 @@
         </el-radio>
       </el-form-item>
 
-      <el-form-item label="孕产史">
+    <h3>五、孕产史</h3>
+      <el-form-item>
         <el-col :sm="24" :md="12" :lg="8" v-for="(val, key) in mydata.pastpreg" :key="key">
           <el-input type="number" min="0" v-model="historyForm[key]">
             <template slot="prepend">{{val}}</template>
@@ -119,6 +180,7 @@
           <el-input v-model="historyForm.pastpreg_qita" placeholder="其他情况"></el-input>
       </el-form-item>
 
+    <h3>六、避孕措施</h3>
       <el-form-item label="避孕措施">
         <el-switch v-model="historyForm.prevent_wu" active-text="有" inactive-text="无"></el-switch>
         <div v-show="historyForm.prevent_wu">
@@ -129,6 +191,7 @@
         </div>
       </el-form-item>
 
+    <h3>七、家族史</h3>
       <el-form-item label="家族史">
         一级亲属（父母、兄弟姐妹、子女）其他疾病史
         <el-switch v-model="historyForm.is_pastfamily_womb" active-text="有" inactive-text="无"></el-switch>
@@ -145,19 +208,51 @@
     </el-form>
 
     <span slot="footer">
-      <el-button type="primary" v-if="exist"  @click="updateHistoryForm">确定</el-button>
-      <el-button type="primary" v-else  @click="createHistoryForm">确定</el-button>
-      <el-button @click="dialogVisible=false">取消</el-button>
+        <el-button :disabled="is_checked=='审核通过'" type="primary" v-if="exist"  @click="updateDataForm">确定</el-button>
+        <el-button type="primary" v-else  @click="createDataForm">确定</el-button>
+        <el-button @click="dialogVisible=false">取消</el-button>
     </span>
   </el-dialog>
 </template>
 <script>
-import { apiUpdatePatientDataForm, apiCreatePatientDataForm } from '@/api/api-prj002'
+import { apiUpdatePatientDataForm, apiCreatePatientDataForm } from '@/api/api-prj001'
 export default {
   name:'HistoryForm',
   data() {
     return {
       mydata:{
+        'pasthistory':{
+            'pasthistory_wu':'无',
+            'pasthistory_zigongxianjizheng':'子宫腺肌症',
+            'pasthistory_zigongneimoyiwei':'子宫内膜异位症',
+            'pasthistory_zigongjiliu':'子宫肌瘤',
+            'pasthistory_luancaonangzhong':'卵巢囊肿',
+            'pasthistory_zigongneimoyan':'子宫内膜炎',
+            'pasthistory_penqiangyan':'盆腔炎性疾病',
+            'pasthistory_yindaoyan':'阴道炎',
+            'pasthistory_ruxianzengsheng':'乳腺增生',
+            'pasthistory_shengzhiyichang':'生殖器官发育异常',
+            'pasthistory_minus':'甲减',
+            'pasthistory_plus':'甲亢',
+            'pasthistory_shenshangxian':'肾上腺相关疾病',
+            'pasthistory_xueye':'血液系统相关疾病',
+            'pasthistory_naochuitiliu':'脑垂体瘤',
+            'pasthistory_tangniaobing':'糖尿病',
+            'pasthistory_feipang':'肥胖',
+            'pasthistory_ganyan':'肝炎',
+            'pasthistory_jiehe':'结核',
+        },
+        'hobbies':['无', '吸烟', '饮酒', '熬夜(23:00以后睡)'],
+        'body_cond':['好','一般','易疲倦'],
+        'career_labor':[
+                "重体力劳动(如:搬运工、清洁工、农场工人、畜牧场工人等)",
+                "中体力劳动(如:家政服务人员、服务生、厨师、护士等)",
+                "轻体力劳动(如:教师、美容美发师、批发商、职员等)",
+                "坐式的工作(如:收银员、出纳员、接线员、秘书等)"],
+        'physical_exercise':["很少(≤1次/周)","偶尔(≤3次/周)","经常(≥4次/周)"],
+        'physical_intensity':["一般(少量出汗,心率≤120次/分)","高强度(大汗淋漓,心率>120次/分)"],
+        'reducefat_persist':[],
+        'reducefat_methdod':{'reducefat_yundong':'运动减肥','reducefat_jieshi':'节食减肥','reducefat_yaowu':'药物减肥'},
         first_time:["10岁以前","11岁以后","14岁以后","16岁以后"],
         is_normal:true,
         normal:["21-25天","26-30天","31-35天"],
@@ -194,17 +289,18 @@ export default {
         //孕产史
         pastpreg_yuncount:'', pastpreg_shunchan:'', pastpreg_pougong:'', pastpreg_zaochan:'', pastpreg_yaoliu:'', pastpreg_renliu:'', pastpreg_ziranliu:'', pastpreg_yiweirenshen:'', pastpreg_qinggongshu:'', pastpreg_qita:'',
         //避孕措施
-        prevent_wu:'', prevent_jieza:'', prevent_jieyuqi:'', prevent_biyuntao:'', prevent_biyunyao:'',
+        prevent_wu:false, prevent_jieza:'', prevent_jieyuqi:'', prevent_biyuntao:'', prevent_biyunyao:'',
         //家族史
         is_pastfamily_womb:'', pastfamily_minus:'', pastfamily_plus:'', pastfamily_duonangluanchao:'', pastfamily_tangniaobing:'', pastfamily_buxiang:'', pastfamily_qita:''
       },
       dialogVisible: false,
       exist: true,
-      formName:''
+      formName:'',
+      is_checked:'',
     }
   },
   methods: {
-    updateHistoryForm () {
+    updateDataForm () {
       apiUpdatePatientDataForm({formData:this.historyForm, formName:this.formName})
       .then((res)=> {
         this.resetDialog()
@@ -215,7 +311,7 @@ export default {
       .catch(
       )
     },
-    createHistoryForm () {
+    createDataForm () {
       apiCreatePatientDataForm({formData:this.historyForm,formName:this.formName})
       .then((res)=> {
         this.resetDialog()
@@ -235,6 +331,7 @@ export default {
       this.dialogVisible = true
       this.exist = data.exist
       this.formName = data.formName
+      this.is_checked = data.is_checked
       if (!data.exist) {
         //未创建
         this.historyForm.info = data.formData.info

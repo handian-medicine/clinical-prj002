@@ -10,7 +10,7 @@ var myConst = require("../const");
 // 搜索
 router.post('/search', function (req, res, next) {
   const options = {
-    url: myConst.apiurl + "/prj001/search/",
+    url: myConst.apiurl + "/prj001/info/search/",
     form: req.body.search,//浏览器发送过来的req的body  和  后端返回的response的body格式类型不一样?
     qs: {page:req.body.page},
     headers: {'Authorization': 'Bearer ' + req.cookies.prj001token.access_token}
@@ -18,7 +18,7 @@ router.post('/search', function (req, res, next) {
     console.log("搜索option", options)
   request.post(options, function (error, response, body) {
     var bodyParse = JSON.parse(body)
-    console.log("搜索返回结果", bodyParse.count)
+    console.log("搜索返回结果", bodyParse)
     var searchResultsNum = bodyParse.count
     var searchResults = bodyParse.results
     res.send({searchResults, searchResultsNum})
@@ -46,7 +46,12 @@ router.post('/remove', function (req, res, next) {
     headers: {'Authorization': 'Bearer ' + req.cookies.prj001token.access_token}
   }
   request.del(options, function (error, response, body) {
-    res.send({msg:'删除成功了'})
+    if (response.statusCode == 204) {
+      res.send({msg:''})
+    } else {
+      var bodyParse = JSON.parse(body)
+      res.send({msg:bodyParse.detail})
+    }
   })
 
 })
@@ -118,14 +123,15 @@ router.post('/form', function(req, res, next) {
 })
 // 修改
 router.put('/form', function(req, res, next) {
-  console.log('user.js PATCH修改Form ')
+  console.log('user.js PUT修改Form ')
   var options = {
     url: req.body.formData.url,
     form: req.body.formData,
     headers: {'Authorization': 'Bearer ' + req.cookies.prj001token.access_token}
   }
+  console.log(options)
     request.put(options, function (error, response, body) {
-      console.log('user.js PATCH修改Form ',body)
+      console.log('user.js PUT修改Form ',body)
       res.send({msg:'ok'})
     })
 })

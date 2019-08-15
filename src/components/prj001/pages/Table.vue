@@ -4,7 +4,14 @@
     <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
       <el-form :inline="true" :model="search">
         <el-form-item v-for="(val, key, index) in search" :key="index">
-          <el-input v-model="search[key]" :placeholder="searchName[key]"></el-input>
+          <el-input v-if="key!='is_checked'&& key!='types'" v-model="search[key]" :placeholder="searchName[key]"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-select v-model="search.is_checked" placeholder="查询审核状态">
+            <el-option value="未审核" label="未通过"></el-option>
+            <el-option value="审核通过" label="审核通过"></el-option>
+            <el-option value="审核不通过" label="审核不通过"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="searchPatient">查询</el-button>
@@ -52,9 +59,12 @@
           <el-button type="btn-cure" size="small" @click="openDataForm(scope.$index, scope.row, 'cure')">中西治疗</el-button>
           <el-button type="btn-results" size="small" @click="openDataForm(scope.$index, scope.row, 'results')">疗效</el-button>
           </el-button-group>
-          <el-button type="danger" size="small" style="margin-left:8px" v-if="is_admin"
-                    @click="checkPatient(scope.$index, scope.row)">审核</el-button>
-          <el-button type="danger" size="small" style="margin-left:8px" @click="handleDel(scope.$index, scope.row)">删除</el-button>
+          <el-button type="danger" size="mini" style="margin-left:8px" v-if="is_admin"
+                    @click="checkPatient(scope.$index, scope.row)" icon="el-icon-view" circle>
+                    </el-button>
+          <el-button v-show="scope.row.is_checked!='审核通过'" icon="el-icon-delete" circle
+                      type="danger" size="mini" style="margin-left:8px" 
+                      @click="delPatient(scope.$index, scope.row)"></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -108,9 +118,9 @@ export default {
     return {
       is_admin:true,
       search: {
-        name: '', phone:'', hospital:'', address:'', is_checked:''//career:'',birth:''
+        name: '', telephone:'', hospital:'', address:'', is_checked:'', types:'search'
       },
-      searchName: {name:'姓名',phone:'电话',hospital:'医院',address:'地址'},//career:'职业',birth:'出生日期',
+      searchName: {name:'姓名',telephone:'电话',hospital:'医院',address:'地址'},
       patientsList: [], // 数据列表
       totalNum: 0, //  数据总条数
       page: 1, //当前页码
@@ -161,7 +171,7 @@ export default {
     },
     // 获取患者列表
     getPatients () {
-      this.search = {name: '', phone:'', hospital:'', address:''}
+      this.search = {name: '', telephone:'', hospital:'', address:'', types:'search'}
       let para = {
         page: this.page
       }
@@ -182,10 +192,11 @@ export default {
         console.log(row.url)
         apiRemovePatient(para).then((res) => {
           this.listLoading = false
-          this.$message({
-            message: '删除成功',
-            type: 'success'
-          })
+          if (res.data.msg) {
+            this.$message({message: '您没有执行该操作的权限', type: 'error'})
+          } else {
+            this.$message({message: '删除成功', type: 'success'})
+          }
           this.getPatients()
         })
       }).catch(() => {})

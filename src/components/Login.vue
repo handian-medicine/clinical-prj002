@@ -20,9 +20,11 @@
         <!-- <el-button type="primary" style="width:100%;" @click.native.prevent="handleSubmit" :loading="logining">登录 -->
         </el-button>
       </el-form-item>
-      <div style="text-align:center">
-        <span style="color:rgb(94,143,189)">友情提示<i class="fa fa-wrench"></i></span>
-      </div>
+      <el-divider content-position="center">
+        <span style="color:rgb(94,143,189)">
+          友情提示<i class="fa fa-wrench"></i>
+        </span>
+      </el-divider>
     </el-form>
     <!-- <div class="footer">
         看这里
