@@ -12,8 +12,8 @@ router.post('/', function (req, res, next) {
     options = {
         url:myConst.apiurl + "/users/login/",
         form:{
-            email: req.body.email,
-            password: req.body.password
+            email: req.cookies.user.email,
+            password: req.cookies.user.password
         },
         headers: {'Authorization': 'Bearer ' + req.cookies.usertoken.access_token}
     }
@@ -43,8 +43,8 @@ router.post('/:prjname', function (req, res, next) {
     var options = {
         url: url,
         form:{
-            "username": req.body.email,
-            "password": req.body.password,
+            "username": req.cookies.user.email,
+            "password": req.cookies.user.password,
             "grant_type": "password",
             "scope":eval('myConst.scope_'+prjname),
             // "scope":prjname,

@@ -69,7 +69,8 @@ export default {
         var _this = this; //这条语句是防止this指向当前函数,这样赋值_this就指向vm对象了
         this.$confirm("确认退出吗?", "提示", {type: "warning"})
           .then(() => {
-            sessionStorage.removeItem("user");
+            // sessionStorage.removeItem("user");
+            sessionStorage.removeItem("userinfo");
             _this.$router.push("/login");
           })
           .catch(() => {});

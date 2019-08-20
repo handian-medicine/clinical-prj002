@@ -45,7 +45,6 @@ export default {
             type: "warning"
           })
             .then(() => {
-              sessionStorage.removeItem("user");
               _this.$router.push("/login");
             })
             .catch(() => {});
@@ -55,11 +54,8 @@ export default {
         },
         enterPrj (index, row) {
             console.log(row.linkurl)
-            const user = JSON.parse(sessionStorage.getItem("user"))
             let params = {
                 linkurl:row.linkurl,
-                email:user.email,
-                password:user.password
             }
             apiPrj(params)
             .then( (res) => {
@@ -71,17 +67,6 @@ export default {
     },
     created () {
         this.userinfo = JSON.parse((sessionStorage.getItem("userinfo")))
-        // const user = JSON.parse(sessionStorage.getItem("user"))
-        // let params = {
-        //     email:user.email,
-        //     password:user.password
-        // }
-        // apiHome(params)
-        // .then( (res)=> {
-        //   sessionStorage.setItem('userinfo', JSON.stringify(res.data.userinfo))
-        //   this.userinfo = res.data.userinfo
-        // })
-        // .catch()
     }
 }
 </script>

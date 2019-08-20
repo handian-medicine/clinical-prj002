@@ -63,7 +63,7 @@
           <el-tag v-if="scope.row.is_checked=='审核不通过'" type="danger">{{scope.row.is_checked}}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="数据修改" width="700">
+      <el-table-column label="数据修改" width="640">
         <template v-slot="scope">
           <el-button-group>
           <el-button type="btn-info" size="small" @click="openDataForm(scope.$index, scope.row, 'info')">基本信息</el-button>

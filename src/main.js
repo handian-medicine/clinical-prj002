@@ -11,12 +11,24 @@ import Vuex from 'vuex'
 // Mock.bootstrap() //使用express作为后端时,要屏蔽Mock.bootstrap()命令,否则axios传出的请求都被mock截获了
 Vue.use(ElementUI)
 Vue.use(Vuex)
+// router.beforeEach((to, from, next) => {
+//   if (to.path === '/login') {
+//     sessionStorage.removeItem('user')
+//     sessionStorage.removeItem('userinfo')
+//   }
+//   let user = JSON.parse(sessionStorage.getItem('user'))
+//   if (!user && to.path !== '/login') {
+//     next({ path: '/login' })
+//   } else {
+//     next()
+//   }
+// })
 router.beforeEach((to, from, next) => {
   if (to.path === '/login') {
-    sessionStorage.removeItem('user')
+    sessionStorage.removeItem('userinfo')
   }
-  let user = JSON.parse(sessionStorage.getItem('user'))
-  if (!user && to.path !== '/login') {
+  let userinfo = JSON.parse(sessionStorage.getItem('userinfo'))
+  if (!userinfo && to.path !== '/login') {
     next({ path: '/login' })
   } else {
     next()
