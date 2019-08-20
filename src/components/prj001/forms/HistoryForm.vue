@@ -3,7 +3,7 @@
             :visible.sync="dialogVisible"
             :close-on-click-modal="false" width="100%" center
             @close='resetDialog'>
-    <el-form ref="historyForm" :model="historyForm" label-width="100px" label-position="left">
+    <el-form ref="historyForm" :model="historyForm" label-width="auto" label-position="left">
       <el-alert v-if="is_checked=='审核通过'"
                 title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
                 type="warning" :closable="false" show-icon>

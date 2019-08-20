@@ -14,13 +14,16 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="el-icon-search" @click="searchPatient">查询</el-button>
+          <el-button type="primary" icon="el-icon-search" size="small" @click="searchPatient">查询</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="el-icon-refresh-right" @click="getPatients">重置</el-button>
+          <el-button type="primary" icon="el-icon-refresh-right" size="small" @click="getPatients">重置</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="addPatient">新增</el-button>
+          <el-button type="primary" size="small" @click="addPatient">新增</el-button>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" size="small" @click="exportFile">导出excel</el-button>
         </el-form-item>
       </el-form>
     </el-col>
@@ -45,8 +48,20 @@
       <el-table-column prop="owner" label="录入人">
       </el-table-column>
       <el-table-column prop="degree_of_completion" label="信息完整度" width="100px">
+        <!-- 遗留问题 -->
+        <template v-slot="scope">
+          <el-progress type="circle"
+                      :percentage="Math.round(scope.row.degree_of_completion.split('%')[0])"
+                      :width="40" :color="customColors">
+          </el-progress>
+        </template>
       </el-table-column>
       <el-table-column prop="is_checked" label="审核状态" width="100">
+        <template v-slot="scope">
+          <el-tag v-if="scope.row.is_checked=='未审核'" type="warn">{{scope.row.is_checked}}</el-tag>
+          <el-tag v-if="scope.row.is_checked=='审核通过'" type="success">{{scope.row.is_checked}}</el-tag>
+          <el-tag v-if="scope.row.is_checked=='审核不通过'" type="danger">{{scope.row.is_checked}}</el-tag>
+        </template>
       </el-table-column>
       <el-table-column label="数据修改" width="700">
         <template v-slot="scope">
@@ -105,7 +120,7 @@
 
 <script>
 // axios请求,向express做请求
-import {apiGetPatientsList, apiRemovePatient, apiSearchPatient} from '@/api/api-prj001'
+import {apiGetPatientsList, apiRemovePatient, apiSearchPatient, apiExportFile} from '@/api/api-prj001'
 // 请求各表单内容的api
 import {apiGetPatientDataForm } from '@/api/api-prj001'
 // 批量导入子组件
@@ -126,10 +141,32 @@ export default {
       page: 1, //当前页码
       search_page: 1, //搜索结果的当前页码
       listLoading: false,
-      pagination_flag: true //true表示所有数据的分页,false表示搜索数据的分页
+      pagination_flag: true, //true表示所有数据的分页,false表示搜索数据的分页,
+      customColors: [
+          {color: '#f56c6c', percentage: 20},
+          {color: '#e6a23c', percentage: 50},
+          {color: '#1989fa', percentage: 80},
+          {color: '#5cb87a', percentage: 100}
+        ]
     }
   },
   methods: {
+    // 导出文件
+    exportFile () {
+      this.search.types = 'download'
+      console.log('搜索字段',this.search)
+      let para = {
+        page: this.search_page,
+        search:this.search
+      }
+      this.pagination_flag = false
+      apiExportFile(para).then( (res) => {
+        // console.log('搜索返回结果',res.data.searchResults)
+        this.patientsList = res.data.searchResults
+        this.totalNum = res.data.searchResultsNum
+        this.listLoading = false
+      })
+    },
     // 新增信息dialog
     addPatient () {
       this.$refs.addPatient.$emit("addEvent")
@@ -222,6 +259,12 @@ export default {
         apiGetPatientDataForm(para)
         .then((res)=> {
           console.log('拿到的已创建的DataForm表',res.data)
+
+          /* 遗留问题 */
+          //放在infoForm里面会有datepicker的bug
+          if (formName == 'info') {res.data.birth = res.data.birth_year + '-' + res.data.birth_month}
+          /* ******* */
+
           this.$refs[formName].$emit("openEvent", {exist:true, formData:res.data, is_checked:row.is_checked})
         })
         .catch(() => {})

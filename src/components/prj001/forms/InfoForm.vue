@@ -3,7 +3,7 @@
             :visible.sync="dialogVisible"
             :close-on-click-modal="false"
             width="90%" center>
-    <el-form ref="infoForm" :model="infoForm" label-width="100px" label-position="left">
+    <el-form ref="infoForm" :model="infoForm" :rules="rules" label-width="auto" label-position="left">
       <el-alert v-if="is_checked=='审核通过'"
                 title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
                 type="warning" :closable="false" show-icon>
@@ -24,35 +24,35 @@
       <el-form-item label="辅助医生邮箱">
         <el-input v-model="infoForm.owner"></el-input>
       </el-form-item>
-      <el-form-item label="医院名称">
+      <el-form-item label="医院名称" prop="hospital">
         <el-input v-model="infoForm.hospital"></el-input>
       </el-form-item>
-      <el-form-item label="填表专家姓名">
+      <el-form-item label="填表专家姓名" prop="expert">
         <el-input v-model="infoForm.expert"></el-input>
       </el-form-item>
-      <el-form-item label="职称">
+      <el-form-item label="职称" prop="title">
         <el-select v-model="infoForm.title" placeholder="请选择">
           <el-option v-for="item in titleSelection" :key="item" :label="item" :value="item">
           </el-option>
         </el-select>
       </el-form-item>
 
-      <el-form-item label="患者姓名">
+      <el-form-item label="患者姓名" prop="name">
         <el-input v-model="infoForm.name"></el-input>
       </el-form-item>
-      <el-form-item label="电话(手机)">
+      <el-form-item label="电话(手机)" prop="telephone">
         <el-input v-model="infoForm.telephone"></el-input>
       </el-form-item>
-      <el-form-item label="患者现住址">
+      <el-form-item label="患者现住址" prop="address">
         <el-input v-model="infoForm.address"></el-input>
       </el-form-item>
-      <el-form-item label="患者来源">
+      <el-form-item label="患者来源" prop="entrance">
         <el-select v-model="infoForm.entrance" placeholder="请选择">
           <el-option v-for="item in entranceSelection" :key="item" :label="item" :value="item">
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="患者出生年月">
+      <el-form-item label="患者出生年月" prop="birth">
         <el-date-picker v-model="infoForm.birth"
                         type="month" placeholder="选择日期"
                         format="yyyy 年 MM 月"
@@ -70,14 +70,14 @@
         </el-input>
       </el-form-item>
 
-      <el-form-item label="民族">
+      <el-form-item label="民族" prop="nation">
         <el-select v-model="infoForm.nation" placeholder="请选择">
           <el-option v-for="item in nationSelection" :key="item" :label="item" :value="item">
           </el-option>
         </el-select>
       </el-form-item>
 
-      <el-form-item label="职业">
+      <el-form-item label="职业" prop="career">
         <el-select v-model="infoForm.career" placeholder="请选择">
           <el-option v-for="item in careerSelection" :key="item" :label="item" :value="item">
           </el-option>
@@ -85,7 +85,7 @@
       </el-form-item>
 
       <el-form-item label="文化程度">
-        <el-select v-model="infoForm.culture" placeholder="请选择">
+        <el-select v-model="infoForm.culture" prop="culture" placeholder="请选择">
           <el-option v-for="item in cultureSelection" :key="item" :label="item" :value="item">
           </el-option>
         </el-select>
@@ -132,7 +132,25 @@ export default {
       dietCheckbox:    {"wuteshu":"无特殊","sushi":"素食","suan":"酸","xian":"咸","xinla":"辛辣","you":"油","shengleng":"生冷","cafei":"含咖啡因食物或饮品"},
       exist: true,
       formName:'',
-      is_checked:''
+      is_checked:'',
+
+      rules:{
+          name: [
+            {required: true, message: '请输入姓名', trigger: 'blur' }
+          ],
+          telephone: [
+            {required: true, pattern: /^1\d{10}$/, message: '请输入11位手机号码',trigger: 'blur'}
+          ],
+          hospital:[{required: true, message: '请填写就诊医院名称'}],
+          career:  [{required: true, message: '请填写职业'}],
+          address:  [{required: true, message: '请填写住址'}],
+          entrance:  [{required: true, message: '请填写就诊机构'}],
+          nation:  [{required: true, message: '请填写民族'}],
+          culture:  [{required: true, message: '请填写最高学历'}],
+          birth:  [{required: true, message: '请填写出生年月'}],
+          title:  [{required: true, message: '请填写专家职称'}],
+          expert:  [{required: true, message: '请填写专家姓名'}],
+        }
     }
   },
   computed:{
@@ -165,16 +183,9 @@ export default {
         console.log('一般情况获取到的数据',data)
         this.dialogVisible = true
         this.exist = data.exist
-        this.formName = data.formName
         this.is_checked = data.is_checked
-        if (!data.exist) {
-          //未创建
-          this.infoForm.info = data.formData.info
-        } else {
-          //已创建(修改)
-          this.infoForm = data.formData
-          this.infoForm.birth = data.formData.birth_year + '-' + data.formData.birth_month
-        }
+        this.formName = data.formName
+        this.infoForm = data.formData
       });
   },
 

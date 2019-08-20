@@ -86,4 +86,7 @@ export default {
       color:black;
     }
   }
+  .el-button {
+    font-weight: 400
+  }
 </style>

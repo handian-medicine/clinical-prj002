@@ -1,10 +1,14 @@
 <template>
     <el-col :span="24" class="header">
       <el-col :span="10" class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">
-        <a href="/home" style=" text-decoration:none;color:white">
-        <i class="fa fa-envira" style="color:green" v-show="collapsed"></i>
-        <span v-show="!collapsed">中医妇科临床流调数据中心</span>
-        </a>
+        <!-- <a href="/home" style=" text-decoration:none;color:white">
+          <i class="fa fa-envira" style="color:green" v-show="collapsed"></i>
+          <span v-show="!collapsed">中医妇科临床流调数据中心</span>
+        </a> -->
+        <el-link href="/home" :underline="false">
+          <i class="fa fa-envira fa-lg" style="color:green" v-show="collapsed"></i>
+          <span v-show="!collapsed" style="color:white;font-size:17px">中医妇科临床流调数据中心</span>
+        </el-link>
       </el-col>
       <el-col :span="6">
         <div class="tools" @click.prevent="collapse">

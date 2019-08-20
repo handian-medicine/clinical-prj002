@@ -24,6 +24,23 @@ router.post('/search', function (req, res, next) {
     res.send({searchResults, searchResultsNum})
   })
 })
+// 导出搜索结果
+router.post('/export', function (req, res, next) {
+  const options = {
+    url: myConst.apiurl + "/prj001/info/search/",
+    form: req.body.search,//浏览器发送过来的req的body  和  后端返回的response的body格式类型不一样?
+    qs: {page:req.body.page},
+    headers: {'Authorization': 'Bearer ' + req.cookies.prj001token.access_token}
+  }
+    console.log("搜索option", options)
+  request.post(options, function (error, response, body) {
+    var bodyParse = JSON.parse(body)
+    console.log("搜索返回结果", bodyParse)
+    var searchResultsNum = bodyParse.count
+    var searchResults = bodyParse.results
+    res.send({searchResults, searchResultsNum})
+  })
+})
 // 添加患者信息
 router.post('/add', function (req, res, next) {
   // console.log('req.body.name->', req.body.patientInfo.name)

@@ -23,6 +23,7 @@ export const apiGetPatientDataForm = params => { return axios.get(`${baseUrl}/pr
 export const apiCreatePatientDataForm = params => { return axios.post(`${baseUrl}/prj001/user/form`, params) }
 // 修改单个患者某个Form
 export const apiUpdatePatientDataForm = params => { return axios.put(`${baseUrl}/prj001/user/form`, params) }
-
+// 导出搜索结果的excel
+export const apiExportFile = params => { return axios.post(`${baseUrl}/prj001/user/export`, params) }
 
 // export const batchRemoveUser = params => { return axios.get(`${baseUrl}/prj001/user/batchremove`, { params: params }) }

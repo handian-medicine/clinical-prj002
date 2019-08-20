@@ -13,38 +13,38 @@
                         value-format="yyyy-MM-dd">
         </el-date-picker>
       </el-form-item> -->
-      <el-form-item label="辅助医生邮箱">
+      <el-form-item label="辅助医生邮箱" prop="owner">
         <el-input v-model="patientInfo.owner"></el-input>
       </el-form-item>
-      <el-form-item label="医院名称">
+      <el-form-item label="医院名称" prop="hospital">
         <el-input v-model="patientInfo.hospital"></el-input>
       </el-form-item>
-      <el-form-item label="填表专家姓名">
+      <el-form-item label="填表专家姓名" prop="expert">
         <el-input v-model="patientInfo.expert"></el-input>
       </el-form-item>
-      <el-form-item label="职称">
+      <el-form-item label="职称" prop="title">
         <el-select v-model="patientInfo.title" placeholder="请选择">
           <el-option v-for="item in mydata.titleSelection" :key="item" :label="item" :value="item">
           </el-option>
         </el-select>
       </el-form-item>
 
-      <el-form-item label="患者姓名">
+      <el-form-item label="患者姓名" prop="name">
         <el-input v-model="patientInfo.name"></el-input>
       </el-form-item>
-      <el-form-item label="电话(手机)">
+      <el-form-item label="电话(手机)" prop="telephone">
         <el-input v-model="patientInfo.telephone"></el-input>
       </el-form-item>
-      <el-form-item label="患者现住址">
+      <el-form-item label="患者现住址" prop="address">
         <el-input v-model="patientInfo.address"></el-input>
       </el-form-item>
-      <el-form-item label="患者来源">
+      <el-form-item label="患者来源" prop="entrance">
         <el-select v-model="patientInfo.entrance" placeholder="请选择">
           <el-option v-for="item in mydata.entranceSelection" :key="item" :label="item" :value="item">
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="患者出生年月">
+      <el-form-item label="患者出生年月" prop="birth">
         <el-date-picker v-model="patientInfo.birth"
                         type="month" placeholder="选择日期"
                         format="yyyy 年 MM 月"
@@ -52,21 +52,21 @@
         </el-date-picker>
       </el-form-item>
 
-      <el-form-item label="民族">
+      <el-form-item label="民族" prop="nation">
         <el-select v-model="patientInfo.nation" placeholder="请选择">
           <el-option v-for="item in mydata.nationSelection" :key="item" :label="item" :value="item">
           </el-option>
         </el-select>
       </el-form-item>
 
-      <el-form-item label="职业">
+      <el-form-item label="职业" prop="career">
         <el-select v-model="patientInfo.career" placeholder="请选择">
           <el-option v-for="item in mydata.careerSelection" :key="item" :label="item" :value="item">
           </el-option>
         </el-select>
       </el-form-item>
 
-      <el-form-item label="文化程度">
+      <el-form-item label="文化程度" prop="culture">
         <el-select v-model="patientInfo.culture" placeholder="请选择">
           <el-option v-for="item in mydata.cultureSelection" :key="item" :label="item" :value="item">
           </el-option>
@@ -101,7 +101,7 @@ export default {
         },
         dialogVisible: false,
         patientInfo: {
-            'owner':'874174345@qq.com',
+            'owner':'',//874174345@qq.com
             'hospital':'汉典医院',
             'expert':'专家',
             'title':'主任医师',
@@ -121,11 +121,18 @@ export default {
           name: [
             {required: true, message: '请输入姓名', trigger: 'blur' }
           ],
-          phone: [
+          telephone: [
             {required: true, pattern: /^1\d{10}$/, message: '请输入11位手机号码',trigger: 'blur'}
           ],
           hospital:[{required: true, message: '请填写就诊医院名称'}],
-          career:  [{required: true, message: '请填写职业'}]
+          career:  [{required: true, message: '请填写职业'}],
+          address:  [{required: true, message: '请填写住址'}],
+          entrance:  [{required: true, message: '请填写就诊机构'}],
+          nation:  [{required: true, message: '请填写民族'}],
+          culture:  [{required: true, message: '请填写最高学历'}],
+          birth:  [{required: true, message: '请填写出生年月'}],
+          title:  [{required: true, message: '请填写专家职称'}],
+          expert:  [{required: true, message: '请填写专家姓名'}],
         }
       }
 
