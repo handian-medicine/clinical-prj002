@@ -184,12 +184,11 @@ export default {
       })
     },
     // 删除
-    handleDel: function (index, row) {
-      this.$confirm('确认删除该记录吗?', '提示', {type: 'warning'})
+    delPatient: function (index, row) {
+      this.$confirm('此操作将永久删除该条记录, 是否继续', '提示', {type: 'warning',center: true})
       .then(() => {
         this.listLoading = true
         let para = { url: row.url }
-        console.log(row.url)
         apiRemovePatient(para).then((res) => {
           this.listLoading = false
           if (res.data.msg) {
@@ -199,15 +198,17 @@ export default {
           }
           this.getPatients()
         })
-      }).catch(() => {})
+      }).catch()
     },
-
     //核心的Form表单
     openDataForm (index, row, formName) {
       console.log('formName',formName)
       // 如果DataForm表未创建,不需要请求后端,直接显示空表
+      console.log('formName',row)
 
-      if (formName == 'info') { row[formName] = row['url'] }// 临时
+      /* 遗留问题 */
+      if (formName == 'info') { row[formName] = row['url'] }
+      /* ****** */
 
       if (row[formName]==null) {
         console.log('创建流程', formName)

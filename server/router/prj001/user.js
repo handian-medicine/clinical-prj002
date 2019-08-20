@@ -90,7 +90,7 @@ router.post('/list', function(req, res, next) {
     var totalNum = bodyParse.count
     var is_admin = bodyParse.is_admin
     var patientsList = bodyParse.results
-    // console.log('user.js 3.',patientsList)
+    // console.log('user.js 服务器返回的所有数据列表',bodyParse)
     res.send({patientsList,totalNum,is_admin})
   })
 
@@ -105,6 +105,7 @@ router.get('/form', function(req, res, next) {
       headers: {'Authorization': 'Bearer ' + req.cookies.prj001token.access_token}
     }
     request.get(options, function (error, response, body) {
+  console.log('user.js GET获取Form body', body)
       var patientForm = JSON.parse(body)
       res.send(patientForm)
     })
@@ -118,6 +119,7 @@ router.post('/form', function(req, res, next) {
     headers: {'Authorization': 'Bearer ' + req.cookies.prj001token.access_token}
   }
     request.post(options, function (error, response, body) {
+      console.log(body)
       res.send({msg:'ok'})
     })
 })
@@ -132,6 +134,7 @@ router.put('/form', function(req, res, next) {
   console.log(options)
     request.put(options, function (error, response, body) {
       console.log('user.js PUT修改Form ',body)
+      console.log('user.js statusCode ',response.statusCode)
       res.send({msg:'ok'})
     })
 })

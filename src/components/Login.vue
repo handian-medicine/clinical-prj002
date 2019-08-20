@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { apiLogin } from '@/api/api-common'
+import { apiLogin,apiHome } from '@/api/api-common'
 export default {
   data () {
     return {
@@ -71,6 +71,18 @@ export default {
               console.log("登录成功")
               // sessionStorage 这一行务必写在跳转页面前面!!!!!! 注意使用JSON.stringify()
               sessionStorage.setItem('user', JSON.stringify(res.user))
+
+                let params = {
+                    email:res.user.email,
+                    password:res.user.password
+                }
+                apiHome(params)
+                .then( (home_res)=> {
+                  sessionStorage.setItem('userinfo', JSON.stringify(home_res.data.userinfo))
+                  this.userinfo = home_res.data.userinfo
+                })
+                .catch()
+
               this.$router.push({ path: '/home' })
             }
           })

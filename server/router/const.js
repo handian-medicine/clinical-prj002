@@ -2,6 +2,11 @@ const apiurl = "http://47.94.22.221:9002"
 const client_id = "PqRU3wo0U6jwzo0BDQyZST8tryqegJ95nxb4TUwj"
 const client_secret = "Jly2pFvGBoOAXCaDuRsW1VPF6Y5wt9y1LhAEQn3SUcO7Nur8wApjqoQst9dVEzxVLvpH7Oc6JLlW17XT0LSgS0rsKbPF1SuefCe3lwVxuuaBb73ts6fil2e8f1cFW9Ui"
 
+// const apiurl = "http://10.17.1.239:8001"
+// const client_id = "c1YYPfkCVDAgNm3vbfHy3DoQulYmY3JP0CCgHpk3"
+// const client_secret = "yrVQdKwcp4YoFLzuul75xANNCMBgTSc1GkQrlNq3WeuROaocBcfEZZ2Vm7XraYoQyvUVvP69IU4EQ7CkTv9JpZ3ZGWZeEAtsdUI1XaIKBzhO5OlkrmiJy40qQ0Te4te0"
+
+
 const scope_prj001 = "prj001"
 const scope_prj002 = "prj002"
 const scope_users = "users"

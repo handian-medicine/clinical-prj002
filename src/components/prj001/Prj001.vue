@@ -70,15 +70,13 @@
 </template>
 
 <script>
-import Header from '@/components/prj001/Header'
+import Header from '@/components/common/Header'
 export default {
   name:'Pjr001',
   components:{Header},
   data() {
     return {
-      sysName: "中医妇科临床流调数据中心",
       collapsed: true,
-      sysUserName: "",
     };
   },
   computed: {
@@ -139,7 +137,6 @@ export default {
     if (user) {
       user = JSON.parse(user);
       console.log(user);
-      this.sysUserName = user.email || "";
     }
   }
 };

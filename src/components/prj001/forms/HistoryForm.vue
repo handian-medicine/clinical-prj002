@@ -34,8 +34,6 @@
         </el-radio>
       </el-form-item>
       <el-form-item label="4、体育锻炼">
-        <el-radio v-model="historyForm.physical" label="是"></el-radio>
-        <el-radio v-model="historyForm.physical" label="否"></el-radio>
         <el-form-item label="(1)频率">
           <el-radio v-model="historyForm.physical_exercise"
                     v-for="item in mydata.physical_exercise"
@@ -50,8 +48,6 @@
         </el-form-item>
       </el-form-item>
       <el-form-item label="5、减肥情况">
-        <el-radio v-model="historyForm.reducefat" label="是"></el-radio>
-        <el-radio v-model="historyForm.reducefat" label="否"></el-radio>
         <el-form-item label="(1)减肥时长">
           <el-input v-model="historyForm.reducefat_persist" type="number" min="0">
             <template slot="append">月</template>
@@ -102,7 +98,7 @@
                   v-for="item in mydata.blood_cond"
                   :key="item" :label="item">
         </el-radio>
-        <el-input v-model="historyForm.blood_cond_qita" placeholder="其他情况"></el-input>
+        <el-input v-model="historyForm.mm_blood_cond_qita" placeholder="其他情况"></el-input>
       </el-form-item>
 
       <el-form-item label="出血颜色">
@@ -110,7 +106,7 @@
                   v-for="item in mydata.blood_color"
                   :key="item" :label="item">
         </el-radio>
-        <el-input v-model="historyForm.blood_color_qita" placeholder="其他情况"></el-input>
+        <el-input v-model="historyForm.mm_blood_color_qita" placeholder="其他情况"></el-input>
       </el-form-item>
 
       <el-form-item label="出血质地">
@@ -122,6 +118,7 @@
                   v-for="item in mydata.blood_block"
                   :key="item" :label="item">
         </el-radio>
+        <el-input v-model="historyForm.mm_blood_block_qita" placeholder="其他情况"></el-input>
       </el-form-item>
 
       <el-form-item label="出血特点">
@@ -131,8 +128,69 @@
         </el-radio>
       </el-form-item>
 
-      <el-form-item label="经期伴随症状">
+      <el-form-item label="8、经期伴随症状">
         <el-switch v-model="historyForm.menstruation_is_accompany" active-text="是" inactive-text="否"></el-switch>
+      </el-form-item>
+      <div v-show="historyForm.menstruation_is_accompany">
+        <h4>(1)精神情绪</h4>
+          <el-form-item v-for="(val, key) in mydata.spirit" :key="key" :label="val">
+            <el-select v-model="historyForm[key]">
+              <el-option v-for="item in mydata.my_selection" :key="item" :value="item" :label="item">
+              </el-option>
+            </el-select>
+            <!-- <el-radio v-for="item in mydata.my_selection" :key="item" :label="item"></el-radio> -->
+          </el-form-item>
+          <el-input v-model="historyForm.spirit_qita" placeholder="其他"></el-input>
+        <h4>(2)形体四肢</h4>
+          <el-checkbox v-for="(val, key) in mydata.body_checkbox" :label="val" :key="key" v-model="historyForm[key]"></el-checkbox>
+        <h4>(3)头面</h4>
+          <el-checkbox v-for="(val, key) in mydata.face_head_checkbox" :label="val" :key="key" v-model="historyForm[key]"></el-checkbox>
+          <p></p>
+          <el-form-item v-for="(val, key) in mydata.face_head" :key="key" :label="val">
+            <el-select v-model="historyForm[key]">
+              <el-option v-for="item in mydata.my_selection" :key="item" :value="item" :label="item">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-input v-model="historyForm.spirit_qita" placeholder="其他"></el-input>
+        <h4>(4)胸腹</h4>
+          <el-checkbox v-for="(val, key) in mydata.belly_checkbox" :label="val" :key="key" v-model="historyForm[key]"></el-checkbox>
+          <p></p>
+          <el-form-item v-for="(val, key) in mydata.belly" :key="key" :label="val">
+            <el-select v-model="historyForm[key]">
+              <el-option v-for="item in mydata.my_selection" :key="item" :value="item" :label="item">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-input v-model="historyForm.spirit_qita" placeholder="其他"></el-input>
+        <h4>(5)饮食</h4>
+          <el-form-item v-for="(val, key) in mydata.diet" :key="key" :label="val">
+            <el-select v-model="historyForm[key]">
+              <el-option v-for="item in mydata.my_selection" :key="item" :value="item" :label="item">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-input v-model="historyForm.spirit_qita" placeholder="其他"></el-input>
+        <h4>(6)睡眠</h4>
+          <el-form-item v-for="(val, key) in mydata.sleep" :key="key" :label="val">
+            <el-select v-model="historyForm[key]">
+              <el-option v-for="item in mydata.my_selection" :key="item" :value="item" :label="item">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-input v-model="historyForm.spirit_qita" placeholder="其他"></el-input>
+        <h4>(7)二便</h4>
+          <el-checkbox v-for="(val, key) in mydata.erbian_checkbox" :label="val" :key="key" v-model="historyForm[key]"></el-checkbox>
+          <el-input v-model="historyForm.spirit_qita" placeholder="其他"></el-input>
+      </div>
+
+      <el-form-item label="9、经期情况">
+        <el-form-item v-for="(val, key) in mydata.jingqi" :key='key' :label="val">
+          <el-radio v-model="historyForm[key]" label="无"></el-radio>
+          <el-radio v-model="historyForm[key]" label="有"></el-radio>
+          <el-radio v-model="historyForm[key]" label="偶尔"></el-radio>
+          <el-radio v-model="historyForm[key]" label="经常"></el-radio>
+        </el-form-item>
       </el-form-item>
 
       <el-form-item label="末次行经日期">
@@ -221,6 +279,7 @@ export default {
   data() {
     return {
       mydata:{
+        'my_selection':["没有","很少","有时","经常","总是"],
         'pasthistory':{
             'pasthistory_wu':'无',
             'pasthistory_zigongxianjizheng':'子宫腺肌症',
@@ -253,45 +312,94 @@ export default {
         'physical_intensity':["一般(少量出汗,心率≤120次/分)","高强度(大汗淋漓,心率>120次/分)"],
         'reducefat_persist':[],
         'reducefat_methdod':{'reducefat_yundong':'运动减肥','reducefat_jieshi':'节食减肥','reducefat_yaowu':'药物减肥'},
-        first_time:["10岁以前","11岁以后","14岁以后","16岁以后"],
+        'first_time':["10岁以前","11岁以后","14岁以后","16岁以后"],
         is_normal:true,
-        normal:["21-25天","26-30天","31-35天"],
-        abnormal:["或1月多次","1-2个月1行","2-3个月1行","3-4个月1行","4-6个月1行",">6个月1行"],
-        cyclicity_sum:["≤2天","3-7天","7天以上甚至半月"],
-        blood_cond:["≤5张卫生巾(日用)","6-10张卫生巾(日用)","11-19张卫生巾(日用)","≥20张卫生巾(日用或夜用)","几乎不用卫生巾,用护垫即可"],
-        blood_color:["淡红","鲜红","暗红","紫红","紫黯","紫黑","褐色",],
-        blood_quality:["正常","粘稠","清稀"],
-        blood_block:["无血块","经常出现血块","偶有血块","夹少量小血块","夹较大血块","其他"],
-        blood_character:["顺畅","势急暴下","淋漓不断","点滴即净"],
-        leucorrhea_quantity:["带下量正常","带下量少","带下量多"],
-        leucorrhea_color:["带下透明","带下色黄","带下色白","带下色黄绿"],
-        leucorrhea_feature:["带下质黏而不稠","带下质清稀","带下质稠"],
-        marriage:["未婚无性生活","未婚有性生活","已婚同居","已婚分居","离婚","丧偶"],
-        pastpreg:{pastpreg_yuncount:'怀孕', pastpreg_shunchan:'顺产', pastpreg_pougong:'剖宫产',
+        'normal':["21-25天","26-30天","31-35天"],
+        'abnormal':["或1月多次","1-2个月1行","2-3个月1行","3-4个月1行","4-6个月1行",">6个月1行"],
+        'cyclicity_sum':["≤2天","3-7天","7天以上甚至半月"],
+        'blood_cond':["≤5张卫生巾(日用)","6-10张卫生巾(日用)","11-19张卫生巾(日用)","≥20张卫生巾(日用或夜用)","几乎不用卫生巾,用护垫即可"],
+        'blood_color':["淡红","鲜红","暗红","紫红","紫黯","紫黑","褐色",],
+        'blood_quality':["正常","粘稠","清稀"],
+        'blood_block':["无血块","经常出现血块","偶有血块","夹少量小血块","夹较大血块","其他"],
+        'blood_character':["顺畅","势急暴下","淋漓不断","点滴即净"],
+        // 经期伴随症状
+        'spirit':{'spirit_shenpi':"神疲肢倦",'spirit_qiduan':"气短懒言",'spirit_yiyu_m':"精神抑郁",'spirit_tanxi':"时欲叹息",'spirit_yinu':"烦躁易怒"},
+        'body_checkbox':{'body_normal':"正常",'body_fat':"形体肥胖",'body_thin':"形体瘦小",'body_skin':"皮肤不润",'body_cold':"畏寒肢冷",'body_hot':"手足心热",'body_leg':"腰酸腿软",'body_waist':"腰痛如折"},
+        'face_head_checkbox':{'face_head_normal':"正常",'face_head_cangbai':"面色苍白",'face_head_huangbai':"面色晄白",
+                    'face_head_weihuang':"面色萎黄",'face_head_huian':"面色晦暗",'face_head_anban':"面色黯斑",
+                    'face_head_zhizhong':"面浮肢肿",'face_head_chunhong':"颧赤唇红"},
+        'face_head':{'face_head_kouku':"口苦咽干",'face_head_erming':"头晕耳鸣",'face_head_yanghua':"眼花"},
+        'belly':{ 'belly_fanmen':"心胸烦闷",'belly_rufangzhangtong':"经前乳房胀痛",'belly_xiongxiezhangtong':"经前胸胁胀痛",
+                  'belly_shaofuzhangtong':"经前少腹胀痛",'belly_kongzhui':"小腹空坠",'belly_kongtong':"小腹空痛",
+                  'belly_citong':"小腹刺痛",'belly_zhangtong':"小腹胀痛",'belly_lengtong':"小腹冷痛",'belly_yintong':"小腹隐痛"},
+        'belly_checkbox': {'belly_juan':'疼痛拒按','belly_xian':'腹痛喜按','belly_deretongjian':'腹痛得热痛减','belly_tongjian':'血块下痛减'},
+        'diet':{'diet_exin':'脘闷恶心','diet_shishao':'嗳气食少','diet_zhangman':'脘腹胀满','diet_bujia':'食欲不佳','diet_lengyin':'渴喜冷饮','diet_kouzao':'咽干口燥'},
+        'sleep':{'sleep_shimian':'心悸失眠','sleep_buning':'夜寐不宁','sleep_mengduo':'夜寐梦多'},
+        'erbian_checkbox':{'erbian_normal':'正常','erbian_zaojie':'大便燥结','erbian_tangbo':'大便溏薄','erbian_pinshu':'小便频数','erbian_duanchi':'小便短赤','erbian_qingchang':'小便清长'},
+
+
+        'jingqi':{'jingqi_yundong':'(1)经期运动','jingqi_ganmao':'(2)经期感冒','jingqi_tongfang':'(3)经期同房','jingqi_zhaoliang':'(4)经期着凉'},
+        'leucorrhea_quantity':["带下量正常","带下量少","带下量多"],
+        'leucorrhea_color':["带下透明","带下色黄","带下色白","带下色黄绿"],
+        'leucorrhea_feature':["带下质黏而不稠","带下质清稀","带下质稠"],
+        'marriage':["未婚无性生活","未婚有性生活","已婚同居","已婚分居","离婚","丧偶"],
+        'pastpreg':{pastpreg_yuncount:'怀孕', pastpreg_shunchan:'顺产', pastpreg_pougong:'剖宫产',
                   pastpreg_zaochan:'早产', pastpreg_yaoliu:'药物流产', pastpreg_renliu:'人工流产',
                   pastpreg_ziranliu:'自然流产', pastpreg_yiweirenshen:'异位妊娠',
                   pastpreg_qinggongshu:'清宫术'},
       },
       historyForm:{
-        first_time:'', first_time_qita:'',            //月经初潮年龄
-        is_normal:true, normal:'', abnormal:'',       //月经周期
-        cyclicity_sum:'', cyclicity_sum_qita:'',      //行经天数
-        blood_cond:'', blood_cond_qita:'',            //总出血量
-        blood_color:'', blood_color_qita:'',          //出血颜色
-        blood_quality:'', blood_block:'',             //出血质地
-        blood_character:'',                           //出血特点
-        menstruation_is_accompany:'',                 //经期伴随症状
-        last_time:'',                                 //末次行经日期
-        leucorrhea_quantity:'',                       //平素带下情况
-        leucorrhea_color:'', leucorrhea_color_qita:'',//平素带下情况
-        leucorrhea_feature:'',                        //平素带下情况
-        marriage:'',                                  //婚姻史
-        //孕产史
-        pastpreg_yuncount:'', pastpreg_shunchan:'', pastpreg_pougong:'', pastpreg_zaochan:'', pastpreg_yaoliu:'', pastpreg_renliu:'', pastpreg_ziranliu:'', pastpreg_yiweirenshen:'', pastpreg_qinggongshu:'', pastpreg_qita:'',
+        info:'',
+        'blood_cond':'',                                              //总出血量
+        'blood_color':'',                                             //出血颜色
+        'blood_quality':'','blood_block':'',                          //出血质地
+        'blood_character':'',                                         //出血特点
+        'mm_blood_cond_qita':'','mm_blood_color_qita':'','mm_blood_block_qita':'',
+        'first_time':'','first_time_qita':'',                       //月经初潮年龄
+        'normal':'','abnormal':'',                                  //月经周期
+        'cyclicity_sum':'','cyclicity_sum_qita':'',                 //行经天数
+        /* 经期伴随症状 */
+        'menstruation_is_accompany':false,
+        'spirit_shenpi':'没有','spirit_qiduan':'没有','spirit_yiyu_m':'没有','spirit_tanxi':'没有','spirit_yinu':'没有',
+        'spirit_qita':'',
+        'body_normal':'','body_fat':'','body_thin':'','body_skin':'','body_cold':'','body_hot':'','body_leg':'','body_waist':'',
+        'body_qita':'',
+        'face_head_normal':'','face_head_cangbai':'','face_head_huangbai':'','face_head_weihuang':'','face_head_huian':'','face_head_anban':'','face_head_zhizhong':'','face_head_chunhong':'',
+        'face_head_kouku':'没有','face_head_erming':'没有','face_head_yanghua':'没有',
+        'face_head_qita':'',
+        'belly_juan':'','belly_xian':'','belly_deretongjian':'','belly_tongjian':'',
+        'belly_fanmen':'没有','belly_rufangzhangtong':'没有','belly_xiongxiezhangtong':'没有','belly_shaofuzhangtong':'没有','belly_kongzhui':'没有','belly_kongtong':'没有','belly_citong':'没有','belly_zhangtong':'没有','belly_lengtong':'没有','belly_yintong':'没有',
+        'belly_qita':'',
+        'diet_exin':'','diet_shishao':'','diet_zhangman':'','diet_bujia':'','diet_lengyin':'','diet_kouzao':'',
+        'diet_qita':'',
+        'sleep_shimian':'','sleep_buning':'','sleep_mengduo':'',
+        'sleep_qita':'',
+        'erbian_normal':'','erbian_zaojie':'','erbian_tangbo':'','erbian_pinshu':'','erbian_duanchi':'','erbian_qingchang':'',
+        'erbian_qita':'',
+        /* 经期伴随症状 */
+        'jingqi_yundong':'','jingqi_ganmao':'','jingqi_tongfang':'','jingqi_zhaoliang':'',
+        'last_time':'',//末次行经日期
+        'leucorrhea_quantity':'','leucorrhea_color':'','leucorrhea_feature':'',//平素带下情况
+        'marriage':'',//婚姻史
+          //孕产史
+        'pastpreg_yuncount':'','pastpreg_shunchan':'','pastpreg_pougong':'','pastpreg_yaoliu':'','pastpreg_renliu':'','pastpreg_ziranliu':'','pastpreg_zaochan':'','pastpreg_yiweirenshen':'','pastpreg_qinggongshu':'',
+        'pastpreg_qita':'',
         //避孕措施
-        prevent_wu:false, prevent_jieza:'', prevent_jieyuqi:'', prevent_biyuntao:'', prevent_biyunyao:'',
+        'prevent_wu':'','prevent_jieza':'','prevent_jieyuqi':'','prevent_biyuntao':'','prevent_biyunyao':'',
         //家族史
-        is_pastfamily_womb:'', pastfamily_minus:'', pastfamily_plus:'', pastfamily_duonangluanchao:'', pastfamily_tangniaobing:'', pastfamily_buxiang:'', pastfamily_qita:''
+        'pastfamily_womb_blood':'','pastfamily_ovulation':'','pastfamily_minus':'','pastfamily_plus':'','pastfamily_duonangluanchao':'','pastfamily_tangniaobing':'','pastfamily_buxiang':'',
+        'pastfamily_qita':'',
+        'pasthistory_wu':'','pasthistory_zigongxianjizheng':'','pasthistory_zigongneimoyiwei':'','pasthistory_zigongjiliu':'','pasthistory_luancaonangzhong':'','pasthistory_zigongneimoyan':'','pasthistory_penqiangyan':'','pasthistory_yindaoyan':'','pasthistory_ruxianzengsheng':'','pasthistory_shengzhiyichang':'','pasthistory_minus':'','pasthistory_plus':'','pasthistory_shenshangxian':'','pasthistory_xueye':'','pasthistory_naochuitiliu':'','pasthistory_tangniaobing':'','pasthistory_feipang':'','pasthistory_ganyan':'','pasthistory_jiehe':'',
+        'pasthistory_qita':'',
+
+        'hobbies_wu':'','hobbies_xiyan':'','hobbies_yinjiu':'','hobbies_aoye':'',
+        'hobbies_qita':'',
+        'body_cond':'',
+        'career_labor':'',
+        'physical_exercise':'',
+        'physical_intensity':'',
+        'reducefat_persist':'','reducefat_yundong':'','reducefat_jieshi':'','reducefat_yaowu':'',
+        'reducefat_qita':'',
       },
       dialogVisible: false,
       exist: true,
@@ -328,6 +436,7 @@ export default {
   },
   created() {
     this.$on("openEvent", (data)=>{
+      // this.historyForm = {}
       this.dialogVisible = true
       this.exist = data.exist
       this.formName = data.formName
@@ -335,6 +444,10 @@ export default {
       if (!data.exist) {
         //未创建
         this.historyForm.info = data.formData.info
+        /* 遗留问题 需要传person字段*/
+        this.historyForm.person = data.formData.info
+        /* ********* */
+
       } else {
         //已创建(修改)
         this.historyForm = data.formData
@@ -344,7 +457,10 @@ export default {
 
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
+.el-checkbox {
+  margin-right: 10px
+}
 .el-input {
   margin-top: 10px;
 }

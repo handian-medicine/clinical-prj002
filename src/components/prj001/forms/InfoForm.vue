@@ -3,7 +3,6 @@
             :visible.sync="dialogVisible"
             :close-on-click-modal="false"
             width="90%" center>
-
     <el-form ref="infoForm" :model="infoForm" label-width="100px" label-position="left">
       <el-alert v-if="is_checked=='审核通过'"
                 title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
@@ -93,6 +92,7 @@
       </el-form-item>
 
       <el-form-item label="特殊工作环境">
+        <!-- <el-checkbox v-for="(val, key) in specialCheckbox" :key="key" :label="val" v-model="infoForm[key]"> -->
         <el-checkbox v-for="(val, key) in specialCheckbox" :key="key" :label="val" v-model="infoForm[key]">
         </el-checkbox>
       </el-form-item>
@@ -100,7 +100,7 @@
       <el-form-item label="饮食偏好">
         <el-checkbox v-for="(val, key) in dietCheckbox" :key="key" :label="val" v-model="infoForm[key]">
         </el-checkbox>
-        <el-input v-model="infoForm.yinshi_qita" placeholder="其他"></el-input>
+        <el-input v-model="infoForm.qita" placeholder="其他"></el-input>
       </el-form-item>
 
     </el-form>
@@ -128,8 +128,8 @@ export default {
                         "崩龙族","保安族","裕固族","京族","塔塔尔族","独龙族","鄂伦春族","赫哲族","门巴族","珞巴族","基诺族","其它"],
       careerSelection: ["学生","个体","农民","军人","工人","财会人员","技术人员","服务业","科教文卫","行政管理","无业","其它"],
       cultureSelection: ["未接受国家教育","小学及以下","初中","高中","大专","本科","研究生及以上"],
-      specialCheckbox: {"special_gaowen":"高温","special_diwen":"低温","special_yeban":"夜班","special_zao":"噪声","special_fu":"辐射","special_hua":"化工污染","special_ju":"剧烈运动","special_qi":"汽油","special_kong":"高空","special_wu":"无"},
-      dietCheckbox:    {"yinshi_wuteshu":"无特殊","yinshi_sushi":"素食","yinshi_suan":"酸","yinshi_xian":"咸","yinshi_xinla":"辛辣","yinshi_you":"油","yinshi_shengleng":"生冷","yinshi_cafei":"含咖啡因食物或饮品"},
+      specialCheckbox: {"gaowen":"高温","diwen":"低温","yeban":"夜班","zaosheng":"噪声","fushe":"辐射","huagongyinran":"化工污染","julieyundong":"剧烈运动","qiyou":"汽油","gaokong":"高空","wu":"无"},
+      dietCheckbox:    {"wuteshu":"无特殊","sushi":"素食","suan":"酸","xian":"咸","xinla":"辛辣","you":"油","shengleng":"生冷","cafei":"含咖啡因食物或饮品"},
       exist: true,
       formName:'',
       is_checked:''
@@ -138,12 +138,16 @@ export default {
   computed:{
   },
   methods: {
-    showmsg(message){
-      console.log(message)
-    },
     updateInfoForm () {
+      /* 遗留问题,要把出生年月拆分成两个字段 */
+      const str = this.infoForm.birth
+      const year_month = str.split("-")
+      this.infoForm.birth_year = year_month[0]
+      this.infoForm.birth_month = year_month[1]
+      /* **************************** */
       apiUpdatePatientDataForm({formData:this.infoForm,formName:this.formName})
       .then((res)=> {
+        // this.resetDialog()
         this.$message({message: '提交成功',type: 'success'})
         this.dialogVisible = false
         this.$parent.getPatients()
@@ -151,7 +155,10 @@ export default {
       .catch(
         // this.$message({message: '修改失败',type: 'error'})
       )
-    }
+    },
+    // resetDialog () {
+    //   this.infoForm = {}
+    // }
   },
   created() {
       this.$on("openEvent", (data)=>{
@@ -166,8 +173,10 @@ export default {
         } else {
           //已创建(修改)
           this.infoForm = data.formData
+          this.infoForm.birth = data.formData.birth_year + '-' + data.formData.birth_month
         }
       });
-    }
+  },
+
 };
 </script>

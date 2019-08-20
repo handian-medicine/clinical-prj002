@@ -197,10 +197,13 @@ export default {
       this.is_checked = data.is_checked
       //如果summaryForm未创建,需要从infoForm取到url;如果summaryForm已创建,summaryForm都会被传入的summaryForm覆盖
       if (!data.exist) {
-        //未创建,summaryForm的info接受data.url的值,其余字段初始化为空
+        //未创建
         this.summaryForm.info = data.formData.info
+        /* 遗留问题 需要传person字段*/
+        this.summaryForm.person = data.formData.info
+        /* ********* */
       } else {
-        //已创建(修改),summaryForm初始化为从api请求得到的数据
+        //已创建(修改)
         this.summaryForm = data.formData
       }
     })

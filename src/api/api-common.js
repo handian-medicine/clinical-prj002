@@ -11,3 +11,6 @@ export const apiLogin = params => { return axios.post(`${baseUrl}/login`, params
 export const apiHome = params => { return axios.post(`${baseUrl}/home`, params) }
 //进入项目主页
 export const apiPrj = params => { return axios.post(`${baseUrl}/home` + params.linkurl, params) }
+//修改密码
+export const apiChangePassword = params => { return axios.post(`${baseUrl}/password`, params).then(res => res.data) }
+

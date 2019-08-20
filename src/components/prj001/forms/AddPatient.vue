@@ -5,16 +5,46 @@
 
     <el-form ref="patientInfo" :model="patientInfo" :rules="rules" label-width="130px" label-position="left">
 
-      <el-form-item label="患者姓名" prop="name">
-        <el-input v-model="patientInfo.name"></el-input>
+      <!-- format表示显示在页面的日期格式, value-format表示传递给后台的真实的数据格式 -->
+      <!-- <el-form-item label="就诊日期" prop="recdate">
+        <el-date-picker v-model="patientInfo.recdate"
+                        type="date" placeholder="选择日期"
+                        format="yyyy 年 MM 月 dd 日"
+                        value-format="yyyy-MM-dd">
+        </el-date-picker>
+      </el-form-item> -->
+      <el-form-item label="辅助医生邮箱">
+        <el-input v-model="patientInfo.owner"></el-input>
       </el-form-item>
-
-      <el-form-item label="就诊医院" prop="hospital">
+      <el-form-item label="医院名称">
         <el-input v-model="patientInfo.hospital"></el-input>
       </el-form-item>
+      <el-form-item label="填表专家姓名">
+        <el-input v-model="patientInfo.expert"></el-input>
+      </el-form-item>
+      <el-form-item label="职称">
+        <el-select v-model="patientInfo.title" placeholder="请选择">
+          <el-option v-for="item in mydata.titleSelection" :key="item" :label="item" :value="item">
+          </el-option>
+        </el-select>
+      </el-form-item>
 
-      <el-form-item label="出生日期" prop="birth">
-        <!-- format表示显示在页面的日期格式, value-format表示传递给后台的真实的数据格式 -->
+      <el-form-item label="患者姓名">
+        <el-input v-model="patientInfo.name"></el-input>
+      </el-form-item>
+      <el-form-item label="电话(手机)">
+        <el-input v-model="patientInfo.telephone"></el-input>
+      </el-form-item>
+      <el-form-item label="患者现住址">
+        <el-input v-model="patientInfo.address"></el-input>
+      </el-form-item>
+      <el-form-item label="患者来源">
+        <el-select v-model="patientInfo.entrance" placeholder="请选择">
+          <el-option v-for="item in mydata.entranceSelection" :key="item" :label="item" :value="item">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="患者出生年月">
         <el-date-picker v-model="patientInfo.birth"
                         type="month" placeholder="选择日期"
                         format="yyyy 年 MM 月"
@@ -22,31 +52,27 @@
         </el-date-picker>
       </el-form-item>
 
-      <el-form-item label="手机号码" prop="phone">
-        <el-input v-model="patientInfo.phone"></el-input>
-      </el-form-item>
-
-      <el-form-item label="	填表专家姓名" prop="expert">
-        <el-input v-model="patientInfo.expert"></el-input>
-      </el-form-item>
-
-      <el-form-item label="	职称" prop="title">
-        <el-input v-model="patientInfo.title"></el-input>
-      </el-form-item>
-
       <el-form-item label="民族">
         <el-select v-model="patientInfo.nation" placeholder="请选择">
-          <el-option v-for="item in nationSelection" :key="item" :label="item" :value="item">
+          <el-option v-for="item in mydata.nationSelection" :key="item" :label="item" :value="item">
           </el-option>
         </el-select>
       </el-form-item>
 
-      <el-form-item label="职业" prop="career">
+      <el-form-item label="职业">
         <el-select v-model="patientInfo.career" placeholder="请选择">
-          <el-option v-for="item in careerSelection" :key="item" :label="item" :value="item">
+          <el-option v-for="item in mydata.careerSelection" :key="item" :label="item" :value="item">
           </el-option>
         </el-select>
       </el-form-item>
+
+      <el-form-item label="文化程度">
+        <el-select v-model="patientInfo.culture" placeholder="请选择">
+          <el-option v-for="item in mydata.cultureSelection" :key="item" :label="item" :value="item">
+          </el-option>
+        </el-select>
+      </el-form-item>
+
 
     </el-form>
       <span slot="footer">
@@ -62,21 +88,35 @@ export default {
     name:'AddPatient',
     data () {
       return {
-        dialogVisible: false,
-        patientInfo: {name:'测试用',
-                      hospital:'汉典医院',
-                      birth:'',
-                      telephone:'13110983476',
-                      expert:'填表专家',
-                      title:'职称',
-                      nation:'汉族',
-                      career:'学生'},
-        nationSelection: ["汉族","蒙古族","回族","藏族","维吾尔族","苗族","彝族","壮族","布依族","朝鲜族","满族","侗族",
+        mydata:{
+            entranceSelection:["门诊","病房"],
+            titleSelection: ["主任医师","副主任医师","主治医师"],
+            nationSelection: ["汉族","蒙古族","回族","藏族","维吾尔族","苗族","彝族","壮族","布依族","朝鲜族","满族","侗族",
                         "瑶族","白族","土家族","哈尼族","哈萨克族","傣族","黎族","傈傈族","佤族","畲族","高山族","拉祜族",
                         "水族","东乡族","纳西族","景颇族","科尔克孜族","土族","达斡尔族","仫佬族","羌族","布朗族","撒拉族",
                         "毛难族","仡佬族","锡伯族","阿昌族","普米族","塔吉克族","怒族","乌孜别克族","俄罗斯族","鄂温克族",
                         "崩龙族","保安族","裕固族","京族","塔塔尔族","独龙族","鄂伦春族","赫哲族","门巴族","珞巴族","基诺族","其它"],
-        careerSelection: ["学生","个体","农民","军人","工人","财会人员","技术人员","服务业","科教文卫","行政管理","无业","其它"],
+            careerSelection: ["学生","个体","农民","军人","工人","财会人员","技术人员","服务业","科教文卫","行政管理","无业","其它"],
+            cultureSelection: ["未接受国家教育","小学及以下","初中","高中","大专","本科","研究生及以上"],
+        },
+        dialogVisible: false,
+        patientInfo: {
+            'owner':'874174345@qq.com',
+            'hospital':'汉典医院',
+            'expert':'专家',
+            'title':'主任医师',
+            'name':'测试用',
+            'telephone':'13519871654',
+            'address':'上海浦东',
+            'entrance':'门诊',
+            'nation':'汉族',
+            'career':'学生',
+            'culture':'大专',
+            'birth_year':'',
+            'birth_month':'',
+            'birth': '2000-01'
+        },
+
         rules:{
           name: [
             {required: true, message: '请输入姓名', trigger: 'blur' }
@@ -92,6 +132,12 @@ export default {
     },
     methods: {
       addPatient () {
+        /* 遗留问题,要把出生年月拆分成两个字段 */
+        const str = this.patientInfo.birth
+        const year_month = str.split("-")
+        this.patientInfo.birth_year = year_month[0]
+        this.patientInfo.birth_month = year_month[1]
+        /* **************************** */
         this.$refs.patientInfo.validate( (valid) => {
           if (valid) {
             let para = {

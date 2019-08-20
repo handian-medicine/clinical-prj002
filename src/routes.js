@@ -29,6 +29,12 @@ export default new Router({
       hidden: true
     },
     {
+      path: '/password',
+      component: () => import('@/components/ChangePassword.vue'),
+      name: '',
+      hidden: true
+    },
+    {
       path: '/home',
       component: () => import('@/components/Home.vue'),
       name: '',
