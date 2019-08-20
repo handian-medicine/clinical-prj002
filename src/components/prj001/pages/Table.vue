@@ -8,7 +8,7 @@
         </el-form-item>
         <el-form-item>
           <el-select v-model="search.is_checked" placeholder="查询审核状态">
-            <el-option value="未审核" label="未通过"></el-option>
+            <el-option value="未审核" label="未审核"></el-option>
             <el-option value="审核通过" label="审核通过"></el-option>
             <el-option value="审核不通过" label="审核不通过"></el-option>
           </el-select>
@@ -56,7 +56,7 @@
           </el-progress>
         </template>
       </el-table-column>
-      <el-table-column prop="is_checked" label="审核状态" width="100">
+      <el-table-column prop="is_checked" label="审核状态" width="110">
         <template v-slot="scope">
           <el-tag v-if="scope.row.is_checked=='未审核'" type="warn">{{scope.row.is_checked}}</el-tag>
           <el-tag v-if="scope.row.is_checked=='审核通过'" type="success">{{scope.row.is_checked}}</el-tag>
@@ -161,10 +161,8 @@ export default {
       }
       this.pagination_flag = false
       apiExportFile(para).then( (res) => {
-        // console.log('搜索返回结果',res.data.searchResults)
-        this.patientsList = res.data.searchResults
-        this.totalNum = res.data.searchResultsNum
-        this.listLoading = false
+        console.log('搜索返回结果',res.data.path)
+        window.location.href = "http://" + res.data.path
       })
     },
     // 新增信息dialog
