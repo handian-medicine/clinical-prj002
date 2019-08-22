@@ -7,7 +7,7 @@
     <hr class="my-hr">
     <el-form :model="loginForm" :rules="rules" ref="loginForm" label-position="left" label-width="0px"
             class="login-container">
-      <h3 class="title">系统登录</h3>
+      <h2 class="title">系统登录</h2>
       <el-form-item prop="email">
         <el-input type="text" v-model="loginForm.email" auto-complete="off" placeholder="账号" suffix-icon="fa fa-user"></el-input>
       </el-form-item>
@@ -25,10 +25,36 @@
           友情提示<i class="fa fa-wrench"></i>
         </span>
       </el-divider>
+      <div>
+        <h4 class="my-font">为了保证用户使用功能正常，要求使用如下浏览器:</h4>
+        <ul class="my-ul">
+            <li class="my-li">
+                谷歌浏览器
+                <a href="https://www.google.cn/chrome/index.html">
+                  <i class="fa fa-chrome fa-lg" aria-hidden="true"></i>
+                </a>
+            </li>
+            <li class="my-li">
+                火狐浏览器
+                <a href="http://www.firefox.com.cn/download/">
+                    <i class="fa fa-firefox fa-lg" aria-hidden="true"></i>
+                </a>
+            </li>
+            <li class="my-li">
+                <p>暂不支持IE及其它浏览器</p>
+            </li>
+        </ul>
+      </div>
     </el-form>
-    <!-- <div class="footer">
-        看这里
-      </div> -->
+    <div class="footer">
+              <div class="col-xs-12" style="text-align:center;">
+          <div class="bigger-150">本项目由<a>中华中医药学会妇科分会发起</a>
+              <a href="http://www.handian.com">北京汉典制药有限公司</a>
+          <sup>®</sup>
+          支持
+          </div>
+      </div>
+      </div>
   </div>
 </template>
 
@@ -91,16 +117,32 @@ export default {
 <style lang="scss" scoped>
   .main-title {
     text-align: center;
-    margin: 150px 20px 20px 20px;
-    font-family: Helvetica, Tahoma, Arial, "Heiti SC", "Microsoft YaHei", sans-serif;
-    font-size: 25px;
-    color:grey
+    margin: 10px auto;
+    // margin: 150px 20px 20px 20px;
+    // font-family: Helvetica, Tahoma, Arial, "Heiti SC", "Microsoft YaHei", sans-serif;
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 30px;
+    font-weight: lighter;
+    color:black
   }
   .my-hr {
-    width: 350px; height: 2px; border: none; background-color: #4f90c1;
+    width: 400px; height: 2px; border: none; background-color: #4f90c1;
     margin-bottom: 20px
   }
-
+  .my-font {
+    font-size: 15px;
+    font-weight: lighter;
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+  .my-ul {
+    text-align:center;
+    padding-left:0px;
+    list-style-type:none;
+    .my-li {
+      margin-top: 9px;
+      margin-bottom: 9px;
+    }
+  }
   .login-container {
     -webkit-border-radius: 5px;
     border-radius: 5px;
@@ -114,7 +156,8 @@ export default {
     box-shadow: 0 0 25px #cac6c6;
 
     .title {
-      margin: 0px auto 40px auto;
+      margin: 0px auto 20px auto;
+      font-weight: lighter;
       text-align: center;
       color: #505458;
     }

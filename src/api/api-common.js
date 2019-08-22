@@ -1,8 +1,12 @@
 import axios from 'axios'
 
 //这里api是代理flag,通过这个api告诉webpack把请求发到3000端口,即express后端
-let baseUrl = 'http://127.0.0.1:8080/api/api' //开发环境用
-// let baseUrl = '/api'
+let baseUrl = ''
+if (process.env.NODE_ENV === "development") {
+    baseUrl = 'http://127.0.0.1:8080/api/api' //开发环境用
+} else {
+    baseUrl = '/api'
+}
 
 
 // 登录
