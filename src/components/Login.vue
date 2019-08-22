@@ -62,13 +62,11 @@ export default {
           apiLogin(params).then(res => {
             this.logining = false
             if (res.code !== 200) {
-              this.$message({
-                // message: msg + ' 错误码 ' + res.code,
-                message: res.msg + ' 密码或用户名错误',
-                type: 'error'
-              })
-            } else {
-              console.log("登录成功")
+              this.$message({message: res.msg + ' 密码或用户名错误',type: 'error'})
+            }
+            else
+            {
+              this.$message({message: '登录成功',type: 'success'})
               apiHome(params)
                 .then( (home_res)=> {
                   // sessionStorage 这一行务必写在跳转页面前面!!!!!! 注意使用JSON.stringify()

@@ -8,19 +8,19 @@
         </el-form-item>
         <el-form-item>
           <el-select v-model="search.check_status" placeholder="查询审核状态">
-            <el-option value="未审核" label="未通过"></el-option>
+            <el-option value="未审核" label="未审核"></el-option>
             <el-option value="审核通过" label="审核通过"></el-option>
             <el-option value="审核不通过" label="审核不通过"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="el-icon-search" @click="searchPatient">查询</el-button>
+          <el-button type="primary" icon="el-icon-search" @click="searchPatient" size="small">查询</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="el-icon-refresh-right" @click="getPatients">重置</el-button>
+          <el-button type="primary" icon="el-icon-refresh-right" @click="getPatients" size="small">重置</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="addPatient">新增</el-button>
+          <el-button type="primary" @click="addPatient" size="small">新增</el-button>
         </el-form-item>
       </el-form>
     </el-col>
@@ -46,10 +46,18 @@
       </el-table-column> -->
       <el-table-column prop="degree_of_completion" label="信息完整度" width="90">
         <template v-slot="scope">
-          <el-progress :text-inside="true" :stroke-width="15" :percentage="Number(scope.row.degree_of_completion)" :color="customColors"></el-progress>
+          <el-progress type="circle"
+                      :percentage="Math.round(Number(scope.row.degree_of_completion))"
+                      :width="40" :color="customColors">
+          </el-progress>
         </template>
       </el-table-column>
-      <el-table-column prop="check_status" label="审核状态" width="80">
+      <el-table-column prop="check_status" label="审核状态" width="110">
+        <template v-slot="scope">
+          <el-tag v-if="scope.row.check_status=='未审核'" type="warn">{{scope.row.check_status}}</el-tag>
+          <el-tag v-if="scope.row.check_status=='审核通过'" type="success">{{scope.row.check_status}}</el-tag>
+          <el-tag v-if="scope.row.check_status=='审核不通过'" type="danger">{{scope.row.check_status}}</el-tag>
+        </template>
       </el-table-column>
       <el-table-column label="数据修改" width="640">
         <template v-slot="scope">
@@ -132,9 +140,9 @@ export default {
       pagination_flag: true, //true表示所有数据的分页,false表示搜索数据的分页
       customColors: [
           {color: '#f56c6c', percentage: 20},
-          {color: '#6f7ad3', percentage: 40},
-          {color: '#e6a23c', percentage: 80},
-          {color: '#5cb87a', percentage: 100},
+          {color: '#e6a23c', percentage: 50},
+          {color: '#1989fa', percentage: 80},
+          {color: '#5cb87a', percentage: 100}
         ]
     }
   },

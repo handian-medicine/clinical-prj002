@@ -2,6 +2,7 @@
     <el-dialog title="相关检查" class="my-dialog"
             :visible.sync="dialogVisible"
             :close-on-click-modal="false" width="100%" center
+            v-if='dialogVisible'
             @close='resetDialog'>
             <!-- 这里改 -->
         <el-form ref="relevantForm" :model="relevantForm" label-width="100px" label-position="left">
@@ -11,19 +12,20 @@
             </el-alert>
             <el-divider v-if="is_checked=='审核通过'"></el-divider>
 
-            <h4>1、体格检查</h4>
-                <el-form-item>
-                    <el-checkbox v-for="(val, key) in mydata.bodyCheckbox"
-                                v-model="relevantForm[key]"
-                                :key="key" :label="val">
-                    </el-checkbox>
-                </el-form-item>
+            <h4>1、体格检查 &nbsp;&nbsp;&nbsp;
+                <el-checkbox v-for="(val, key) in mydata.bodyCheckbox"
+                            v-model="relevantForm[key]"
+                            :key="key" :label="val">
+                </el-checkbox>
+            </h4>
+
             <h4>2、辅助检查</h4>
                 <el-form-item label="(1)辅助检查">
                     <el-checkbox v-for="(val, key) in mydata.accessoryCheckbox"
                                 v-model="relevantForm[key]"
                                 :key="key" :label="val">
                     </el-checkbox>
+                    <el-input v-model="relevantForm.accessory_qita"></el-input>
                 </el-form-item>
                 <el-form-item label="(2)血红蛋白值">
                     <el-radio v-for="item in mydata.accessory_hgbRadio"
@@ -35,7 +37,7 @@
         <span slot="footer">
             <el-button :disabled="is_checked=='审核通过'" type="primary" v-if="exist"  @click="updateDataForm">确定</el-button>
             <el-button type="primary" v-else  @click="createDataForm">确定</el-button>
-            <el-button @click="dialogVisible=false">取消</el-button>
+            <el-button @click="resetDialog">取消</el-button>
         </span>
     </el-dialog>
 </template>
@@ -63,7 +65,7 @@ export default {
                     },
                 'accessory_hgbRadio':['>110','91-110','61-90','30-60']
             },
-            relevantForm:{},//修改
+            relevantForm:{},
             dialogVisible: false,
             exist: true,
             formName:'',
@@ -93,6 +95,7 @@ export default {
     },
         resetDialog () {
             this.relevantForm = {}
+            return this.dialogVisible=false
         }
     },
     created() {
@@ -102,13 +105,13 @@ export default {
             this.formName = data.formName
             this.is_checked = data.is_checked
             if (!data.exist) {
-                //未创建
+                //创建
                 /* 遗留问题 需要传person字段*/
                 this.relevantForm.person = data.formData.info
                 /* ********* */
                 this.relevantForm.info = data.formData.info
             } else {
-                //已创建(修改)
+                //修改
                 this.relevantForm = data.formData
             }
         })

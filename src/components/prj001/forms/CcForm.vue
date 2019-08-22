@@ -2,6 +2,7 @@
     <el-dialog title="临床诊断" class="my-dialog"
             :visible.sync="dialogVisible"
             :close-on-click-modal="false" width="100%" center
+            v-if='dialogVisible'
             @close='resetDialog'>
         <el-form ref="ccForm" :model="ccForm" label-width="auto" label-position="left">
             <el-alert v-if="is_checked=='审核通过'"
@@ -51,7 +52,7 @@
         <span slot="footer">
             <el-button :disabled="is_checked=='审核通过'" type="primary" v-if="exist"  @click="updateDataForm">确定</el-button>
             <el-button type="primary" v-else  @click="createDataForm">确定</el-button>
-            <el-button @click="dialogVisible=false">取消</el-button>
+            <el-button @click="resetDialog">取消</el-button>
         </span>
     </el-dialog>
 </template>
@@ -101,6 +102,7 @@ export default {
     },
         resetDialog () {
             this.ccForm = {}
+            return this.dialogVisible=false
         }
     },
     created() {
@@ -131,6 +133,6 @@ export default {
     margin-right: 10px
 }
 .el-input {
-    margin-top: 10px;
+    margin-top: 8px;
 }
 </style>

@@ -120,7 +120,7 @@ router.get('/form', function(req, res, next) {
       headers: {'Authorization': 'Bearer ' + req.cookies.prj001token.access_token}
     }
     request.get(options, function (error, response, body) {
-  console.log('user.js GET获取Form body', body)
+      console.log('user.js GET获取Form body', body)
       var patientForm = JSON.parse(body)
       res.send(patientForm)
     })
@@ -134,7 +134,7 @@ router.post('/form', function(req, res, next) {
     headers: {'Authorization': 'Bearer ' + req.cookies.prj001token.access_token}
   }
     request.post(options, function (error, response, body) {
-      console.log(body)
+      console.log("user.js POST创建Form body",body)
       res.send({msg:'ok'})
     })
 })

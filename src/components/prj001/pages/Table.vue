@@ -3,16 +3,21 @@
     <!--上方工具条 搜索和新增-->
     <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
       <el-form :inline="true" :model="search">
-        <el-form-item v-for="(val, key, index) in search" :key="index">
-          <el-input v-if="key!='is_checked'&& key!='types'" v-model="search[key]" :placeholder="searchName[key]"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-select v-model="search.is_checked" placeholder="查询审核状态">
-            <el-option value="未审核" label="未审核"></el-option>
-            <el-option value="审核通过" label="审核通过"></el-option>
-            <el-option value="审核不通过" label="审核不通过"></el-option>
-          </el-select>
-        </el-form-item>
+        <el-row>
+          <el-col :sm="24" :md="24" :lg="24" :xl="24">
+            <el-form-item v-for="(val, key, index) in search" :key="index">
+              <el-input v-if="key!='is_checked'&& key!='types'" v-model="search[key]" :placeholder="searchName[key]"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-select v-model="search.is_checked" placeholder="查询审核状态">
+                <el-option value="未审核" label="未审核"></el-option>
+                <el-option value="审核通过" label="审核通过"></el-option>
+                <el-option value="审核不通过" label="审核不通过"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" size="small" @click="searchPatient">查询</el-button>
         </el-form-item>
@@ -25,6 +30,7 @@
         <el-form-item>
           <el-button type="primary" size="small" @click="exportFile">导出excel</el-button>
         </el-form-item>
+        </el-row>
       </el-form>
     </el-col>
 
@@ -261,6 +267,10 @@ export default {
           /* 遗留问题 */
           //放在infoForm里面会有datepicker的bug
           if (formName == 'info') {res.data.birth = res.data.birth_year + '-' + res.data.birth_month}
+          if (formName == 'history') {
+            const is_normal = res.data.abnormal == '' || res.data.abnormal == undefined || res.data.abnormal == null
+            is_normal ? res.data.is_normal = true : res.data.is_normal = false
+          }
           /* ******* */
 
           this.$refs[formName].$emit("openEvent", {exist:true, formData:res.data, is_checked:row.is_checked})

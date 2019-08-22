@@ -2,6 +2,7 @@
   <el-dialog title="中西治疗" class="my-dialog"
             :visible.sync="dialogVisible"
             :close-on-click-modal="false" width="100%" center
+            v-if='dialogVisible'
             @close='resetDialog'>
     <el-form ref="cureForm" :model="cureForm" label-width="120" label-position="left">
       <el-alert v-if="is_checked=='审核通过'"
@@ -17,6 +18,13 @@
           <h3>一、中医治疗</h3>
           <h4>1、治法</h4>
           <div>
+            <!-- <el-form-item>
+              <el-cascader style="width:300px"
+                    v-model="mydata.value"
+                    :options="mydata.zhifa">
+              </el-cascader>
+            </el-form-item> -->
+
             <el-form-item label="(1)虚证治法">
                 <el-radio v-for="item in mydata.xuzhengRadio"
                         v-model="cureForm.xuzheng_one"
@@ -157,7 +165,7 @@
     <span slot="footer">
         <el-button :disabled="is_checked=='审核通过'" type="primary" v-if="exist"  @click="updateDataForm">确定</el-button>
         <el-button type="primary" v-else  @click="createDataForm">确定</el-button>
-        <el-button @click="dialogVisible=false">取消</el-button>
+        <el-button @click="resetDialog">取消</el-button>
     </span>
 
   </el-dialog>
@@ -174,6 +182,15 @@ export default {
         'xuzhengRadio':['补脾益气,养血固冲调经','补益肾气,养血固冲调经','补血养营,益气调经','补气升提,固冲止血调经','养阴清热,凉血调经','滋肾益阴,清热固冲止血','温肾助阳,固冲止血'],
         'shizhengRadio':['温经散寒,活血调经','清热降火,凉血调经','燥湿化痰,活血调经','清热凉血,固冲止血','疏肝理气,活血调经','活血化瘀,固冲止血调经','清热除湿,凉血止血','清肝解郁,凉血调经'],
         'xushiRadio':['养阴清热,凉血调经','清热降火,凉血调经'],
+        'zhifa':[
+          {value: '虚证治法',label: '虚证治法',children: [
+                                            {value: '补脾益气,养血固冲调经',label: '补脾益气,养血固冲调经'}
+                                                      ]
+          },
+          {value: '实证治法',label: '实证治法',children: [{value: '温经散寒,活血调经',label: '温经散寒,活血调经'}] },
+          {value: '虚实夹杂证',label: '虚实夹杂证',children: [{value: '养阴清热,凉血调经',label: '养阴清热,凉血调经'}] },
+        ],
+        'value':[],
         // 2、代表方
         'xu_fangjiCheckbox':{'pre_xu_yiqi':'补中益气汤','pre_xu_guyin':'固阴煎','pre_xu_yuanjian':'大补元煎',
                             'pre_xu_yangrong':'人参养荣汤','pre_xu_guipi':'归脾汤','pre_xu_anchong':'安冲汤',
@@ -254,6 +271,7 @@ export default {
     },
     resetDialog () {
       this.cureForm = {}
+      return this.dialogVisible=false
     }
   },
   created() {

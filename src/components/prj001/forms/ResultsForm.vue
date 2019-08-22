@@ -27,7 +27,7 @@
     <span slot="footer">
         <el-button :disabled="is_checked=='审核通过'" type="primary" v-if="exist"  @click="updateDataForm">确定</el-button>
         <el-button type="primary" v-else  @click="createDataForm">确定</el-button>
-        <el-button @click="dialogVisible=false">取消</el-button>
+        <el-button @click="resetDialog">取消</el-button>
     </span>
 
     </el-dialog>
@@ -70,6 +70,7 @@ export default {
     },
         resetDialog () {
             this.resultsForm = {}
+            return this.dialogVisible=false
         }
     },
     created() {

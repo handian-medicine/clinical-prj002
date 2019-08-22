@@ -2,6 +2,7 @@
   <el-dialog title="病情概要" class="my-dialog"
             :visible.sync="dialogVisible"
             :close-on-click-modal="false" width="100%" center
+            v-if='dialogVisible'
             @close='resetDialog'>
     <el-form ref="summaryForm" :model="summaryForm" label-width="110px" label-position="left">
       <el-alert v-if="is_checked=='审核通过'"
@@ -10,12 +11,13 @@
       </el-alert>
       <el-divider v-if="is_checked=='审核通过'"></el-divider>
       <el-form-item label="1、主诉">
-        <el-form-item v-for="(val, key) in mydata.zhusu" class="my-input" :key="key" :label="val">
-          <el-input v-model="summaryForm[key]" type="number" min="0"></el-input>
+        <el-form-item v-for="(val, key) in mydata.zhusu"
+                      class="summary-input"
+                      :key="key">
+            {{val}}<el-input v-model="summaryForm[key]" type="number" min="0"></el-input>
+            {{(key=='owner_buguize')?'天':'月'}}
         </el-form-item>
-        <el-form-item label="其他" class="my-input">
-          <el-input v-model="summaryForm.owner_qita"></el-input>
-        </el-form-item>
+        <el-input v-model="summaryForm.owner_qita" placeholder="其他情况"></el-input>
       </el-form-item>
 
       <el-form-item label="2、出血量">
@@ -88,7 +90,7 @@
     <span slot="footer">
         <el-button :disabled="is_checked=='审核通过'" type="primary" v-if="exist"  @click="updateDataForm">确定</el-button>
         <el-button type="primary" v-else  @click="createDataForm">确定</el-button>
-        <el-button @click="dialogVisible=false">取消</el-button>
+        <el-button @click="resetDialog">取消</el-button>
     </span>
 
   </el-dialog>
@@ -185,8 +187,8 @@ export default {
       )
     },
     resetDialog () {
-      // 清空
       this.summaryForm = {}
+      return this.dialogVisible=false
     }
   },
   created() {
@@ -211,23 +213,28 @@ export default {
 }
 </script>
 <style lang="scss">
-  .my-input  {
+  .summary-input  {
     .el-input__inner {
-        width: 60px;
+        width: 80px;
         border-radius:1px;
         border-top-width: 0px;
         border-left-width: 0px;
         border-right-width: 0px;
         border-bottom-width: 1px;
     }
-    .el-form-item__label {
-        width:130px !important;
-        color:#871F78;
-    }
+    // .el-form-item__label {
+    //     width:130px !important;
+    //     color:#871F78;
+    // }
     .el-input {
         display: inline;
     }
   }
-
+.el-checkbox {
+  margin-right: 10px
+}
+.el-input {
+  margin-top: 10px;
+}
 </style>
 

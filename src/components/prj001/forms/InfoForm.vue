@@ -163,16 +163,21 @@ export default {
       this.infoForm.birth_year = year_month[0]
       this.infoForm.birth_month = year_month[1]
       /* **************************** */
-      apiUpdatePatientDataForm({formData:this.infoForm,formName:this.formName})
-      .then((res)=> {
-        // this.resetDialog()
-        this.$message({message: '提交成功',type: 'success'})
-        this.dialogVisible = false
-        this.$parent.getPatients()
-      })
-      .catch(
-        // this.$message({message: '修改失败',type: 'error'})
-      )
+      this.$refs.infoForm.validate( (valid) => {
+        if (valid) {
+          apiUpdatePatientDataForm({formData:this.infoForm,formName:this.formName})
+            .then((res)=> {
+              // this.resetDialog()
+              this.$message({message: '提交成功',type: 'success'})
+              this.dialogVisible = false
+              this.$parent.getPatients()
+            }).catch()
+        } else {
+          this.$message({message: '请填写完整信息',type: 'warning'})
+          return false
+        }
+      } )
+
     },
     // resetDialog () {
     //   this.infoForm = {}

@@ -2,8 +2,9 @@
   <el-dialog title="患者病史" class="my-dialog"
             :visible.sync="dialogVisible"
             :close-on-click-modal="false" width="100%" center
+            v-if='dialogVisible'
             @close='resetDialog'>
-    <el-form ref="historyForm" :model="historyForm" label-width="auto" label-position="left">
+    <el-form ref="historyForm" :model="historyForm" label-width="150px" label-position="left">
       <el-alert v-if="is_checked=='审核通过'"
                 title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
                 type="warning" :closable="false" show-icon>
@@ -61,7 +62,7 @@
       </el-form-item>
 
     <h3>三、月经带下史</h3>
-      <el-form-item label="月经初潮年龄">
+      <el-form-item label="1、月经初潮年龄">
         <el-radio v-model="historyForm.first_time"
                   v-for="item in mydata.first_time"
                   :key="item" :label="item">
@@ -69,23 +70,23 @@
         <el-input v-model="historyForm.first_time_qita" placeholder="其他情况"></el-input>
       </el-form-item>
 
-      <el-form-item label="月经周期是否规律">
-        <el-switch v-model="historyForm.is_normal" active-text="是" inactive-text="否"></el-switch>
+      <el-form-item label="2、月经周期是否规律">
+        <el-switch v-model="historyForm.is_normal" active-text="尚规律" inactive-text="不规律" @change="cycle"></el-switch>
       </el-form-item>
-      <el-form-item v-show="historyForm.is_normal" label="尚规律">
+      <el-form-item v-show="historyForm.is_normal">
         <el-radio v-model="historyForm.normal"
                   v-for="item in mydata.normal"
                   :key="item" :label="item">
         </el-radio>
       </el-form-item>
-      <el-form-item v-show="!historyForm.is_normal" label="不规律">
+      <el-form-item v-show="!historyForm.is_normal">
         <el-radio v-model="historyForm.abnormal"
                   v-for="item in mydata.abnormal"
                   :key="item" :label="item">
         </el-radio>
       </el-form-item>
 
-      <el-form-item label="行经天数">
+      <el-form-item label="3、行经天数">
         <el-radio v-model="historyForm.cyclicity_sum"
                   v-for="item in mydata.cyclicity_sum"
                   :key="item" :label="item">
@@ -93,7 +94,7 @@
         <el-input v-model="historyForm.cyclicity_sum_qita" placeholder="其他情况"></el-input>
       </el-form-item>
 
-      <el-form-item label="总出血量">
+      <el-form-item label="4、出血所需卫生巾数">
         <el-radio v-model="historyForm.blood_cond"
                   v-for="item in mydata.blood_cond"
                   :key="item" :label="item">
@@ -101,7 +102,7 @@
         <el-input v-model="historyForm.mm_blood_cond_qita" placeholder="其他情况"></el-input>
       </el-form-item>
 
-      <el-form-item label="出血颜色">
+      <el-form-item label="5、出血颜色">
         <el-radio v-model="historyForm.blood_color"
                   v-for="item in mydata.blood_color"
                   :key="item" :label="item">
@@ -109,7 +110,7 @@
         <el-input v-model="historyForm.mm_blood_color_qita" placeholder="其他情况"></el-input>
       </el-form-item>
 
-      <el-form-item label="出血质地">
+      <el-form-item label="6、出血质地">
         <el-radio v-model="historyForm.blood_quality"
                   v-for="item in mydata.blood_quality"
                   :key="item" :label="item">
@@ -121,7 +122,7 @@
         <el-input v-model="historyForm.mm_blood_block_qita" placeholder="其他情况"></el-input>
       </el-form-item>
 
-      <el-form-item label="出血特点">
+      <el-form-item label="7、出血特点">
         <el-radio v-model="historyForm.blood_character"
                   v-for="item in mydata.blood_character"
                   :key="item" :label="item">
@@ -193,7 +194,7 @@
         </el-form-item>
       </el-form-item>
 
-      <el-form-item label="末次行经日期">
+      <el-form-item label="10、末次行经日期">
         <el-date-picker v-model="historyForm.last_time"
                         type="date" placeholder="选择日期"
                         format="yyyy 年 MM 月 dd 日"
@@ -201,7 +202,7 @@
         </el-date-picker>
       </el-form-item>
 
-      <el-form-item label="平素带下情况">
+      <el-form-item label="11、平素带下情况">
         <el-select v-model="historyForm.leucorrhea_quantity" placeholder="请选择">
           <template slot="prefix">量</template>
           <el-option v-for="item in mydata.leucorrhea_quantity" :key="item" :value="item">
@@ -228,7 +229,6 @@
       </el-form-item>
 
     <h3>五、孕产史</h3>
-      <el-form-item>
         <el-col :sm="24" :md="12" :lg="8" v-for="(val, key) in mydata.pastpreg" :key="key">
           <el-input type="number" min="0" v-model="historyForm[key]">
             <template slot="prepend">{{val}}</template>
@@ -236,7 +236,6 @@
           </el-input>
         </el-col>
           <el-input v-model="historyForm.pastpreg_qita" placeholder="其他情况"></el-input>
-      </el-form-item>
 
     <h3>六、避孕措施</h3>
       <el-form-item label="避孕措施">
@@ -252,8 +251,8 @@
     <h3>七、家族史</h3>
       <el-form-item label="家族史">
         一级亲属（父母、兄弟姐妹、子女）其他疾病史
-        <el-switch v-model="historyForm.is_pastfamily_womb" active-text="有" inactive-text="无"></el-switch>
-        <div v-show="historyForm.is_pastfamily_womb">
+        <!-- <el-switch v-model="historyForm.is_pastfamily_womb" active-text="有" inactive-text="无"></el-switch> -->
+        <div>
           <el-checkbox v-model="historyForm.pastfamily_minus"  label="甲减" ></el-checkbox>
           <el-checkbox v-model="historyForm.pastfamily_plus"  label="甲亢" ></el-checkbox>
           <el-checkbox v-model="historyForm.pastfamily_duonangluanchao"  label="多囊卵巢综合征" ></el-checkbox>
@@ -268,7 +267,7 @@
     <span slot="footer">
         <el-button :disabled="is_checked=='审核通过'" type="primary" v-if="exist"  @click="updateDataForm">确定</el-button>
         <el-button type="primary" v-else  @click="createDataForm">确定</el-button>
-        <el-button @click="dialogVisible=false">取消</el-button>
+        <el-button @click="resetDialog">取消</el-button>
     </span>
   </el-dialog>
 </template>
@@ -350,6 +349,7 @@ export default {
       },
       historyForm:{
         info:'',
+        // is_pastfamily_womb:false,
         'blood_cond':'',                                              //总出血量
         'blood_color':'',                                             //出血颜色
         'blood_quality':'','blood_block':'',                          //出血质地
@@ -432,6 +432,10 @@ export default {
     },
     resetDialog () {
       this.historyForm = {}
+      return this.dialogVisible=false
+    },
+    cycle (e) {
+      e ? this.historyForm.abnormal = '': this.historyForm.normal = ''
     }
   },
   created() {
@@ -447,7 +451,6 @@ export default {
         /* 遗留问题 需要传person字段*/
         this.historyForm.person = data.formData.info
         /* ********* */
-
       } else {
         //已创建(修改)
         this.historyForm = data.formData
@@ -461,7 +464,10 @@ export default {
 .el-checkbox {
   margin-right: 10px
 }
-.el-input {
-  margin-top: 10px;
+.el-radio {
+  margin-right: 12px
 }
+// .el-input {
+//   margin-top: 10px;
+// }
 </style>
