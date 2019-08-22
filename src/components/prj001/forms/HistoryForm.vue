@@ -300,7 +300,7 @@ export default {
             'pasthistory_ganyan':'肝炎',
             'pasthistory_jiehe':'结核',
         },
-        'hobbies':['无', '吸烟', '饮酒', '熬夜(23:00以后睡)'],
+        'hobbies':{'hobbies_wu':'无', 'hobbies_xiyan':'吸烟', 'hobbies_yinjiu':'饮酒', 'hobbies_aoye':'熬夜(23:00以后睡)'},
         'body_cond':['好','一般','易疲倦'],
         'career_labor':[
                 "重体力劳动(如:搬运工、清洁工、农场工人、畜牧场工人等)",

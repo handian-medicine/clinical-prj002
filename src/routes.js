@@ -53,6 +53,12 @@ export default new Router({
           iconCls: 'fa fa-address-card',
           leaf: false
         },
+        { path: '/prj001/QRcode',
+          name: '移动端录入',
+          component: () => import('@/components/prj001/pages/QRcode.vue'),
+          iconCls: 'fa fa-qrcode',
+          leaf: false
+        },
         { path: '/prj001/echarts',
           name: '数据分析',
           component: () => import('@/components/prj001/pages/Echarts.vue'),

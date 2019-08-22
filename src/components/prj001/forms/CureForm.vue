@@ -11,7 +11,8 @@
       </el-alert>
       <el-divider v-if="is_checked=='审核通过'"></el-divider>
       <el-form-item label="中西医结合治疗">
-        <el-switch v-model="cureForm.to_cure" active-text="是" inactive-text="否"></el-switch>
+        <el-radio v-model="cureForm.to_cure" label="是">是</el-radio>
+        <el-radio v-model="cureForm.to_cure" label="否">否</el-radio>
       </el-form-item>
 
         <div>
@@ -61,14 +62,14 @@
                           v-model="cureForm[key]"
                           :key="key" :label="val">
               </el-checkbox>
-              <el-input v-model="cureForm.pre_xu_qita"></el-input>
+              <el-input v-model="cureForm.pre_shi_qita"></el-input>
             </el-form-item>
             <el-form-item label="(3)虚实夹杂证代表方">
               <el-checkbox v-for="(val, key) in mydata.xushi_fangjiCheckbox"
                           v-model="cureForm[key]"
                           :key="key" :label="val">
               </el-checkbox>
-              <el-input v-model="cureForm.pre_xu_qita"></el-input>
+              <el-input v-model="cureForm.pre_xushi_qita"></el-input>
             </el-form-item>
           </div>
           <h4>3、中成药</h4>
@@ -177,7 +178,6 @@ export default {
   data() {
     return {
       mydata: {
-        'to_cure': '',
         // 1、治法
         'xuzhengRadio':['补脾益气,养血固冲调经','补益肾气,养血固冲调经','补血养营,益气调经','补气升提,固冲止血调经','养阴清热,凉血调经','滋肾益阴,清热固冲止血','温肾助阳,固冲止血'],
         'shizhengRadio':['温经散寒,活血调经','清热降火,凉血调经','燥湿化痰,活血调经','清热凉血,固冲止血','疏肝理气,活血调经','活血化瘀,固冲止血调经','清热除湿,凉血止血','清肝解郁,凉血调经'],

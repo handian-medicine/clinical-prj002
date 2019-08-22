@@ -37,11 +37,12 @@
       </el-form-item>
 
       <el-form-item label="4、出血质地">
-        <el-radio v-for="item in mydata.blood_quality"
+        1、<el-radio v-for="item in mydata.blood_quality"
                   :key="item" :label="item"
                   v-model="summaryForm.blood_quality">
         </el-radio>
-        <el-radio v-for="item in mydata.blood_block"
+        <p></p>
+        2、<el-radio v-for="item in mydata.blood_block"
                   :key="item" :label="item"
                   v-model="summaryForm.blood_block">
         </el-radio>
@@ -125,7 +126,7 @@ export default {
         'blood_block':    ["无血块","经常出现血块","偶有血块","夹少量小血块","夹较大血块"],
         'blood_character':["顺畅","势急暴下","淋漓不断","点滴即净"],
 
-        'tongue_texture': {'texture_danhong':'淡红','texture_danbai':'淡白','texture_xianhong':'鲜红','texture_shenhong':'深红','texture_zihong':'紫红','texture_anhong':'黯红','texture_danan':'淡黯','texture_zian':'紫黯','texture_yudian':'有瘀点或瘀斑','texture_jianhong':'舌边尖红'},
+        'tongue_texture': {'texture_danhong':'淡红','texture_danbai':'淡白','texture_pianhong':'鲜红','texture_shenhong':'深红','texture_zihong':'紫红','texture_anhong':'黯红','texture_danan':'淡黯','texture_zian':'紫黯','texture_yudian':'有瘀点或瘀斑','texture_jianhong':'舌边尖红'},
         'texture_qita':   '其他',
         'tongue_coating': {'coating_bai':'白','coating_huang':'黄','coating_bo':'薄','coating_hou':'厚','coating_ni':'腻','coating_run':'润','coating_hua':'滑','coating_gan':'干','coating_shaotai':'少苔','coating_huabo':'花剥','coating_wutai':'无苔'},
         'coating_qita':   '其他',
@@ -150,7 +151,7 @@ export default {
           skin:'',skin_xihsu:'',skin_nong:'',skin_cu:'',skin_zhi:'',skin_re:'',skin_jia:'',
           pee:'',pee_pin:'',pee_ji:'',pee_ye:'',pee_li:'',pee_qing:'',pee_chi:'',
           feces:'',feces_tang:'',feces_mi:'',feces_xi:'',feces_xie:'',feces_nian:'',feces_jia:'',
-          texture_danhong:'',texture_danbai:'',texture_xianhong:'',texture_shenhong:'',texture_zihong:'',texture_anhong:'',texture_danan:'',texture_zian:'',texture_yudian:'',texture_jianhong:'',texture_qita:'',
+          texture_danhong:'',texture_danbai:'',texture_pianhong:'',texture_shenhong:'',texture_zihong:'',texture_anhong:'',texture_danan:'',texture_zian:'',texture_yudian:'',texture_jianhong:'',texture_qita:'',
           coating_bai:'',coating_huang:'',coating_bo:'',coating_hou:'',coating_ni:'',coating_run:'',coating_hua:'',coating_gan:'',coating_shaotai:'',coating_huabo:'',coating_wutai:'',coating_qita:'',
           tongue_zhengchang:'',tongue_shouxiao:'',tongue_pangda:'',tongue_youchihen:'',tongue_youliewen:'',tongue_qita:'',
           pulse_fu:'',pulse_chen:'',pulse_hua:'',pulse_shu:'',pulse_xian:'',pulse_xi:'',pulse_ruo:'',pulse_huan:'',pulse_chi:'',pulse_se:'',pulse_jin:'',pulse_qita:'',

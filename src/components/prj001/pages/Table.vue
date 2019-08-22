@@ -66,7 +66,9 @@
         <template v-slot="scope">
           <el-tag v-if="scope.row.is_checked=='未审核'" type="warn">{{scope.row.is_checked}}</el-tag>
           <el-tag v-if="scope.row.is_checked=='审核通过'" type="success">{{scope.row.is_checked}}</el-tag>
-          <el-tag v-if="scope.row.is_checked=='审核不通过'" type="danger">{{scope.row.is_checked}}</el-tag>
+          <el-tag v-if="scope.row.is_checked=='审核不通过'" type="danger" 
+                  @click="showReason(scope.$index, scope.row.reasons_for_not_passing)">
+                  {{scope.row.is_checked}}</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="数据修改" width="640">
@@ -80,11 +82,13 @@
           <el-button type="btn-cure" size="small" @click="openDataForm(scope.$index, scope.row, 'cure')">中西治疗</el-button>
           <el-button type="btn-results" size="small" @click="openDataForm(scope.$index, scope.row, 'results')">疗效</el-button>
           </el-button-group>
+          <!-- 审核按钮 -->
           <el-button type="danger" size="mini" style="margin-left:8px" v-if="is_admin"
                     @click="checkPatient(scope.$index, scope.row)" icon="el-icon-view" circle>
                     </el-button>
+          <!-- 删除按钮 -->
           <el-button v-show="scope.row.is_checked!='审核通过'" icon="el-icon-delete" circle
-                      type="danger" size="mini" style="margin-left:8px" 
+                      type="danger" size="mini" style="margin-left:8px"
                       @click="delPatient(scope.$index, scope.row)"></el-button>
         </template>
       </el-table-column>
@@ -137,7 +141,7 @@ export default {
   components:{AddPatient,CheckPatient,InfoForm,SummaryForm,HistoryForm,RelevantForm,CcForm,CureForm,ResultsForm},
   data () {
     return {
-      is_admin:true,
+      is_admin:'',
       search: {
         name: '', telephone:'', hospital:'', address:'', is_checked:'', types:'search'
       },
@@ -184,6 +188,14 @@ export default {
         }
       this.$refs.checkPatient.$emit("checkEvent", checkData)
     },
+    showReason (index, reason) {
+        this.$alert(reason, '审核不通过原因', {
+          confirmButtonText: '确定',
+          type: 'warning',
+          center: true,
+          callback: action => {}
+        });
+    },
     // 搜索功能
     searchPatient () {
       console.log('搜索字段',this.search)
@@ -220,6 +232,7 @@ export default {
       apiGetPatientsList(para).then((res) => {
         console.log(res.data)
         this.patientsList = res.data.patientsList
+        this.is_admin = res.data.is_admin
         this.totalNum = res.data.totalNum
         this.listLoading = false
       })
