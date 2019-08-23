@@ -3,34 +3,25 @@
     <!--上方工具条 搜索和新增-->
     <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
       <el-form :inline="true" :model="search">
-        <el-row>
-          <el-col :sm="24" :md="24" :lg="24" :xl="24">
-            <el-form-item v-for="(val, key, index) in search" :key="index">
-              <el-input v-if="key!='check_status'" v-model="search[key]" :placeholder="searchName[key]"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-select v-model="search.check_status" placeholder="查询审核状态">
-                <el-option value="未审核" label="未审核"></el-option>
-                <el-option value="审核通过" label="审核通过"></el-option>
-                <el-option value="审核不通过" label="审核不通过"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-form-item>
-            <el-button type="primary" icon="el-icon-search" size="small" @click="searchPatient">查询</el-button>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" icon="el-icon-refresh-right" size="small" @click="getPatients">重置</el-button>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" icon="el-icon-plus" size="small" @click="addPatient">新增</el-button>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" icon="el-icon-download" size="small" @click="exportFile">导出excel</el-button>
-          </el-form-item>
-        </el-row>
+        <el-form-item v-for="(val, key, index) in search" :key="index">
+          <el-input v-if="key!='check_status'" v-model="search[key]" :placeholder="searchName[key]"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-select v-model="search.check_status" placeholder="查询审核状态">
+            <el-option value="未审核" label="未通过"></el-option>
+            <el-option value="审核通过" label="审核通过"></el-option>
+            <el-option value="审核不通过" label="审核未通过"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" icon="el-icon-search" @click="searchPatient">查询</el-button>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" icon="el-icon-refresh-right" @click="getPatients">重置</el-button>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="addPatient">新增</el-button>
+        </el-form-item>
       </el-form>
     </el-col>
 
@@ -41,51 +32,43 @@
       </el-table-column> -->
       <el-table-column type="index" width="40">
       </el-table-column>
-      <el-table-column prop="name" label="姓名" width="90" sortable>
+      <el-table-column prop="patient_name" label="姓名" width="90" sortable>
       </el-table-column>
-      <el-table-column prop="serial" label="编码" width="120" sortable>
+      <el-table-column prop="serial" label="编码" width="90" sortable>
       </el-table-column>
-      <el-table-column prop="hospital" label="医院" width="150">
+      <el-table-column prop="hospital_name" label="医院" width="150">
       </el-table-column>
       <el-table-column prop="address" label="住址" width="150">
       </el-table-column>
       <el-table-column prop="expert" label="专家" width="80">
       </el-table-column>
-      <!-- <el-table-column prop="owner" label="录入人" width="80">
-      </el-table-column> -->
+      <!--
+      <el-table-column prop="owner" label="录入人" width="80">
+      </el-table-column>
+      -->
       <el-table-column prop="degree_of_completion" label="信息完整度" width="90">
         <template v-slot="scope">
-          <el-progress type="circle"
-                      :percentage="Math.round(Number(scope.row.degree_of_completion))"
-                      :width="40" :color="customColors">
-          </el-progress>
+          <el-progress :text-inside="true" :stroke-width="15" :percentage="Number(scope.row.degree_of_completion)" :color="customColors"></el-progress>
         </template>
       </el-table-column>
-      <el-table-column prop="check_status" label="审核状态" width="110">
-        <template v-slot="scope">
-          <el-tag v-if="scope.row.check_status=='未审核'" type="warn">{{scope.row.check_status}}</el-tag>
-          <el-tag v-if="scope.row.check_status=='审核通过'" type="success">{{scope.row.check_status}}</el-tag>
-          <el-tag v-if="scope.row.check_status=='审核不通过'" type="danger"
-                  @click="showReason(scope.$index, scope.row.reason_for_check)">
-                  {{scope.row.check_status}}</el-tag>
-        </template>
+      <el-table-column prop="check_status" label="审核状态" width="80">
       </el-table-column>
-      <el-table-column label="数据修改" width="640">
+      <el-table-column label="数据修改" width="680">
         <template v-slot="scope">
           <el-button-group>
           <el-button type="btn-info" size="small" @click="openDataForm(scope.$index, scope.row, 'info')">一般情况</el-button>
           <el-button type="btn-summary" size="small" @click="openDataForm(scope.$index, scope.row, 'summary')">病情概要</el-button>
           <el-button type="btn-history"    size="small" @click="openDataForm(scope.$index, scope.row, 'history')">专科病史</el-button>
-          <el-button type="btn-experiment" size="small" @click="openDataForm(scope.$index, scope.row, 'experiment')">实验室检查</el-button>
-          <el-button type="btn-bxray" size="small" @click="openDataForm(scope.$index, scope.row, 'bxray')">B超</el-button>
+          <el-button type="btn-relevant" size="small" @click="openDataForm(scope.$index, scope.row, 'relevant')">相关检查</el-button>
           <el-button type="btn-clinical" size="small" @click="openDataForm(scope.$index, scope.row, 'clinical')">临床诊断</el-button>
           <el-button type="btn-cure" size="small" @click="openDataForm(scope.$index, scope.row, 'cure')">治疗</el-button>
+          <el-button type="btn-results" size="small" @click="openDataForm(scope.$index, scope.row, 'results')">疗效</el-button>
           </el-button-group>
           <el-button type="danger" size="mini" style="margin-left:8px" v-if="is_admin"
                     @click="checkPatient(scope.$index, scope.row)" icon="el-icon-view" circle>
                     </el-button>
           <el-button v-show="scope.row.check_status!='审核通过'" icon="el-icon-delete" circle
-                      type="danger" size="mini" style="margin-left:8px" 
+                      type="danger" size="mini" style="margin-left:8px"
                       @click="delPatient(scope.$index, scope.row)"></el-button>
         </template>
       </el-table-column>
@@ -109,14 +92,14 @@
     <SummaryForm ref="summary"></SummaryForm>
     <!-- 专科病史dialog -->
     <HistoryForm ref="history"></HistoryForm>
-    <!-- 实验室检查dialog -->
-    <ExperimentForm ref="experiment"></ExperimentForm>
-    <!-- B超dialog -->
-    <BxrayForm ref="bxray"></BxrayForm>
+    <!-- 相关检查dialog -->
+    <RelevantForm ref="relevant"></RelevantForm>
     <!-- 临床诊断dialog -->
     <ClinicalForm ref="clinical"></ClinicalForm>
     <!-- 治疗dialog -->
     <CureForm ref="cure"></CureForm>
+    <!-- 疗效dialog -->
+    <ResultsForm ref="results"></ResultsForm>
 
     <!-- 新增信息dialog -->
     <AddPatient ref="addPatient" ></AddPatient>
@@ -127,22 +110,21 @@
 </template>
 
 <script>
-import util from '@/common/js/util'
 // axios请求,向express做请求
-import {apiGetPatientsList, apiSearchPatient, apiGetPatientDataForm, apiExportFile} from '@/api/api-prj002'
+import {apiGetPatientsList, apiRemovePatient, apiSearchPatient, apiGetPatientDataForm} from '@/api/api-prj003'
 // 批量导入子组件
-import {AddPatient, CheckPatient} from '@/components/prj002/forms'
-import {InfoForm,SummaryForm,HistoryForm,ExperimentForm,BxrayForm,ClinicalForm,CureForm} from '@/components/prj002/forms'
+import {AddPatient, CheckPatient} from '@/components/prj003/forms'
+import {InfoForm,SummaryForm,HistoryForm,RelevantForm,ResultsForm,ClinicalForm,CureForm} from '@/components/prj003/forms'
 export default {
   name:'Table',
-  components:{AddPatient,CheckPatient,InfoForm,SummaryForm,HistoryForm,ExperimentForm,BxrayForm,ClinicalForm,CureForm},
+  components:{AddPatient,CheckPatient,InfoForm,SummaryForm,HistoryForm,RelevantForm,ResultsForm,ClinicalForm,CureForm},
   data () {
     return {
       is_admin:true,
       search: {
-        name: '', phone:'', hospital:'', address:'', check_status:''//career:'',birth:''
+        patient_name: '', patient_phone:'', hospital_name:'', address:'', check_status:''//career:'',birth:''
       },
-      searchName: {name:'姓名',phone:'电话',hospital:'医院',address:'地址'},//career:'职业',birth:'出生日期',
+      searchName: {patient_name:'姓名',patient_phone:'电话',hospital_name:'医院',address:'地址'},//career:'职业',birth:'出生日期',
       patientsList: [], // 数据列表
       totalNum: 0, // 数据总条数
       page: 1, //当前页码
@@ -151,27 +133,13 @@ export default {
       pagination_flag: true, //true表示所有数据的分页,false表示搜索数据的分页
       customColors: [
           {color: '#f56c6c', percentage: 20},
-          {color: '#e6a23c', percentage: 50},
-          {color: '#1989fa', percentage: 80},
-          {color: '#5cb87a', percentage: 100}
+          {color: '#6f7ad3', percentage: 40},
+          {color: '#e6a23c', percentage: 80},
+          {color: '#5cb87a', percentage: 100},
         ]
     }
   },
   methods: {
-    // 导出文件
-    exportFile () {
-      this.search.types = 'download'
-      console.log('搜索字段',this.search)
-      let para = {
-        page: this.search_page,
-        search:this.search
-      }
-      this.pagination_flag = false
-      apiExportFile(para).then( (res) => {
-        console.log('导出路径',res.data.path)
-        window.location.href = "http://" + res.data.path
-      })
-    },
     // 新增信息dialog
     addPatient () {
       this.$refs.addPatient.$emit("addEvent")
@@ -185,13 +153,22 @@ export default {
         }
       this.$refs.checkPatient.$emit("checkEvent",checkData)
     },
-    showReason (index, reason) {
-        this.$alert(reason, '审核不通过原因', {
-          confirmButtonText: '确定',
-          type: 'warning',
-          center: true,
-          callback: action => {}
-        });
+    // 删除
+    delPatient: function (index, row) {
+      this.$confirm('此操作将永久删除该条记录, 是否继续', '提示', {type: 'warning',center: true})
+      .then(() => {
+        this.listLoading = true
+        let para = { url: row.url }
+        apiRemovePatient(para).then((res) => {
+          this.listLoading = false
+          if (res.data.msg) {
+            this.$message({message: '您没有执行该操作的权限', type: 'error'})
+          } else {
+            this.$message({message: '删除成功', type: 'success'})
+          }
+          this.getPatients()
+        })
+      }).catch()
     },
     // 搜索功能
     searchPatient () {
@@ -219,7 +196,7 @@ export default {
     },
     // 获取患者列表
     getPatients () {
-      this.search = {name: '', phone:'', hospital:'', address:'', check_status:''}//career:'', birth:''
+      this.search = {patient_name: '', patient_phone:'', hospital_name:'', address:'', check_status:''}//career:'', birth:''
       let para = {page: this.page}
       this.listLoading = true
       apiGetPatientsList(para).then((res) => {
@@ -238,8 +215,7 @@ export default {
       if (row[formName] == null) {
         console.log('创建流程',formName)
         // 传一个创建此DataForm的url进去,这个url是info的url
-        this.$refs[formName].$emit("openEvent",
-        {exist:false, formData:{info:row.info}, formName:formName } )
+        this.$refs[formName].$emit("openEvent", {exist:false, formData:{info:row.info}, formName:formName } )
       } else {
       // 如果DataForm表已创建,需要请求后端,拿到数据
         console.log('修改流程',formName)
@@ -249,8 +225,7 @@ export default {
         apiGetPatientDataForm(para)
         .then((res)=> {
           console.log('拿到的已创建的DataForm表',res.data)
-          this.$refs[formName].$emit("openEvent",
-          {exist:true, formData:res.data, formName:formName, check_status:row.check_status})
+          this.$refs[formName].$emit("openEvent", {exist:true, formData:res.data, formName:formName, check_status:row.check_status})
         })
         .catch()
       }
@@ -262,28 +237,6 @@ export default {
   }
 }
 
-    // selsChange: function (sels) {
-    //   this.sels = sels
-    // },
-    // // 批量删除
-    // batchRemove: function () {
-    //   var ids = this.sels.map(item => item.id).toString()
-    //   this.$confirm('确认删除选中记录吗？', '提示', {
-    //     type: 'warning'
-    //   }).then(() => {
-    //     this.listLoading = true
-    //     let para = { ids: ids }
-    //     batchRemoveUser(para).then((res) => {
-    //       this.listLoading = false
-    //       this.$message({
-    //         message: '删除成功',
-    //         type: 'success'
-    //       })
-    //       this.getPatients()
-    //     })
-    //   }).catch(() => {
-    //   })
-    // }
 </script>
 
 <style scoped>
@@ -299,19 +252,19 @@ export default {
   background:#fcbad3;
   border:1px solid #fcbad3
 }
-.el-button--btn-experiment {
+.el-button--btn-relevant {
   background:#ffffd2;
   border:1px solid #ffffd2
 }
-.el-button--btn-bxray {
+.el-button--btn-clinical {
   background:#c7f0db;
   border:1px solid #c7f0db
 }
-.el-button--btn-clinical {
+.el-button--btn-cure {
   background:#41b6e6;
   border:1px solid #41b6e6
 }
-.el-button--btn-cure {
+.el-button--btn-results {
   background:#d7d1c9;
   border:1px solid #d7d1c9
 }

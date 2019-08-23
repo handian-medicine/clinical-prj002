@@ -29,7 +29,12 @@ router.beforeEach((to, from, next) => {
   }
   let userinfo = JSON.parse(sessionStorage.getItem('userinfo'))
   if (!userinfo && to.path !== '/login') {
-    next({ path: '/login' })
+    if (to.path === '/mobile/prj002') {
+    // if (/\/mobile\/*/.test(to.path)) {
+      next()
+    } else {
+      next({ path: '/login' })
+    }
   } else {
     next()
   }

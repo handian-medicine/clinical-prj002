@@ -49,7 +49,7 @@
     <div class="footer">
               <div class="col-xs-12" style="text-align:center;">
           <div>本项目由<a>中华中医药学会妇科分会发起</a>
-              <a href="http://www.hantien.com">北京汉典制药有限公司</a>
+              <a href="http://www.hantien.com.cn">北京汉典制药有限公司</a>
           <sup>®</sup>
           支持
           </div>

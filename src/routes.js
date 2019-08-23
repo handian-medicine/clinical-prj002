@@ -41,6 +41,19 @@ export default new Router({
       hidden: true
     },
     {
+      path: '/mobile',
+      component: () => import('@/components/MobileHome.vue'),
+      name:'',
+      hidden: true,
+      children: [
+        {
+          path: '/mobile/prj002',
+          name: 'Prj002手机端',
+          component: () => import('@/components/prj002/mobile/Mobile.vue'),
+        }
+      ]
+    },
+    {
       path: '/prj001',
       component: () => import('@/components/prj001/Prj001.vue'),
       name: 'Prj001',
@@ -95,6 +108,33 @@ export default new Router({
         { path: '/prj002/vuex',
           name: 'Vuex',
           component: () => import('@/components/prj002/pages/Vuex.vue'),
+          iconCls: 'fa fa-id-card-o',
+          leaf: false
+        }
+      ]
+    },
+    {
+      path: '/prj003',
+      component: () => import('@/components/prj003/Prj003.vue'),
+      name: 'Prj003',
+      iconCls: 'fa fa-address-card',  //用户自定义属性
+      leaf: false, //用户自定义属性,用来确定某条菜单是否还有下级菜单
+      children: [
+        { path: '/prj003/table',
+          name: '数据列表',
+          component: () => import('@/components/prj003/pages/Table.vue'),
+          iconCls: 'fa fa-address-card',
+          leaf: false
+        },
+        { path: '/prj003/echarts',
+          name: '数据分析',
+          component: () => import('@/components/prj003/pages/Echarts.vue'),
+          iconCls: 'fa fa-bar-chart',
+          leaf: false
+        },
+        { path: '/prj003/vuex',
+          name: 'Vuex',
+          component: () => import('@/components/prj003/pages/Vuex.vue'),
           iconCls: 'fa fa-id-card-o',
           leaf: false
         }

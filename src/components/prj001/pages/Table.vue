@@ -4,7 +4,7 @@
     <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
       <el-form :inline="true" :model="search">
         <el-row>
-          <el-col :sm="24" :md="24" :lg="24" :xl="24">
+          <el-col>
             <el-form-item v-for="(val, key, index) in search" :key="index">
               <el-input v-if="key!='is_checked'&& key!='types'" v-model="search[key]" :placeholder="searchName[key]"></el-input>
             </el-form-item>
@@ -25,10 +25,10 @@
           <el-button type="primary" icon="el-icon-refresh-right" size="small" @click="getPatients">重置</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" size="small" @click="addPatient">新增</el-button>
+          <el-button type="primary" icon="el-icon-plus" size="small" @click="addPatient">新增</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" size="small" @click="exportFile">导出excel</el-button>
+          <el-button type="primary" icon="el-icon-download" size="small" @click="exportFile">导出</el-button>
         </el-form-item>
         </el-row>
       </el-form>
@@ -66,7 +66,7 @@
         <template v-slot="scope">
           <el-tag v-if="scope.row.is_checked=='未审核'" type="warn">{{scope.row.is_checked}}</el-tag>
           <el-tag v-if="scope.row.is_checked=='审核通过'" type="success">{{scope.row.is_checked}}</el-tag>
-          <el-tag v-if="scope.row.is_checked=='审核不通过'" type="danger" 
+          <el-tag v-if="scope.row.is_checked=='审核不通过'" type="danger"
                   @click="showReason(scope.$index, scope.row.reasons_for_not_passing)">
                   {{scope.row.is_checked}}</el-tag>
         </template>
@@ -171,7 +171,7 @@ export default {
       }
       this.pagination_flag = false
       apiExportFile(para).then( (res) => {
-        console.log('搜索返回结果',res.data.path)
+        console.log('导出路径',res.data.path)
         window.location.href = "http://" + res.data.path
       })
     },
@@ -335,5 +335,8 @@ export default {
 .el-button--myinfo {
 background:red;
 border:1px solid red;
+}
+.el-tag.el-tag--danger {
+  cursor: pointer;
 }
 </style>
