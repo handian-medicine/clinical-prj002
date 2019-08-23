@@ -128,6 +128,7 @@ router.get('/form', function(req, res, next) {
 // 创建
 router.post('/form', function(req, res, next) {
   console.log('user.js POST创建Form ' + req.body.formName)
+  console.log('发送前的数据',req.body.formData)
   var options = {
     url: myConst.apiurl + "/prj001/"+ req.body.formName + "/",
     form: req.body.formData,
@@ -146,7 +147,7 @@ router.put('/form', function(req, res, next) {
     form: req.body.formData,
     headers: {'Authorization': 'Bearer ' + req.cookies.prj001token.access_token}
   }
-  console.log(options)
+  console.log("修改 发送前",options)
     request.put(options, function (error, response, body) {
       console.log('user.js PUT修改Form ',body)
       console.log('user.js statusCode ',response.statusCode)

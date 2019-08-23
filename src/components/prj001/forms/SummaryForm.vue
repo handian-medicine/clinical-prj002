@@ -124,7 +124,7 @@ export default {
         'blood_color':    ["淡红","鲜红","暗红","紫红","紫黯","紫黑","褐色",],
         'blood_quality':  ["正常","粘稠","清稀"],
         'blood_block':    ["无血块","经常出现血块","偶有血块","夹少量小血块","夹较大血块"],
-        'blood_character':["顺畅","势急暴下","淋漓不断","点滴即净"],
+        'blood_character':["不畅","势急暴下","淋漓不断","点滴即净"],
 
         'tongue_texture': {'texture_danhong':'淡红','texture_danbai':'淡白','texture_pianhong':'鲜红','texture_shenhong':'深红','texture_zihong':'紫红','texture_anhong':'黯红','texture_danan':'淡黯','texture_zian':'紫黯','texture_yudian':'有瘀点或瘀斑','texture_jianhong':'舌边尖红'},
         'texture_qita':   '其他',

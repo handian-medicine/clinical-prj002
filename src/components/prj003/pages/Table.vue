@@ -3,25 +3,34 @@
     <!--上方工具条 搜索和新增-->
     <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
       <el-form :inline="true" :model="search">
-        <el-form-item v-for="(val, key, index) in search" :key="index">
-          <el-input v-if="key!='check_status'" v-model="search[key]" :placeholder="searchName[key]"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-select v-model="search.check_status" placeholder="查询审核状态">
-            <el-option value="未审核" label="未通过"></el-option>
-            <el-option value="审核通过" label="审核通过"></el-option>
-            <el-option value="审核不通过" label="审核未通过"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" icon="el-icon-search" @click="searchPatient">查询</el-button>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" icon="el-icon-refresh-right" @click="getPatients">重置</el-button>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="addPatient">新增</el-button>
-        </el-form-item>
+        <el-row>
+          <el-col>
+            <el-form-item v-for="(val, key, index) in search" :key="index">
+              <el-input v-if="key!='check_status'" v-model="search[key]" :placeholder="searchName[key]"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-select v-model="search.check_status" placeholder="查询审核状态">
+                <el-option value="未审核" label="未审核"></el-option>
+                <el-option value="审核通过" label="审核通过"></el-option>
+                <el-option value="审核不通过" label="审核不通过"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-form-item>
+            <el-button type="primary" icon="el-icon-search" size="small" @click="searchPatient">查询</el-button>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" icon="el-icon-refresh-right" size="small" @click="getPatients">重置</el-button>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" icon="el-icon-plus" size="small" @click="addPatient">新增</el-button>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" icon="el-icon-download" size="small" @click="exportFile">导出excel</el-button>
+          </el-form-item>
+        </el-row>
       </el-form>
     </el-col>
 
@@ -42,16 +51,22 @@
       </el-table-column>
       <el-table-column prop="expert" label="专家" width="80">
       </el-table-column>
-      <!--
-      <el-table-column prop="owner" label="录入人" width="80">
-      </el-table-column>
-      -->
       <el-table-column prop="degree_of_completion" label="信息完整度" width="90">
         <template v-slot="scope">
-          <el-progress :text-inside="true" :stroke-width="15" :percentage="Number(scope.row.degree_of_completion)" :color="customColors"></el-progress>
+          <el-progress type="circle"
+                      :percentage="Math.round(Number(scope.row.degree_of_completion))"
+                      :width="40" :color="customColors">
+          </el-progress>
         </template>
       </el-table-column>
-      <el-table-column prop="check_status" label="审核状态" width="80">
+      <el-table-column prop="check_status" label="审核状态" width="110">
+        <template v-slot="scope">
+          <el-tag v-if="scope.row.check_status=='未审核'" type="warn">{{scope.row.check_status}}</el-tag>
+          <el-tag v-if="scope.row.check_status=='审核通过'" type="success">{{scope.row.check_status}}</el-tag>
+          <el-tag v-if="scope.row.check_status=='审核不通过'" type="danger"
+                  @click="showReason(scope.$index, scope.row.reason_for_check)">
+                  {{scope.row.check_status}}</el-tag>
+        </template>
       </el-table-column>
       <el-table-column label="数据修改" width="680">
         <template v-slot="scope">
@@ -111,7 +126,7 @@
 
 <script>
 // axios请求,向express做请求
-import {apiGetPatientsList, apiRemovePatient, apiSearchPatient, apiGetPatientDataForm} from '@/api/api-prj003'
+import {apiGetPatientsList, apiRemovePatient, apiSearchPatient, apiGetPatientDataForm, apiExportFile} from '@/api/api-prj003'
 // 批量导入子组件
 import {AddPatient, CheckPatient} from '@/components/prj003/forms'
 import {InfoForm,SummaryForm,HistoryForm,RelevantForm,ResultsForm,ClinicalForm,CureForm} from '@/components/prj003/forms'
@@ -144,6 +159,20 @@ export default {
     addPatient () {
       this.$refs.addPatient.$emit("addEvent")
     },
+    // 导出文件
+    exportFile () {
+      this.search.types = 'download'
+      console.log('搜索字段',this.search)
+      let para = {
+        page: this.search_page,
+        search:this.search
+      }
+      this.pagination_flag = false
+      apiExportFile(para).then( (res) => {
+        console.log('导出路径',res.data.path)
+        window.location.href = "http://" + res.data.path
+      })
+    },
     // 审核
     checkPatient (index, row) {
       const checkData = {
@@ -152,6 +181,14 @@ export default {
         reason_for_check:row.reason_for_check
         }
       this.$refs.checkPatient.$emit("checkEvent",checkData)
+    },
+    showReason (index, reason) {
+        this.$alert(reason, '审核不通过原因', {
+          confirmButtonText: '确定',
+          type: 'warning',
+          center: true,
+          callback: action => {}
+        });
     },
     // 删除
     delPatient: function (index, row) {
@@ -271,5 +308,8 @@ export default {
 .el-button--myinfo {
 background:red;
 border:1px solid red;
+}
+.el-tag.el-tag--danger {
+  cursor: pointer;
 }
 </style>

@@ -4,7 +4,7 @@
     <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
       <el-form :inline="true" :model="search">
         <el-row>
-          <el-col :sm="24" :md="24" :lg="24" :xl="24">
+          <el-col>
             <el-form-item v-for="(val, key, index) in search" :key="index">
               <el-input v-if="key!='check_status'" v-model="search[key]" :placeholder="searchName[key]"></el-input>
             </el-form-item>
@@ -318,5 +318,8 @@ export default {
 .el-button--myinfo {
 background:red;
 border:1px solid red;
+}
+.el-tag.el-tag--danger {
+  cursor: pointer;
 }
 </style>

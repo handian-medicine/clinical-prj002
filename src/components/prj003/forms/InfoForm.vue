@@ -91,13 +91,6 @@
         <el-input v-model="infoForm.entrance_qita" placeholder="其他"></el-input>
       </el-form-item>
 
-      <el-form-item label="病人来源">
-        <el-select v-model="infoForm.entrance" placeholder="请选择">
-          <el-option v-for="item in entranceSelection" :key="item" :label="item" :value="item">
-          </el-option>
-        </el-select>
-      </el-form-item>
-
       <el-form-item label="文化程度">
         <el-select v-model="infoForm.culture_level" placeholder="请选择">
           <el-option v-for="item in cultureSelection" :key="item" :label="item" :value="item">
@@ -159,7 +152,7 @@ export default {
                         "崩龙族","保安族","裕固族","京族","塔塔尔族","独龙族","鄂伦春族","赫哲族","门巴族","珞巴族","基诺族","其它"],
       careerSelection: ["学生","个体","农民","军人","工人","财会人员","技术人员","服务业","科教文卫","行政管理","无业","其它"],
       entranceSelection: ["门诊","学校"],
-      cultureSelection:["小学","初中","高中/中专","大专","本科","研究生及以上","未接受国家教育（文盲）"],
+      cultureSelection:["小学","初中","高中/中专","大专","本科","研究生及以上","未接受国家教育(文盲)"],
       experttitleSelection:["主任医师","副主任医师","主治医师"],
       specialCheckbox: {"special_gaowen":"高温","special_diwen":"低温","special_yeban":"夜班","special_zao":"噪声","special_fu":"辐射","special_hua":"化工污染","special_ju":"剧烈运动","special_qi":"汽油","special_kong":"高空","special_wu":"无"},
       dietCheckbox:    {"yinshi_wuteshu":"无特殊","yinshi_sushi":"素食","yinshi_suan":"酸","yinshi_xian":"咸","yinshi_xinla":"辛辣","yinshi_you":"油","yinshi_shengleng":"生冷","yinshi_cafei":"含咖啡因食物或饮品"},

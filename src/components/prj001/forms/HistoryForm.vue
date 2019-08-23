@@ -111,11 +111,12 @@
       </el-form-item>
 
       <el-form-item label="6、出血质地">
-        <el-radio v-model="historyForm.blood_quality"
+        1、<el-radio v-model="historyForm.blood_quality"
                   v-for="item in mydata.blood_quality"
                   :key="item" :label="item">
         </el-radio>
-        <el-radio v-model="historyForm.blood_block"
+        <p></p>
+        2、<el-radio v-model="historyForm.blood_block"
                   v-for="item in mydata.blood_block"
                   :key="item" :label="item">
         </el-radio>
@@ -144,6 +145,7 @@
           <el-input v-model="historyForm.spirit_qita" placeholder="其他"></el-input>
         <h4>(2)形体四肢</h4>
           <el-checkbox v-for="(val, key) in mydata.body_checkbox" :label="val" :key="key" v-model="historyForm[key]"></el-checkbox>
+          <el-input v-model="historyForm.body_qita" placeholder="其他"></el-input>
         <h4>(3)头面</h4>
           <el-checkbox v-for="(val, key) in mydata.face_head_checkbox" :label="val" :key="key" v-model="historyForm[key]"></el-checkbox>
           <p></p>
@@ -153,7 +155,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-input v-model="historyForm.spirit_qita" placeholder="其他"></el-input>
+          <el-input v-model="historyForm.face_head_qita" placeholder="其他"></el-input>
         <h4>(4)胸腹</h4>
           <el-checkbox v-for="(val, key) in mydata.belly_checkbox" :label="val" :key="key" v-model="historyForm[key]"></el-checkbox>
           <p></p>
@@ -163,7 +165,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-input v-model="historyForm.spirit_qita" placeholder="其他"></el-input>
+          <el-input v-model="historyForm.belly_qita" placeholder="其他"></el-input>
         <h4>(5)饮食</h4>
           <el-form-item v-for="(val, key) in mydata.diet" :key="key" :label="val">
             <el-select v-model="historyForm[key]">
@@ -171,7 +173,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-input v-model="historyForm.spirit_qita" placeholder="其他"></el-input>
+          <el-input v-model="historyForm.diet_qita" placeholder="其他"></el-input>
         <h4>(6)睡眠</h4>
           <el-form-item v-for="(val, key) in mydata.sleep" :key="key" :label="val">
             <el-select v-model="historyForm[key]">
@@ -179,10 +181,10 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-input v-model="historyForm.spirit_qita" placeholder="其他"></el-input>
+          <el-input v-model="historyForm.sleep_qita" placeholder="其他"></el-input>
         <h4>(7)二便</h4>
           <el-checkbox v-for="(val, key) in mydata.erbian_checkbox" :label="val" :key="key" v-model="historyForm[key]"></el-checkbox>
-          <el-input v-model="historyForm.spirit_qita" placeholder="其他"></el-input>
+          <el-input v-model="historyForm.erbian_qita" placeholder="其他"></el-input>
       </div>
 
       <el-form-item label="9、经期情况">
@@ -349,57 +351,6 @@ export default {
       },
       historyForm:{
         info:'',
-        // is_pastfamily_womb:false,
-        'blood_cond':'',                                              //总出血量
-        'blood_color':'',                                             //出血颜色
-        'blood_quality':'','blood_block':'',                          //出血质地
-        'blood_character':'',                                         //出血特点
-        'mm_blood_cond_qita':'','mm_blood_color_qita':'','mm_blood_block_qita':'',
-        'first_time':'','first_time_qita':'',                       //月经初潮年龄
-        'normal':'','abnormal':'',                                  //月经周期
-        'cyclicity_sum':'','cyclicity_sum_qita':'',                 //行经天数
-        /* 经期伴随症状 */
-        'menstruation_is_accompany':false,
-        'spirit_shenpi':'没有','spirit_qiduan':'没有','spirit_yiyu_m':'没有','spirit_tanxi':'没有','spirit_yinu':'没有',
-        'spirit_qita':'',
-        'body_normal':'','body_fat':'','body_thin':'','body_skin':'','body_cold':'','body_hot':'','body_leg':'','body_waist':'',
-        'body_qita':'',
-        'face_head_normal':'','face_head_cangbai':'','face_head_huangbai':'','face_head_weihuang':'','face_head_huian':'','face_head_anban':'','face_head_zhizhong':'','face_head_chunhong':'',
-        'face_head_kouku':'没有','face_head_erming':'没有','face_head_yanghua':'没有',
-        'face_head_qita':'',
-        'belly_juan':'','belly_xian':'','belly_deretongjian':'','belly_tongjian':'',
-        'belly_fanmen':'没有','belly_rufangzhangtong':'没有','belly_xiongxiezhangtong':'没有','belly_shaofuzhangtong':'没有','belly_kongzhui':'没有','belly_kongtong':'没有','belly_citong':'没有','belly_zhangtong':'没有','belly_lengtong':'没有','belly_yintong':'没有',
-        'belly_qita':'',
-        'diet_exin':'','diet_shishao':'','diet_zhangman':'','diet_bujia':'','diet_lengyin':'','diet_kouzao':'',
-        'diet_qita':'',
-        'sleep_shimian':'','sleep_buning':'','sleep_mengduo':'',
-        'sleep_qita':'',
-        'erbian_normal':'','erbian_zaojie':'','erbian_tangbo':'','erbian_pinshu':'','erbian_duanchi':'','erbian_qingchang':'',
-        'erbian_qita':'',
-        /* 经期伴随症状 */
-        'jingqi_yundong':'','jingqi_ganmao':'','jingqi_tongfang':'','jingqi_zhaoliang':'',
-        'last_time':'',//末次行经日期
-        'leucorrhea_quantity':'','leucorrhea_color':'','leucorrhea_feature':'',//平素带下情况
-        'marriage':'',//婚姻史
-          //孕产史
-        'pastpreg_yuncount':'','pastpreg_shunchan':'','pastpreg_pougong':'','pastpreg_yaoliu':'','pastpreg_renliu':'','pastpreg_ziranliu':'','pastpreg_zaochan':'','pastpreg_yiweirenshen':'','pastpreg_qinggongshu':'',
-        'pastpreg_qita':'',
-        //避孕措施
-        'prevent_wu':'','prevent_jieza':'','prevent_jieyuqi':'','prevent_biyuntao':'','prevent_biyunyao':'',
-        //家族史
-        'pastfamily_womb_blood':'','pastfamily_ovulation':'','pastfamily_minus':'','pastfamily_plus':'','pastfamily_duonangluanchao':'','pastfamily_tangniaobing':'','pastfamily_buxiang':'',
-        'pastfamily_qita':'',
-        'pasthistory_wu':'','pasthistory_zigongxianjizheng':'','pasthistory_zigongneimoyiwei':'','pasthistory_zigongjiliu':'','pasthistory_luancaonangzhong':'','pasthistory_zigongneimoyan':'','pasthistory_penqiangyan':'','pasthistory_yindaoyan':'','pasthistory_ruxianzengsheng':'','pasthistory_shengzhiyichang':'','pasthistory_minus':'','pasthistory_plus':'','pasthistory_shenshangxian':'','pasthistory_xueye':'','pasthistory_naochuitiliu':'','pasthistory_tangniaobing':'','pasthistory_feipang':'','pasthistory_ganyan':'','pasthistory_jiehe':'',
-        'pasthistory_qita':'',
-
-        'hobbies_wu':'','hobbies_xiyan':'','hobbies_yinjiu':'','hobbies_aoye':'',
-        'hobbies_qita':'',
-        'body_cond':'',
-        'career_labor':'',
-        'physical_exercise':'',
-        'physical_intensity':'',
-        'reducefat_persist':'','reducefat_yundong':'','reducefat_jieshi':'','reducefat_yaowu':'',
-        'reducefat_qita':'',
       },
       dialogVisible: false,
       exist: true,
@@ -409,6 +360,17 @@ export default {
   },
   methods: {
     updateDataForm () {
+      /* 遗留问题 */
+      var face_head = ['face_head_cangbai','face_head_huangbai','face_head_weihuang',
+      'face_head_huian','face_head_anban','face_head_zhizhong','face_head_chunhong']
+      var belly = ['belly_juan','belly_xian','belly_deretongjian','belly_tongjian']
+      for (var i in face_head) {
+        (this.historyForm[face_head[i]] === true) ? this.historyForm[face_head[i]]='true': this.historyForm[face_head[i]]='';
+      }
+      for (var i in belly) {
+        (this.historyForm[belly[i]] === true) ? this.historyForm[belly[i]]='true': this.historyForm[belly[i]]='';
+      }
+      /* ******* */
       apiUpdatePatientDataForm({formData:this.historyForm, formName:this.formName})
       .then((res)=> {
         this.resetDialog()
@@ -420,6 +382,18 @@ export default {
       )
     },
     createDataForm () {
+      /* 遗留问题 */
+      var face_head = ['face_head_cangbai','face_head_huangbai','face_head_weihuang','face_head_huian',
+                      'face_head_zhizhong','face_head_chunhong','face_head_anban']
+      var belly = ['belly_juan','belly_xian','belly_deretongjian','belly_tongjian']
+      for (var i in face_head) {
+        (this.historyForm[face_head[i]] === true) ? this.historyForm[face_head[i]]='true': this.historyForm[face_head[i]]='';
+      }
+      for (var i in belly) {
+        (this.historyForm[belly[i]] === true) ? this.historyForm[belly[i]]='true': this.historyForm[belly[i]]='';
+      }
+      /* *
+      /* ******* */
       apiCreatePatientDataForm({formData:this.historyForm,formName:this.formName})
       .then((res)=> {
         this.resetDialog()

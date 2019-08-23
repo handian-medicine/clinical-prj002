@@ -39,7 +39,6 @@
 
     <span slot="footer">
       <el-button type="primary" :disabled="check_status=='审核通过'" v-if="exist"  @click="updateClinicalForm">确定</el-button>
-      <el-button type="primary" v-if="exist"  @click="updateClinicalForm">确定</el-button>
       <el-button type="primary" v-else  @click="createClinicalForm">确定</el-button>
       <el-button @click="dialogVisible=false">取消</el-button>
     </span>

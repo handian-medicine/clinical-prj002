@@ -164,6 +164,7 @@ export default {
     // 导出文件
     exportFile () {
       this.search.types = 'download'
+      this.$message({message: '数据量较大，请您耐心等待', type: 'success'})
       console.log('搜索字段',this.search)
       let para = {
         page: this.search_page,
@@ -173,6 +174,7 @@ export default {
       apiExportFile(para).then( (res) => {
         console.log('导出路径',res.data.path)
         window.location.href = "http://" + res.data.path
+        this.$message({message: '导出成功', type: 'success'})
       })
     },
     // 新增信息dialog
@@ -281,8 +283,20 @@ export default {
           //放在infoForm里面会有datepicker的bug
           if (formName == 'info') {res.data.birth = res.data.birth_year + '-' + res.data.birth_month}
           if (formName == 'history') {
+            //第一个问题
             const is_normal = res.data.abnormal == '' || res.data.abnormal == undefined || res.data.abnormal == null
             is_normal ? res.data.is_normal = true : res.data.is_normal = false
+            //第二个问题
+            var face_head = ['face_head_cangbai','face_head_huangbai','face_head_weihuang','face_head_huian',
+                            'face_head_anban','face_head_zhizhong','face_head_chunhong']
+            for (var i in face_head) {
+              (res.data[face_head[i]] === "true") ? res.data[face_head[i]]=true: res.data[face_head[i]]=false
+            }
+            //第三个问题
+            var belly = ['belly_juan','belly_xian','belly_deretongjian','belly_tongjian']
+            for (var i in belly) {
+              (res.data[belly[i]] === "true") ? res.data[belly[i]]=true: res.data[belly[i]]=false
+            }
           }
           /* ******* */
 
