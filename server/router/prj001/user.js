@@ -41,7 +41,7 @@ router.post('/export', function (req, res, next) {
 })
 // 添加患者信息
 router.post('/add', function (req, res, next) {
-  // console.log('req.body.name->', req.body.patientInfo.name)
+  console.log('添加患者信息', typeof(req.body))
   const options = {
     url: myConst.apiurl + "/prj001/info/create/",
     form: req.body.patientInfo,
@@ -120,7 +120,7 @@ router.get('/form', function(req, res, next) {
       headers: {'Authorization': 'Bearer ' + req.cookies.prj001token.access_token}
     }
     request.get(options, function (error, response, body) {
-      console.log('user.js GET获取Form body', body)
+      console.log('user.js GET获取到的Form body')
       var patientForm = JSON.parse(body)
       res.send(patientForm)
     })
@@ -128,29 +128,26 @@ router.get('/form', function(req, res, next) {
 // 创建
 router.post('/form', function(req, res, next) {
   console.log('user.js POST创建Form ' + req.body.formName)
-  console.log('发送前的数据',req.body.formData)
   var options = {
     url: myConst.apiurl + "/prj001/"+ req.body.formName + "/",
     form: req.body.formData,
     headers: {'Authorization': 'Bearer ' + req.cookies.prj001token.access_token}
   }
     request.post(options, function (error, response, body) {
-      console.log("user.js POST创建Form body",body)
+      console.log("user.js POST创建成功后返回的Form body")
       res.send({msg:'ok'})
     })
 })
 // 修改
 router.put('/form', function(req, res, next) {
-  console.log('user.js PUT修改Form ')
+  console.log('user.js PUT修改Form ',req.body.formData.url)
   var options = {
     url: req.body.formData.url,
     form: req.body.formData,
     headers: {'Authorization': 'Bearer ' + req.cookies.prj001token.access_token}
   }
-  console.log("修改 发送前",options)
     request.put(options, function (error, response, body) {
-      console.log('user.js PUT修改Form ',body)
-      console.log('user.js statusCode ',response.statusCode)
+      console.log('user.js PUT修改成功后返回的Form body',body)
       res.send({msg:'ok'})
     })
 })
