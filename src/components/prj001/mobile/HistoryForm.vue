@@ -1,46 +1,45 @@
 <template>
 
-    <el-form ref="historyForm" :model="historyForm" label-width="100px" label-position="right">
-
+    <el-form ref="historyForm" :model="historyForm" label-width="95px" label-position="left">
+      <el-alert v-if="is_checked=='审核通过'"
+                title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
+                type="warning" :closable="false" show-icon>
+      </el-alert>
+      <el-divider v-if="is_checked=='审核通过'"></el-divider>
 
     <h3>一、既往史</h3>
-      <el-form-item label="既往史">
+      <p class="form-label">既往史</p>
         <el-checkbox v-for="(val, key) in mydata.pasthistory" :key="key" :label="val" v-model="historyForm[key]">
         </el-checkbox>
-      </el-form-item>
 
     <h3>二、个人史</h3>
-      <el-form-item label="1、特殊嗜好">
+      <p class="form-label">1、特殊嗜好</p>
         <el-checkbox v-for="(val, key) in mydata.hobbies" :key="key" :label="val" v-model="historyForm[key]">
         </el-checkbox>
-      </el-form-item>
+
       <el-form-item label="2、体力状况">
         <el-radio v-model="historyForm.body_cond"
                   v-for="item in mydata.body_cond"
                   :key="item" :label="item">
         </el-radio>
       </el-form-item>
-      <el-form-item label="3、职业体力活动">
+      <p class="form-label">3、职业体力活动</p>
         <el-radio v-model="historyForm.career_labor"
                   v-for="item in mydata.career_labor"
                   :key="item" :label="item">
         </el-radio>
-      </el-form-item>
-      <el-form-item label="4、体育锻炼">
-        <el-form-item label="(1)频率">
+      <p class="form-label">4、体育锻炼</p>
+        <p>(1)频率</p>
           <el-radio v-model="historyForm.physical_exercise"
                     v-for="item in mydata.physical_exercise"
                     :key="item" :label="item">
           </el-radio>
-        </el-form-item>
-        <el-form-item label="(2)强度">
+        <p>(2)强度</p>
           <el-radio v-model="historyForm.physical_intensity"
                     v-for="item in mydata.physical_intensity"
                     :key="item" :label="item">
           </el-radio>
-        </el-form-item>
-      </el-form-item>
-      <el-form-item label="5、减肥情况">
+      <p class="form-label">5、减肥情况</p>
         <el-form-item label="(1)减肥时长">
           <el-input v-model="historyForm.reducefat_persist" type="number" min="0">
             <template slot="append">月</template>
@@ -51,32 +50,27 @@
           </el-checkbox>
           <el-input v-model="historyForm.reducefat_qita" placeholder="其他"></el-input>
         </el-form-item>
-      </el-form-item>
 
     <h3>三、月经带下史</h3>
-      <el-form-item label="1、月经初潮年龄">
+      <p class="form-label">1、月经初潮年龄</p>
         <el-radio v-model="historyForm.first_time"
                   v-for="item in mydata.first_time"
                   :key="item" :label="item">
         </el-radio>
         <el-input v-model="historyForm.first_time_qita" placeholder="其他情况"></el-input>
-      </el-form-item>
+      <p></p>
 
-      <el-form-item label="2、月经周期是否规律">
+      <span class="form-label">2、月经周期是否规律</span>
         <el-switch v-model="historyForm.is_normal" active-text="尚规律" inactive-text="不规律" @change="cycle"></el-switch>
-      </el-form-item>
-      <el-form-item v-show="historyForm.is_normal">
-        <el-radio v-model="historyForm.normal"
+        <p></p>
+        <el-radio v-show="historyForm.is_normal" v-model="historyForm.normal"
                   v-for="item in mydata.normal"
                   :key="item" :label="item">
         </el-radio>
-      </el-form-item>
-      <el-form-item v-show="!historyForm.is_normal">
-        <el-radio v-model="historyForm.abnormal"
+        <el-radio v-show="!historyForm.is_normal" v-model="historyForm.abnormal"
                   v-for="item in mydata.abnormal"
                   :key="item" :label="item">
         </el-radio>
-      </el-form-item>
 
       <el-form-item label="3、行经天数">
         <el-radio v-model="historyForm.cyclicity_sum"
@@ -86,45 +80,42 @@
         <el-input v-model="historyForm.cyclicity_sum_qita" placeholder="其他情况"></el-input>
       </el-form-item>
 
-      <el-form-item label="4、出血所需卫生巾数">
+      <p class="form-label">4、出血所需卫生巾数</p>
         <el-radio v-model="historyForm.blood_cond"
                   v-for="item in mydata.blood_cond"
                   :key="item" :label="item">
         </el-radio>
         <el-input v-model="historyForm.mm_blood_cond_qita" placeholder="其他情况"></el-input>
-      </el-form-item>
 
-      <el-form-item label="5、出血颜色">
+      <p class="form-label">5、出血颜色</p>
         <el-radio v-model="historyForm.blood_color"
                   v-for="item in mydata.blood_color"
                   :key="item" :label="item">
         </el-radio>
         <el-input v-model="historyForm.mm_blood_color_qita" placeholder="其他情况"></el-input>
-      </el-form-item>
 
-      <el-form-item label="6、出血质地">
-        1、<el-radio v-model="historyForm.blood_quality"
+      <p class="form-label">6、出血质地</p>
+        (1)<el-radio v-model="historyForm.blood_quality"
                   v-for="item in mydata.blood_quality"
                   :key="item" :label="item">
         </el-radio>
         <p></p>
-        2、<el-radio v-model="historyForm.blood_block"
+        (2)<el-radio v-model="historyForm.blood_block"
                   v-for="item in mydata.blood_block"
                   :key="item" :label="item">
         </el-radio>
         <el-input v-model="historyForm.mm_blood_block_qita" placeholder="其他情况"></el-input>
-      </el-form-item>
 
-      <el-form-item label="7、出血特点">
+      <p class="form-label">7、出血特点</p>
         <el-radio v-model="historyForm.blood_character"
                   v-for="item in mydata.blood_character"
                   :key="item" :label="item">
         </el-radio>
-      </el-form-item>
 
-      <el-form-item label="8、经期伴随症状">
+      <p></p>
+
+      <span class="form-label">8、经期伴随症状</span>
         <el-switch v-model="historyForm.menstruation_is_accompany" active-text="是" inactive-text="否"></el-switch>
-      </el-form-item>
       <div v-show="historyForm.menstruation_is_accompany">
         <h4>(1)精神情绪</h4>
           <el-form-item v-for="(val, key) in mydata.spirit" :key="key" :label="val">
@@ -179,24 +170,22 @@
           <el-input v-model="historyForm.erbian_qita" placeholder="其他"></el-input>
       </div>
 
-      <el-form-item label="9、经期情况">
+      <p class="form-label">9、经期情况</p>
         <el-form-item v-for="(val, key) in mydata.jingqi" :key='key' :label="val">
           <el-radio v-model="historyForm[key]" label="无"></el-radio>
           <el-radio v-model="historyForm[key]" label="有"></el-radio>
           <el-radio v-model="historyForm[key]" label="偶尔"></el-radio>
           <el-radio v-model="historyForm[key]" label="经常"></el-radio>
         </el-form-item>
-      </el-form-item>
 
-      <el-form-item label="10、末次行经日期">
+      <p class="form-label">10、末次行经日期</p>
         <el-date-picker v-model="historyForm.last_time"
                         type="date" placeholder="选择日期"
                         format="yyyy 年 MM 月 dd 日"
                         value-format="yyyy-MM-dd">
         </el-date-picker>
-      </el-form-item>
 
-      <el-form-item label="11、平素带下情况">
+      <p class="form-label">11、平素带下情况</p>
         <el-select v-model="historyForm.leucorrhea_quantity" placeholder="请选择">
           <template slot="prefix">量</template>
           <el-option v-for="item in mydata.leucorrhea_quantity" :key="item" :value="item">
@@ -212,15 +201,13 @@
           <el-option v-for="item in mydata.leucorrhea_feature" :key="item" :value="item">
           </el-option>
         </el-select>
-      </el-form-item>
 
     <h3>四、婚姻史</h3>
-      <el-form-item label="婚姻史">
+      <p class="form-label">婚姻史</p>
         <el-radio v-model="historyForm.marriage"
                   v-for="item in mydata.marriage"
                   :key="item" :label="item">
         </el-radio>
-      </el-form-item>
 
     <h3>五、孕产史</h3>
         <el-col :sm="24" :md="12" :lg="8" v-for="(val, key) in mydata.pastpreg" :key="key">
@@ -243,8 +230,11 @@
       </el-form-item>
 
     <h3>七、家族史</h3>
-      <el-form-item label="家族史">
-        一级亲属（父母、兄弟姐妹、子女）其他疾病史
+      <p class="form-label">一级亲属（母亲、姐妹、女儿）异常子宫出血史</p>
+        <el-radio v-model="historyForm.pastfamily_ovulation" label="是"></el-radio>
+        <el-radio v-model="historyForm.pastfamily_ovulation" label="否"></el-radio>
+        <el-radio v-model="historyForm.pastfamily_ovulation" label="不详"></el-radio>
+      <p class="form-label">一级亲属（父母、兄弟姐妹、子女）其他疾病史</p>
         <!-- <el-switch v-model="historyForm.is_pastfamily_womb" active-text="有" inactive-text="无"></el-switch> -->
         <div>
           <el-checkbox v-model="historyForm.pastfamily_minus"  label="甲减" ></el-checkbox>
@@ -254,12 +244,10 @@
           <el-checkbox v-model="historyForm.pastfamily_buxiang"  label="不详" ></el-checkbox>
           <el-input v-model="historyForm.pastfamily_qita"></el-input>
         </div>
-      </el-form-item>
 
     </el-form>
 </template>
 <script>
-import { apiUpdatePatientDataForm, apiCreatePatientDataForm } from '@/api/api-prj001'
 export default {
   name:'HistoryForm',
   data() {
@@ -344,78 +332,10 @@ export default {
     }
   },
   methods: {
-    updateDataForm () {
-      /* 遗留问题 */
-      var face_head = ['face_head_cangbai','face_head_huangbai','face_head_weihuang',
-      'face_head_huian','face_head_anban','face_head_zhizhong','face_head_chunhong']
-      var belly = ['belly_juan','belly_xian','belly_deretongjian','belly_tongjian']
-      for (var i in face_head) {
-        (this.historyForm[face_head[i]] === true) ? this.historyForm[face_head[i]]='true': this.historyForm[face_head[i]]='';
-      }
-      for (var i in belly) {
-        (this.historyForm[belly[i]] === true) ? this.historyForm[belly[i]]='true': this.historyForm[belly[i]]='';
-      }
-      /* ******* */
-      apiUpdatePatientDataForm({formData:this.historyForm, formName:this.formName})
-      .then((res)=> {
-        this.resetDialog()
-        this.$message({message: '提交成功',type: 'success'})
-        this.dialogVisible = false
-        this.$parent.getPatients()
-      })
-      .catch(
-      )
-    },
-    createDataForm () {
-      /* 遗留问题 */
-      var face_head = ['face_head_cangbai','face_head_huangbai','face_head_weihuang','face_head_huian',
-                      'face_head_zhizhong','face_head_chunhong','face_head_anban']
-      var belly = ['belly_juan','belly_xian','belly_deretongjian','belly_tongjian']
-      for (var i in face_head) {
-        (this.historyForm[face_head[i]] === true) ? this.historyForm[face_head[i]]='true': this.historyForm[face_head[i]]='';
-      }
-      for (var i in belly) {
-        (this.historyForm[belly[i]] === true) ? this.historyForm[belly[i]]='true': this.historyForm[belly[i]]='';
-      }
-      /* *
-      /* ******* */
-      apiCreatePatientDataForm({formData:this.historyForm,formName:this.formName})
-      .then((res)=> {
-        this.resetDialog()
-        this.$message({message: '提交成功',type: 'success'})
-        this.dialogVisible = false
-        this.$parent.getPatients()
-      })
-      .catch(
-      )
-    },
-    resetDialog () {
-      this.historyForm = {}
-      return this.dialogVisible=false
-    },
     cycle (e) {
       e ? this.historyForm.abnormal = '': this.historyForm.normal = ''
     }
   },
-  created() {
-    this.$on("openEvent", (data)=>{
-      // this.historyForm = {}
-      this.dialogVisible = true
-      this.exist = data.exist
-      this.formName = data.formName
-      this.is_checked = data.is_checked
-      if (!data.exist) {
-        //未创建
-        this.historyForm.info = data.formData.info
-        /* 遗留问题 需要传person字段*/
-        this.historyForm.person = data.formData.info
-        /* ********* */
-      } else {
-        //已创建(修改)
-        this.historyForm = data.formData
-      }
-    })
-  }
 
 };
 </script>
@@ -426,7 +346,12 @@ export default {
 .el-radio {
   margin-right: 12px
 }
-// .el-input {
-//   margin-top: 10px;
-// }
+.form-label {
+    margin-block-start: 0.5em;
+    color:cornflowerblue;
+    font-weight: 600;
+  }
+.el-radio, .el-radio__input {
+      white-space:normal
+  }
 </style>

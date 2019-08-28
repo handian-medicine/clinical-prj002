@@ -1,50 +1,28 @@
 <template>
-    <el-dialog title="相关检查" class="my-dialog"
-            :visible.sync="dialogVisible"
-            :close-on-click-modal="false" width="100%" center
-            v-if='dialogVisible'
-            @close='resetDialog'>
-            <!-- 这里改 -->
         <el-form ref="relevantForm" :model="relevantForm" label-width="100px" label-position="left">
-            <el-alert v-if="is_checked=='审核通过'"
-                    title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
-                    type="warning" :closable="false" show-icon>
-            </el-alert>
-            <el-divider v-if="is_checked=='审核通过'"></el-divider>
 
-            <h4>1、体格检查 &nbsp;&nbsp;&nbsp;
+            <p class="form-label">1、体格检查</p>
                 <el-checkbox v-for="(val, key) in mydata.bodyCheckbox"
                             v-model="relevantForm[key]"
                             :key="key" :label="val">
                 </el-checkbox>
-            </h4>
 
-            <h4>2、辅助检查</h4>
-                <el-form-item label="(1)辅助检查">
+            <p class="form-label">2、辅助检查</p>
+                <p>(1)辅助检查</p>
                     <el-checkbox v-for="(val, key) in mydata.accessoryCheckbox"
                                 v-model="relevantForm[key]"
                                 :key="key" :label="val">
                     </el-checkbox>
                     <el-input v-model="relevantForm.accessory_qita"></el-input>
-                </el-form-item>
-                <el-form-item label="(2)血红蛋白值">
+                <p>(2)血红蛋白值</p>
                     <el-radio v-for="item in mydata.accessory_hgbRadio"
                             v-model="relevantForm.accessory_hgb_value"
                             :key="item" :label="item">
                     </el-radio>
-                </el-form-item>
         </el-form>
-        <span slot="footer">
-        <el-button :disabled="is_checked=='审核通过'"
-                    type="primary"
-                    @click="exist?updateDataForm():createDataForm()">确定</el-button>
-            <el-button @click="resetDialog">取消</el-button>
-        </span>
-    </el-dialog>
 </template>
 
 <script>
-import { apiUpdatePatientDataForm, apiCreatePatientDataForm } from '@/api/api-prj001'
 
 export default {
     name:'Relevant',
@@ -67,55 +45,19 @@ export default {
                 'accessory_hgbRadio':['>110','91-110','61-90','30-60']
             },
             relevantForm:{},
-            dialogVisible: true,
-            exist: true,
-            formName:'',
-            is_checked:'',
         }
     },
     methods: {
-        updateDataForm () {
-            apiUpdatePatientDataForm({formData:this.relevantForm,formName:this.formName})
-            .then((res)=> {
-                this.resetDialog()
-                this.$message({message: '提交成功',type: 'success'})
-                this.dialogVisible = false
-                this.$parent.getPatients()
-            })
-            .catch()
-        },
-        createDataForm () {
-            apiCreatePatientDataForm({formData:this.relevantForm,formName:this.formName})
-            .then((res)=> {
-                this.resetDialog()
-                this.$message({message: '提交成功',type: 'success'})
-                this.dialogVisible = false
-                this.$parent.getPatients()
-            })
-            .catch()
     },
-        resetDialog () {
-            this.relevantForm = {}
-            return this.dialogVisible=false
-        }
-    },
-    created() {
-        this.$on("openEvent", (data)=>{
-            this.dialogVisible = true
-            this.exist = data.exist
-            this.formName = data.formName
-            this.is_checked = data.is_checked
-            if (!data.exist) {
-                //创建
-                /* 遗留问题 需要传person字段*/
-                this.relevantForm.person = data.formData.info
-                /* ********* */
-                this.relevantForm.info = data.formData.info
-            } else {
-                //修改
-                this.relevantForm = data.formData
-            }
-        })
-    }
 }
 </script>
+<style lang="scss" scoped>
+.form-label {
+    margin-block-start: 0.5em;
+    color:cornflowerblue;
+    font-weight: 600;
+}
+.el-radio, .el-radio__input {
+    white-space:normal
+}
+</style>

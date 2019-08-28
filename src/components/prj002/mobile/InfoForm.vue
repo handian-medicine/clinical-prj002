@@ -1,17 +1,28 @@
 <template>
-  <el-dialog title="一般情况" class="my-dialog"
-            :visible.sync="dialogVisible"
-            :close-on-click-modal="false"
-            width="90%" center>
-    <el-form ref="infoForm" :model="infoForm" label-width="90px" label-position="right">
-      <el-alert v-if="check_status=='审核通过'" effect="dark"
-                  title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
-                  type="warning" :closable="false" show-icon>
-      </el-alert>
-
-      <el-divider></el-divider>
-
-      <el-form-item label="患者姓名">
+    <el-form ref="infoForm" :model="infoForm" :rules="rules"
+            class="mobile" label-width="100px" label-position="right">
+      <el-form-item label="辅助医生" prop="owner">
+        <el-select v-model="infoForm.area"
+                  @change="getHospital"
+                  placeholder="请选择地区">
+          <template slot="prefix"><i class="fa fa-globe" aria-hidden="true"></i></template>
+          <el-option v-for="item in area_options" :key="item" :value="item">
+          </el-option>
+        </el-select>
+        <el-select v-model="infoForm.hospital2"
+                  @change="getOwner"
+                  placeholder="请选择医院">
+          <template slot="prefix"><i class="fa fa-hospital-o" aria-hidden="true"></i></template>
+          <el-option v-for="item in hospital_options" :key="item" :value="item">
+          </el-option>
+        </el-select>
+        <el-select v-model="infoForm.owner" placeholder="请选择医生">
+          <template slot="prefix"><i class="fa fa-user" aria-hidden="true"></i></template>
+          <el-option v-for="item in owner_options" :key="item.id" :value="item.id" :label="item.user_name">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="患者姓名" prop="name">
         <el-input v-model="infoForm.name"></el-input>
         <!-- <el-input v-model="infoForm.name"><template slot="prepend">患者姓名</template></el-input> -->
       </el-form-item>
@@ -40,7 +51,7 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item label="职业">
+      <el-form-item label="职业" prop="career">
         <el-select v-model="infoForm.career" placeholder="请选择">
           <el-option v-for="item in careerSelection" :key="item" :label="item" :value="item">
           </el-option>
@@ -150,21 +161,21 @@
         </div>
 
     </el-form>
-    <span slot="footer">
-        <el-button :disabled="check_status=='审核通过'" type="primary" @click="updateInfoForm">确定</el-button>
-        <el-button @click="dialogVisible=false">取消</el-button>
-    </span>
-
-  </el-dialog>
 </template>
 <script>
-import { apiUpdatePatientDataForm } from '@/api/api-prj002'
+import {apiMobileArea,apiMobileHospital,apiMobileOwner} from '@/api/api-prj002'
+
 export default {
   name: "InfoForm",
   data() {
     return {
-      dialogVisible: false,
-      infoForm: {},
+      infoForm: {
+        "name":"prj002mobile",
+        "phone":"13212345678",
+        "hospital":"汉典",
+        "birth":"2000-09",
+        "career":"学生"
+      },
       nationSelection: ["汉族","蒙古族","回族","藏族","维吾尔族","苗族","彝族","壮族","布依族","朝鲜族","满族","侗族",
                         "瑶族","白族","土家族","哈尼族","哈萨克族","傣族","黎族","傈傈族","佤族","畲族","高山族","拉祜族",
                         "水族","东乡族","纳西族","景颇族","科尔克孜族","土族","达斡尔族","仫佬族","羌族","布朗族","撒拉族",
@@ -179,9 +190,17 @@ export default {
                 {field1: '3', field2: '中', field3: '痤疮>20个或脓疱<20个'},
                 {field1: '4', field2: '重', field3: '脓疱≥20个'},
                 {field1: '5', field2: '囊性', field3: '炎性病损≥5mm'}],
-      exist: true,
-      formName:'',
-      check_status:''
+      rules:{
+          name: [{required: true, message: '一般信息: 请输入姓名', trigger: 'blur' }],
+          phone: [{required: true, pattern: /^1\d{10}$/, message: '一般信息: 请输入11位手机号码',trigger: 'blur'}],
+          hospital:[{required: true, message: '一般信息: 请填写就诊医院名称'}],
+          career:  [{required: true, message: '一般信息: 请填写职业'}],
+          birth:  [{required: true, message: '一般信息: 请填写出生年月'}],
+          owner:  [{required: true, message: '一般信息: 请填写辅助医生信息'}],
+        },
+      area_options:[],
+      hospital_options:[],
+      owner_options:[]
     }
   },
   computed:{
@@ -207,36 +226,40 @@ export default {
     }
   },
   methods: {
-    showmsg(message){
-      console.log(message)
+    getHospital (area) {
+      this.owner_options = []
+      this.hospital_options = []
+      apiMobileHospital({area:area})
+      .then( (res) => {
+        const hospital_data = res.data.hospital_data
+        console.log("返回医院数据",hospital_data)
+        for(var i = 0, len = hospital_data.length; i < len; i++){
+          this.hospital_options.push(hospital_data[i].hospital)
+        }
+      }).catch()
     },
-    updateInfoForm () {
-      apiUpdatePatientDataForm({formData:this.infoForm,formName:this.formName})
-      .then((res)=> {
-        this.$message({message: '提交成功',type: 'success'})
-        this.dialogVisible = false
-        this.$parent.getPatients()
-      })
-      .catch(
-        // this.$message({message: '修改失败',type: 'error'})
-      )
+    getOwner (hospital) {
+      this.owner_options = []
+      apiMobileOwner({hospital:hospital})
+      .then( (res) => {
+        const owner_data = res.data.owner_data
+        console.log("返回医生数据",owner_data)
+        for(var i = 0, len = owner_data.length; i < len; i++){
+          this.owner_options.push(owner_data[i])
+        }
+        console.log(this.owner_options)
+      }).catch()
     }
   },
-  created() {
-      this.$on("openEvent", (data)=>{
-        console.log('一般情况获取到的数据',data)
-        this.dialogVisible = true
-        this.exist = data.exist
-        this.formName = data.formName
-        this.check_status = data.check_status
-        if (!data.exist) {
-          //未创建
-          this.infoForm.info = data.formData.info
-        } else {
-          //已创建(修改)
-          this.infoForm = data.formData
+  mounted () {
+      apiMobileArea()
+      .then( (res) => {
+        const area_data = res.data.area_data
+        console.log("返回的地区数据",area_data)
+        for(var i = 0, len = area_data.length; i < len; i++){
+          this.area_options.push(area_data[i].area)
         }
-      });
-    }
-};
+      }).catch()
+  },
+}
 </script>

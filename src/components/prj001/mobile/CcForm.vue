@@ -1,16 +1,6 @@
 <template>
-    <el-dialog title="临床诊断" class="my-dialog"
-            :visible.sync="dialogVisible"
-            :close-on-click-modal="false" width="100%" center
-            v-if='dialogVisible'
-            @close='resetDialog'>
-        <el-form ref="ccForm" :model="ccForm" label-width="auto" label-position="left">
-            <el-alert v-if="is_checked=='审核通过'"
-                    title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
-                    type="warning" :closable="false" show-icon>
-            </el-alert>
-            <el-divider v-if="is_checked=='审核通过'"></el-divider>
-
+        <el-form ref="ccForm" :model="ccForm"
+                class="mobile" label-width="auto" label-position="left">
             <h3>一、中医诊断</h3>
             <h4>1、诊断结果</h4>
                 <el-form-item>
@@ -49,18 +39,9 @@
                 <el-input v-model="ccForm.qita_west"></el-input>
 
         </el-form>
-        <span slot="footer">
-        <el-button :disabled="is_checked=='审核通过'"
-                    type="primary"
-                    @click="exist?updateDataForm():createDataForm()">确定</el-button>
-            <el-button @click="resetDialog">取消</el-button>
-        </span>
-    </el-dialog>
 </template>
 
 <script>
-import { apiUpdatePatientDataForm, apiCreatePatientDataForm } from '@/api/api-prj001'
-
 export default {
     name:'Relevant',
     data () {
@@ -81,48 +62,6 @@ export default {
         }
     },
     methods: {
-        updateDataForm () {
-            apiUpdatePatientDataForm({formData:this.ccForm,formName:this.formName})
-            .then((res)=> {
-                this.resetDialog()
-                this.$message({message: '提交成功',type: 'success'})
-                this.dialogVisible = false
-                this.$parent.getPatients()
-            })
-            .catch()
-        },
-        createDataForm () {
-            apiCreatePatientDataForm({formData:this.ccForm,formName:this.formName})
-            .then((res)=> {
-                this.resetDialog()
-                this.$message({message: '提交成功',type: 'success'})
-                this.dialogVisible = false
-                this.$parent.getPatients()
-            })
-            .catch()
-    },
-        resetDialog () {
-            this.ccForm = {}
-            return this.dialogVisible=false
-        }
-    },
-    created() {
-        this.$on("openEvent", (data)=>{
-            this.dialogVisible = true
-            this.exist = data.exist
-            this.formName = data.formName
-            this.is_checked = data.is_checked
-            if (!data.exist) {
-                //未创建
-                /* 遗留问题 需要传person字段*/
-                this.ccForm.person = data.formData.info
-                /* ********* */
-                this.ccForm.info = data.formData.info
-            } else {
-                //已创建(修改)
-                this.ccForm = data.formData
-            }
-        })
     }
 }
 </script>

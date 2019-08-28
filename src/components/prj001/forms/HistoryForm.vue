@@ -4,7 +4,7 @@
             :close-on-click-modal="false" width="100%" center
             v-if='dialogVisible'
             @close='resetDialog'>
-    <el-form ref="historyForm" :model="historyForm" label-width="100px" label-position="left">
+    <el-form ref="historyForm" :model="historyForm" label-width="95px" label-position="left">
       <el-alert v-if="is_checked=='审核通过'"
                 title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
                 type="warning" :closable="false" show-icon>
@@ -12,16 +12,15 @@
       <el-divider v-if="is_checked=='审核通过'"></el-divider>
 
     <h3>一、既往史</h3>
-      <el-form-item label="既往史">
+      <p class="form-label">既往史</p>
         <el-checkbox v-for="(val, key) in mydata.pasthistory" :key="key" :label="val" v-model="historyForm[key]">
         </el-checkbox>
-      </el-form-item>
 
     <h3>二、个人史</h3>
-      <el-form-item label="1、特殊嗜好">
+      <p class="form-label">1、特殊嗜好</p>
         <el-checkbox v-for="(val, key) in mydata.hobbies" :key="key" :label="val" v-model="historyForm[key]">
         </el-checkbox>
-      </el-form-item>
+
       <el-form-item label="2、体力状况">
         <el-radio v-model="historyForm.body_cond"
                   v-for="item in mydata.body_cond"
@@ -63,6 +62,7 @@
                   :key="item" :label="item">
         </el-radio>
         <el-input v-model="historyForm.first_time_qita" placeholder="其他情况"></el-input>
+      <p></p>
 
       <span class="form-label">2、月经周期是否规律</span>
         <el-switch v-model="historyForm.is_normal" active-text="尚规律" inactive-text="不规律" @change="cycle"></el-switch>
@@ -84,23 +84,21 @@
         <el-input v-model="historyForm.cyclicity_sum_qita" placeholder="其他情况"></el-input>
       </el-form-item>
 
-      <el-form-item label="4、出血所需卫生巾数">
+      <p class="form-label">4、出血所需卫生巾数</p>
         <el-radio v-model="historyForm.blood_cond"
                   v-for="item in mydata.blood_cond"
                   :key="item" :label="item">
         </el-radio>
         <el-input v-model="historyForm.mm_blood_cond_qita" placeholder="其他情况"></el-input>
-      </el-form-item>
 
-      <el-form-item label="5、出血颜色">
+      <p class="form-label">5、出血颜色</p>
         <el-radio v-model="historyForm.blood_color"
                   v-for="item in mydata.blood_color"
                   :key="item" :label="item">
         </el-radio>
         <el-input v-model="historyForm.mm_blood_color_qita" placeholder="其他情况"></el-input>
-      </el-form-item>
 
-      <el-form-item label="6、出血质地">
+      <p class="form-label">6、出血质地</p>
         1、<el-radio v-model="historyForm.blood_quality"
                   v-for="item in mydata.blood_quality"
                   :key="item" :label="item">
@@ -111,18 +109,17 @@
                   :key="item" :label="item">
         </el-radio>
         <el-input v-model="historyForm.mm_blood_block_qita" placeholder="其他情况"></el-input>
-      </el-form-item>
 
-      <el-form-item label="7、出血特点">
+      <p class="form-label">7、出血特点</p>
         <el-radio v-model="historyForm.blood_character"
                   v-for="item in mydata.blood_character"
                   :key="item" :label="item">
         </el-radio>
-      </el-form-item>
 
-      <el-form-item label="8、经期伴随症状">
+      <p></p>
+
+      <span class="form-label">8、经期伴随症状</span>
         <el-switch v-model="historyForm.menstruation_is_accompany" active-text="是" inactive-text="否"></el-switch>
-      </el-form-item>
       <div v-show="historyForm.menstruation_is_accompany">
         <h4>(1)精神情绪</h4>
           <el-form-item v-for="(val, key) in mydata.spirit" :key="key" :label="val">
@@ -177,24 +174,22 @@
           <el-input v-model="historyForm.erbian_qita" placeholder="其他"></el-input>
       </div>
 
-      <el-form-item label="9、经期情况">
+      <p class="form-label">9、经期情况</p>
         <el-form-item v-for="(val, key) in mydata.jingqi" :key='key' :label="val">
           <el-radio v-model="historyForm[key]" label="无"></el-radio>
           <el-radio v-model="historyForm[key]" label="有"></el-radio>
           <el-radio v-model="historyForm[key]" label="偶尔"></el-radio>
           <el-radio v-model="historyForm[key]" label="经常"></el-radio>
         </el-form-item>
-      </el-form-item>
 
-      <el-form-item label="10、末次行经日期">
+      <p class="form-label">10、末次行经日期</p>
         <el-date-picker v-model="historyForm.last_time"
                         type="date" placeholder="选择日期"
                         format="yyyy 年 MM 月 dd 日"
                         value-format="yyyy-MM-dd">
         </el-date-picker>
-      </el-form-item>
 
-      <el-form-item label="11、平素带下情况">
+      <p class="form-label">11、平素带下情况</p>
         <el-select v-model="historyForm.leucorrhea_quantity" placeholder="请选择">
           <template slot="prefix">量</template>
           <el-option v-for="item in mydata.leucorrhea_quantity" :key="item" :value="item">
@@ -210,15 +205,13 @@
           <el-option v-for="item in mydata.leucorrhea_feature" :key="item" :value="item">
           </el-option>
         </el-select>
-      </el-form-item>
 
     <h3>四、婚姻史</h3>
-      <el-form-item label="婚姻史">
+      <p class="form-label">婚姻史</p>
         <el-radio v-model="historyForm.marriage"
                   v-for="item in mydata.marriage"
                   :key="item" :label="item">
         </el-radio>
-      </el-form-item>
 
     <h3>五、孕产史</h3>
         <el-col :sm="24" :md="12" :lg="8" v-for="(val, key) in mydata.pastpreg" :key="key">
@@ -241,8 +234,11 @@
       </el-form-item>
 
     <h3>七、家族史</h3>
-      <el-form-item label="家族史">
-        一级亲属（父母、兄弟姐妹、子女）其他疾病史
+      <p class="form-label">一级亲属（母亲、姐妹、女儿）异常子宫出血史</p>
+        <el-radio v-model="historyForm.pastfamily_ovulation" label="是"></el-radio>
+        <el-radio v-model="historyForm.pastfamily_ovulation" label="否"></el-radio>
+        <el-radio v-model="historyForm.pastfamily_ovulation" label="不详"></el-radio>
+      <p class="form-label">一级亲属（父母、兄弟姐妹、子女）其他疾病史</p>
         <!-- <el-switch v-model="historyForm.is_pastfamily_womb" active-text="有" inactive-text="无"></el-switch> -->
         <div>
           <el-checkbox v-model="historyForm.pastfamily_minus"  label="甲减" ></el-checkbox>
@@ -252,7 +248,6 @@
           <el-checkbox v-model="historyForm.pastfamily_buxiang"  label="不详" ></el-checkbox>
           <el-input v-model="historyForm.pastfamily_qita"></el-input>
         </div>
-      </el-form-item>
 
     </el-form>
 
@@ -426,16 +421,12 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-
-  .form-label {
+.form-label {
+    margin-block-start: 0.5em;
     color:cornflowerblue;
     font-weight: 600;
   }
-
-.el-radio__label {
-      padding-left:5px
-}
-  .el-radio, .el-radio__input {
+.el-radio, .el-radio__input {
       white-space:normal
   }
 

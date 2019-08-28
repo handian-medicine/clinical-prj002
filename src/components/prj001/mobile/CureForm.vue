@@ -1,15 +1,7 @@
 <template>
-  <el-dialog title="中西治疗" class="my-dialog"
-            :visible.sync="dialogVisible"
-            :close-on-click-modal="false" width="100%" center
-            v-if='dialogVisible'
-            @close='resetDialog'>
-    <el-form ref="cureForm" :model="cureForm" label-width="120" label-position="left">
-      <el-alert v-if="is_checked=='审核通过'"
-                title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
-                type="warning" :closable="false" show-icon>
-      </el-alert>
-      <el-divider v-if="is_checked=='审核通过'"></el-divider>
+    <el-form ref="cureForm" :model="cureForm" 
+            class="mobile" label-width="120" label-position="left">
+
       <el-form-item label="中西医结合治疗">
         <el-radio v-model="cureForm.to_cure" label="是">是</el-radio>
         <el-radio v-model="cureForm.to_cure" label="否">否</el-radio>
@@ -19,13 +11,6 @@
           <h3>一、中医治疗</h3>
           <h4>1、治法</h4>
           <div>
-            <!-- <el-form-item>
-              <el-cascader style="width:300px"
-                    v-model="mydata.value"
-                    :options="mydata.zhifa">
-              </el-cascader>
-            </el-form-item> -->
-
             <el-form-item label="(1)虚证治法">
                 <el-radio v-for="item in mydata.xuzhengRadio"
                         v-model="cureForm.xuzheng_one"
@@ -163,17 +148,8 @@
         </div>
 
     </el-form>
-    <span slot="footer">
-        <el-button :disabled="is_checked=='审核通过'"
-                    type="primary"
-                    @click="exist?updateDataForm():createDataForm()">确定</el-button>
-        <el-button @click="resetDialog">取消</el-button>
-    </span>
-
-  </el-dialog>
 </template>
 <script>
-import { apiUpdatePatientDataForm, apiCreatePatientDataForm } from '@/api/api-prj001'
 export default {
   name:'CureForm',
   data() {
@@ -241,59 +217,10 @@ export default {
         // 5、其他治疗
       },
       cureForm:{},
-      dialogVisible: false,
-      exist: true,
-      formName:'',
-      is_checked:'',
     }
   },
   methods: {
-    updateDataForm () {
-      apiUpdatePatientDataForm({formData:this.cureForm,formName:this.formName})
-      .then((res)=> {
-        this.resetDialog()
-        this.$message({message: '提交成功',type: 'success'})
-        this.dialogVisible = false
-        this.$parent.getPatients()
-      })
-      .catch(
-      )
-    },
-    createDataForm () {
-      apiCreatePatientDataForm({formData:this.cureForm,formName:this.formName})
-      .then((res)=> {
-        this.resetDialog()
-        this.$message({message: '提交成功',type: 'success'})
-        this.dialogVisible = false
-        this.$parent.getPatients()
-      })
-      .catch(
-      )
-    },
-    resetDialog () {
-      this.cureForm = {}
-      return this.dialogVisible=false
-    }
   },
-  created() {
-    this.$on("openEvent", (data)=>{
-      this.dialogVisible = true
-      this.exist = data.exist
-      this.formName = data.formName
-      this.is_checked = data.is_checked
-      if (!data.exist) {
-        //未创建
-        /* 遗留问题 需要传person字段*/
-        this.cureForm.person = data.formData.info
-        /* ********* */
-        this.cureForm.info = data.formData.info
-      } else {
-        //已创建(修改)
-        this.cureForm = data.formData
-      }
-
-    })
-  }
 
 };
 </script>

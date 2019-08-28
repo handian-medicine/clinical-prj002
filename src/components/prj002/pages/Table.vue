@@ -115,7 +115,7 @@
     <BxrayForm ref="bxray"></BxrayForm>
     <!-- 临床诊断dialog -->
     <ClinicalForm ref="clinical"></ClinicalForm>
-    <!-- 治疗dialog -->
+    <!-- 疗效dialog -->
     <CureForm ref="cure"></CureForm>
 
     <!-- 新增信息dialog -->
