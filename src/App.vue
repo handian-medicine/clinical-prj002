@@ -85,7 +85,14 @@ export default {
     .el-icon-close:before{
       color:black;
     }
+    .el-checkbox {
+        margin-right: 10px
+    }
+    .el-radio {
+        margin-right: 12px
+    }
   }
+
   .el-button {
     font-weight: 400
   }

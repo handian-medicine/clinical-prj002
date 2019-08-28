@@ -215,12 +215,10 @@ export default {
     },
     // 分页功能
     handleListPagination (currentPage) {
-      console.log('分页',currentPage)
       this.page = currentPage,
       this.getPatients()
     },
     handleSearchPagination (currentPage) {
-      console.log('分页',currentPage)
       this.search_page = currentPage
       this.searchPatient()
     },
@@ -260,8 +258,6 @@ export default {
     openDataForm (index, row, formName) {
       console.log('formName',formName)
       // 如果DataForm表未创建,不需要请求后端,直接显示空表
-      console.log('formName',row)
-
       /* 遗留问题 */
       if (formName == 'info') { row[formName] = row['url'] }
       /* ****** */
@@ -289,13 +285,13 @@ export default {
             //第二个问题
             var face_head = ['face_head_cangbai','face_head_huangbai','face_head_weihuang','face_head_huian',
                             'face_head_anban','face_head_zhizhong','face_head_chunhong']
-            for (var i in face_head) {
-              (res.data[face_head[i]] === "true") ? res.data[face_head[i]]=true: res.data[face_head[i]]=false
+            for (let i of face_head) {
+              (res.data[i] === "true") ? res.data[i]=true: res.data[i]=false
             }
             //第三个问题
             var belly = ['belly_juan','belly_xian','belly_deretongjian','belly_tongjian']
-            for (var i in belly) {
-              (res.data[belly[i]] === "true") ? res.data[belly[i]]=true: res.data[belly[i]]=false
+            for (let i of belly) {
+              (res.data[i] === "true") ? res.data[i]=true: res.data[i]=false
             }
           }
           /* ******* */

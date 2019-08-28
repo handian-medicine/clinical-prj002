@@ -89,8 +89,9 @@
     </el-form>
 
     <span slot="footer">
-        <el-button :disabled="is_checked=='审核通过'" type="primary" v-if="exist"  @click="updateDataForm">确定</el-button>
-        <el-button type="primary" v-else  @click="createDataForm">确定</el-button>
+        <el-button :disabled="is_checked=='审核通过'"
+                  type="primary" 
+                  @click="exist?updateDataForm():createDataForm()">确定</el-button>
         <el-button @click="resetDialog">取消</el-button>
     </span>
 
@@ -136,26 +137,7 @@ export default {
         'pulse_qita':     '其他',
       },
 
-      summaryForm:{
-          face_head:'',face_head_tou:'',face_head_er:'',face_head_muxuan:'',face_head_muse:'',face_head_zhong:'',
-          face_color:'',face_color_bai:'',face_color_an:'',face_color_huang:'',face_color_dan:'',face_color_hong:'',face_color_hei:'',face_color_chi:'',
-          mouth:'',mouth_chi:'',mouth_gan:'',mouth_nian:'',mouth_ku:'',mouth_throat:'',mouth_yi:'',
-          spirit:'',spirit_kun:'',spirit_pi:'',spirit_shao:'',spirit_jian:'',spirit_jiao:'',spirit_xi:'',spirit_bei:'',
-          limbs:'',limbs_wu:'',limbs_ma:'',limbs_shou:'',limbs_zhi:'',limbs_wei:'',
-          body:'',body_zhong:'',body_fei:'',body_shou:'',
-          chest:'',chest_huang:'',chest_men:'',chest_exin:'',chest_xiong:'',chest_ru:'',chest_yi:'',chest_suan:'',chest_tan:'',
-          cold_hot:'',cold_hot_wei:'',cold_hot_hong:'',cold_hot_wu:'',cold_hot_shi:'',cold_hot_di:'',cold_hot_chao:'',cold_hot_dong:'',cold_hot_dao:'',
-          waist:'',waist_zhang:'',waist_juan:'',waist_xian:'',waist_zhui:'',waist_fuleng:'',waist_fuci:'',waist_yaosuan:'',waist_yaoleng:'',
-          sleep:'',sleep_yi:'',sleep_shi:'',sleep_duo:'',sleep_mian:'',
-          diet:'',diet_shiyu:'',diet_duoshi:'',diet_xire:'',diet_xileng:'',diet_xixin:'',diet_bushu:'',diet_shishao:'',
-          skin:'',skin_xihsu:'',skin_nong:'',skin_cu:'',skin_zhi:'',skin_re:'',skin_jia:'',
-          pee:'',pee_pin:'',pee_ji:'',pee_ye:'',pee_li:'',pee_qing:'',pee_chi:'',
-          feces:'',feces_tang:'',feces_mi:'',feces_xi:'',feces_xie:'',feces_nian:'',feces_jia:'',
-          texture_danhong:'',texture_danbai:'',texture_pianhong:'',texture_shenhong:'',texture_zihong:'',texture_anhong:'',texture_danan:'',texture_zian:'',texture_yudian:'',texture_jianhong:'',texture_qita:'',
-          coating_bai:'',coating_huang:'',coating_bo:'',coating_hou:'',coating_ni:'',coating_run:'',coating_hua:'',coating_gan:'',coating_shaotai:'',coating_huabo:'',coating_wutai:'',coating_qita:'',
-          tongue_zhengchang:'',tongue_shouxiao:'',tongue_pangda:'',tongue_youchihen:'',tongue_youliewen:'',tongue_qita:'',
-          pulse_fu:'',pulse_chen:'',pulse_hua:'',pulse_shu:'',pulse_xian:'',pulse_xi:'',pulse_ruo:'',pulse_huan:'',pulse_chi:'',pulse_se:'',pulse_jin:'',pulse_qita:'',
-      },
+      summaryForm:{},
       is_checked:'',
       dialogVisible: false,
       exist: true,

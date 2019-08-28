@@ -4,7 +4,7 @@
             :close-on-click-modal="false" width="100%" center
             v-if='dialogVisible'
             @close='resetDialog'>
-    <el-form ref="historyForm" :model="historyForm" label-width="150px" label-position="left">
+    <el-form ref="historyForm" :model="historyForm" label-width="100px" label-position="left">
       <el-alert v-if="is_checked=='审核通过'"
                 title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
                 type="warning" :closable="false" show-icon>
@@ -28,27 +28,23 @@
                   :key="item" :label="item">
         </el-radio>
       </el-form-item>
-      <el-form-item label="3、职业体力活动">
+      <p class="form-label">3、职业体力活动</p>
         <el-radio v-model="historyForm.career_labor"
                   v-for="item in mydata.career_labor"
                   :key="item" :label="item">
         </el-radio>
-      </el-form-item>
-      <el-form-item label="4、体育锻炼">
-        <el-form-item label="(1)频率">
+      <p class="form-label">4、体育锻炼</p>
+        <p>(1)频率</p>
           <el-radio v-model="historyForm.physical_exercise"
                     v-for="item in mydata.physical_exercise"
                     :key="item" :label="item">
           </el-radio>
-        </el-form-item>
-        <el-form-item label="(2)强度">
+        <p>(2)强度</p>
           <el-radio v-model="historyForm.physical_intensity"
                     v-for="item in mydata.physical_intensity"
                     :key="item" :label="item">
           </el-radio>
-        </el-form-item>
-      </el-form-item>
-      <el-form-item label="5、减肥情况">
+      <p class="form-label">5、减肥情况</p>
         <el-form-item label="(1)减肥时长">
           <el-input v-model="historyForm.reducefat_persist" type="number" min="0">
             <template slot="append">月</template>
@@ -59,32 +55,26 @@
           </el-checkbox>
           <el-input v-model="historyForm.reducefat_qita" placeholder="其他"></el-input>
         </el-form-item>
-      </el-form-item>
 
     <h3>三、月经带下史</h3>
-      <el-form-item label="1、月经初潮年龄">
+      <p class="form-label">1、月经初潮年龄</p>
         <el-radio v-model="historyForm.first_time"
                   v-for="item in mydata.first_time"
                   :key="item" :label="item">
         </el-radio>
         <el-input v-model="historyForm.first_time_qita" placeholder="其他情况"></el-input>
-      </el-form-item>
 
-      <el-form-item label="2、月经周期是否规律">
+      <span class="form-label">2、月经周期是否规律</span>
         <el-switch v-model="historyForm.is_normal" active-text="尚规律" inactive-text="不规律" @change="cycle"></el-switch>
-      </el-form-item>
-      <el-form-item v-show="historyForm.is_normal">
-        <el-radio v-model="historyForm.normal"
+        <p></p>
+        <el-radio v-show="historyForm.is_normal" v-model="historyForm.normal"
                   v-for="item in mydata.normal"
                   :key="item" :label="item">
         </el-radio>
-      </el-form-item>
-      <el-form-item v-show="!historyForm.is_normal">
-        <el-radio v-model="historyForm.abnormal"
+        <el-radio v-show="!historyForm.is_normal" v-model="historyForm.abnormal"
                   v-for="item in mydata.abnormal"
                   :key="item" :label="item">
         </el-radio>
-      </el-form-item>
 
       <el-form-item label="3、行经天数">
         <el-radio v-model="historyForm.cyclicity_sum"
@@ -267,8 +257,9 @@
     </el-form>
 
     <span slot="footer">
-        <el-button :disabled="is_checked=='审核通过'" type="primary" v-if="exist"  @click="updateDataForm">确定</el-button>
-        <el-button type="primary" v-else  @click="createDataForm">确定</el-button>
+        <el-button :disabled="is_checked=='审核通过'"
+                    type="primary"
+                    @click="exist?updateDataForm():createDataForm()">确定</el-button>
         <el-button @click="resetDialog">取消</el-button>
     </span>
   </el-dialog>
@@ -435,13 +426,17 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.el-checkbox {
-  margin-right: 10px
+
+  .form-label {
+    color:cornflowerblue;
+    font-weight: 600;
+  }
+
+.el-radio__label {
+      padding-left:5px
 }
-.el-radio {
-  margin-right: 12px
-}
-// .el-input {
-//   margin-top: 10px;
-// }
+  .el-radio, .el-radio__input {
+      white-space:normal
+  }
+
 </style>

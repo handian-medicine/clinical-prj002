@@ -35,8 +35,9 @@
                 </el-form-item>
         </el-form>
         <span slot="footer">
-            <el-button :disabled="is_checked=='审核通过'" type="primary" v-if="exist"  @click="updateDataForm">确定</el-button>
-            <el-button type="primary" v-else  @click="createDataForm">确定</el-button>
+        <el-button :disabled="is_checked=='审核通过'"
+                    type="primary"
+                    @click="exist?updateDataForm():createDataForm()">确定</el-button>
             <el-button @click="resetDialog">取消</el-button>
         </span>
     </el-dialog>

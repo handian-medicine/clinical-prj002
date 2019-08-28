@@ -47,9 +47,14 @@ export default new Router({
       hidden: true,
       children: [
         {
+          path: '/mobile/prj001',
+          name: 'Prj001手机端',
+          component: () => import('@/components/prj001/mobile/MobilePrj001.vue'),
+        },
+        {
           path: '/mobile/prj002',
           name: 'Prj002手机端',
-          component: () => import('@/components/prj002/mobile/Mobile.vue'),
+          component: () => import('@/components/prj002/mobile/MobilePrj002.vue'),
         }
       ]
     },
