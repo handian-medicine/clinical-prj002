@@ -235,7 +235,13 @@ export default {
         this.is_admin = res.data.is_admin
         this.totalNum = res.data.totalNum
         this.listLoading = false
-      })
+      }).catch( (error)=> {
+        if (error.response.status == 500) {
+          this.$message({message: '登录信息已过期，请重新登录',type: 'success',showClose:true})
+          this.$router.push({ path: '/login' })
+        }
+          console.log("错误3",error.response.status)
+      } )
     },
     // 删除
     delPatient: function (index, row) {

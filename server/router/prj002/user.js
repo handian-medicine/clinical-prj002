@@ -18,7 +18,7 @@ router.post('/search', function (req, res, next) {
     console.log("搜索option", options)
   request.post(options, function (error, response, body) {
     var bodyParse = JSON.parse(body)
-    console.log("搜索返回结果", bodyParse.count)
+    console.log("搜索返回结果", bodyParse)
     var searchResultsNum = bodyParse.count
     var searchResults = bodyParse.results
     res.send({searchResults, searchResultsNum})
@@ -27,16 +27,15 @@ router.post('/search', function (req, res, next) {
 // 导出搜索结果
 router.post('/export', function (req, res, next) {
   const options = {
-    url: myConst.apiurl + "/prj002/info/search/",
-    form: req.body.search,
-    qs: {page:req.body.page},
-    headers: {'Authorization': 'Bearer ' + req.cookies.prj001token.access_token}
+    url: myConst.apiurl + "/prj002/fileout/",
+    // qs: {page:req.body.page, search:req.body.name},
+    headers: {'Authorization': 'Bearer ' + req.cookies.prj002token.access_token}
   }
-    console.log("导出option", options)
-  request.post(options, function (error, response, body) {
+  console.log("导出option", options)
+  request.get(options, function (error, response, body) {
     var bodyParse = JSON.parse(body)
     console.log("导出文件返回结果", bodyParse)
-    res.send({path:bodyParse.path});
+    res.send({path:bodyParse.url});
   })
 })
 // 添加患者信息
@@ -96,18 +95,19 @@ router.post('/check', function (req, res, next){
 router.post('/list', function(req, res, next) {
   // console.log('user.js 1.req.body->', req.body)
   // console.log('user.js 2.req.cookies->', req.cookies)
-  const options = {
-    url: myConst.apiurl + "/prj002/info/",
-    qs: {page:req.body.page},
-    headers: {'Authorization': 'Bearer ' + req.cookies.prj002token.access_token}
-  }
-  request.get(options, function (error, response, body) {
-    var bodyParse = JSON.parse(body)
-    var totalNum = bodyParse.count
-    var patientsList = bodyParse.results
-    var is_admin = bodyParse.is_admin
-    res.send({patientsList,totalNum,is_admin})
-  })
+  // if (req.cookies.prj002token) {
+    const options = {
+      url: myConst.apiurl + "/prj002/info/",
+      qs: {page:req.body.page},
+      headers: {'Authorization': 'Bearer ' + req.cookies.prj002token.access_token}
+    }
+    request.get(options, function (error, response, body) {
+      var bodyParse = JSON.parse(body)
+      var totalNum = bodyParse.count
+      var patientsList = bodyParse.results
+      var is_admin = bodyParse.is_admin
+      res.send({patientsList,totalNum,is_admin})
+    })
 
 })
 

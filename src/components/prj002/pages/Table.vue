@@ -160,7 +160,6 @@ export default {
   methods: {
     // 导出文件
     exportFile () {
-      this.search.types = 'download'
       console.log('搜索字段',this.search)
       let para = {
         page: this.search_page,
@@ -228,7 +227,13 @@ export default {
         this.is_admin = res.data.is_admin
         this.totalNum = res.data.totalNum
         this.listLoading = false
-      })
+      }).catch( (error)=> {
+        if (error.response.status == 500) {
+          this.$message({message: '登录信息已过期，请重新登录',type: 'success',showClose:true})
+          this.$router.push({ path: '/login' })
+        }
+          console.log("错误3",error.response.status)
+      } )
     },
 
     //核心的Form表单
@@ -261,29 +266,6 @@ export default {
     this.getPatients()
   }
 }
-
-    // selsChange: function (sels) {
-    //   this.sels = sels
-    // },
-    // // 批量删除
-    // batchRemove: function () {
-    //   var ids = this.sels.map(item => item.id).toString()
-    //   this.$confirm('确认删除选中记录吗？', '提示', {
-    //     type: 'warning'
-    //   }).then(() => {
-    //     this.listLoading = true
-    //     let para = { ids: ids }
-    //     batchRemoveUser(para).then((res) => {
-    //       this.listLoading = false
-    //       this.$message({
-    //         message: '删除成功',
-    //         type: 'success'
-    //       })
-    //       this.getPatients()
-    //     })
-    //   }).catch(() => {
-    //   })
-    // }
 </script>
 
 <style scoped>

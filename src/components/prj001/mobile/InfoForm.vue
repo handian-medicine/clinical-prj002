@@ -218,7 +218,7 @@ export default {
 
   .el-input__prefix {
     left: 8px
-    }
+  }
 }
 
 </style>

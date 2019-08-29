@@ -10,6 +10,7 @@ export default new Router({
       hidden: true,
       redirect: { path: '/404' }
     },
+    /* 共享页面 */
     {
       path: '/',
       name: '',
@@ -40,6 +41,8 @@ export default new Router({
       name: '',
       hidden: true
     },
+    /* ***** */
+    /* 手机端 */
     {
       path: '/mobile',
       component: () => import('@/components/MobileHome.vue'),
@@ -55,9 +58,15 @@ export default new Router({
           path: '/mobile/prj002',
           name: 'Prj002手机端',
           component: () => import('@/components/prj002/mobile/MobilePrj002.vue'),
+        },
+        {
+          path: '/mobile/prj003',
+          name: 'Prj003手机端',
+          component: () => import('@/components/prj003/mobile/MobilePrj003.vue'),
         }
       ]
     },
+    /* 各项目入口 */
     {
       path: '/prj001',
       component: () => import('@/components/prj001/Prj001.vue'),
@@ -104,18 +113,19 @@ export default new Router({
           iconCls: 'fa fa-address-card',
           leaf: false
         },
+        { path: '/prj002/QRcode',
+          name: '移动端录入',
+          component: () => import('@/components/prj002/pages/QRcode.vue'),
+          iconCls: 'fa fa-qrcode',
+          leaf: false
+        },
         { path: '/prj002/echarts',
           name: '数据分析',
           component: () => import('@/components/prj002/pages/Echarts.vue'),
           iconCls: 'fa fa-bar-chart',
           leaf: false
         },
-        { path: '/prj002/vuex',
-          name: 'Vuex',
-          component: () => import('@/components/prj002/pages/Vuex.vue'),
-          iconCls: 'fa fa-id-card-o',
-          leaf: false
-        }
+
       ]
     },
     {
@@ -131,19 +141,20 @@ export default new Router({
           iconCls: 'fa fa-address-card',
           leaf: false
         },
+        { path: '/prj003/QRcode',
+          name: '移动端录入',
+          component: () => import('@/components/prj003/pages/QRcode.vue'),
+          iconCls: 'fa fa-qrcode',
+          leaf: false
+        },
         { path: '/prj003/echarts',
           name: '数据分析',
           component: () => import('@/components/prj003/pages/Echarts.vue'),
           iconCls: 'fa fa-bar-chart',
           leaf: false
-        },
-        { path: '/prj003/vuex',
-          name: 'Vuex',
-          component: () => import('@/components/prj003/pages/Vuex.vue'),
-          iconCls: 'fa fa-id-card-o',
-          leaf: false
         }
       ]
     },
+    /* ***** */
   ]
 })

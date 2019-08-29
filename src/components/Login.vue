@@ -46,6 +46,7 @@
         </ul>
       </div>
     </el-form>
+    <!-- <div class="bottom-bar">这里</div> -->
     <div class="footer">
               <div class="col-xs-12" style="text-align:center;">
           <div>本项目由<a>中华中医药学会妇科分会发起</a>
@@ -148,7 +149,7 @@ export default {
     border-radius: 5px;
     -moz-border-radius: 5px;
     background-clip: padding-box;
-    margin: 10px auto;
+    margin: 10px auto 0px auto;
     width: 350px;
     padding: 35px 35px 15px 35px;
     background: #fff;
@@ -161,12 +162,25 @@ export default {
       text-align: center;
       color: #505458;
     }
-    .footer {
-      background: #5090C1;
-      border-top: 2px solid #597597;
-    }
+
     .remember {
       margin: 0px 0px 35px 0px;
     }
   }
+  .bottom-bar {
+    -webkit-border-radius: 5px;
+    border-radius: 0px;
+    -moz-border-radius: 5px;
+    background-clip: padding-box;
+    margin: 0px auto;
+    width: 350px;
+    padding: 5px 35px 5px 35px;
+    background: #fff;
+    border: 1px solid #eaeaea;
+    box-shadow: 0 0 25px #cac6c6;
+  }
+  // .footer {
+  //     // background: #5090C1;
+  //     border-top: 2px solid #597597;
+  // }
 </style>

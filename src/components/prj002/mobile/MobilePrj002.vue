@@ -68,7 +68,7 @@ export default {
 
             } else {
               const warnMessage = fields2[Object.keys(fields2)[0]][0].message
-              this.$message({message: warnMessage,type: 'warning',showClose:true})
+              this.$message({message: warnMessage, type: 'warning', showClose:true})
               return false
             }
           })

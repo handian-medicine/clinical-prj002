@@ -1,11 +1,7 @@
 <template>
 
-    <el-form ref="historyForm" :model="historyForm" label-width="95px" label-position="left">
-      <el-alert v-if="is_checked=='审核通过'"
-                title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
-                type="warning" :closable="false" show-icon>
-      </el-alert>
-      <el-divider v-if="is_checked=='审核通过'"></el-divider>
+    <el-form ref="historyForm" :model="historyForm"
+            label-width="auto" label-position="left" class="mobile mobile-history">
 
     <h3>一、既往史</h3>
       <p class="form-label">既往史</p>
@@ -17,12 +13,11 @@
         <el-checkbox v-for="(val, key) in mydata.hobbies" :key="key" :label="val" v-model="historyForm[key]">
         </el-checkbox>
 
-      <el-form-item label="2、体力状况">
+      <p class="form-label">2、体力状况</p>
         <el-radio v-model="historyForm.body_cond"
                   v-for="item in mydata.body_cond"
                   :key="item" :label="item">
         </el-radio>
-      </el-form-item>
       <p class="form-label">3、职业体力活动</p>
         <el-radio v-model="historyForm.career_labor"
                   v-for="item in mydata.career_labor"
@@ -339,19 +334,25 @@ export default {
 
 };
 </script>
-<style scoped lang="scss">
-.el-checkbox {
-  margin-right: 10px
-}
-.el-radio {
-  margin-right: 12px
-}
-.form-label {
-    margin-block-start: 0.5em;
-    color:cornflowerblue;
-    font-weight: 600;
+<style lang="scss">
+.mobile-history {
+  .el-checkbox {
+    margin-right: 10px
   }
-.el-radio, .el-radio__input {
-      white-space:normal
+  .el-radio {
+    margin-right: 12px
   }
+  .form-label {
+      margin-block-start: 0.5em;
+      color:cornflowerblue;
+      font-weight: 600;
+    }
+  .el-radio, .el-radio__input {
+        white-space:normal
+    }
+  .el-form-item__label {
+      line-height: 50px;
+    }
+}
+
 </style>
