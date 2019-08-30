@@ -3,23 +3,27 @@
             :visible.sync="dialogVisible"
             :close-on-click-modal="false"
             width="90%" center>
-    <el-form ref="infoForm" :model="infoForm" label-width="130px" label-position="right">
+    <el-form ref="infoForm" :model="infoForm" :rules="rules" label-width="130px" label-position="right">
       <el-alert v-if="check_status=='审核通过'" effect="dark"
                   title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
                   type="warning" :closable="false" show-icon>
       </el-alert>
+      <el-alert v-if="!isOwnedByUser" effect="dark"
+                  title="此条信息为其他用户创建，您无法修改"
+                  type="warning" :closable="false" show-icon>
+      </el-alert>
       <el-divider></el-divider>
 
-      <el-form-item label="患者姓名">
+      <el-form-item label="患者姓名"  prop="patient_name">
         <el-input v-model="infoForm.patient_name"></el-input>
         <!-- <el-input v-model="infoForm.name"><template slot="prepend">患者姓名</template></el-input> -->
       </el-form-item>
 
-      <el-form-item label="手机号码" >
+      <el-form-item label="手机号码"  prop="patient_phone">
         <el-input v-model="infoForm.patient_phone"></el-input>
       </el-form-item>
 
-      <el-form-item label="就诊日期" >
+      <el-form-item label="就诊日期"  prop="patient_date">
         <!-- format表示显示在页面的日期格式, value-format表示传递给后台的真实的数据格式 -->
         <el-date-picker v-model="infoForm.patient_date"
                         type="date" placeholder="选择日期"
@@ -28,11 +32,11 @@
         </el-date-picker>
       </el-form-item>
 
-      <el-form-item label="就诊医院" >
+      <el-form-item label="就诊医院"  prop="hospital_name">
         <el-input v-model="infoForm.hospital_name"></el-input>
       </el-form-item>
 
-      <el-form-item label="医院所属">
+      <el-form-item label="医院所属"  prop="hospital_belong">
         <el-select v-model="infoForm.hospital_belong" placeholder="请选择">
           <el-option v-for="item in hospital_belongSelection" :key="item" :label="item" :value="item">
           </el-option>
@@ -112,7 +116,7 @@
         <el-input v-model="infoForm.expert_hospital"></el-input>
       </el-form-item>
 
-      <el-form-item label="填表专家电话">
+      <el-form-item label="填表专家电话" prop="expert_phone">
         <el-input v-model="infoForm.expert_phone"></el-input>
       </el-form-item>
 
@@ -154,10 +158,25 @@ export default {
       entranceSelection: ["门诊","学校"],
       cultureSelection:["小学","初中","高中/中专","大专","本科","研究生及以上","未接受国家教育(文盲)"],
       experttitleSelection:["主任医师","副主任医师","主治医师"],
-      specialCheckbox: {"special_gaowen":"高温","special_diwen":"低温","special_yeban":"夜班","special_zao":"噪声","special_fu":"辐射","special_hua":"化工污染","special_ju":"剧烈运动","special_qi":"汽油","special_kong":"高空","environment_shileng":"湿冷","special_wu":"无"},
+      specialCheckbox: {"environment_gaowen":"高温","environment_diwen":"低温","environment_yeban":"夜班","environment_zaosheng":"噪声","environment_fushe":"辐射","environment_huagong":"化工污染","environment_julie":"剧烈运动","environment_qiyou":"汽油","environment_gaokong":"高空","environment_shileng":"湿冷","environment_wu":"无"},
       dietCheckbox:    {"yinshi_wuteshu":"无特殊","yinshi_sushi":"素食","yinshi_suan":"酸","yinshi_tian":"甜","yinshi_xian":"咸","yinshi_xinla":"辛辣","yinshi_you":"油","yinshi_shengleng":"生冷","yinshi_cafei":"含咖啡因食物或饮品"},
+        rules:{
+          patient_name: [
+            {required: true, message: '请输入姓名', trigger: 'blur' }
+          ],
+          patient_phone: [
+            {required: true, pattern: /^1\d{10}$/, message: '请输入11位手机号码',trigger: 'blur'}
+          ],
+          hospital_name:[{required: true, message: '请填写就诊医院名称'}],
+          hospital_belong:[{required: true, message: '请选择就诊医院所属'}],
+          patient_date:   [{required: true, message: '请填写就诊日期'}],
+          expert_phone: [
+            {pattern: /^1\d{10}$/, message: '请输入11位手机号码',trigger: 'blur'}
+          ],
+        },
       exist: true,
       formName:'',
+      isOwnedByUser: true,
       check_status:''
     }
   },
@@ -171,14 +190,16 @@ export default {
     updateInfoForm () {
       apiUpdatePatientDataForm({formData:this.infoForm,formName:this.formName})
       .then((res)=> {
-        this.$message({message: '提交成功',type: 'success'})
+        if (res.data.detail) {
+          this.$message({message: '对不起, 您没有对该记录操作的权限',type: 'error'})
+        } else {
+          this.$message({message: '提交成功',type: 'success'})
+        }
         this.dialogVisible = false
         this.$parent.getPatients()
       })
-      .catch(
-        // this.$message({message: '修改失败',type: 'error'})
-      )
-    }
+      .catch()
+    },
   },
   created() {
       this.$on("openEvent", (data)=>{
@@ -187,6 +208,7 @@ export default {
         this.exist = data.exist
         this.formName = data.formName
         this.check_status = data.check_status
+        this.isOwnedByUser = data.isOwnedByUser
         if (!data.exist) {
           //未创建
           this.infoForm.info = data.formData.info

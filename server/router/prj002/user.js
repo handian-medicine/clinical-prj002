@@ -121,6 +121,7 @@ router.get('/form', function(req, res, next) {
     }
     request.get(options, function (error, response, body) {
       var patientForm = JSON.parse(body)
+      console.log("get得到的form", patientForm)
       res.send(patientForm)
     })
 })
@@ -133,20 +134,23 @@ router.post('/form', function(req, res, next) {
     headers: {'Authorization': 'Bearer ' + req.cookies.prj002token.access_token}
   }
   request.post(options, function (error, response, body) {
-    // console.log(response)
-    res.send({msg:'ok'})
+    console.log("创建后服务器返回的数据",body)
+    var bodyParser = JSON.parse(body)
+    res.send({msg:'ok',detail:bodyParser.detail})
   })
 })
 // 修改
 router.patch('/form', function(req, res, next) {
-  console.log('user.js PATCH修改Form ')
+  console.log('user.js PATCH修改Form ',req.body.formData)
   var options = {
     url: req.body.formData.url,
     form: req.body.formData,
     headers: {'Authorization': 'Bearer ' + req.cookies.prj002token.access_token}
   }
     request.patch(options, function (error, response, body) {
-      res.send({msg:'ok'})
+      console.log("修改后服务器返回的数据body",body)
+      var bodyParser = JSON.parse(body)
+      res.send({msg:'ok',detail:bodyParser.detail})
     })
 })
 

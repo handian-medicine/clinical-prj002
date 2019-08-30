@@ -95,8 +95,8 @@ export default {
       showLogin:true,
       logining: false,
       loginForm: {
-        email: '',
-        password: ''
+        email: 'audit01@handian.com',
+        password: 'asdf1234'
       },
       resetForm: {
         email: '',

@@ -48,7 +48,7 @@ export default {
     data () {
       return {
         hospital_belongSelection: ["省级医院","市级医院","区/县级医院"],
-        patientInfo: {patient_name:'测试用', patient_phone:'13110983476', hospital_name:'汉典医院',hospital_belong:'省级医院', patient_date:'2019-08-08', career:'个体'},
+        patientInfo: {},
         // patientInfo: {name:'', phone:'', hospital:'', birth:'', career:''},
 
         dialogVisible: false,

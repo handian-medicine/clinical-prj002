@@ -8,6 +8,11 @@
                   title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
                   type="warning" :closable="false" show-icon>
       </el-alert>
+      <p></p>
+      <el-alert v-if="!isOwnedByUser" effect="dark"
+                  title="此条信息为其他用户创建，您无法修改"
+                  type="warning" :closable="false" show-icon>
+      </el-alert>
       <el-divider></el-divider>
 
       <h3>一、主症</h3>
@@ -223,6 +228,7 @@ export default {
       dialogVisible: false,
       exist: true,
       formName:'',
+      isOwnedByUser: true,
       check_status:''
     }
   },
@@ -231,24 +237,29 @@ export default {
       apiUpdatePatientDataForm({formData:this.summaryForm,formName:this.formName})
       .then((res)=> {
         this.resetDialog()
-        this.$message({message: '提交成功',type: 'success'})
+        if (res.data.detail) {
+          this.$message({message: '对不起, 您没有对该记录操作的权限',type: 'error'})
+        } else {
+          this.$message({message: '提交成功',type: 'success'})
+        }
         this.dialogVisible = false
         this.$parent.getPatients()
       })
-      .catch(
-        // this.$message({message: '修改失败',type: 'error'})
-      )
+      .catch()
     },
     createSummaryForm () {
       apiCreatePatientDataForm({formData:this.summaryForm,formName:this.formName})
       .then((res)=> {
         this.resetDialog()
-        this.$message({message: '提交成功',type: 'success'})
+        if (res.data.detail) {
+          this.$message({message: '对不起, 您没有对该记录操作的权限',type: 'error'})
+        } else {
+          this.$message({message: '提交成功',type: 'success'})
+        }
         this.dialogVisible = false
         this.$parent.getPatients()
       })
-      .catch(
-      )
+      .catch()
     },
     resetDialog () {
       // 清空
@@ -261,6 +272,7 @@ export default {
       this.exist = data.exist
       this.formName = data.formName
       this.check_status = data.check_status
+      this.isOwnedByUser = data.isOwnedByUser
       //如果summaryForm未创建,需要从infoForm取到url;如果summaryForm已创建,summaryForm都会被传入的summaryForm覆盖
       if (!data.exist) {
         //未创建,summaryForm的info接受data.url的值,其余字段初始化为空

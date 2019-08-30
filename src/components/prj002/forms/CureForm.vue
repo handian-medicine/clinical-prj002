@@ -8,6 +8,11 @@
                   title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
                   type="warning" :closable="false" show-icon>
       </el-alert>
+      <p></p>
+      <el-alert v-if="!isOwnedByUser" effect="dark"
+                  title="此条信息为其他用户创建，您无法修改"
+                  type="warning" :closable="false" show-icon>
+      </el-alert>
       <el-divider></el-divider>
 
       <el-form-item label="中西医结合治疗">
@@ -81,7 +86,7 @@
 
     <span slot="footer">
       <el-button :disabled="check_status=='审核通过'" type="primary" v-if="exist"  @click="updateCureForm">确定</el-button>
-      <el-button type="primary" v-else  @click="createCureForm">确定</el-button>
+      <el-button :disabled="check_status=='审核通过'" type="primary" v-else  @click="createCureForm">确定</el-button>
       <el-button @click="dialogVisible=false">取消</el-button>
     </span>
 
@@ -161,7 +166,8 @@ export default {
       dialogVisible: false,
       exist: true,
       formName:'',
-      check_status:''
+      check_status:'',
+      isOwnedByUser: true,
     }
   },
   methods: {
@@ -169,23 +175,29 @@ export default {
       apiUpdatePatientDataForm({formData:this.cureForm,formName:this.formName})
       .then((res)=> {
         this.resetDialog()
-        this.$message({message: '提交成功',type: 'success'})
+        if (res.data.detail) {
+          this.$message({message: '对不起, 您没有对该记录操作的权限',type: 'error'})
+        } else {
+          this.$message({message: '提交成功',type: 'success'})
+        }
         this.dialogVisible = false
         this.$parent.getPatients()
       })
-      .catch(
-      )
+      .catch()
     },
     createCureForm () {
       apiCreatePatientDataForm({formData:this.cureForm,formName:this.formName})
       .then((res)=> {
         this.resetDialog()
-        this.$message({message: '提交成功',type: 'success'})
+        if (res.data.detail) {
+          this.$message({message: '对不起, 您没有对该记录操作的权限',type: 'error'})
+        } else {
+          this.$message({message: '提交成功',type: 'success'})
+        }
         this.dialogVisible = false
         this.$parent.getPatients()
       })
-      .catch(
-      )
+      .catch()
     },
     resetDialog () {
       this.cureForm = {}
@@ -197,6 +209,8 @@ export default {
       this.exist = data.exist
       this.formName = data.formName
       this.check_status = data.check_status
+      this.isOwnedByUser = data.isOwnedByUser
+      console.log("传进来了",data.isOwnedByUser)
       if (!data.exist) {
         //未创建
         this.cureForm.info = data.formData.info

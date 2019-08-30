@@ -134,8 +134,9 @@ router.post('/form', function(req, res, next) {
     headers: {'Authorization': 'Bearer ' + req.cookies.prj003token.access_token}
   }
   request.post(options, function (error, response, body) {
-    // console.log(response)
-    res.send({msg:'ok'})
+    console.log("创建后服务器返回的数据",body)
+    var bodyParser = JSON.parse(body)
+    res.send({msg:'ok',detail:bodyParser.detail})
   })
 })
 // 修改
@@ -148,7 +149,9 @@ router.patch('/form', function(req, res, next) {
     headers: {'Authorization': 'Bearer ' + req.cookies.prj003token.access_token}
   }
     request.patch(options, function (error, response, body) {
-      res.send({msg:'ok'})
+      console.log("创建后服务器返回的数据",body)
+      var bodyParser = JSON.parse(body)
+      res.send({msg:'ok',detail:bodyParser.detail})
     })
 })
 

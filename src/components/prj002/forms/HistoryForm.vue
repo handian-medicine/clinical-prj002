@@ -8,7 +8,11 @@
                   title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
                   type="warning" :closable="false" show-icon>
       </el-alert>
-
+      <p></p>
+      <el-alert v-if="!isOwnedByUser" effect="dark"
+                  title="此条信息为其他用户创建，您无法修改"
+                  type="warning" :closable="false" show-icon>
+      </el-alert>
       <el-divider></el-divider>
 
       <el-form-item label="月经初潮年龄">
@@ -207,31 +211,38 @@ export default {
       dialogVisible: false,
       exist: true,
       formName:'',
+      isOwnedByUser: true,
       check_status:''
     }
   },
   methods: {
     updateHistoryForm () {
-      apiUpdatePatientDataForm({formData:this.historyForm, formName:this.formName})
+      apiUpdatePatientDataForm({formData:this.historyForm,formName:this.formName})
       .then((res)=> {
         this.resetDialog()
-        this.$message({message: '提交成功',type: 'success'})
+        if (res.data.detail) {
+          this.$message({message: '对不起, 您没有对该记录操作的权限',type: 'error'})
+        } else {
+          this.$message({message: '提交成功',type: 'success'})
+        }
         this.dialogVisible = false
         this.$parent.getPatients()
       })
-      .catch(
-      )
+      .catch()
     },
     createHistoryForm () {
       apiCreatePatientDataForm({formData:this.historyForm,formName:this.formName})
       .then((res)=> {
         this.resetDialog()
-        this.$message({message: '提交成功',type: 'success'})
+        if (res.data.detail) {
+          this.$message({message: '对不起, 您没有对该记录操作的权限',type: 'error'})
+        } else {
+          this.$message({message: '提交成功',type: 'success'})
+        }
         this.dialogVisible = false
         this.$parent.getPatients()
       })
-      .catch(
-      )
+      .catch()
     },
     resetDialog () {
       this.historyForm = {}
@@ -243,6 +254,7 @@ export default {
       this.exist = data.exist
       this.formName = data.formName
       this.check_status = data.check_status
+      this.isOwnedByUser = data.isOwnedByUser
       if (!data.exist) {
         //未创建
         this.historyForm.info = data.formData.info

@@ -49,10 +49,8 @@
       </el-table-column>
       <el-table-column prop="address" label="住址" width="150">
       </el-table-column>
-      <el-table-column prop="expert" label="专家" width="80">
+      <el-table-column prop="owner_name" label="录入人" width="80">
       </el-table-column>
-      <!-- <el-table-column prop="owner" label="录入人" width="80">
-      </el-table-column> -->
       <el-table-column prop="degree_of_completion" label="信息完整度" width="90">
         <template v-slot="scope">
           <el-progress type="circle"
@@ -85,7 +83,7 @@
                     @click="checkPatient(scope.$index, scope.row)" icon="el-icon-view" circle>
                     </el-button>
           <el-button v-show="scope.row.check_status!='审核通过'" icon="el-icon-delete" circle
-                      type="danger" size="mini" style="margin-left:8px" 
+                      type="danger" size="mini" style="margin-left:8px"
                       @click="delPatient(scope.$index, scope.row)"></el-button>
         </template>
       </el-table-column>
@@ -129,10 +127,11 @@
 <script>
 // import util from '@/common/js/util'
 // axios请求,向express做请求
-import {apiGetPatientsList, apiSearchPatient, apiGetPatientDataForm, apiExportFile} from '@/api/api-prj002'
+import {apiGetPatientsList, apiSearchPatient, apiGetPatientDataForm, apiExportFile,apiRemovePatient} from '@/api/api-prj002'
 // 批量导入子组件
 import {AddPatient, CheckPatient} from '@/components/prj002/forms'
 import {InfoForm,SummaryForm,HistoryForm,ExperimentForm,BxrayForm,ClinicalForm,CureForm} from '@/components/prj002/forms'
+import { userInfo } from 'os';
 export default {
   name:'Table',
   components:{AddPatient,CheckPatient,InfoForm,SummaryForm,HistoryForm,ExperimentForm,BxrayForm,ClinicalForm,CureForm},
@@ -233,13 +232,16 @@ export default {
 
     //核心的Form表单
     openDataForm (index, row, formName) {
+      var userinfo = JSON.parse(sessionStorage.getItem('userinfo'))
+      var isOwnedByUser = (userinfo.id == row.owner_id)
+      console.log('isOwnedByUser',isOwnedByUser)
       console.log('formName',formName)
       // 如果DataForm表未创建,不需要请求后端,直接显示空表
       if (row[formName] == null) {
         console.log('创建流程',formName)
         // 传一个创建此DataForm的url进去,这个url是info的url
         this.$refs[formName].$emit("openEvent",
-        {exist:false, formData:{info:row.info}, formName:formName } )
+        {exist:false,isOwnedByUser:isOwnedByUser,formData:{info:row.info}, formName:formName, check_status:row.check_status } )
       } else {
       // 如果DataForm表已创建,需要请求后端,拿到数据
         console.log('修改流程',formName)
@@ -250,12 +252,27 @@ export default {
         .then((res)=> {
           console.log('拿到的已创建的DataForm表',res.data)
           this.$refs[formName].$emit("openEvent",
-          {exist:true, formData:res.data, formName:formName, check_status:row.check_status})
+          {exist:true, isOwnedByUser:isOwnedByUser, formData:res.data, formName:formName, check_status:row.check_status})
         })
         .catch()
       }
     },
-
+    delPatient: function (index, row) {
+      this.$confirm('此操作将永久删除该条记录, 是否继续', '提示', {type: 'warning',center: true})
+      .then(() => {
+        this.listLoading = true
+        let para = { url: row.url }
+        apiRemovePatient(para).then((res) => {
+          this.listLoading = false
+          if (res.data.msg) {
+            this.$message({message: '您没有执行该操作的权限', type: 'error'})
+          } else {
+            this.$message({message: '删除成功', type: 'success'})
+          }
+          this.getPatients()
+        })
+      }).catch()
+    },
   },
   mounted () {
     this.getPatients()
