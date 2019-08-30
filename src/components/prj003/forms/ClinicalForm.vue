@@ -54,11 +54,6 @@ export default {
       shizheng:["寒凝血瘀证","气滞血瘀证","湿热瘀阻证","肝郁化火证"],
       xuzheng:["肾虚证","肾气亏虚证","肝肾亏损证","阳虚内寒证","气血虚弱证"],
       clinicalForm: {
-        "zhong_bijing":'', "zhong_buyun":'', "zhong_zhengjia":'', "zhong_benglou":'', "zhong_shitiao":'', "zhong_qita":'',
-        "xu_piqixu":'', "xu_piyangxu":'', "xu_shenqixu":'', "xu_shenyinxu":'', "xu_shenyangxu":'', "xu_xuexu":'', "xu_yinxuneire":'', "xu_qita":'',
-        "shi_shire":'', "shi_qizhi":'', "shi_yure":'', "shi_qizhixueyu":'', "shi_tanshi":'', "shi_xueyu":'', "shi_hujie":'', "shi_qita":'',
-        "xushi_pixutanshi":'', "xushi_shenxuganyu":'', "xushi_shenxutanshi":'', "xushi_shenxuxueyu":'', "xushi_shenxuneire":'', "xushi_qita":'',
-        "xiyi_duonang":'', "xiyi_qita":'',
       },
       dialogVisible: false,
       exist: true,

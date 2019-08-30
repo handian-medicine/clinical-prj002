@@ -72,7 +72,7 @@
             <el-input v-model="cureForm.shoushu_juti" v-show="cureForm.shoushu" placeholder="具体手术方式"></el-input>
           </el-form-item>
           <el-form-item label="其他治疗">
-            <el-input v-model="cureForm.gaoxiong_juti"></el-input>
+            <el-input v-model="cureForm.cure_qita"></el-input>
           </el-form-item>
         </div>
 

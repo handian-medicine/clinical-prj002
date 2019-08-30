@@ -178,19 +178,19 @@
 
       <h3>（八）家族史</h3>
         <el-form-item label="一级亲属（母亲、姐妹、女儿）痛经史" label-width="300px">
-          <el-radio v-model="historyForm.family_history"
+          <el-radio v-model="historyForm.family_history" @change="changeHandler"
                     v-for="item in mydata.family_history"
                     :key="item" :label="item">
           </el-radio>
           <el-input v-model="historyForm.family_history_qita" ></el-input>
         </el-form-item>
-        <el-form-item label="是否为原发性"  label-width="300px">
+        <el-form-item v-show="is_family_history" label="是否为原发性"  label-width="300px">
           <el-radio v-model="historyForm.family_history_is_origin"
                     v-for="item in mydata.family_history_is_origin"
                     :key="item" :label="item">
           </el-radio>
         </el-form-item>
-        <el-form-item label="一级亲属（父母、兄弟姐妹、子女）其他疾病史" label-width="400px">
+        <el-form-item label="一级亲属（父母、兄弟姐妹、子女）其他疾病史" label-width="300px">
           <el-radio v-model="historyForm.relative_history"
                     v-for="item in mydata.relative_history"
                     :key="item" :label="item">
@@ -246,26 +246,8 @@ export default {
         family_history_is_origin:["是","否","不详"],
         relative_history:["无","有","不详"],
       },
+      is_family_history:false,
       historyForm:{
-        first_time:'', first_time_qita:'',            //月经初潮年龄
-        is_normal:true, normal:'', abnormal:'',       //月经周期
-        cyclicity_sum:'', cyclicity_sum_qita:'',      //行经天数
-        blood_cond:'', blood_cond_qita:'',            //总出血量
-        blood_color:'', blood_color_qita:'',          //出血颜色
-        blood_quality:'', blood_block:'',             //出血质地
-        blood_character:'',                           //出血特点
-        menstruation_is_accompany:'',                 //经期伴随症状
-        last_time:'',                                 //末次行经日期
-        leucorrhea_quantity:'',                       //平素带下情况
-        leucorrhea_color:'', leucorrhea_color_qita:'',//平素带下情况
-        leucorrhea_feature:'',                        //平素带下情况
-        marriage:'',                                  //婚姻史
-        //孕产史
-        pastpreg_yuncount:'', pastpreg_shunchan:'', pastpreg_pougong:'', pastpreg_zaochan:'', pastpreg_yaoliu:'', pastpreg_renliu:'', pastpreg_ziranliu:'', pastpreg_yiweirenshen:'', pastpreg_qinggongshu:'', pastpreg_qita:'',
-        //避孕措施
-        prevent_wu:'', prevent_jieza:'', prevent_jieyuqi:'', prevent_biyuntao:'', prevent_biyunyao:'',
-        //家族史
-        is_pastfamily_womb:'', pastfamily_minus:'', pastfamily_plus:'', pastfamily_duonangluanchao:'', pastfamily_tangniaobing:'', pastfamily_buxiang:'', pastfamily_qita:''
       },
       dialogVisible: false,
       exist: true,
@@ -274,6 +256,15 @@ export default {
     }
   },
   methods: {
+    changeHandler(value) {
+      if(value == "无"){
+        this.is_family_history=false
+      }else if(value == "有"){
+        this.is_family_history=true
+      }else if(value == "不详"){
+        this.is_family_history=false
+      }
+    },
     updateHistoryForm () {
       apiUpdatePatientDataForm({formData:this.historyForm, formName:this.formName})
       .then((res)=> {
@@ -312,6 +303,13 @@ export default {
       } else {
         //已创建(修改)
         this.historyForm = data.formData
+        if(this.historyForm.family_history == "无"){
+          this.is_family_history=false
+        }else if(this.historyForm.family_history == "有"){
+          this.is_family_history=true
+        }else if(this.historyForm.family_history == "不详"){
+          this.is_family_history=false
+        }
       }
     })
   }

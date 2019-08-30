@@ -138,7 +138,7 @@
       </el-form-item>
       <el-form-item label="晕厥" >
         <el-switch v-model="summaryForm.is_yunjue" active-text="是" inactive-text="否"></el-switch>
-        <el-form-item label="晕厥频次">
+        <el-form-item v-show="summaryForm.is_yunjue" label="晕厥频次">
            <el-radio-group v-model="summaryForm.is_yunjue_level">
              <el-radio label="偶尔"></el-radio>
              <el-radio label="经常"></el-radio>
