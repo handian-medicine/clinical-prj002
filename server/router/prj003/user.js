@@ -27,16 +27,14 @@ router.post('/search', function (req, res, next) {
 // 导出搜索结果
 router.post('/export', function (req, res, next) {
   const options = {
-    url: myConst.apiurl + "/prj003/info/search/",
-    form: req.body.search,
-    qs: {page:req.body.page},
-    headers: {'Authorization': 'Bearer ' + req.cookies.prj001token.access_token}
+    url: myConst.apiurl + "/prj003/fileout/",
+    headers: {'Authorization': 'Bearer ' + req.cookies.prj003token.access_token}
   }
     console.log("导出option", options)
-  request.post(options, function (error, response, body) {
+  request.get(options, function (error, response, body) {
     var bodyParse = JSON.parse(body)
     console.log("导出文件返回结果", bodyParse)
-    res.send({path:bodyParse.path});
+    res.send({path:bodyParse.url});
   })
 })
 // 添加患者信息

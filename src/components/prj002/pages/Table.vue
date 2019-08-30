@@ -160,13 +160,8 @@ export default {
   methods: {
     // 导出文件
     exportFile () {
-      console.log('搜索字段',this.search)
-      let para = {
-        page: this.search_page,
-        search:this.search
-      }
       this.pagination_flag = false
-      apiExportFile(para).then( (res) => {
+      apiExportFile( ).then( (res) => {
         console.log('导出路径',res.data.path)
         window.location.href = "http://" + res.data.path
       })

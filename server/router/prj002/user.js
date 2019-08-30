@@ -28,7 +28,6 @@ router.post('/search', function (req, res, next) {
 router.post('/export', function (req, res, next) {
   const options = {
     url: myConst.apiurl + "/prj002/fileout/",
-    // qs: {page:req.body.page, search:req.body.name},
     headers: {'Authorization': 'Bearer ' + req.cookies.prj002token.access_token}
   }
   console.log("导出option", options)
