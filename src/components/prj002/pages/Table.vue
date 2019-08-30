@@ -127,7 +127,7 @@
 </template>
 
 <script>
-import util from '@/common/js/util'
+// import util from '@/common/js/util'
 // axios请求,向express做请求
 import {apiGetPatientsList, apiSearchPatient, apiGetPatientDataForm, apiExportFile} from '@/api/api-prj002'
 // 批量导入子组件
