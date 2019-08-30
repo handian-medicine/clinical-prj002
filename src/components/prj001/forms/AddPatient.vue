@@ -90,23 +90,38 @@ export default {
             cultureSelection: ["未接受国家教育","小学及以下","初中","高中","大专","本科","研究生及以上"],
         },
         dialogVisible: false,
+        // patientInfo: {
+        //     'owner':'',
+        //     'hospital':'汉典医院',
+        //     'expert':'专家',
+        //     'title':'主任医师',
+        //     'name':'测试用',
+        //     'telephone':'13519871654',
+        //     'address':'上海浦东',
+        //     'entrance':'门诊',
+        //     'nation':'汉族',
+        //     'career':'学生',
+        //     'culture':'大专',
+        //     'birth_year':'',
+        //     'birth_month':'',
+        //     'birth': '2000-01'
+        // },
         patientInfo: {
-            'owner':'',//874174345@qq.com
-            'hospital':'汉典医院',
-            'expert':'专家',
-            'title':'主任医师',
-            'name':'测试用',
-            'telephone':'13519871654',
-            'address':'上海浦东',
-            'entrance':'门诊',
-            'nation':'汉族',
-            'career':'学生',
-            'culture':'大专',
+            'owner':'',
+            'hospital':'',
+            'expert':'',
+            'title':'',
+            'name':'',
+            'telephone':'',
+            'address':'',
+            'entrance':'',
+            'nation':'',
+            'career':'',
+            'culture':'',
             'birth_year':'',
             'birth_month':'',
-            'birth': '2000-01'
+            'birth': ''
         },
-
         rules:{
           name: [
             {required: true, message: '请输入姓名', trigger: 'blur' }

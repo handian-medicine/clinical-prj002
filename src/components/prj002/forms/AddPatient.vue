@@ -47,8 +47,8 @@ export default {
     name:'AddPatient',
     data () {
       return {
-        patientInfo: {name:'测试用', phone:'13110983476', hospital:'汉典医院', birth:'1980-09', career:'个体'},
-        // patientInfo: {name:'', phone:'', hospital:'', birth:'', career:''},
+        // patientInfo: {name:'测试用', phone:'13110983476', hospital:'汉典医院', birth:'1980-09', career:'个体'},
+        patientInfo: {name:'', phone:'', hospital:'', birth:'', career:''},
         careerSelection: ["学生","个体","农民","军人","工人","财会人员","技术人员","服务业","科教文卫","行政管理","无业","其它"],
         dialogVisible: false,
         rules:{

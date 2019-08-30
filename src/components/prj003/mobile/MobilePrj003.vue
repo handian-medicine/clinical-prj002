@@ -14,7 +14,7 @@
       <RelevantForm ref="relevant"></RelevantForm>
     </el-tab-pane>
     <el-tab-pane label="临床诊断">
-      <CcForm ref="cc"></CcForm>
+      <ClinicalForm ref="clinical"></ClinicalForm>
     </el-tab-pane>
     <el-tab-pane label="中西治疗">
       <CureForm ref="cure"></CureForm>
@@ -32,50 +32,44 @@
 </template>
 
 <script>
-import {InfoForm,SummaryForm,HistoryForm,RelevantForm,CcForm,CureForm,ResultsForm} from '@/components/prj001/mobile'
-import { apiMobileForm,apiMobileLogin } from '@/api/api-prj001'
+import {InfoForm,SummaryForm,HistoryForm,RelevantForm,ClinicalForm,CureForm,ResultsForm} from '@/components/prj003/mobile'
+import { apiMobileForm,apiMobileLogin } from '@/api/api-prj003'
 
 export default {
-  name:'MobilePrj001',
-  components:{InfoForm,SummaryForm,HistoryForm,RelevantForm,CcForm,CureForm,ResultsForm},
+  name:'MobilePrj003',
+  components:{InfoForm,SummaryForm,HistoryForm,RelevantForm,ClinicalForm,CureForm,ResultsForm},
   computed: {
 
   },
   methods: {
     submit () {
-      /* 遗留问题,要把出生年月拆分成两个字段 */
-      const str = this.$refs.info.$data.infoForm.birth
-      const year_month = str.split("-")
-      this.$refs.info.$data.infoForm.birth_year = year_month[0]
-      this.$refs.info.$data.infoForm.birth_month = year_month[1]
       /* **************************** */
       // 汇总所有信息表
       const data = {
         "info":this.$refs.info.$data.infoForm,
         "summary":this.$refs.summary.$data.summaryForm,
+        "history":this.$refs.history.$data.historyForm,
+        "relevant":this.$refs.relevant.$data.relevantForm,
+        "clinical":this.$refs.clinical.$data.clinicalForm,
+        "cure":this.$refs.cure.$data.cureForm,
+        "results":this.$refs.results.$data.resultsForm,
       }
+      //console.log("mobile submit prj003")
+      //console.log(JSON.stringify(data.info))
       this.$refs.info.$refs.infoForm.validate( (valid1, fields1) => {
         // 提示第一条错误信息
+        //console.log("valid1 = " + valid1)
         if (valid1) {
-
-          this.$refs.summary.$refs.summaryForm.validate( (valid2, fields2) => {
-            if (valid2) {
-              apiMobileForm({data:data})
-              .then((res)=> {
-                if (res.data.status == 200) {
-                  this.$message({message: '提交成功',type: 'success'})
-                } else if (res.data.status == 400) {
-                  console.log(res.data.msg)
-                  this.$message({message: '提交失败 ' + res.data.msg, type: 'error'})
-                }
-              }).catch()
-            } else {
-              const warnMessage = fields2[Object.keys(fields2)[0]][0].message
-              this.$message({message: warnMessage,type: 'warning',showClose:true})
-              return false
+          apiMobileForm({data:data})
+          .then((res)=> {
+            if (res.data.status == 200) {
+              this.$message({message: '提交成功',type: 'success'})
+              this.$router.push({path:'/login'})
+            } else if (res.data.status == 400) {
+              console.log(res.data.msg)
+              this.$message({message: '提交失败 ' + res.data.msg, type: 'error'})
             }
-          })
-
+          }).catch()
         } else {
           const warnMessage = fields1[Object.keys(fields1)[0]][0].message
           this.$message({message: warnMessage,type: 'warning',showClose:true})

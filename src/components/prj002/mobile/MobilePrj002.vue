@@ -60,6 +60,7 @@ export default {
               .then((res)=> {
                 if (res.data.status == 200) {
                   this.$message({message: '提交成功',type: 'success'})
+                  this.$router.push({path:'/login'})
                 } else if (res.data.status == 400) {
                   console.log(res.data.msg)
                   this.$message({message: '提交失败 ' + res.data.msg, type: 'error'})

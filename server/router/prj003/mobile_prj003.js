@@ -40,7 +40,7 @@ router.post('/login', function (req, res, next) {
 router.post('/', function (req, res, next) {
     var form_data = req.body;
     var options = {
-        body: form_data,
+        body: form_data.data,
         url: myconst.apiurl + "/prj003/mobile/",
         json: true,
         headers: {

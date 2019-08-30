@@ -4,9 +4,9 @@
       <i class="fa fa-envira" style="color:green"></i>
       中医妇科临床流调数据中心
     </h1>
-    <hr class="my-hr">
+    <hr class="my-hr" :style="{ background: (showLogin?'#409EFF':'#C16050')}">
     <el-form :model="loginForm" :rules="rules" ref="loginForm" label-position="left" label-width="0px"
-            class="login-container">
+            v-show="showLogin" class="login-container">
       <h2 class="title">系统登录</h2>
       <el-form-item prop="email">
         <el-input type="text" v-model="loginForm.email" auto-complete="off" placeholder="账号" suffix-icon="fa fa-user"></el-input>
@@ -46,28 +46,61 @@
         </ul>
       </div>
     </el-form>
-    <!-- <div class="bottom-bar">这里</div> -->
-    <div class="footer">
-              <div class="col-xs-12" style="text-align:center;">
-          <div>本项目由<a>中华中医药学会妇科分会发起</a>
-              <a href="http://www.hantien.com.cn">北京汉典制药有限公司</a>
-          <sup>®</sup>
-          支持
+
+    <!-- <transition name="fade"> -->
+        <el-form :model="resetForm" :rules="rules" ref="resetForm" label-position="left" label-width="0px"
+                v-show="!showLogin" class="login-container">
+          <h2 class="title" style="color:#C16050">找回密码</h2>
+          请输入您的邮箱，系统会向该邮箱发送验证信息
+          <p></p>
+          <el-form-item prop="email">
+            <el-input type="text" v-model="resetForm.email" auto-complete="off" placeholder="账号" suffix-icon="fa fa-envelope"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" style="width:100%;background:#C16050;border:1px solid #C16050;" @click="handleSubmit2">发送
+            </el-button>
+          </el-form-item>
+        </el-form>
+    <!-- </transition> -->
+
+    <div class="bottom-bar" :style="{ background: (showLogin?'#409EFF':'#C16050')}">
+      <el-row>
+        <el-col :span="12">
+          <div class="left">
+            <el-button type="text" @click="showLogin=!showLogin">
+              <i class="fa fa-long-arrow-left"></i>{{showLogin ? '忘记密码':'返回登录'}}</el-button>
           </div>
-      </div>
-      </div>
+        </el-col>
+        <el-col :span="12">
+          <div class="right">
+            <el-button type="text">系统帮助<i class="fa fa-long-arrow-right"></i></el-button>
+          </div>
+        </el-col>
+      </el-row>
+    </div>
+
+    <br>
+    <div style="text-align:center;font-size:16px">
+      本项目由中华中医药学会妇科分会发起，<a href="http://www.hantien.com.cn">北京汉典制药有限公司</a>
+      <sup>®</sup>支持
+    </div>
   </div>
 </template>
 
 <script>
-import { apiLogin,apiHome } from '@/api/api-common'
+import { apiLogin,apiHome,apiSendEmail } from '@/api/api-common'
 export default {
   data () {
     return {
+      showLogin:true,
       logining: false,
       loginForm: {
-        email: 'audit01@handian.com',
-        password: 'asdf1234'
+        email: '',
+        password: ''
+      },
+      resetForm: {
+        email: '',
+        password: ''
       },
       rules: {
         email: [
@@ -109,13 +142,32 @@ export default {
           return false
         }
       })
+    },
+    handleSubmit2 (ev) {
+      this.$refs.resetForm.validate((valid) => {
+        if (valid) {
+          var params = { email: this.resetForm.email}
+          apiSendEmail(params).then(res => {
+            console.log("数据",res.msg)
+            if (res.msg) {
+              this.$message({message: res.msg,type: 'success',showClose:true})
+            } else {
+              this.$message({message: res.error,type: 'error', showClose:true})
+            }
+          })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
     }
-  }
 }
-
+}
 </script>
 
 <style lang="scss" scoped>
+$color-login: #409EFF;
+$color-reset: #C16050;
   .main-title {
     text-align: center;
     margin: 10px auto;
@@ -127,7 +179,8 @@ export default {
     color:black
   }
   .my-hr {
-    width: 400px; height: 2px; border: none; background-color: #4f90c1;
+    width: 400px; height: 2px; border: none;
+    background: $color-login;
     margin-bottom: 20px
   }
   .my-font {
@@ -160,7 +213,7 @@ export default {
       margin: 0px auto 20px auto;
       font-weight: lighter;
       text-align: center;
-      color: #505458;
+      color: $color-login;
     }
 
     .remember {
@@ -178,9 +231,21 @@ export default {
     background: #fff;
     border: 1px solid #eaeaea;
     box-shadow: 0 0 25px #cac6c6;
+    background:$color-login;
+    .el-button--text {
+      color:white;
+      padding-block-start:0px;
+      padding-block-end:0px;
+    }
+    .left {
+      text-align:left;
+    }
+    .right {
+      text-align:right;
+    }
   }
-  // .footer {
-  //     // background: #5090C1;
-  //     border-top: 2px solid #597597;
-  // }
+.el-button--btn-send {
+    background:#C16050;
+    border:1px solid #C16050
+}
 </style>

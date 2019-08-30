@@ -312,9 +312,10 @@ export default {
   border:1px solid #d7d1c9
 }
 .el-button--myinfo {
-background:red;
-border:1px solid red;
+  background:red;
+  border:1px solid red;
 }
+
 .el-tag.el-tag--danger {
   cursor: pointer;
 }

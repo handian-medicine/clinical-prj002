@@ -52,4 +52,17 @@ router.post('/',function (req, res, next) {
 
 })
 
+//找回密码
+router.post('/sendemail', function (req, res, next) {
+    var options = {
+          url: myConst.apiurl + "/users/sendemail/",
+          form: {"email": req.body.email},
+        }
+    console.log("密码重置options",options);
+    request.post(options, function (error, response, body) {
+        var verify_data = JSON.parse(body);
+        console.log("if,verify_data",verify_data);
+        res.json({msg:verify_data.msg, error:verify_data.non_field_errors[0]});
+    })
+})
 module.exports = router;

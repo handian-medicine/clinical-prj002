@@ -1,7 +1,7 @@
 <template>
 
     <el-form ref="historyForm" :model="historyForm"
-            label-width="auto" label-position="left" class="mobile mobile-history">
+            label-width="100px" label-position="left" class="mobile mobile-history">
 
     <h3>一、既往史</h3>
       <p class="form-label">既往史</p>
