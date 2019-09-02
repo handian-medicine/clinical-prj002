@@ -34,16 +34,25 @@
       </el-form>
     </el-col>
 
+    <!-- <el-button type="btn-info" size="small" @click.native="expands">一般情况</el-button> -->
+
     <!--主要内容 列表-->
-    <el-table :data="patientsList" highlight-current-row v-loading="listLoading"
-              style="width: 100%;" height="500"><!--height固定表头-->
+              <!-- :row-key="getRowKeys"
+              :expand-row-keys="expands"
+              @row-click='rowClick' -->
+    <el-table :data="patientsList"
+              highlight-current-row v-loading="listLoading"
+              style="width: 100%;" height="500"
+              ><!--height固定表头-->
       <!-- <el-table-column type="selection" width="55">
       </el-table-column> -->
       <el-table-column type="index" width="40">
+      <!-- <el-table-column type="index" width="40" fixed="left"> -->
       </el-table-column>
-      <el-table-column prop="name" label="姓名" width="90" sortable>
+      <el-table-column prop="name" label="姓名" width="90">
+      <!-- <el-table-column prop="name" label="姓名" width="90" fixed="left"> -->
       </el-table-column>
-      <el-table-column prop="serial" label="编码" width="120" sortable>
+      <el-table-column prop="serial" label="编码" width="120">
       </el-table-column>
       <el-table-column prop="hospital" label="医院" width="150">
       </el-table-column>
@@ -68,7 +77,11 @@
                   {{scope.row.check_status}}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="数据修改" width="640">
+      <el-table-column label="数据修改" width="650">
+      <!-- <el-table-column label="数据修改" type="expand" width="100"> -->
+        <!-- <template slot="header" slot-scope="scope">
+          <el-tag>数据修改</el-tag>
+        </template> -->
         <template v-slot="scope">
           <el-button-group>
           <el-button type="btn-info" size="small" @click="openDataForm(scope.$index, scope.row, 'info')">一般情况</el-button>
@@ -137,6 +150,7 @@ export default {
   components:{AddPatient,CheckPatient,InfoForm,SummaryForm,HistoryForm,ExperimentForm,BxrayForm,ClinicalForm,CureForm},
   data () {
     return {
+      expands:[],
       is_admin:true,
       search: {
         name: '', phone:'', hospital:'', address:'', check_status:''//career:'',birth:''
@@ -273,9 +287,29 @@ export default {
         })
       }).catch()
     },
+    getRowKeys(row) {
+      return row.serial
+    },
+    rowClick(row, column, event){
+        Array.prototype.remove = function(val) {
+          var index = this.indexOf(val);
+          if (index > -1) {
+            this.splice(index, 1);
+          }
+        }
+        // console.log("column",column)
+        // 判断元素在不在数组里，js不能用item in array
+        if (this.expands.indexOf(row.serial) < 0) {
+          // this.expands=[];//只展开当前行，其他行收起
+          this.expands.push(row.serial);
+        } else {
+          this.expands.remove(row.serial);
+        }
+    },
   },
   mounted () {
     this.getPatients()
+    // this.expands=["201908300001","201908280001"];
   }
 }
 </script>

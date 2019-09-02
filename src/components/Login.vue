@@ -5,62 +5,63 @@
       中医妇科临床流调数据中心
     </h1>
     <hr class="my-hr" :style="{ background: (showLogin?'#409EFF':'#C16050')}">
-    <el-form :model="loginForm" :rules="rules" ref="loginForm" label-position="left" label-width="0px"
-            v-show="showLogin" class="login-container">
-      <h2 class="title">系统登录</h2>
-      <el-form-item prop="email">
-        <el-input type="text" v-model="loginForm.email" auto-complete="off" placeholder="账号" suffix-icon="fa fa-user"></el-input>
-      </el-form-item>
-      <el-form-item prop="password">
-        <el-input type="password" v-model="loginForm.password" auto-complete="off" placeholder="密码" suffix-icon="fa fa-lock"></el-input>
-      </el-form-item>
-      <el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox>
-      <el-form-item style="width:100%;">
-        <el-button type="primary" style="width:100%;border-radius:2px" @click="handleSubmit" :loading="logining">登录
-        <!-- <el-button type="primary" style="width:100%;" @click.native.prevent="handleSubmit" :loading="logining">登录 -->
-        </el-button>
-      </el-form-item>
-      <el-divider content-position="center">
-        <span style="color:rgb(94,143,189)">
-          友情提示<i class="fa fa-wrench"></i>
-        </span>
-      </el-divider>
-      <div>
-        <h4 class="my-font">为了保证用户使用功能正常，要求使用如下浏览器:</h4>
-        <ul class="my-ul">
-            <li class="my-li">
-                谷歌浏览器
-                <a href="https://www.google.cn/chrome/index.html">
-                  <i class="fa fa-chrome fa-lg" aria-hidden="true"></i>
-                </a>
-            </li>
-            <li class="my-li">
-                火狐浏览器
-                <a href="http://www.firefox.com.cn/download/">
-                    <i class="fa fa-firefox fa-lg" aria-hidden="true"></i>
-                </a>
-            </li>
-            <li class="my-li">
-                <p>暂不支持IE及其它浏览器</p>
-            </li>
-        </ul>
-      </div>
-    </el-form>
 
-    <!-- <transition name="fade"> -->
-        <el-form :model="resetForm" :rules="rules" ref="resetForm" label-position="left" label-width="0px"
-                v-show="!showLogin" class="login-container">
-          <h2 class="title" style="color:#C16050">找回密码</h2>
-          请输入您的邮箱，系统会向该邮箱发送验证信息
-          <p></p>
+    <!-- <transition name="fade"
+                enter-active-class="animated fadeInUp"
+                leave-active-class="animated fadeOutUp"> -->
+        <el-form :model="loginForm" :rules="rules" ref="loginForm" label-position="left" label-width="0px"
+                v-if="showLogin" class="login-container">
+          <h2 class="title">系统登录</h2>
           <el-form-item prop="email">
-            <el-input type="text" v-model="resetForm.email" auto-complete="off" placeholder="账号" suffix-icon="fa fa-envelope"></el-input>
+            <el-input type="text" v-model="loginForm.email" auto-complete="off" placeholder="账号" suffix-icon="fa fa-user"></el-input>
           </el-form-item>
-          <el-form-item>
-            <el-button type="primary" style="width:100%;background:#C16050;border:1px solid #C16050;" @click="handleSubmit2">发送
+          <el-form-item prop="password">
+            <el-input type="password" v-model="loginForm.password" auto-complete="off" placeholder="密码" suffix-icon="fa fa-lock"></el-input>
+          </el-form-item>
+          <!-- <el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox> -->
+          <el-form-item style="width:100%;">
+            <el-button type="primary" style="width:100%;border-radius:2px" @click="handleSubmit" :loading="logining">登录
             </el-button>
           </el-form-item>
+          <el-divider content-position="center">
+            <span style="color:rgb(94,143,189)">
+              友情提示<i class="fa fa-wrench"></i>
+            </span>
+          </el-divider>
+          <div>
+          <h4 class="my-font">为了保证用户使用功能正常，要求使用如下浏览器:</h4>
+          <ul class="my-ul">
+              <li class="my-li">
+                  谷歌浏览器
+                  <a href="https://www.google.cn/chrome/index.html">
+                    <i class="fa fa-chrome fa-lg" aria-hidden="true"></i>
+                  </a>
+              </li>
+              <li class="my-li">
+                  火狐浏览器
+                  <a href="http://www.firefox.com.cn/download/">
+                      <i class="fa fa-firefox fa-lg" aria-hidden="true"></i>
+                  </a>
+              </li>
+              <li class="my-li">
+                  <p>暂不支持IE及其它浏览器</p>
+              </li>
+          </ul>
+          </div>
         </el-form>
+
+      <el-form :model="resetForm" :rules="rules" ref="resetForm" label-position="left" label-width="0px"
+              v-else class="login-container">
+        <h2 class="title" style="color:#C16050">找回密码</h2>
+          <p>请输入您的邮箱，系统会向该邮箱发送验证信息</p>
+        <el-form-item prop="email">
+          <el-input type="text" v-model="resetForm.email" auto-complete="off" placeholder="账号" suffix-icon="fa fa-envelope"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" style="width:100%;background:#C16050;border:1px solid #C16050;" @click="handleSubmit2">发送
+          </el-button>
+        </el-form-item>
+      </el-form>
     <!-- </transition> -->
 
     <div class="bottom-bar" :style="{ background: (showLogin?'#409EFF':'#C16050')}">
@@ -95,8 +96,8 @@ export default {
       showLogin:true,
       logining: false,
       loginForm: {
-        email: 'audit01@handian.com',
-        password: 'asdf1234'
+        email: '',
+        password: ''
       },
       resetForm: {
         email: '',

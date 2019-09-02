@@ -28,8 +28,8 @@
         <!-- format表示显示在页面的日期格式, value-format表示传递给后台的真实的数据格式 -->
         <el-date-picker v-model="patientInfo.patient_date"
                         type="date" placeholder="选择日期"
-                        format="yyyy 年 MM 月 DD 日"
-                        value-format="yyyy-MM-DD">
+                        format="yyyy 年 MM 月 dd 日"
+                        value-format="yyyy-MM-dd">
         </el-date-picker>
       </el-form-item>
 

@@ -7,10 +7,11 @@ import router from './routes'
 // import Mock from './mock'
 import store from './vuex/store'
 import Vuex from 'vuex'
-
+// import animate from 'animate.css'
 // Mock.bootstrap() //使用express作为后端时,要屏蔽Mock.bootstrap()命令,否则axios传出的请求都被mock截获了
 Vue.use(ElementUI)
 Vue.use(Vuex)
+// Vue.use(animate)
 // router.beforeEach((to, from, next) => {
 //   if (to.path === '/login') {
 //     sessionStorage.removeItem('user')
