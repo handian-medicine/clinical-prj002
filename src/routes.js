@@ -41,6 +41,12 @@ export default new Router({
       name: '',
       hidden: true
     },
+    {
+      path: '/help',
+      component: () => import('@/components/Help.vue'),
+      name: '',
+      hidden: true
+    },
     /* ***** */
     /* 手机端 */
     {

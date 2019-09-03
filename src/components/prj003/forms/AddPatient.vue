@@ -1,9 +1,9 @@
 <template>
   <el-dialog title="新增患者信息" class="my-dialog"
             :visible.sync="dialogVisible"
-            :close-on-click-modal="false" width="70%" center>
+            :close-on-click-modal="false" width="85%" center>
 
-    <el-form ref="patientInfo" :model="patientInfo" :rules="rules" label-width="130px" label-position="left">
+    <el-form ref="patientInfo" :model="patientInfo" :rules="rules" label-width="100px" label-position="left">
 
       <el-form-item label="姓名" prop="patient_name">
         <el-input v-model="patientInfo.patient_name"></el-input>
@@ -122,6 +122,8 @@ export default {
     // },
 </script>
 
-<style lang="scss">
-
+<style lang="scss" scoped>
+.el-date-editor.el-input, .el-date-editor.el-input__inner {
+  width:200px
+}
 </style>

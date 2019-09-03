@@ -1,25 +1,31 @@
 <template>
-<el-row class="container">
-  <Header @headerEvent="ret=>(collapsed=ret)"></Header>
+<el-row class="container" justify="center">
+  <el-row justify="center">
+    <Header @headerEvent="ret=>(collapsed=ret)"></Header>
+  </el-row>
 
-  <el-col :span="23">
-    <el-table :data="userinfo.myprojects"
-              highlight-current-row
-              style="width: 100%;"
-              border>
-      <el-table-column prop="name" label="项目名称">
-      </el-table-column>
-      <el-table-column prop="status" label="状态">
-      </el-table-column>
-      <el-table-column prop="linkurl" label="进入项目">
-        <template v-slot="scope">
-          <el-button type="btn-info" size="small" @click="enterPrj(scope.$index, scope.row)">进入</el-button>
-        </template>
-      </el-table-column>
-      <el-table-column prop="description" label="项目描述">
-      </el-table-column>
-    </el-table>
-  </el-col>
+  <el-row>
+    <el-col :span="24">
+      <el-table :data="userinfo.myprojects"
+                highlight-current-row
+                style="width: 100%;"
+                border>
+        <el-table-column type="index" label="序号" align="center" width="90">
+        </el-table-column>
+        <el-table-column prop="name" label="项目名称">
+        </el-table-column>
+        <el-table-column prop="status" label="状态">
+        </el-table-column>
+        <el-table-column prop="linkurl" label="进入项目">
+          <template v-slot="scope">
+            <el-button type="primary" plain size="small" @click="enterPrj(scope.$index, scope.row)">进入</el-button>
+          </template>
+        </el-table-column>
+        <el-table-column prop="description" label="项目描述">
+        </el-table-column>
+      </el-table>
+    </el-col>
+  </el-row>
 </el-row>
 </template>
 

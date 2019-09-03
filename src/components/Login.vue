@@ -69,12 +69,13 @@
         <el-col :span="12">
           <div class="left">
             <el-button type="text" @click="showLogin=!showLogin">
-              <i class="fa fa-long-arrow-left"></i>{{showLogin ? '忘记密码':'返回登录'}}</el-button>
+              <i class="fa fa-long-arrow-left"></i>{{showLogin ? '忘记密码':'返回登录'}}
+            </el-button>
           </div>
         </el-col>
         <el-col :span="12">
           <div class="right">
-            <el-button type="text">系统帮助<i class="fa fa-long-arrow-right"></i></el-button>
+            <el-button type="text" @click="help">系统帮助<i class="fa fa-long-arrow-right"></i></el-button>
           </div>
         </el-col>
       </el-row>
@@ -161,6 +162,9 @@ export default {
           return false
         }
       })
+    },
+    help () {
+      this.$router.push({path:'/help'})
     }
 }
 }

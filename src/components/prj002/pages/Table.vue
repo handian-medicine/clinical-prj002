@@ -109,10 +109,10 @@
       <!-- <el-button type="danger" @click="batchRemove" :disabled="this.sels.length===0">批量删除</el-button> -->
       <!-- v-on绑定的函数加括号和不加括号有区别,如果加括号要达到和不加括号的效果,需要传$event参数,然后跟函数自定义的参数 -->
       <!-- v-on绑定的内容有两种Function | Inline Statement,一旦函数名跟了() 这时Function就变成了Inline Statement-->
-      <el-pagination layout="total, prev, pager, next, jumper"
+      <el-pagination layout="total, prev, pager, next, jumper" background
                     @current-change="pagination_flag ? handleListPagination($event,page) : handleSearchPagination($event,search_page)"
                     :page-size="10" :total="totalNum"
-                    style="float:right;">
+                    style="float:left;">
       </el-pagination>
     </el-col>
 

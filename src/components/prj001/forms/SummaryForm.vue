@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="病情概要" class="my-dialog"
+  <el-dialog title="病情概要" class="my-dialog prj001-summary"
             :visible.sync="dialogVisible"
             :close-on-click-modal="false" width="100%" center
             v-if='dialogVisible'
@@ -64,7 +64,7 @@
         </el-form-item>
       </template>
 
-      <el-divider content-position="center"><span style="color:red">以下请在医生指导下填写</span></el-divider>
+      <el-divider content-position="center"><span style="color:red;font-size:12px">以下请在医生指导下填写</span></el-divider>
       <el-form-item label="19、舌质">
         <el-checkbox v-for="(val, key) in mydata.tongue_texture" :key="key" :label="val" v-model="summaryForm[key]">
         </el-checkbox>
@@ -90,7 +90,7 @@
 
     <span slot="footer">
         <el-button :disabled="is_checked=='审核通过'"
-                  type="primary" 
+                  type="primary"
                   @click="exist?updateDataForm():createDataForm()">确定</el-button>
         <el-button @click="resetDialog">取消</el-button>
     </span>
@@ -205,19 +205,17 @@ export default {
         border-right-width: 0px;
         border-bottom-width: 1px;
     }
-    // .el-form-item__label {
-    //     width:130px !important;
-    //     color:#871F78;
-    // }
     .el-input {
         display: inline;
     }
   }
-.el-checkbox {
-  margin-right: 10px
-}
-.el-input {
-  margin-top: 10px;
+.prj001-summary {
+  .el-checkbox {
+    margin-right: 10px
+  }
+  .el-input {
+    margin-top: 10px;
+  }
 }
 </style>
 

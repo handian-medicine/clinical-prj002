@@ -1,7 +1,7 @@
 <template>
   <el-dialog title="新增患者信息" class="my-dialog"
             :visible.sync="dialogVisible"
-            :close-on-click-modal="false" width="70%" center>
+            :close-on-click-modal="false" width="85%" center>
 
     <el-form ref="patientInfo" :model="patientInfo" :rules="rules" label-width="130px" label-position="left">
 
@@ -121,6 +121,8 @@ export default {
     // },
 </script>
 
-<style lang="scss">
-
+<style lang="scss" scoped>
+.el-date-editor.el-input, .el-date-editor.el-input__inner {
+  width:180px
+}
 </style>

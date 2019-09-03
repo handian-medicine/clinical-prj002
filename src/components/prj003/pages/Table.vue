@@ -105,7 +105,7 @@
       <el-pagination layout="total, prev, pager, next, jumper"
                     @current-change="pagination_flag ? handleListPagination($event,page) : handleSearchPagination($event,search_page)"
                     :page-size="10" :total="totalNum"
-                    style="float:right;">
+                    style="float:left;">
       </el-pagination>
     </el-col>
 

@@ -96,7 +96,7 @@ export default {
 
     .userinfo {
       text-align: right;
-      padding-right: 35px;
+      padding-right: 5px;
       float: right;
 
       .userinfo-inner {
