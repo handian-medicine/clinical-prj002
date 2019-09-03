@@ -37,28 +37,29 @@
     <!-- <el-button type="btn-info" size="small" @click.native="expands">一般情况</el-button> -->
 
     <!--主要内容 列表-->
-              <!-- :row-key="getRowKeys"
-              :expand-row-keys="expands"
-              @row-click='rowClick' -->
     <el-table :data="patientsList"
               highlight-current-row v-loading="listLoading"
               style="width: 100%;" height="500"
-              ><!--height固定表头-->
+              :row-key="getRowKeys"
+              :expand-row-keys="expands"
+              @row-click='rowClick'
+              >
       <!-- <el-table-column type="selection" width="55">
       </el-table-column> -->
+      <el-table-column prop="index" width="40">
+        <template slot="header" slot-scope="scope">
+          <el-button type="primary" size="mini" mini circle plain
+                    @click="expand"
+                    :class="expandFlag?'el-icon-caret-right':'el-icon-caret-bottom'"></el-button>
+        </template>
+      </el-table-column>
       <el-table-column type="index" width="40">
-      <!-- <el-table-column type="index" width="40" fixed="left"> -->
       </el-table-column>
       <el-table-column prop="name" label="姓名" width="90">
-      <!-- <el-table-column prop="name" label="姓名" width="90" fixed="left"> -->
       </el-table-column>
-      <el-table-column prop="serial" label="编码" width="120">
+      <el-table-column prop="serial" label="编码" width="125">
       </el-table-column>
-      <el-table-column prop="hospital" label="医院" width="150">
-      </el-table-column>
-      <el-table-column prop="address" label="住址" width="150">
-      </el-table-column>
-      <el-table-column prop="owner_name" label="录入人" width="80">
+      <el-table-column prop="owner_name" label="录入人" width="90">
       </el-table-column>
       <el-table-column prop="degree_of_completion" label="信息完整度" width="90">
         <template v-slot="scope">
@@ -77,11 +78,12 @@
                   {{scope.row.check_status}}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="数据修改" width="650">
-      <!-- <el-table-column label="数据修改" type="expand" width="100"> -->
-        <!-- <template slot="header" slot-scope="scope">
-          <el-tag>数据修改</el-tag>
-        </template> -->
+      <el-table-column prop="hospital" label="医院" width="250">
+      </el-table-column>
+      <el-table-column prop="address" label="住址" width="350">
+      </el-table-column>
+      <!-- <el-table-column label="数据修改" width="650"> -->
+      <el-table-column label="数据修改" type="expand" width="100">
         <template v-slot="scope">
           <el-button-group>
           <el-button type="btn-info" size="small" @click="openDataForm(scope.$index, scope.row, 'info')">一般情况</el-button>
@@ -151,6 +153,7 @@ export default {
   data () {
     return {
       expands:[],
+      expandFlag:true,
       is_admin:true,
       search: {
         name: '', phone:'', hospital:'', address:'', check_status:''//career:'',birth:''
@@ -229,6 +232,7 @@ export default {
       this.search = {name: '', phone:'', hospital:'', address:'', check_status:''}//career:'', birth:''
       let para = {page: this.page}
       this.listLoading = true
+      this.expandFlag = true
       apiGetPatientsList(para).then((res) => {
         console.log(res.data)
         this.patientsList = res.data.patientsList
@@ -297,8 +301,7 @@ export default {
             this.splice(index, 1);
           }
         }
-        // console.log("column",column)
-        // 判断元素在不在数组里，js不能用item in array
+        // js判断元素在不在数组里，不能用item in array
         if (this.expands.indexOf(row.serial) < 0) {
           // this.expands=[];//只展开当前行，其他行收起
           this.expands.push(row.serial);
@@ -306,10 +309,22 @@ export default {
           this.expands.remove(row.serial);
         }
     },
+    expand () {
+      this.expands=[]
+      if (this.expandFlag) {
+        for(var i=0; i < this.patientsList.length;i++) {
+          this.expands.push(this.patientsList[i].serial)
+        }
+        this.expandFlag = !this.expandFlag
+      } else {
+        this.expands=[]
+        this.expandFlag = !this.expandFlag
+      }
+    },
+
   },
   mounted () {
     this.getPatients()
-    // this.expands=["201908300001","201908280001"];
   }
 }
 </script>

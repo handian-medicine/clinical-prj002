@@ -36,20 +36,28 @@
 
     <!--主要内容 列表-->
     <el-table :data="patientsList" highlight-current-row v-loading="listLoading"
-              style="width: 100%;" height="500"><!--height固定表头-->
-      <!-- <el-table-column type="selection" width="55">
-      </el-table-column> -->
+              style="width: 100%;" height="500"
+              :row-key="getRowKeys"
+              :expand-row-keys="expands"
+              @row-click='rowClick'>
+      <el-table-column prop="index" width="40">
+        <template slot="header" slot-scope="scope">
+          <el-button type="primary" size="mini" mini circle plain
+                    @click="expand"
+                    :class="expandFlag?'el-icon-caret-right':'el-icon-caret-bottom'"></el-button>
+        </template>
+      </el-table-column>
       <el-table-column type="index" width="40">
       </el-table-column>
       <el-table-column prop="patient_name" label="姓名" width="90" sortable>
       </el-table-column>
       <el-table-column prop="serial" label="编码" width="90" sortable>
       </el-table-column>
-      <el-table-column prop="hospital_name" label="医院" width="150">
+      <el-table-column prop="hospital_name" label="医院" width="250">
       </el-table-column>
-      <el-table-column prop="address" label="住址" width="150">
+      <el-table-column prop="address" label="住址" width="350">
       </el-table-column>
-      <el-table-column prop="owner_name" label="录入人" width="80">
+      <el-table-column prop="owner_name" label="录入人" width="90">
       </el-table-column>
       <el-table-column prop="degree_of_completion" label="信息完整度" width="90">
         <template v-slot="scope">
@@ -68,7 +76,7 @@
                   {{scope.row.check_status}}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="数据修改" width="680">
+      <el-table-column label="数据修改" type="expand" width="100">
         <template v-slot="scope">
           <el-button-group>
           <el-button type="btn-info" size="small" @click="openDataForm(scope.$index, scope.row, 'info')">一般情况</el-button>
@@ -135,6 +143,8 @@ export default {
   components:{AddPatient,CheckPatient,InfoForm,SummaryForm,HistoryForm,RelevantForm,ResultsForm,ClinicalForm,CureForm},
   data () {
     return {
+      expands:[],
+      expandFlag:true,
       is_admin:true,
       search: {
         patient_name: '', patient_phone:'', hospital_name:'', address:'', check_status:''//career:'',birth:''
@@ -230,6 +240,7 @@ export default {
       this.search = {patient_name: '', patient_phone:'', hospital_name:'', address:'', check_status:''}//career:'', birth:''
       let para = {page: this.page}
       this.listLoading = true
+      this.expandFlag = true
       apiGetPatientsList(para).then((res) => {
         console.log(res.data)
         this.patientsList = res.data.patientsList
@@ -272,6 +283,37 @@ export default {
         .catch()
       }
     },
+
+    getRowKeys(row) {
+      return row.serial
+    },
+    rowClick(row, column, event){
+        Array.prototype.remove = function(val) {
+          var index = this.indexOf(val);
+          if (index > -1) {
+            this.splice(index, 1);
+          }
+        }
+        // js判断元素在不在数组里，不能用item in array
+        if (this.expands.indexOf(row.serial) < 0) {
+          // this.expands=[];//只展开当前行，其他行收起
+          this.expands.push(row.serial);
+        } else {
+          this.expands.remove(row.serial);
+        }
+    },
+    expand () {
+      this.expands=[]
+      if (this.expandFlag) {
+        for(var i=0; i < this.patientsList.length;i++) {
+          this.expands.push(this.patientsList[i].serial)
+        }
+        this.expandFlag = !this.expandFlag
+      } else {
+        this.expands=[]
+        this.expandFlag = !this.expandFlag
+      }
+    }
 
   },
   mounted () {

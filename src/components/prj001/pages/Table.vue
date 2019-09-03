@@ -36,9 +36,17 @@
 
     <!--主要内容 列表-->
     <el-table :data="patientsList" highlight-current-row v-loading="listLoading"
-              style="width: 100%;" height="500"><!--height固定表头-->
-      <!-- <el-table-column type="selection" width="55">
-      </el-table-column> -->
+              style="width: 100%;" height="500"
+              :row-key="getRowKeys"
+              :expand-row-keys="expands"
+              @row-click='rowClick'><!--height固定表头-->
+      <el-table-column prop="index" width="40">
+        <template slot="header" slot-scope="scope">
+          <el-button type="primary" size="mini" mini circle plain
+                    @click="expand"
+                    :class="expandFlag?'el-icon-caret-right':'el-icon-caret-bottom'"></el-button>
+        </template>
+      </el-table-column>
       <el-table-column type="index" width="40">
       </el-table-column>
       <el-table-column prop="name" label="姓名">
@@ -71,12 +79,12 @@
                   {{scope.row.is_checked}}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="数据修改" width="640">
+      <el-table-column label="数据修改" type="expand" width="100">
         <template v-slot="scope">
           <el-button-group>
           <el-button type="btn-info" size="small" @click="openDataForm(scope.$index, scope.row, 'info')">基本信息</el-button>
           <el-button type="btn-summary" size="small" @click="openDataForm(scope.$index, scope.row, 'summary')">病情概要</el-button>
-          <el-button type="btn-history"    size="small" @click="openDataForm(scope.$index, scope.row, 'history')">患者病史</el-button>
+          <el-button type="btn-history" size="small" @click="openDataForm(scope.$index, scope.row, 'history')">患者病史</el-button>
           <el-button type="btn-relevant" size="small" @click="openDataForm(scope.$index, scope.row, 'relevant')">相关检查</el-button>
           <el-button type="btn-cc" size="small" @click="openDataForm(scope.$index, scope.row, 'cc')">临床诊断</el-button>
           <el-button type="btn-cure" size="small" @click="openDataForm(scope.$index, scope.row, 'cure')">中西治疗</el-button>
@@ -141,6 +149,8 @@ export default {
   components:{AddPatient,CheckPatient,InfoForm,SummaryForm,HistoryForm,RelevantForm,CcForm,CureForm,ResultsForm},
   data () {
     return {
+      expands:[],
+      expandFlag:true,
       is_admin:'',
       search: {
         name: '', telephone:'', hospital:'', address:'', is_checked:'', types:'search'
@@ -229,6 +239,7 @@ export default {
         page: this.page
       }
       this.listLoading = true
+      this.expandFlag = true
       apiGetPatientsList(para).then((res) => {
         console.log(res.data)
         this.patientsList = res.data.patientsList
@@ -307,6 +318,36 @@ export default {
         .catch(() => {})
       }
     },
+    getRowKeys(row) {
+      return row.serial
+    },
+    rowClick(row, column, event){
+        Array.prototype.remove = function(val) {
+          var index = this.indexOf(val);
+          if (index > -1) {
+            this.splice(index, 1);
+          }
+        }
+        // js判断元素在不在数组里，不能用item in array
+        if (this.expands.indexOf(row.serial) < 0) {
+          // this.expands=[];//只展开当前行，其他行收起
+          this.expands.push(row.serial);
+        } else {
+          this.expands.remove(row.serial);
+        }
+    },
+    expand () {
+      this.expands=[]
+      if (this.expandFlag) {
+        for(var i=0; i < this.patientsList.length;i++) {
+          this.expands.push(this.patientsList[i].serial)
+        }
+        this.expandFlag = !this.expandFlag
+      } else {
+        this.expands=[]
+        this.expandFlag = !this.expandFlag
+      }
+    }
   },
   mounted () {
     this.getPatients()
