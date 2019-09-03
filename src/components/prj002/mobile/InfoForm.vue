@@ -170,11 +170,16 @@ export default {
   data() {
     return {
       infoForm: {
-        "name":"prj002mobile",
-        "phone":"13212345678",
-        "hospital":"汉典",
-        "birth":"2000-09",
-        "career":"学生"
+        // "name":"prj002mobile",
+        // "phone":"13212345678",
+        // "hospital":"汉典",
+        // "birth":"2000-09",
+        // "career":"学生"
+        "name":"",
+        "phone":"",
+        "hospital":"",
+        "birth":"",
+        "career":""
       },
       nationSelection: ["汉族","蒙古族","回族","藏族","维吾尔族","苗族","彝族","壮族","布依族","朝鲜族","满族","侗族",
                         "瑶族","白族","土家族","哈尼族","哈萨克族","傣族","黎族","傈傈族","佤族","畲族","高山族","拉祜族",
