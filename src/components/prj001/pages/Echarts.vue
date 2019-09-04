@@ -42,8 +42,8 @@ export default {
         this.chartPie = echarts.init(document.getElementById('chartPie'))
         this.chartBar = echarts.init(document.getElementById('chartBar'))
 
-        this.chartPie.showLoading()
-        this.chartBar.showLoading()
+        // this.chartPie.showLoading()
+        // this.chartBar.showLoading()
 
         this.chartPie.setOption({
           title: {
@@ -81,7 +81,7 @@ export default {
             }
           ]
         })
-        this.chartPie.hideLoading()
+        // this.chartPie.hideLoading()
 
         this.chartBar.setOption({
             title : {
@@ -146,7 +146,7 @@ export default {
                 }
             ]
         })
-        this.chartBar.hideLoading()
+        // this.chartBar.hideLoading()
 
         // console.log("drawPieChart1",chartData)
       }).catch();
