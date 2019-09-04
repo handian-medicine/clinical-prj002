@@ -42,6 +42,9 @@ export default {
         this.chartPie = echarts.init(document.getElementById('chartPie'))
         this.chartBar = echarts.init(document.getElementById('chartBar'))
 
+        this.chartPie.showLoading()
+        this.chartBar.showLoading()
+
         this.chartPie.setOption({
           title: {
             text: '流调数据状态占比',
@@ -78,6 +81,8 @@ export default {
             }
           ]
         })
+        this.chartPie.hideLoading()
+
         this.chartBar.setOption({
             title : {
                 text: '流调数据提交医院排名',
@@ -141,6 +146,8 @@ export default {
                 }
             ]
         })
+        this.chartBar.hideLoading()
+
         // console.log("drawPieChart1",chartData)
       }).catch();
     }
