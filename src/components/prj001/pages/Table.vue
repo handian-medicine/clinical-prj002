@@ -49,13 +49,13 @@
       </el-table-column>
       <el-table-column type="index" width="40">
       </el-table-column>
-      <el-table-column prop="name" label="姓名">
+      <el-table-column prop="name" label="姓名" width="85">
       </el-table-column>
-      <el-table-column prop="serial" label="编码">
+      <el-table-column prop="serial" label="编码" width="125">
       </el-table-column>
-      <el-table-column prop="hospital" label="医院">
+      <el-table-column prop="hospital" label="医院" width="150">
       </el-table-column>
-      <el-table-column prop="address" label="住址">
+      <el-table-column prop="address" label="住址" width="150">
       </el-table-column>
       <el-table-column prop="expert" label="专家">
       </el-table-column>

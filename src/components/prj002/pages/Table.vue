@@ -55,9 +55,13 @@
       </el-table-column>
       <el-table-column type="index" width="40">
       </el-table-column>
-      <el-table-column prop="name" label="姓名" width="90">
+      <el-table-column prop="name" label="姓名" width="85">
       </el-table-column>
       <el-table-column prop="serial" label="编码" width="125">
+      </el-table-column>
+      <el-table-column prop="hospital" label="医院" width="150">
+      </el-table-column>
+      <el-table-column prop="address" label="住址" width="150">
       </el-table-column>
       <el-table-column prop="owner_name" label="录入人" width="90">
       </el-table-column>
@@ -77,10 +81,6 @@
                   @click="showReason(scope.$index, scope.row.reason_for_check)">
                   {{scope.row.check_status}}</el-tag>
         </template>
-      </el-table-column>
-      <el-table-column prop="hospital" label="医院" width="250">
-      </el-table-column>
-      <el-table-column prop="address" label="住址" width="350">
       </el-table-column>
       <!-- <el-table-column label="数据修改" width="650"> -->
       <el-table-column label="数据修改" type="expand" width="100">

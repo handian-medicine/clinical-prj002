@@ -155,4 +155,20 @@ router.patch('/form', function(req, res, next) {
     })
 })
 
+router.get('/echarts', function (req, res, next) {
+    var options = {
+        url: myConst.apiurl + "/prj003/charts/",
+        headers: {
+            'Authorization': 'Bearer ' + req.cookies.prj003token.access_token
+        }
+    }
+    console.log("charts:",options)
+    request(options, function (error, response, body) {
+        var charts = JSON.parse(body)
+        console.log("charts3:",charts)
+        // if (!error && response.statusCode == 200) {
+            res.send(charts);
+        // }
+    })
+});
 module.exports = router;

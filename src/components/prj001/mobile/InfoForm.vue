@@ -195,7 +195,7 @@ export default {
       apiMobileArea()
       .then( (res) => {
         const area_data = res.data.area_data
-        console.log("返回的地区数据",area_data)
+        // console.log("返回的地区数据",area_data)
         for(var i = 0, len = area_data.length; i < len; i++){
           this.area_options.push(area_data[i].area)
         }
@@ -208,7 +208,7 @@ export default {
       apiMobileHospital({area:area})
       .then( (res) => {
         const hospital_data = res.data.hospital_data
-        console.log("返回医院数据",hospital_data)
+        // console.log("返回医院数据",hospital_data)
         for(var i = 0, len = hospital_data.length; i < len; i++){
           this.hospital_options.push(hospital_data[i].hospital)
         }
@@ -219,11 +219,11 @@ export default {
       apiMobileOwner({hospital:hospital})
       .then( (res) => {
         const owner_data = res.data.owner_data
-        console.log("返回医生数据",owner_data)
+        // console.log("返回医院数据console.log("返回医生数据",owner_data)
         for(var i = 0, len = owner_data.length; i < len; i++){
           this.owner_options.push(owner_data[i])
         }
-        console.log(this.owner_options)
+        
       }).catch()
     }
   },

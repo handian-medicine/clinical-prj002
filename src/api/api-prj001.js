@@ -30,6 +30,8 @@ export const apiCreatePatientDataForm = params => { return axios.post(`${baseUrl
 export const apiUpdatePatientDataForm = params => { return axios.put(`${baseUrl}/prj001/user/form`, params) }
 // 导出搜索结果的excel
 export const apiExportFile = params => { return axios.post(`${baseUrl}/prj001/user/export`, params) }
+// echarts
+export const apiECharts = params => { return axios.get(`${baseUrl}/prj001/user/echarts`, params) }
 
 // 登录手机端界面
 export const apiMobileLogin = params => { return axios.post(`${baseUrl}/mobile/prj001/login`, params) }
@@ -39,5 +41,6 @@ export const apiMobileHospital = params => { return axios.post(`${baseUrl}/mobil
 export const apiMobileOwner = params => { return axios.post(`${baseUrl}/mobile/prj001/owner`, params) }
 // Mobile提交Form
 export const apiMobileForm = params => { return axios.post(`${baseUrl}/mobile/prj001`, params) }
+
 
 // export const batchRemoveUser = params => { return axios.get(`${baseUrl}/prj001/user/batchremove`, { params: params }) }

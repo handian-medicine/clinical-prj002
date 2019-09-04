@@ -29,6 +29,8 @@ export const apiCreatePatientDataForm = params => { return axios.post(`${baseUrl
 export const apiUpdatePatientDataForm = params => { return axios.patch(`${baseUrl}/prj003/user/form`, params) }
 // 导出搜索结果的excel
 export const apiExportFile = params => { return axios.post(`${baseUrl}/prj003/user/export`, params) }
+// echarts
+export const apiECharts = params => { return axios.get(`${baseUrl}/prj003/user/echarts`, params) }
 
 // 登录手机端界面
 export const apiMobileLogin = params => { return axios.post(`${baseUrl}/mobile/prj003/login`, params) }
