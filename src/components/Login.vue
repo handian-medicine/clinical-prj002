@@ -80,7 +80,7 @@
         </el-col>
       </el-row>
     </div>
-成功了
+
     <br>
     <div style="text-align:center;font-size:16px">
       本项目由中华中医药学会妇科分会发起，<a href="http://www.hantien.com.cn">北京汉典制药有限公司</a>
