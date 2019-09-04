@@ -13,10 +13,12 @@
                 v-if="showLogin" class="login-container">
           <h2 class="title">系统登录</h2>
           <el-form-item prop="email">
-            <el-input type="text" v-model="loginForm.email" auto-complete="off" placeholder="账号" suffix-icon="fa fa-user"></el-input>
+            <el-input type="text" v-model="loginForm.email" @keyup.enter.native="handleSubmit"
+                      auto-complete="off" placeholder="账号" suffix-icon="fa fa-user"></el-input>
           </el-form-item>
           <el-form-item prop="password">
-            <el-input type="password" v-model="loginForm.password" auto-complete="off" placeholder="密码" suffix-icon="fa fa-lock"></el-input>
+            <el-input type="password" v-model="loginForm.password" @keyup.enter.native="handleSubmit"
+                      auto-complete="off" placeholder="密码" suffix-icon="fa fa-lock"></el-input>
           </el-form-item>
           <!-- <el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox> -->
           <el-form-item style="width:100%;">
@@ -82,8 +84,9 @@
     </div>
 
     <br>
-    <div style="text-align:center;font-size:16px">
-      本项目由中华中医药学会妇科分会发起，<a href="http://www.hantien.com.cn">北京汉典制药有限公司</a>
+    <div style="text-align:center;font-size:18px">
+      本项目由<span :style="{ color: (showLogin?'#409EFF':'#C16050')}">中华中医药学会妇科分会</span>发起，
+      <a href="http://www.hantien.com.cn" :style="{ color: (showLogin?'#409EFF':'#C16050')}">北京汉典制药有限公司</a>
       <sup>®</sup>支持
     </div>
   </div>
@@ -250,7 +253,7 @@ $color-reset: #C16050;
     }
   }
 .el-button--btn-send {
-    background:#C16050;
-    border:1px solid #C16050
+    background:$color-reset;
+    border:1px solid $color-reset
 }
 </style>
