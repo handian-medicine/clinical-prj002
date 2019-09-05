@@ -1,4 +1,4 @@
-# clinical-prj002
+# clinical-front
 
 > A Vue.js project
 
