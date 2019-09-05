@@ -82,7 +82,7 @@
         </el-col>
       </el-row>
     </div>
-a
+
     <br>
     <div style="text-align:center;font-size:18px">
       本项目由<span :style="{ color: (showLogin?'#409EFF':'#C16050')}">中华中医药学会妇科分会</span>发起，
