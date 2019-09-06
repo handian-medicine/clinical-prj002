@@ -16,7 +16,7 @@
              <el-switch v-model="is_xuzhengzhifa" active-text="虚证治法" inactive-text="实证治法" @change="changezhifa"></el-switch>
          </el-form-item>
          <el-form-item  v-show="!is_xuzhengzhifa" label="实证治法">
-             <el-select v-model="cureForm.shizheng_cure" placeholder="请选择"  style="width:300px">
+             <el-select v-model="cureForm.shizheng_cure" placeholder="请选择" >
                  <el-option v-for="item in shizheng_cure_choices" :key="item" :label="item" :value="item">
                  </el-option>
              </el-select>
@@ -24,7 +24,7 @@
          </el-form-item>
 
          <el-form-item v-show="is_xuzhengzhifa"  label="虚证治法">
-             <el-select v-model="cureForm.xuzheng_cure" placeholder="请选择"  style="width:300px">
+             <el-select v-model="cureForm.xuzheng_cure" placeholder="请选择" >
                  <el-option v-for="item in xuzheng_cure_choices" :key="item" :label="item" :value="item">
                  </el-option>
              </el-select>
