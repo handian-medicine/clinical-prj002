@@ -12,6 +12,7 @@
       <el-form-item label="辅助医生" prop="owner">
         <el-select v-model="infoForm.area"
                   @change="getHospital"
+                  :loading="loading"
                   placeholder="请选择地区">
           <template slot="prefix"><i class="fa fa-globe" aria-hidden="true"></i></template>
           <el-option v-for="item in area_options" :key="item" :value="item">
@@ -19,6 +20,7 @@
         </el-select>
         <el-select v-model="infoForm.hospital2"
                   @change="getOwner"
+                  :loading="loading"
                   placeholder="请选择医院">
           <template slot="prefix"><i class="fa fa-hospital-o" aria-hidden="true"></i></template>
           <el-option v-for="item in hospital_options" :key="item" :value="item">
@@ -138,6 +140,7 @@ export default {
       //   "career":"个体",
       //   "culture":"初中"
       //   },
+      loading: true,
       infoForm: {
         "recdate": "",
         "owner":"",
@@ -192,19 +195,37 @@ export default {
 
   },
   mounted () {
-      apiMobileArea()
+    /* 注释块 用来测试，加延时 */
+    // var that  = this
+    // that.loading = true
+    // apiMobileArea()
+    //   .then( (res) => {
+    //     const area_data = res.data.area_data
+    //     console.log('wait for 10 seconds . . . . ');
+    //     return new Promise(function(resolve, reject) {
+    //         setTimeout(() => {
+    //             for(var i = 0, len = area_data.length; i < len; i++){that.area_options.push(area_data[i].area)}
+    //             that.loading = false
+    //             console.log('10 seconds Timer expired!!!');
+    //             resolve();
+    //         }, 3000)
+    //     });
+    //   }).catch()
+    this.loading = true
+    apiMobileArea()
       .then( (res) => {
         const area_data = res.data.area_data
-        // console.log("返回的地区数据",area_data)
-        for(var i = 0, len = area_data.length; i < len; i++){
-          this.area_options.push(area_data[i].area)
-        }
+        for(var i = 0, len = area_data.length; i < len; i++){this.area_options.push(area_data[i].area)}
+        this.loading = false
       }).catch()
   },
   methods: {
     getHospital (area) {
+      this.loading = true
       this.owner_options = []
       this.hospital_options = []
+      this.infoForm.owner = ''
+      this.infoForm.hospital2 = ''
       apiMobileHospital({area:area})
       .then( (res) => {
         const hospital_data = res.data.hospital_data
@@ -212,10 +233,14 @@ export default {
         for(var i = 0, len = hospital_data.length; i < len; i++){
           this.hospital_options.push(hospital_data[i].hospital)
         }
+        this.loading = false
+
       }).catch()
     },
     getOwner (hospital) {
+      this.loading = true
       this.owner_options = []
+      this.infoForm.owner = ''
       apiMobileOwner({hospital:hospital})
       .then( (res) => {
         const owner_data = res.data.owner_data
@@ -223,10 +248,11 @@ export default {
         for(var i = 0, len = owner_data.length; i < len; i++){
           this.owner_options.push(owner_data[i])
         }
-        
+        this.loading = false
       }).catch()
     }
-  },
+  }
+
 };
 </script>
 <style lang="scss">

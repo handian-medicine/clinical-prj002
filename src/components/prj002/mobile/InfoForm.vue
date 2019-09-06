@@ -4,6 +4,7 @@
       <el-form-item label="辅助医生" prop="owner">
         <el-select v-model="infoForm.area"
                   @change="getHospital"
+                  :loading="loading"
                   placeholder="请选择地区">
           <template slot="prefix"><i class="fa fa-globe" aria-hidden="true"></i></template>
           <el-option v-for="item in area_options" :key="item" :value="item">
@@ -11,6 +12,7 @@
         </el-select>
         <el-select v-model="infoForm.hospital2"
                   @change="getOwner"
+                  :loading="loading"
                   placeholder="请选择医院">
           <template slot="prefix"><i class="fa fa-hospital-o" aria-hidden="true"></i></template>
           <el-option v-for="item in hospital_options" :key="item" :value="item">
@@ -164,11 +166,11 @@
 </template>
 <script>
 import {apiMobileArea,apiMobileHospital,apiMobileOwner} from '@/api/api-prj002'
-
 export default {
   name: "InfoForm",
   data() {
     return {
+      loading: true,
       infoForm: {
         // "name":"prj002mobile",
         // "phone":"13212345678",
@@ -179,7 +181,8 @@ export default {
         "phone":"",
         "hospital":"",
         "birth":"",
-        "career":""
+        "career":"",
+        "owner":""
       },
       nationSelection: ["汉族","蒙古族","回族","藏族","维吾尔族","苗族","彝族","壮族","布依族","朝鲜族","满族","侗族",
                         "瑶族","白族","土家族","哈尼族","哈萨克族","傣族","黎族","傈傈族","佤族","畲族","高山族","拉祜族",
@@ -230,10 +233,38 @@ export default {
       }
     }
   },
+  mounted () {
+    /* 注释块 用来测试，加延时 */
+    // var that  = this
+    // that.loading = true
+    // apiMobileArea()
+    //   .then( (res) => {
+    //     const area_data = res.data.area_data
+    //     console.log('wait for 10 seconds . . . . ');
+    //     return new Promise(function(resolve, reject) {
+    //         setTimeout(() => {
+    //             for(var i = 0, len = area_data.length; i < len; i++){that.area_options.push(area_data[i].area)}
+    //             that.loading = false
+    //             console.log('10 seconds Timer expired!!!');
+    //             resolve();
+    //         }, 3000)
+    //     });
+    //   }).catch()
+    this.loading = true
+    apiMobileArea()
+      .then( (res) => {
+        const area_data = res.data.area_data
+        for(var i = 0, len = area_data.length; i < len; i++){this.area_options.push(area_data[i].area)}
+        this.loading = false
+      }).catch()
+  },
   methods: {
     getHospital (area) {
+      this.loading = true
       this.owner_options = []
       this.hospital_options = []
+      this.infoForm.owner = ''
+      this.infoForm.hospital2 = ''
       apiMobileHospital({area:area})
       .then( (res) => {
         const hospital_data = res.data.hospital_data
@@ -241,10 +272,14 @@ export default {
         for(var i = 0, len = hospital_data.length; i < len; i++){
           this.hospital_options.push(hospital_data[i].hospital)
         }
+        this.loading = false
+
       }).catch()
     },
     getOwner (hospital) {
+      this.loading = true
       this.owner_options = []
+      this.infoForm.owner = ''
       apiMobileOwner({hospital:hospital})
       .then( (res) => {
         const owner_data = res.data.owner_data
@@ -252,19 +287,10 @@ export default {
         for(var i = 0, len = owner_data.length; i < len; i++){
           this.owner_options.push(owner_data[i])
         }
-        
+        this.loading = false
       }).catch()
     }
-  },
-  mounted () {
-      apiMobileArea()
-      .then( (res) => {
-        const area_data = res.data.area_data
-        // console.log("返回的地区数据",area_data)
-        for(var i = 0, len = area_data.length; i < len; i++){
-          this.area_options.push(area_data[i].area)
-        }
-      }).catch()
-  },
+  }
+
 }
 </script>
