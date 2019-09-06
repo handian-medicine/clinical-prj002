@@ -63,7 +63,7 @@ router.post('/area',function (req, res, next) {
         form: {prj_code:prj_code},
         url: myconst.apiurl + "/users/area-list/",
         headers: {
-            'Authorization': 'Bearer ' + req.cookies.mobile_token.access_token,
+            // 'Authorization': 'Bearer ' + req.cookies.mobile_token.access_token,
             'Content-Type': 'application/json'
         }
     }
@@ -82,7 +82,7 @@ router.post('/hospital',function (req, res, next) {
         },
         url: myconst.apiurl + "/users/area/",
         headers: {
-            'Authorization': 'Bearer ' + req.cookies.mobile_token.access_token,
+            // 'Authorization': 'Bearer ' + req.cookies.mobile_token.access_token,
             'Content-Type': 'application/json'
         }
     };
@@ -94,8 +94,6 @@ router.post('/hospital',function (req, res, next) {
 })
 router.post('/owner',function (req, res, next) {
         var area_url = myconst.apiurl + "/users/area/";
-        // var authstring = req.cookies.access_token;
-        var authstring = req.cookies.mobile_token.access_token;
         var hospital = req.body.hospital;
         // console.log("-----",area);
         var options = {
@@ -105,7 +103,7 @@ router.post('/owner',function (req, res, next) {
             },
             url: area_url,
             headers: {
-                'Authorization': 'Bearer ' + authstring,
+                // 'Authorization': 'Bearer ' + req.cookies.mobile_token.access_token,
                 'Content-Type': 'application/json'
             }
         };
