@@ -19,19 +19,18 @@
         </el-checkbox>
       </el-form-item>
       <el-form-item label="辅助检查">
-        <!-- <el-checkbox v-for="(val, key) in assist_check" :key="key" :label="val" v-model="relevantForm[key]">
-        </el-checkbox> -->
-        <el-checkbox :label="assist_check.assist_check_wu" v-model="relevantForm['assist_check_wu']"></el-checkbox>
-        <el-checkbox :label="assist_check.assist_check_chao" v-model="relevantForm['assist_check_chao']"></el-checkbox>
-        <el-checkbox :label="assist_check.assist_check_mri" v-model="relevantForm['assist_check_mri']"></el-checkbox>
-        <el-checkbox :label="assist_check.assist_check_gong" v-model="relevantForm['assist_check_gong']"></el-checkbox>
-        <el-checkbox :label="assist_check.assist_check_fu" v-model="relevantForm['assist_check_fu']"></el-checkbox>
-        <el-checkbox :label="assist_check.assist_check_zi" v-model="relevantForm['assist_check_zi']"></el-checkbox>
-        <el-checkbox :label="assist_check.assist_check_ji" v-model="relevantForm['assist_check_ji']"></el-checkbox>
+        <el-checkbox  :label="assist_check.assist_check_wu" v-model="relevantForm['assist_check_wu']"></el-checkbox>
+        <el-checkbox  :label="assist_check.assist_check_chao" v-model="relevantForm['assist_check_chao']"></el-checkbox>
+        <el-checkbox  :label="assist_check.assist_check_mri" v-model="relevantForm['assist_check_mri']"></el-checkbox>
+        <el-checkbox  :label="assist_check.assist_check_gong" v-model="relevantForm['assist_check_gong']"></el-checkbox>
+        <el-checkbox  :label="assist_check.assist_check_fu" v-model="relevantForm['assist_check_fu']"></el-checkbox>
+        <el-checkbox  :label="assist_check.assist_check_zi" v-model="relevantForm['assist_check_zi']"></el-checkbox>
+        <el-checkbox  :label="assist_check.assist_check_ji" v-model="relevantForm['assist_check_ji']"></el-checkbox>
         <el-checkbox v-show="relevantForm['assist_check_ji']" :label="assist_check.assist_check_ji_dan" v-model="relevantForm['assist_check_ji_dan']"></el-checkbox>
-        <el-checkbox v-show="relevantForm['assist_check_ji']" :label="assist_check.assist_check_ji_shuang" v-model="relevantForm['assist_check_ji_shuang']"></el-checkbox>
-        <el-checkbox :label="assist_check.assist_check_pen" v-model="relevantForm['assist_check_pen']"></el-checkbox>
-        <el-checkbox :label="assist_check.assist_check_jing" v-model="relevantForm['assist_check_jing']"></el-checkbox>
+        <el-checkbox v-show="relevantForm['assist_check_ji']"  :label="assist_check.assist_check_ji_shuang" v-model="relevantForm['assist_check_ji_shuang']"></el-checkbox>
+        <el-checkbox  :label="assist_check.assist_check_pen" v-model="relevantForm['assist_check_pen']"></el-checkbox>
+        <el-checkbox  :label="assist_check.assist_check_jing" v-model="relevantForm['assist_check_jing']"></el-checkbox>
+
       </el-form-item>
       <el-form-item label="检查结果">
         <label>以上检查结果如有异常请输入检查结果</label>

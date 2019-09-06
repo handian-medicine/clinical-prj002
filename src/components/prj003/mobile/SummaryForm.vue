@@ -29,6 +29,7 @@
                     :key="item" :label="item">
           </el-radio>
           <el-input v-model="summaryForm.pain_start_time_day" type="number" min="0">
+            <template slot="prepend">第</template>
             <template slot="append">天</template>
           </el-input>
       </el-form-item>
@@ -38,6 +39,7 @@
                     :key="item" :label="item">
           </el-radio>
           <el-input v-model="summaryForm.pain_end_time_day" type="number" min="0">
+            <template slot="prepend">第</template>
             <template slot="append">天</template>
           </el-input>
       </el-form-item>
@@ -91,22 +93,22 @@
       <template v-for="(q_val,q_key) in mydata">
         <el-form-item :label="q_val.name" :key="q_key" :show-overflow-tooltip=true>
           <el-switch v-model="summaryForm[q_key]" active-text="是" inactive-text="否"></el-switch>
-          <el-form-item v-show="summaryForm[q_key]" label="总发作时间">
-            <el-radio-group v-model="summaryForm[q_val.para_time]">
-                <el-radio label="<3小时"></el-radio>
-                <el-radio label="3~7小时"></el-radio>
-                <el-radio label="8~24小时"></el-radio>
-                <el-radio label=">24小时"></el-radio>
-            </el-radio-group>
-          </el-form-item>
-          <el-form-item v-show="summaryForm[q_key]" label="平均强度">
-            <el-radio-group v-model="summaryForm[q_val.para_average]">
-              <el-radio label="轻度"></el-radio>
-              <el-radio label="中度"></el-radio>
-              <el-radio label="较显著"></el-radio>
-              <el-radio label="剧烈"></el-radio>
-            </el-radio-group>
-          </el-form-item>
+        </el-form-item>
+        <el-form-item v-show="summaryForm[q_key]" label="总发作时间">
+          <el-radio-group v-model="summaryForm[q_val.para_time]">
+              <el-radio label="<3小时"></el-radio>
+              <el-radio label="3~7小时"></el-radio>
+              <el-radio label="8~24小时"></el-radio>
+              <el-radio label=">24小时"></el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item v-show="summaryForm[q_key]" label="平均强度">
+          <el-radio-group v-model="summaryForm[q_val.para_average]">
+            <el-radio label="轻度"></el-radio>
+            <el-radio label="中度"></el-radio>
+            <el-radio label="较显著"></el-radio>
+            <el-radio label="剧烈"></el-radio>
+          </el-radio-group>
         </el-form-item>
       </template>
 
@@ -173,8 +175,8 @@ export default {
         is_shimian:{name:"经期失眠", para_time:"is_shimian_total_time", para_average:"is_shimian_average"},
         is_quanshen:{name:"经期全身疼痛", para_time:"is_quanshen_total_time", para_average:"is_quanshen_average"},
         is_yiyu:{name:"经期抑郁", para_time:"is_yiyu_total_time", para_average:"is_yiyu_average"},
-        is_yiji:{name:"经期易激惹（烦恼、急躁或愤怒)", para_time:"is_yiji_total_time", para_average:"is_yiji_average"},
-        is_shenjing:{name:"经期神经质", para_time:"is_shenjing_total_time", para_average:"is_shenjing_average"},
+        is_yiji:{name:"经期易激惹（烦恼、急躁或愤怒）", para_time:"is_yiji_total_time", para_average:"is_yiji_average"},
+        is_shenjing:{name:"经期神经质（易紧张、好激动、多愁善感、敏感多疑、容易沮丧）", para_time:"is_shenjing_total_time", para_average:"is_shenjing_average"},
       },
       pain_level: [0,1,2,3,4,5,6,7,8,9,10],
       radio_pain_start_time:["经前","经期","经后"],

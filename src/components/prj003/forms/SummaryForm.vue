@@ -47,6 +47,7 @@
         </el-col>
         <el-col :span="6">
           <el-input v-model="summaryForm.pain_start_time_day" type="number" min="0">
+            <template slot="prepend">第</template>
             <template slot="append">天</template>
           </el-input>
         </el-col>
@@ -60,6 +61,7 @@
         </el-col>
         <el-col :span="6">
           <el-input v-model="summaryForm.pain_end_time_day" type="number" min="0">
+            <template slot="prepend">第</template>
             <template slot="append">天</template>
           </el-input>
         </el-col>
@@ -203,8 +205,8 @@ export default {
         is_shimian:{name:"经期失眠", para_time:"is_shimian_total_time", para_average:"is_shimian_average"},
         is_quanshen:{name:"经期全身疼痛", para_time:"is_quanshen_total_time", para_average:"is_quanshen_average"},
         is_yiyu:{name:"经期抑郁", para_time:"is_yiyu_total_time", para_average:"is_yiyu_average"},
-        is_yiji:{name:"经期易激惹（烦恼、急躁或愤怒)", para_time:"is_yiji_total_time", para_average:"is_yiji_average"},
-        is_shenjing:{name:"经期神经质", para_time:"is_shenjing_total_time", para_average:"is_shenjing_average"},
+        is_yiji:{name:"经期易激惹（烦恼、急躁或愤怒）", para_time:"is_yiji_total_time", para_average:"is_yiji_average"},
+        is_shenjing:{name:"经期神经质（易紧张、好激动、多愁善感、敏感多疑、容易沮丧）", para_time:"is_shenjing_total_time", para_average:"is_shenjing_average"},
       },
       pain_level: [0,1,2,3,4,5,6,7,8,9,10],
       radio_pain_start_time:["经前","经期","经后"],

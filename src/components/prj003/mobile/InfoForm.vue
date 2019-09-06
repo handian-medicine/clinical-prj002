@@ -34,7 +34,6 @@
       <el-form-item label="辅助医生" prop="owner">
         <el-select v-model="infoForm.area"
                   @change="getHospital"
-                  :loading="loading"
                   placeholder="请选择地区">
           <template slot="prefix"><i class="fa fa-globe" aria-hidden="true"></i></template>
           <el-option v-for="item in area_options" :key="item" :value="item">
@@ -42,7 +41,6 @@
         </el-select>
         <el-select v-model="infoForm.hospital2"
                   @change="getOwner"
-                  :loading="loading"
                   placeholder="请选择医院">
           <template slot="prefix"><i class="fa fa-hospital-o" aria-hidden="true"></i></template>
           <el-option v-for="item in hospital_options" :key="item" :value="item">
@@ -148,52 +146,12 @@
 </template>
 <script>
 import {apiMobileArea,apiMobileHospital,apiMobileOwner} from '@/api/api-prj003'
-import { setTimeout } from 'timers';
 export default {
   name: "MobileInfoForm",
   data() {
     return {
-      loading: true,
       infoForm: {
-        // "patient_name":"mobile002",
-        // "patient_date":"2019-08-01",
-        // "hospital_name":"汉典医院",
-        // "hospital_belong":"省级医院",
-        // "patient_phone":"13311111111",
-        // "owner":"",
-        // "expert_name":"专家01",
-        // "expert_hospital":"汉典医院",
-        // "expert_phone":"13622222222",
-        // "expert_email":"aa@bb.com",
-        // "expert_title":"主任医师",
-        // "patient_address":"北京",
-        // "entrance":"门诊",
-        // "patient_birth":"2000-08",
-        // "patient_height":"171",
-        // "patient_weight":"55",
-        // "nation":"汉族",
-        // "career":"个体",
-        // "culture_level":"初中"
 
-        "patient_name":"",
-        "patient_date":"",
-        "hospital_name":"",
-        "hospital_belong":"",
-        "patient_phone":"",
-        "owner":"",
-        "expert_name":"",
-        "expert_hospital":"",
-        "expert_phone":"",
-        "expert_email":"",
-        "expert_title":"",
-        "patient_address":"",
-        "entrance":"",
-        "patient_birth":"",
-        "patient_height":"",
-        "patient_weight":"",
-        "nation":"",
-        "career":"",
-        "culture_level":""
         },
       hospital_belongSelection: ["省级医院","市级医院","区/县级医院"],
       nationSelection: ["汉族","蒙古族","回族","藏族","维吾尔族","苗族","彝族","壮族","布依族","朝鲜族","满族","侗族",
@@ -205,7 +163,7 @@ export default {
       entranceSelection: ["门诊","学校"],
       cultureSelection:["小学","初中","高中/中专","大专","本科","研究生及以上","未接受国家教育(文盲)"],
       experttitleSelection:["主任医师","副主任医师","主治医师"],
-      specialCheckbox: {"special_gaowen":"高温","special_diwen":"低温","special_yeban":"夜班/熬夜","special_zao":"噪声","special_fu":"辐射","special_hua":"化工污染","special_ju":"剧烈运动","special_qi":"汽油","special_kong":"高空","environment_shileng":"湿冷","special_wu":"无"},
+      specialCheckbox: {"environment_gaowen":"高温","environment_diwen":"低温","environment_yeban":"夜班/熬夜","environment_zaosheng":"噪声","environment_fushe":"辐射","environment_huagong":"化工印染","environment_julie":"剧烈运动","environment_qiyou":"汽油","environment_gaokong":"高空","environment_shileng":"湿冷","environment_wu":"无"},
       dietCheckbox:    {"yinshi_wuteshu":"无特殊","yinshi_sushi":"素食","yinshi_suan":"酸","yinshi_tian":"甜","yinshi_xian":"咸","yinshi_xinla":"辛辣","yinshi_you":"油","yinshi_shengleng":"生冷","yinshi_cafei":"含咖啡因食物或饮品"},
       rules:{
           patient_date:  [{required: true, message: '一般信息: 请填写就诊日期'}],
@@ -227,37 +185,19 @@ export default {
 
   },
   mounted () {
-    /* 注释块 用来测试，加延时 */
-    // var that  = this
-    // that.loading = true
-    // apiMobileArea()
-    //   .then( (res) => {
-    //     const area_data = res.data.area_data
-    //     console.log('wait for 10 seconds . . . . ');
-    //     return new Promise(function(resolve, reject) {
-    //         setTimeout(() => {
-    //             for(var i = 0, len = area_data.length; i < len; i++){that.area_options.push(area_data[i].area)}
-    //             that.loading = false
-    //             console.log('10 seconds Timer expired!!!');
-    //             resolve();
-    //         }, 3000)
-    //     });
-    //   }).catch()
-    this.loading = true
-    apiMobileArea()
+      apiMobileArea()
       .then( (res) => {
         const area_data = res.data.area_data
-        for(var i = 0, len = area_data.length; i < len; i++){this.area_options.push(area_data[i].area)}
-        this.loading = false
+        // console.log("返回的地区数据",area_data)
+        for(var i = 0, len = area_data.length; i < len; i++){
+          this.area_options.push(area_data[i].area)
+        }
       }).catch()
   },
   methods: {
     getHospital (area) {
-      this.loading = true
       this.owner_options = []
       this.hospital_options = []
-      this.infoForm.owner = ''
-      this.infoForm.hospital2 = ''
       apiMobileHospital({area:area})
       .then( (res) => {
         const hospital_data = res.data.hospital_data
@@ -265,14 +205,10 @@ export default {
         for(var i = 0, len = hospital_data.length; i < len; i++){
           this.hospital_options.push(hospital_data[i].hospital)
         }
-        this.loading = false
-
       }).catch()
     },
     getOwner (hospital) {
-      this.loading = true
       this.owner_options = []
-      this.infoForm.owner = ''
       apiMobileOwner({hospital:hospital})
       .then( (res) => {
         const owner_data = res.data.owner_data
@@ -280,10 +216,9 @@ export default {
         for(var i = 0, len = owner_data.length; i < len; i++){
           this.owner_options.push(owner_data[i])
         }
-        this.loading = false
+
       }).catch()
     }
-  }
-
+  },
 };
 </script>

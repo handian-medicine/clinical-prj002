@@ -194,7 +194,7 @@
                     :key="item" :label="item">
           </el-radio>
         </el-form-item>
-        <el-form-item label="一级亲属（父母、兄弟姐妹、子女）其他疾病史" label-width="300px">
+        <el-form-item label="一级亲属（父母、兄弟姐妹、子女）其他疾病史" label-width="380px">
           <el-radio v-model="historyForm.relative_history"
                     v-for="item in mydata.relative_history"
                     :key="item" :label="item">
@@ -218,7 +218,7 @@ export default {
   data() {
     return {
       mydata:{
-        'hobbies':['无', '吸烟', '饮酒'],
+        hobbies:{hobby_wu:'无', hobby_xiyan:'吸烟', hobby_yinjiu:'饮酒'},
         'body_cond':['好','一般','易疲倦'],
         'career_labor':[
                 "重体力劳动（如：搬运工、清洁工、农场工人、畜牧场工人等）",

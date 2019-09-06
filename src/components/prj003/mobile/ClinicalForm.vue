@@ -6,14 +6,17 @@
       <el-form-item label="痛经" >
           <el-switch v-model="clinicalForm.zhong_tongjing" active-text="是" inactive-text="否"></el-switch>
       </el-form-item>
-      <el-form-item label="实证">
+      <el-form-item label="辨证分型">
+          <el-switch v-model="is_xuzheng" active-text="虚证" inactive-text="实证" @change="changebianzheng"></el-switch>
+      </el-form-item>
+      <el-form-item  v-show="!is_xuzheng" label="实证">
         <el-radio v-model="clinicalForm.shizheng"
                   v-for="item in shizheng"
                   :key="item" :label="item">
         </el-radio>
         <el-input v-model="clinicalForm.shizheng_qita" ></el-input>
       </el-form-item>
-      <el-form-item label="虚证">
+      <el-form-item  v-show="is_xuzheng" label="虚证">
         <el-radio v-model="clinicalForm.xuzheng"
                   v-for="item in xuzheng"
                   :key="item" :label="item">
@@ -41,9 +44,19 @@ export default {
       clinicalForm: {
       },
       rules:{},
+      is_xuzheng:false,
     }
   },
   methods: {
+    changebianzheng(){
+      if(this.is_xuzheng == true){
+        this.clinicalForm.shizheng = null
+        this.clinicalForm.shizheng_qita = null
+      }else{
+        this.clinicalForm.xuzheng = null
+        this.clinicalForm.xuzheng_qita = null
+      }
+    }
   },
 };
 </script>

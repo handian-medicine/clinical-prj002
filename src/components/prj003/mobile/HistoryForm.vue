@@ -21,25 +21,25 @@
         </el-radio>
       </el-form-item>
       <el-form-item label="职业体力活动">
-        <el-radio v-model="historyForm.physical_career"
+        <el-radio v-model="historyForm.physical_career" style="width: 100%;text-overflow: ellipsis;white-space: normal"
                   v-for="item in mydata.career_labor"
                   :key="item" :label="item">
         </el-radio>
       </el-form-item>
       <el-form-item label="体育锻炼">
         <el-switch v-model="historyForm.is_exercise" active-text="有" inactive-text="无"></el-switch>
-        <el-form-item  v-show="historyForm.is_exercise" label="(1)频次">
-          <el-radio v-model="historyForm.exercise_pinci"
-                    v-for="item in mydata.physical_exercise"
-                    :key="item" :label="item">
-          </el-radio>
-        </el-form-item>
-        <el-form-item v-show="historyForm.is_exercise" label="(2)强度">
-          <el-radio v-model="historyForm.exercise_qiangdu"
-                    v-for="item in mydata.physical_intensity"
-                    :key="item" :label="item">
-          </el-radio>
-        </el-form-item>
+      </el-form-item>
+      <el-form-item  v-show="historyForm.is_exercise" label="(1)频次">
+        <el-radio v-model="historyForm.exercise_pinci"
+                  v-for="item in mydata.physical_exercise"
+                  :key="item" :label="item">
+        </el-radio>
+      </el-form-item>
+      <el-form-item v-show="historyForm.is_exercise" label="(2)强度">
+        <el-radio v-model="historyForm.exercise_qiangdu"
+                  v-for="item in mydata.physical_intensity"
+                  :key="item" :label="item">
+        </el-radio>
       </el-form-item>
 
       <h3>（三）月经带下史</h3>
@@ -198,7 +198,7 @@ export default {
   data() {
     return {
       mydata:{
-        'hobbies':['无', '吸烟', '饮酒'],
+        hobbies:{hobby_wu:'无', hobby_xiyan:'吸烟', hobby_yinjiu:'饮酒'},
         'body_cond':['好','一般','易疲倦'],
         'career_labor':[
                 "重体力劳动（如：搬运工、清洁工、农场工人、畜牧场工人等）",
