@@ -115,16 +115,19 @@
       </el-form-item>
 
       <h3>（四）平素全身症状</h3>
+      <!--
       <el-form-item label="平素全身症状" >
           <el-switch v-model="historyForm.body_all" active-text="有" inactive-text="无"></el-switch>
       </el-form-item>
-      <el-form-item v-show="historyForm.body_all" label="精神情绪">
+      -->
+      <el-form-item label="精神情绪">
         <el-radio v-model="historyForm.body_spirit"
                   v-for="item in mydata.body_spirit"
                   :key="item" :label="item">
         </el-radio>
         <el-input v-model="historyForm.body_spirit_qita" ></el-input>
       </el-form-item>
+      <!--
       <el-form-item v-show="historyForm.body_all" label="头面">
         <el-radio v-model="historyForm.body_face_head"
                   v-for="item in mydata.body_face_head"
@@ -153,7 +156,7 @@
         </el-radio>
         <el-input v-model="historyForm.body_sleep_qita" ></el-input>
       </el-form-item>
-
+      -->
       <h3>（五）婚姻史</h3>
       <el-form-item label="婚姻史">
         <el-radio v-model="historyForm.marriage_history"
