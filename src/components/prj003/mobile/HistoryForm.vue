@@ -103,48 +103,34 @@
       </el-form-item>
 
       <h3>（四）平素全身症状</h3>
-      <!--
       <el-form-item label="平素全身症状" >
           <el-switch v-model="historyForm.body_all" active-text="有" inactive-text="无"></el-switch>
       </el-form-item>
-      -->
-      <el-form-item  label="精神情绪">
-        <el-radio v-model="historyForm.body_spirit"
-                  v-for="item in mydata.body_spirit"
-                  :key="item" :label="item">
-        </el-radio>
+      <el-form-item v-show="historyForm.body_all" label="精神情绪">
+        <el-checkbox v-for="(val, key) in mydata.body_spirit" :key="key" :label="val" v-model="historyForm[key]">
+        </el-checkbox>
         <el-input v-model="historyForm.body_spirit_qita" ></el-input>
       </el-form-item>
-      <!--
       <el-form-item v-show="historyForm.body_all" label="头面">
-        <el-radio v-model="historyForm.body_face_head"
-                  v-for="item in mydata.body_face_head"
-                  :key="item" :label="item">
-        </el-radio>
+        <el-checkbox v-for="(val, key) in mydata.body_face_head" :key="key" :label="val" v-model="historyForm[key]">
+        </el-checkbox>
         <el-input v-model="historyForm.body_face_head_qita" ></el-input>
       </el-form-item>
       <el-form-item v-show="historyForm.body_all" label="形体、四肢">
-        <el-radio v-model="historyForm.body_limb"
-                  v-for="item in mydata.body_limb"
-                  :key="item" :label="item">
-        </el-radio>
+        <el-checkbox v-for="(val, key) in mydata.body_limb" :key="key" :label="val" v-model="historyForm[key]">
+        </el-checkbox>
         <el-input v-model="historyForm.body_limb_qita" ></el-input>
       </el-form-item>
       <el-form-item v-show="historyForm.body_all" label="胸腹部">
-        <el-radio v-model="historyForm.body_belly"
-                  v-for="item in mydata.body_belly"
-                  :key="item" :label="item">
-        </el-radio>
+        <el-checkbox v-for="(val, key) in mydata.body_belly" :key="key" :label="val" v-model="historyForm[key]">
+        </el-checkbox>
         <el-input v-model="historyForm.body_belly_qita" ></el-input>
       </el-form-item>
       <el-form-item v-show="historyForm.body_all" label="睡眠">
-        <el-radio v-model="historyForm.body_sleep"
-                  v-for="item in mydata.body_sleep"
-                  :key="item" :label="item">
-        </el-radio>
+        <el-checkbox v-for="(val, key) in mydata.body_sleep" :key="key" :label="val" v-model="historyForm[key]">
+        </el-checkbox>
         <el-input v-model="historyForm.body_sleep_qita" ></el-input>
       </el-form-item>
-      -->
 
       <h3>（五）婚姻史</h3>
       <el-form-item label="婚姻史">
@@ -219,11 +205,11 @@ export default {
         leucorrhea_quantity:["正常","量少","量多"],
         leucorrhea_color:["色白","色黄","透明","色黄绿"],
         leucorrhea_feature:["黏而不稠","质清稀","质稠"],
-        body_spirit:["神疲肢倦","气短懒言","精神抑郁","烦躁易怒","时欲叹息"],
-        body_face_head:["正常","面色萎黄","面色晦暗","面有黯斑","面浮肢肿","颧赤唇红","口苦咽干","头晕耳鸣","眼花"],
-        body_limb:["正常","形体肥胖","形体瘦小","畏寒肢冷","手足心热","腰酸腿软","腰痛如折"],
-        body_belly:["胸闷不舒","经前乳房胀痛","经前胸胁胀痛","经前少腹胀痛","腹空坠","小腹空痛","小腹刺痛","小腹胀痛","小腹冷痛","小腹隐痛"],
-        body_sleep:["心悸失眠","夜寐不宁","夜寐梦多"],
+        body_spirit:{body_spirit_shenpi:'神疲肢倦',body_spirit_qiduan:'气短懒言',body_spirit_jingshen:'精神抑郁',body_spirit_fanzao:'烦躁易怒',body_spirit_shiyu:'时欲叹息'},
+        body_face_head:{body_face_head_weihuang:"面色萎黄",body_face_head_huian:"面色晦暗",body_face_head_anban:"面有黯斑",body_face_head_zhizhong:"面浮肢肿",body_face_head_chunhong:"颧赤唇红",body_face_head_yangan:"口苦咽干",body_face_head_erming:"头晕耳鸣",body_face_head_yanhua:"眼花"},
+        body_limb:{body_limb_feipang:"形体肥胖",body_limb_shouxiao:"形体瘦小",body_limb_zhileng:"畏寒肢冷",body_limb_xinre:"手足心热",body_limb_tuiruan:"腰酸腿软",body_limb_rushe:"腰痛如折"},
+        body_belly:{body_belly_men:"胸闷不舒",body_belly_ruzhang:"经前乳房胀痛",body_belly_xiongzhang:"经前胸胁胀痛",body_belly_fuzhang:"经前少腹胀痛",body_belly_fukong:"腹空坠",body_belly_kong:"小腹空痛",body_belly_ci:"小腹刺痛",body_belly_zhang:"小腹胀痛",body_belly_leng:"小腹冷痛",body_belly_yin:"小腹隐痛"},
+        body_sleep:{body_sleep_xinji:"心悸失眠",body_sleep_buning:"夜寐不宁",body_sleep_mengduo:"夜寐梦多"},
         marriage:["无性生活","未婚有性生活","已婚同居","已婚分居","离婚","丧偶"],
         pastpreg:{pregnancy_yun:'怀孕', pregnancy_shun:'顺产', pregnancy_pou:'剖宫产',
                   pregnancy_zao:'早产', pregnancy_yao:'药物流产', pregnancy_ren:'人工流产',
