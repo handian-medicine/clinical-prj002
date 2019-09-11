@@ -10,7 +10,7 @@
           <span v-show="!collapsed" style="color:white;font-size:17px">中医妇科临床流调数据中心</span>
         </el-link>
       </el-col>
-      <el-col :span="2">
+      <el-col :span="3">
         <div class="tools" @click.prevent="collapse">
           <i class="fa fa-align-justify"></i>
         </div>
