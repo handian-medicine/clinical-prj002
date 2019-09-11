@@ -1,5 +1,9 @@
 <template>
   <div>
+  <h1 class="main-title">
+      <i class="fa fa-envira" style="color:green"></i>
+      原发性痛经临床流行病学调查
+  </h1>
   <el-tabs type="border-card">
     <el-tab-pane label="一般信息">
       <InfoForm ref="info"></InfoForm>
@@ -99,5 +103,16 @@ export default {
   .el-tabs__nav-next, .el-tabs__nav-prev {
     font-size: 18px;
     color:black
+  }
+  .main-title {
+    text-align: center;
+    margin: 0px auto;
+    // margin: 150px 20px 20px 20px;
+    // font-family: Helvetica, Tahoma, Arial, "Heiti SC", "Microsoft YaHei", sans-serif;
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 26px;
+    font-weight: lighter;
+    color:black;
+    background-color:aliceblue
   }
 </style>
