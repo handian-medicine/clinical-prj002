@@ -53,8 +53,7 @@
       <section class="content-container">
           <!-- 面包屑breadcrumb -->
           <el-col :span="24" class="breadcrumb-container">
-            <strong class="title">{{$route.name}}</strong>
-            <el-breadcrumb separator="/" class="breadcrumb-inner">
+            <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb-inner">
               <el-breadcrumb-item v-for="item in $route.matched" :key="item.path">{{ item.name }}</el-breadcrumb-item>
             </el-breadcrumb>
           </el-col>
@@ -83,7 +82,7 @@ export default {
     // 关于v-for v-if，data里未定义的变量遍历使用计算属性。否则使用v-for v-if配合使用
     routes: function() {
       return this.$router.options.routes.filter(function(item) {
-        return item.name=='Prj001';
+        return item.name=='排卵障碍性异常子宫出血';
       });
       // return this.$router.options.routes.filter(function(item) {
       //   return !item.hidden;
@@ -210,12 +209,12 @@ export default {
       .breadcrumb-container {
         .title {
           width: 200px;
-          float: left;
+          float: right;
           color: #475669;
         }
 
         .breadcrumb-inner {
-          float: right;
+          float: left;
         }
       }
 

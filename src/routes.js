@@ -76,7 +76,7 @@ export default new Router({
     {
       path: '/prj001',
       component: () => import('@/components/prj001/Prj001.vue'),
-      name: 'Prj001',
+      name: '排卵障碍性异常子宫出血',
       iconCls: 'fa fa-address-card',  //用户自定义属性
       leaf: false, //用户自定义属性,用来确定某条菜单是否还有下级菜单
       children: [
@@ -109,7 +109,7 @@ export default new Router({
     {
       path: '/prj002',
       component: () => import('@/components/prj002/Prj002.vue'),
-      name: 'Prj002',
+      name: '多囊卵巢综合征',
       iconCls: 'fa fa-address-card',  //用户自定义属性
       leaf: false, //用户自定义属性,用来确定某条菜单是否还有下级菜单
       children: [
@@ -137,7 +137,7 @@ export default new Router({
     {
       path: '/prj003',
       component: () => import('@/components/prj003/Prj003.vue'),
-      name: 'Prj003',
+      name: '原发性痛经',
       iconCls: 'fa fa-address-card',  //用户自定义属性
       leaf: false, //用户自定义属性,用来确定某条菜单是否还有下级菜单
       children: [
