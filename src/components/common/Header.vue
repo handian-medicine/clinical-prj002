@@ -10,12 +10,15 @@
           <span v-show="!collapsed" style="color:white;font-size:17px">中医妇科临床流调数据中心</span>
         </el-link>
       </el-col>
-      <el-col :span="6">
+      <el-col :span="2">
         <div class="tools" @click.prevent="collapse">
           <i class="fa fa-align-justify"></i>
         </div>
       </el-col>
-      <el-col :span="8" class="userinfo">
+      <el-col :span="6">
+        {{title}}
+      </el-col>
+      <el-col :span="6" class="userinfo">
         <el-dropdown trigger="click">
           <span class="el-dropdown-link userinfo-inner">
             <img src="@/assets/Nurse.png" />
@@ -59,6 +62,7 @@ export default {
         dialogVisible:false
       }
     },
+    props: ['title'],
     methods:{
       // 修改密码
       changePassword () {

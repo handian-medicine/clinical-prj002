@@ -1,7 +1,7 @@
 <template>
   <el-row class="container">
     <!-- 头部栏 -->
-    <Header @headerEvent="ret=>(collapsed=ret)"></Header>
+    <Header @headerEvent="ret=>(collapsed=ret)" title="原发性痛经"></Header>
     <el-col :span="24" class="main">
       <!-- 侧边栏 -->
       <aside :class="collapsed?'menu-collapsed':'menu-expanded'">
