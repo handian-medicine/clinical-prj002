@@ -5,13 +5,14 @@
       <h3>一、主症</h3>
       <el-form-item label="主诉:经行腹痛" >
         <el-input v-model="summaryForm.zhusu" type="number" min="0">
-          <template slot="append">月</template>
+          <template slot="append">个月</template>
         </el-input>
       </el-form-item>
 
-      <el-form-item label="疼痛程度（VAS评分）" >
+      <h4 style="color: #409EFF;">疼痛程度（VAS评分）</h4>
         <label>说明：数字0—10代表痛经程度依次递增，0代表无痛经；10代表极度疼痛甚则晕厥</label>
         <p></p>
+      <el-form-item label="">
         <el-radio v-model="summaryForm.pain_level"
                   v-for="item in pain_level"
                   :key="item" :label="item">
@@ -21,7 +22,7 @@
       <el-form-item label="疼痛性质">
         <el-checkbox v-for="(val, key) in pain_character" :key="key" :label="val" v-model="summaryForm[key]">
         </el-checkbox>
-        <el-input v-model="summaryForm.pain_character_qita"></el-input>
+        <el-input v-model="summaryForm.pain_character_qita" placeholder="其他" ></el-input>
       </el-form-item>
       <el-form-item label="疼痛开始时间">
           <el-radio v-model="summaryForm.pain_start_time"
@@ -58,7 +59,7 @@
                   v-for="item in radio_menstruation"
                   :key="item" :label="item">
         </el-radio>
-        <el-input v-model="summaryForm.menstruation_qita" type="string" >
+        <el-input v-model="summaryForm.menstruation_qita"  placeholder="其他" type="string" >
         </el-input>
       </el-form-item>
       <el-form-item label="经血颜色">
@@ -66,7 +67,7 @@
                   v-for="item in radio_blood_color"
                   :key="item" :label="item">
         </el-radio>
-        <el-input v-model="summaryForm.blood_color_qita" type="string" >
+        <el-input v-model="summaryForm.blood_color_qita"  placeholder="其他" type="string" >
         </el-input>
       </el-form-item>
       <el-form-item label="经血质地">
@@ -91,7 +92,8 @@
         </el-form-item>
 
       <template v-for="(q_val,q_key) in mydata">
-        <el-form-item :label="q_val.name" :key="q_key" :show-overflow-tooltip=true>
+        <h4 style="color: #409EFF;">{{q_val.name}}</h4>
+        <el-form-item label="" :key="q_key" :show-overflow-tooltip=true  label-width="50px">
           <el-switch v-model="summaryForm[q_key]" active-text="是" inactive-text="否"></el-switch>
         </el-form-item>
         <el-form-item v-show="summaryForm[q_key]" label="总发作时间">
@@ -132,24 +134,29 @@
       </el-form-item>
 
       <el-form-item label="舌质">
-        <el-checkbox v-for="(val, key) in tongue_texture" :key="key" :label="val" v-model="summaryForm[key]">
-        </el-checkbox>
-        <el-input v-model="summaryForm.texture_qita"></el-input>
+        <el-radio v-model="summaryForm.texture"
+                  v-for="item in texture_choise"
+                  :key="item" :label="item">
+        </el-radio>
+        <el-input v-model="summaryForm.texture_qita"  placeholder="其他"></el-input>
       </el-form-item>
       <el-form-item label="舌体">
-        <el-checkbox v-for="(val, key) in tongue_body" :key="key" :label="val" v-model="summaryForm[key]">
-        </el-checkbox>
-        <el-input v-model="summaryForm.tongue_qita"></el-input>
+        <el-checkbox  :label="tongue_body.tongue_zhengchang" v-model="summaryForm['tongue_zhengchang']"></el-checkbox>
+        <el-checkbox v-show="!summaryForm['tongue_zhengchang']" :label="tongue_body.tongue_shouxiao" v-model="summaryForm['tongue_shouxiao']"></el-checkbox>
+        <el-checkbox v-show="!summaryForm['tongue_zhengchang']" :label="tongue_body.tongue_pangda" v-model="summaryForm['tongue_pangda']"></el-checkbox>
+        <el-checkbox v-show="!summaryForm['tongue_zhengchang']" :label="tongue_body.tongue_chihen" v-model="summaryForm['tongue_chihen']"></el-checkbox>
+        <el-checkbox v-show="!summaryForm['tongue_zhengchang']" :label="tongue_body.tongue_liewen" v-model="summaryForm['tongue_liewen']"></el-checkbox>
+        <el-input  v-show="!summaryForm['tongue_zhengchang']" v-model="summaryForm.tongue_qita"  placeholder="其他"></el-input>
       </el-form-item>
       <el-form-item label="舌苔">
         <el-checkbox v-for="(val, key) in tongue_coating" :key="key" :label="val" v-model="summaryForm[key]">
         </el-checkbox>
-        <el-input v-model="summaryForm.coating_qita"></el-input>
+        <el-input v-model="summaryForm.coating_qita"  placeholder="其他"></el-input>
       </el-form-item>
       <el-form-item label="脉象">
         <el-checkbox v-for="(val, key) in pulse" :key="key" :label="val" v-model="summaryForm[key]">
         </el-checkbox>
-        <el-input v-model="summaryForm.pulse_qita"></el-input>
+        <el-input v-model="summaryForm.pulse_qita"  placeholder="其他"></el-input>
       </el-form-item>
 
     </el-form>
@@ -191,9 +198,9 @@ export default {
       radio_average:["轻度","中度","较显著","剧烈"],
       pain_character: {'pain_character_leng':'冷痛','pain_character_zhui':'坠痛','pain_character_zhang':'胀痛','pain_character_ci':'刺痛','pain_character_jiao':'绞痛','pain_character_che':'掣痛','pain_character_kong':'空痛','pain_character_zhuo':'灼痛','pain_character_yin':'隐痛'},
       pain_hobby: {'hobby_xian':'喜按','hobby_juan':'拒按','hobby_xiwen':'喜温','hobby_buxiwen':'不喜温','hobby_dewenjian':'得温痛减','hobby_dewenbu':'得温痛不减','hobby_kuaijian':'块下痛减','hobby_kuaibu':'块下痛不减'},
-      tongue_texture: {'texture_danhong':'淡红','texture_danbai':'淡白','texture_hong':'红','texture_zian':'紫暗有瘀点或瘀斑'},
+      texture_choise:['淡红','淡白','红','紫暗有瘀点或瘀斑'],
       tongue_coating: {'coating_bai':'白','coating_huang':'黄','coating_bo':'薄','coating_hou':'厚','coating_ni':'腻','coating_run':'润','coating_ganzao':'干','coating_shaotai':'少苔','coating_huabo':'花剥','coating_wutai':'无苔'},
-      tongue_body:    {'tongue_zhengchang':'正常','tongue_shouxiao':'瘦小','tongue_pangda':'胖大','tongue_chihen':'有齿痕','tongue_liewen':'有裂纹'},
+      tongue_body:    {tongue_zhengchang:'正常',tongue_shouxiao:'瘦小',tongue_pangda:'胖大',tongue_chihen:'有齿痕',tongue_liewen:'有裂纹'},
       pulse:          {'pulse_fu':'浮','pulse_chen':'沉','pulse_hua':'滑','pulse_shu':'数','pulse_xian':'弦','pulse_xi':'细','pulse_ruo':'弱','pulse_huan':'缓','pulse_chi':'迟','pulse_se':'涩','pulse_jin':'紧'},
       summaryForm:{
       },

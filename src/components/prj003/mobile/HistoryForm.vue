@@ -5,14 +5,15 @@
       <h3>（一）既往史</h3>
       <el-form-item label="既往史" >
           <el-switch v-model="historyForm.has_history" active-text="有" inactive-text="无"></el-switch>
-          <el-input v-model="historyForm.history_content" ></el-input>
+          <el-input  v-show="historyForm.has_history" v-model="historyForm.history_content" ></el-input>
       </el-form-item>
 
       <h3>（二）个人史</h3>
       <el-form-item label="特殊嗜好">
-        <el-checkbox v-for="(val, key) in mydata.hobbies" :key="key" :label="val" v-model="historyForm[key]">
-        </el-checkbox>
-        <el-input v-model="historyForm.hobby_qita" ></el-input>
+        <el-checkbox  :label="mydata.hobbies.hobby_wu" v-model="historyForm['hobby_wu']"></el-checkbox>
+        <el-checkbox v-show="!historyForm['hobby_wu']" :label="mydata.hobbies.hobby_xiyan" v-model="historyForm['hobby_xiyan']"></el-checkbox>
+        <el-checkbox v-show="!historyForm['hobby_wu']" :label="mydata.hobbies.hobby_yinjiu" v-model="historyForm['hobby_yinjiu']"></el-checkbox>
+        <el-input  v-show="!historyForm['hobby_wu']" v-model="historyForm.hobby_qita"  placeholder="其他"></el-input>
       </el-form-item>
       <el-form-item label="体力状况">
         <el-radio v-model="historyForm.physical"
@@ -64,14 +65,14 @@
                     v-for="item in mydata.abnormal"
                     :key="item" :label="item">
           </el-radio>
-          <el-input v-model="historyForm.not_normal_qita" ></el-input>
+          <el-input v-model="historyForm.not_normal_qita"  placeholder="其他"></el-input>
         </el-form-item>
       <el-form-item label="月经经期">
         <el-radio v-model="historyForm.total_days"
                   v-for="item in mydata.cyclicity_sum"
                   :key="item" :label="item">
         </el-radio>
-        <el-input v-model="historyForm.total_days_qita" placeholder="其他情况"></el-input>
+        <el-input v-model="historyForm.total_days_qita" placeholder="其他"></el-input>
       </el-form-item>
       <el-form-item label="末次行经日期">
         <el-date-picker v-model="historyForm.last_time"
@@ -93,7 +94,7 @@
           <el-option v-for="item in mydata.leucorrhea_color" :key="item" :value="item">
           </el-option>
         </el-select>
-        <el-input v-model="historyForm.daixia_se_qita" placeholder="其他情况"></el-input>
+        <el-input v-model="historyForm.daixia_se_qita" placeholder="其他"></el-input>
       </el-form-item>
       <el-form-item label="质">
         <el-select v-model="historyForm.daixia_zhi" placeholder="请选择">
@@ -109,27 +110,27 @@
       <el-form-item v-show="historyForm.body_all" label="精神情绪">
         <el-checkbox v-for="(val, key) in mydata.body_spirit" :key="key" :label="val" v-model="historyForm[key]">
         </el-checkbox>
-        <el-input v-model="historyForm.body_spirit_qita" ></el-input>
+        <el-input v-model="historyForm.body_spirit_qita"  placeholder="其他"></el-input>
       </el-form-item>
       <el-form-item v-show="historyForm.body_all" label="头面">
         <el-checkbox v-for="(val, key) in mydata.body_face_head" :key="key" :label="val" v-model="historyForm[key]">
         </el-checkbox>
-        <el-input v-model="historyForm.body_face_head_qita" ></el-input>
+        <el-input v-model="historyForm.body_face_head_qita"  placeholder="其他"></el-input>
       </el-form-item>
       <el-form-item v-show="historyForm.body_all" label="形体、四肢">
         <el-checkbox v-for="(val, key) in mydata.body_limb" :key="key" :label="val" v-model="historyForm[key]">
         </el-checkbox>
-        <el-input v-model="historyForm.body_limb_qita" ></el-input>
+        <el-input v-model="historyForm.body_limb_qita"  placeholder="其他"></el-input>
       </el-form-item>
       <el-form-item v-show="historyForm.body_all" label="胸腹部">
         <el-checkbox v-for="(val, key) in mydata.body_belly" :key="key" :label="val" v-model="historyForm[key]">
         </el-checkbox>
-        <el-input v-model="historyForm.body_belly_qita" ></el-input>
+        <el-input v-model="historyForm.body_belly_qita"  placeholder="其他"></el-input>
       </el-form-item>
       <el-form-item v-show="historyForm.body_all" label="睡眠">
         <el-checkbox v-for="(val, key) in mydata.body_sleep" :key="key" :label="val" v-model="historyForm[key]">
         </el-checkbox>
-        <el-input v-model="historyForm.body_sleep_qita" ></el-input>
+        <el-input v-model="historyForm.body_sleep_qita"  placeholder="其他"></el-input>
       </el-form-item>
 
       <h3>（五）婚姻史</h3>
@@ -148,36 +149,41 @@
             <template slot="append">次</template>
           </el-input>
         </el-col>
-          <el-input v-model="historyForm.pregnancy_qita" placeholder="其他情况"></el-input>
+          <el-input v-model="historyForm.pregnancy_qita" placeholder="其他"></el-input>
       </el-form-item>
 
       <h3>（七）避孕措施（请有性生活者填写）</h3>
       <el-form-item label="避孕措施">
-        <el-checkbox v-for="(val, key) in mydata.biyun" :key="key" :label="val" v-model="historyForm[key]">
-        </el-checkbox>
-        <el-input v-model="historyForm.biyun_qita" ></el-input>
+        <el-checkbox  :label="mydata.biyun.biyun_wu" v-model="historyForm['biyun_wu']"></el-checkbox>
+        <el-checkbox v-show="!historyForm['biyun_wu']" :label="mydata.biyun.biyun_jiezha" v-model="historyForm['biyun_jiezha']"></el-checkbox>
+        <el-checkbox v-show="!historyForm['biyun_wu']" :label="mydata.biyun.biyun_gongnei" v-model="historyForm['biyun_gongnei']"></el-checkbox>
+        <el-checkbox v-show="!historyForm['biyun_wu']" :label="mydata.biyun.biyun_biyun" v-model="historyForm['biyun_biyun']"></el-checkbox>
+        <el-checkbox v-show="!historyForm['biyun_wu']" :label="mydata.biyun.biyun_koufu" v-model="historyForm['biyun_koufu']"></el-checkbox>
+        <el-input v-show="!historyForm['biyun_wu']" v-model="historyForm.biyun_qita"  placeholder="其他"></el-input>
       </el-form-item>
 
       <h3>（八）家族史</h3>
-        <el-form-item label="一级亲属（母亲、姐妹、女儿）痛经史" >
-          <el-radio v-model="historyForm.family_history"  @change="changeHandler"
+        <h4 style="color: #409EFF;">一级亲属（母亲、姐妹、女儿）痛经史</h4>
+        <el-form-item label="" >
+          <el-radio v-model="historyForm.family_history" @change="changeHandler"
                     v-for="item in mydata.family_history"
                     :key="item" :label="item">
           </el-radio>
-          <el-input v-model="historyForm.family_history_qita" ></el-input>
         </el-form-item>
-        <el-form-item v-show="is_family_history" label="是否为原发性">
+        <el-form-item v-show="is_family_history" label="是否为原发性" >
           <el-radio v-model="historyForm.family_history_is_origin"
                     v-for="item in mydata.family_history_is_origin"
                     :key="item" :label="item">
           </el-radio>
         </el-form-item>
-        <el-form-item label="一级亲属（父母、兄弟姐妹、子女）其他疾病史" >
-          <el-radio v-model="historyForm.relative_history"
-                    v-for="item in mydata.relative_history"
-                    :key="item" :label="item">
-          </el-radio>
-          <el-input v-model="historyForm.relative_history_you" ></el-input>
+        <h4 style="color: #409EFF;">一级亲属（父母、兄弟姐妹、子女）其他疾病史</h4>
+        <el-form-item label="">
+          <el-radio-group v-model="historyForm.relative_history" @change="changeqitajibing">
+            <el-radio class="radio" label="无">无</el-radio>
+            <el-radio class="radio" label="有">有</el-radio>
+            <el-radio class="radio" label="不详">不详</el-radio>
+          </el-radio-group>
+          <el-input v-show="showqitajibinginput" v-model="historyForm.relative_history_you" ></el-input>
         </el-form-item>
 
     </el-form>
@@ -224,6 +230,7 @@ export default {
       historyForm:{
       },
       rules:{},
+      showqitajibinginput:false
     }
   },
   methods: {
@@ -236,6 +243,13 @@ export default {
         this.is_family_history=false
       }
     },
+    changeqitajibing(value){
+      if(value=="有"){
+        this.showqitajibinginput = true
+      }else{
+        this.showqitajibinginput = false
+      }
+    }
   },
 };
 </script>

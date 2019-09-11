@@ -7,23 +7,29 @@
           <el-switch v-model="clinicalForm.zhong_tongjing" active-text="是" inactive-text="否"></el-switch>
       </el-form-item>
       <el-form-item label="辨证分型">
-          <el-switch v-model="is_xuzheng" active-text="虚证" inactive-text="实证" @change="changebianzheng"></el-switch>
+        <el-radio-group v-model="bianzheng_result" @change="changebianzheng">
+          <el-radio class="radio" label="实证">实证</el-radio>
+          <el-radio class="radio" label="虚证">虚证</el-radio>
+          <el-radio class="radio" label="虚实夹杂证">虚实夹杂证</el-radio>
+        </el-radio-group>
       </el-form-item>
-      <el-form-item  v-show="!is_xuzheng" label="实证">
+      <el-form-item v-show="result_shizheng" label="实证" >
         <el-radio v-model="clinicalForm.shizheng"
                   v-for="item in shizheng"
                   :key="item" :label="item">
         </el-radio>
-        <el-input v-model="clinicalForm.shizheng_qita" ></el-input>
+        <el-input v-model="clinicalForm.shizheng_qita"  placeholder="其他"></el-input>
       </el-form-item>
-      <el-form-item  v-show="is_xuzheng" label="虚证">
+
+      <el-form-item  v-show="result_xuzheng" label="虚证">
         <el-radio v-model="clinicalForm.xuzheng"
                   v-for="item in xuzheng"
                   :key="item" :label="item">
         </el-radio>
-        <el-input v-model="clinicalForm.xuzheng_qita" ></el-input>
+        <el-input v-model="clinicalForm.xuzheng_qita"  placeholder="其他"></el-input>
       </el-form-item>
-      <el-form-item label="虚实夹杂证">
+
+      <el-form-item  v-show="result_xushi"  label="虚实夹杂证">
         <el-input v-model="clinicalForm.xushi" ></el-input>
       </el-form-item>
 
@@ -44,17 +50,36 @@ export default {
       clinicalForm: {
       },
       rules:{},
-      is_xuzheng:false,
+      result_shizheng:false,
+      result_xuzheng:false,
+      result_xushi:false,
+      bianzheng_result:"",
     }
   },
   methods: {
-    changebianzheng(){
-      if(this.is_xuzheng == true){
-        this.clinicalForm.shizheng = null
-        this.clinicalForm.shizheng_qita = null
-      }else{
-        this.clinicalForm.xuzheng = null
-        this.clinicalForm.xuzheng_qita = null
+    changebianzheng(value) {
+      if(value == "实证"){
+        this.result_shizheng=true
+        this.result_xuzheng=false
+        this.result_xushi=false
+        //this.clinicalForm.xuzheng=""
+        //this.clinicalForm.xuzheng_qita=""
+        //this.clinicalForm.xushi=""
+      }else if(value == "虚证"){
+        this.result_shizheng=false
+        this.result_xuzheng=true
+        this.result_xushi=false
+        //this.clinicalForm.shizheng=""
+        //this.clinicalForm.shizheng_qita=""
+        //this.clinicalForm.xushi=""
+      }else if(value == "虚实夹杂证"){
+        this.result_shizheng=false
+        this.result_xuzheng=false
+        this.result_xushi=true
+        //this.clinicalForm.shizheng=""
+        //this.clinicalForm.shizheng_qita=""
+       // this.clinicalForm.xuzheng=""
+        //this.clinicalForm.xuzheng_qita=""
       }
     }
   },

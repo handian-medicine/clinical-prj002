@@ -15,56 +15,60 @@
         <el-divider></el-divider>
 
         <div>
-            <h3>中西医结合治疗</h3>
-            <el-form-item label="">
-                <el-switch v-model="cureForm.is_together_cure" active-text="是" inactive-text="否"></el-switch>
-            </el-form-item>
+          <h3>中西医结合治疗</h3>
+          <el-form-item label="">
+              <el-switch v-model="cureForm.is_together_cure" active-text="是" inactive-text="否"></el-switch>
+          </el-form-item>
         </div>
         <div>
-            <div>
-                <h3>I. 中医治疗</h3>
-                <el-form-item label="1. 治法">
-                    <el-switch v-model="is_xuzhengzhifa" active-text="虚证治法" inactive-text="实证治法" @change="changezhifa"></el-switch>
-                </el-form-item>
-                <el-form-item  v-show="!is_xuzhengzhifa" label="实证治法">
-                    <el-select v-model="cureForm.shizheng_cure" placeholder="请选择"  style="width:300px">
-                        <el-option v-for="item in shizheng_cure_choices" :key="item" :label="item" :value="item">
-                        </el-option>
-                    </el-select>
-                    <el-input v-model="cureForm.shizheng_cure_qita" placeholder="其他情况"></el-input>
-                </el-form-item>
+          <div>
+            <h3>I. 中医治疗</h3>
+            <el-form-item label="1. 治法">
+              <el-radio-group v-model="zhifa_result" @change="changezhifa">
+                <el-radio class="radio" label="实证治法">实证治法</el-radio>
+                <el-radio class="radio" label="虚证治法">虚证治法</el-radio>
+                <el-radio class="radio" label="虚实夹杂证治法">虚实夹杂证治法</el-radio>
+              </el-radio-group>
+            </el-form-item>
 
-                <el-form-item v-show="is_xuzhengzhifa"  label="虚证治法">
-                    <el-select v-model="cureForm.xuzheng_cure" placeholder="请选择"  style="width:300px">
-                        <el-option v-for="item in xuzheng_cure_choices" :key="item" :label="item" :value="item">
-                        </el-option>
-                    </el-select>
+            <el-form-item  v-show="zhifa_shizheng" label="实证治法">
+                <el-select v-model="cureForm.shizheng_cure" placeholder="请选择"  style="width:300px">
+                    <el-option v-for="item in shizheng_cure_choices" :key="item" :label="item" :value="item">
+                    </el-option>
+                </el-select>
+                <el-input v-model="cureForm.shizheng_cure_qita" placeholder="其他"></el-input>
+            </el-form-item>
+            <el-form-item v-show="zhifa_xuzheng"  label="虚证治法">
+                <el-select v-model="cureForm.xuzheng_cure" placeholder="请选择"  style="width:300px">
+                    <el-option v-for="item in xuzheng_cure_choices" :key="item" :label="item" :value="item">
+                    </el-option>
+                </el-select>
+                <el-input v-model="cureForm.xuzheng_cure_qita"  placeholder="其他"></el-input>
+            </el-form-item>
+            <el-form-item  v-show="zhifa_xushi" label="虚实夹杂治法">
+                <el-input v-model="cureForm.xushi_cure" ></el-input>
+            </el-form-item>
 
-                    <el-input v-model="cureForm.xuzheng_cure_qita"  placeholder="其他情况"></el-input>
-                </el-form-item>
-
-                <el-form-item label="虚实夹杂治法">
-                    <el-input v-model="cureForm.xushi_cure"  placeholder="虚实夹杂治法"></el-input>
-                </el-form-item>
-
-                <el-form-item label="2. 代表方">
-                    <el-switch v-model="is_xuzhengfang" active-text="虚证代表方" inactive-text="实证代表方" @change="changedaibiaofang"></el-switch>
-                </el-form-item>
-                <el-form-item v-show="!is_xuzhengfang"  label="实证代表方">
-                    <el-checkbox v-for="(val, key) in shizheng_daibiao" :key="key" :label="val" v-model="cureForm[key]">
-                    </el-checkbox>
-                    <el-input v-model="cureForm.shizheng_qita" placeholder="实证代表方-其他"></el-input>
-                </el-form-item>
-
-                <el-form-item v-show="is_xuzhengfang" label="虚证代表方">
-                    <el-checkbox v-for="(val, key) in xuzheng_daibiao" :key="key" :label="val" v-model="cureForm[key]">
-                    </el-checkbox>
-                    <el-input v-model="cureForm.xuzheng_qita" placeholder="虚证代表方-其他"></el-input>
-                </el-form-item>
-
-                <el-form-item label="虚实夹杂证代表方">
-                    <el-input v-model="cureForm.xushi_represent"  placeholder="虚实夹杂证代表方"></el-input>
-                </el-form-item>
+            <el-form-item label="2. 代表方">
+              <el-radio-group v-model="daibiaofang_result" @change="changedaibiaofang">
+                <el-radio class="radio" label="实证代表方">实证代表方</el-radio>
+                <el-radio class="radio" label="虚证代表方">虚证代表方</el-radio>
+                <el-radio class="radio" label="虚实夹杂证代表方">虚实夹杂证代表方</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item v-show="daibiaofang_shizheng"  label="实证代表方">
+                <el-checkbox v-for="(val, key) in shizheng_daibiao" :key="key" :label="val" v-model="cureForm[key]">
+                </el-checkbox>
+                <el-input v-model="cureForm.shizheng_qita" placeholder="实证代表方-其他"></el-input>
+            </el-form-item>
+            <el-form-item v-show="daibiaofang_xuzheng" label="虚证代表方">
+                <el-checkbox v-for="(val, key) in xuzheng_daibiao" :key="key" :label="val" v-model="cureForm[key]">
+                </el-checkbox>
+                <el-input v-model="cureForm.xuzheng_qita" placeholder="其他"></el-input>
+            </el-form-item>
+            <el-form-item v-show="daibiaofang_xushi" label="虚实夹杂证代表方">
+                <el-input v-model="cureForm.xushi_represent" ></el-input>
+            </el-form-item>
 
                 <el-form-item label="3. 中成药">
                     <el-switch v-model="cureForm.zcy" active-text="是" inactive-text="否"></el-switch>
@@ -72,13 +76,13 @@
                 <el-form-item v-show="cureForm.zcy" label="">
                     <el-checkbox v-for="(val, key) in medicine" :key="key" :label="val" v-model="cureForm[key]">
                     </el-checkbox>
-                    <el-input v-model="cureForm.medicine_qita"  placeholder="具体药物-其他"></el-input>
+                    <el-input v-model="cureForm.medicine_qita"  placeholder="其他"></el-input>
                 </el-form-item>
 
                 <el-form-item label="4. 中医其他治疗">
                     <el-checkbox v-for="(val, key) in zhongyi_qita_cure" :key="key" :label="val" v-model="cureForm[key]">
                     </el-checkbox>
-                    <el-input v-model="cureForm.way_qita" placeholder="中医其他治疗-其他"></el-input>
+                    <el-input v-model="cureForm.way_qita" placeholder="其他"></el-input>
                 </el-form-item>
             </div>
         </div>
@@ -106,10 +110,10 @@
             <el-form-item v-show="cureForm.is_biyunyao" label="避孕具体药物">
                 <el-checkbox v-for="(val, key) in biyun" :key="key" :label="val" v-model="cureForm[key]">
                 </el-checkbox>
-                <el-input v-model="cureForm.biyun_qita"  placeholder="避孕具体药物-其他"></el-input>
+                <el-input v-model="cureForm.biyun_qita"  placeholder="其他"></el-input>
             </el-form-item>
             <el-form-item label="西医其他治疗">
-                <el-input v-model="cureForm.other_cure" placeholder="其他治疗"></el-input>
+                <el-input v-model="cureForm.other_cure" placeholder="其他"></el-input>
             </el-form-item>
         </div>
 
@@ -308,8 +312,14 @@ export default {
       formName:'',
       isOwnedByUser: true,
       check_status:'',
-      is_xuzhengzhifa:false,
-      is_xuzhengfang:false,
+      zhifa_result:"",
+      zhifa_shizheng:false,
+      zhifa_xuzheng:false,
+      zhifa_xushi:false,
+      daibiaofang_result:"",
+      daibiaofang_shizheng:false,
+      daibiaofang_xuzheng:false,
+      daibiaofang_xushi:false,
     }
   },
   methods: {
@@ -344,25 +354,64 @@ export default {
     resetDialog () {
       this.cureForm = {}
     },
-    changezhifa(){
-      if(this.is_xuzhengzhifa == true){
-        this.cureForm.shizheng_cure = null
-        this.cureForm.shizheng_cure_qita = null
-      }else{
-        this.cureForm.xuzheng_cure = null
-        this.cureForm.xuzheng_cure_qita = null
+    changezhifa(value) {
+      if(value == "实证治法"){
+        this.zhifa_shizheng=true
+        this.zhifa_xuzheng=false
+        this.zhifa_xushi=false
+        this.cureForm.xuzheng_cure=null
+        this.cureForm.xuzheng_cure_qita=null
+        this.cureForm.xushi_cure=null
+      }else if(value == "虚证治法"){
+        this.zhifa_shizheng=false
+        this.zhifa_xuzheng=true
+        this.zhifa_xushi=false
+        this.cureForm.shizheng_cure=null
+        this.cureForm.shizheng_cure_qita=null
+        this.cureForm.xushi_cure=null
+      }else if(value == "虚实夹杂证治法"){
+        this.zhifa_shizheng=false
+        this.zhifa_xuzheng=false
+        this.zhifa_xushi=true
+        this.cureForm.shizheng_cure=null
+        this.cureForm.shizheng_cure_qita=null
+        this.cureForm.xuzheng_cure=null
+        this.cureForm.xuzheng_cure_qita=null
       }
     },
-    changedaibiaofang(){
-      if(this.is_xuzhengfang == true){
+
+    changedaibiaofang(value){
+      if(value == "实证代表方"){
+        this.daibiaofang_shizheng=true
+        this.daibiaofang_xuzheng=false
+        this.daibiaofang_xushi=false
+        this.cureForm.xuzheng_qita = null
+        for (var x in this.xuzheng_daibiao)
+        {
+          this.cureForm[x] = false
+        }
+        this.cureForm.xushi_represent = null
+      }else if(value == "虚证代表方"){
+        this.daibiaofang_shizheng=false
+        this.daibiaofang_xuzheng=true
+        this.daibiaofang_xushi=false
+        this.cureForm.xushi_represent = null
         this.cureForm.shizheng_qita = null
         for (var x in this.shizheng_daibiao)
         {
           this.cureForm[x] = false
         }
-      }else{
+      }else if(value == "虚实夹杂证代表方"){
+        this.daibiaofang_shizheng=false
+        this.daibiaofang_xuzheng=false
+        this.daibiaofang_xushi=true
         this.cureForm.xuzheng_qita = null
         for (var x in this.xuzheng_daibiao)
+        {
+          this.cureForm[x] = false
+        }
+        this.cureForm.shizheng_qita = null
+        for (var x in this.shizheng_daibiao)
         {
           this.cureForm[x] = false
         }
@@ -382,17 +431,49 @@ export default {
       } else {
         //已创建(修改)
         this.cureForm = data.formData
-        if((this.cureForm.xuzheng_cure)||(this.cureForm.xuzheng_cure_qita)){
-          this.is_xuzhengzhifa = true
+        if((this.cureForm.shizheng_cure)||(this.cureForm.shizheng_cure_qita)){
+          this.zhifa_result = "实证治法"
+          this.zhifa_shizheng=true
+          this.zhifa_xuzheng=false
+          this.zhifa_xushi=false
+        }else if((this.cureForm.xuzheng_cure)||(this.cureForm.xuzheng_cure_qita)){
+          this.zhifa_result = "虚证治法"
+          this.zhifa_shizheng=false
+          this.zhifa_xuzheng=true
+          this.zhifa_xushi=false
+        }else if(this.cureForm.xushi_cure){
+          this.zhifa_result = "虚实夹杂证治法"
+          this.zhifa_shizheng=false
+          this.zhifa_xuzheng=false
+          this.zhifa_xushi=true
+        }else{
+          this.zhifa_result = ""
+           this.zhifa_shizheng=false
+           this.zhifa_xuzheng=false
+           this.zhifa_xushi=false
         }
-        else{
-          this.is_xuzhengzhifa = false
+        if((this.cureForm.shizheng_shaofu)||(this.cureForm.shizheng_wenjing)||(this.cureForm.shizheng_gexia)||(this.cureForm.shizheng_jiawei)||(this.cureForm.shizheng_qingre)||(this.cureForm.shizheng_xuanyu)||(this.cureForm.shizheng_taohong)||(this.cureForm.shizheng_qita)){
+          this.daibiaofang_result = "实证代表方"
+          this.daibiaofang_shizheng=true
+          this.daibiaofang_xuzheng=false
+          this.daibiaofang_xushi=false
         }
-        if((this.cureForm.xuzheng_juejin)||(this.cureForm.xuzheng_yishen)||(this.cureForm.xuzheng_tiaogan)||(this.cureForm.xuzheng_wenjing)||(this.cureForm.xuzheng_shengyu)||(this.cureForm.xuzheng_huangqi)||(this.cureForm.xuzheng_yimu)||(this.cureForm.xuzheng_bazhen)||(this.cureForm.xuzheng_siwu)||(this.cureForm.xuzheng_jianzhong)||(this.cureForm.xuzheng_yiguan)||(this.cureForm.xuzheng_sini)||(this.cureForm.xuzheng_sahoyao)||(this.cureForm.xuzheng_qita)){
-          this.is_xuzhengfang = true
+        else if((this.cureForm.xuzheng_juejin)||(this.cureForm.xuzheng_yishen)||(this.cureForm.xuzheng_tiaogan)||(this.cureForm.xuzheng_wenjing)||(this.cureForm.xuzheng_shengyu)||(this.cureForm.xuzheng_huangqi)||(this.cureForm.xuzheng_yimu)||(this.cureForm.xuzheng_bazhen)||(this.cureForm.xuzheng_siwu)||(this.cureForm.xuzheng_jianzhong)||(this.cureForm.xuzheng_yiguan)||(this.cureForm.xuzheng_sini)||(this.cureForm.xuzheng_sahoyao)||(this.cureForm.xuzheng_qita)){
+          this.daibiaofang_result = "虚证代表方"
+          this.daibiaofang_shizheng=false
+          this.daibiaofang_xuzheng=true
+          this.daibiaofang_xushi=false
         }
-        else{
-          this.is_xuzhengfang = false
+        else if(this.cureForm.xushi_represent){
+          this.daibiaofang_result = "虚实夹杂证代表方"
+          this.daibiaofang_shizheng=false
+          this.daibiaofang_xuzheng=false
+          this.daibiaofang_xushi=true
+        }else{
+          this.daibiaofang_result = ""
+        this.daibiaofang_shizheng=false
+        this.daibiaofang_xuzheng=false
+        this.daibiaofang_xushi=false
         }
       }
     })
