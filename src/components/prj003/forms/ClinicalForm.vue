@@ -3,7 +3,7 @@
             :visible.sync="dialogVisible"
             :close-on-click-modal="false" width="100%" center
             @close='resetDialog'>
-    <el-form ref="clinicalForm" :model="clinicalForm" label-width="auto" label-position="left">
+    <el-form ref="clinicalForm" :model="clinicalForm" label-width="140px" label-position="left">
       <el-alert v-if="check_status=='审核通过'" effect="dark"
                   title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
                   type="warning" :closable="false" show-icon>

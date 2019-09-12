@@ -3,7 +3,7 @@
             :visible.sync="dialogVisible"
             :close-on-click-modal="false" width="100%" center
             @close='resetDialog'>
-    <el-form ref="summaryForm" :model="summaryForm" label-width="130px" label-position="left">
+    <el-form ref="summaryForm" :model="summaryForm" label-width="140px" label-position="left">
       <el-alert v-if="check_status=='审核通过'" effect="dark"
                   title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
                   type="warning" :closable="false" show-icon>
@@ -24,7 +24,7 @@
           </el-col>
       </el-form-item>
 
-      <h4 style="color: #409EFF;">疼痛程度（VAS评分）</h4>
+      <el-form-item label="疼痛程度（VAS评分）"  label-width="100%"></el-form-item>
         <label>说明：数字0—10代表痛经程度依次递增，0代表无痛经；10代表极度疼痛甚则晕厥</label>
         <p></p>
       <el-form-item label="">
@@ -114,7 +114,7 @@
         </el-form-item>
       </el-form-item>
       <template v-for="(q_val,q_key) in mydata">
-        <h4 style="color: #409EFF;">{{q_val.name}}</h4>
+        <el-form-item :label="q_val.name" label-width="100%"></el-form-item>
         <el-form-item label="" :key="q_key" :show-overflow-tooltip=true label-width="50px">
           <el-switch v-model="summaryForm[q_key]" active-text="是" inactive-text="否"></el-switch>
         </el-form-item>
@@ -297,4 +297,10 @@ export default {
 }
 </script>
 <style lang="">
+</style>
+<style>
+  .item-label-liudiao {
+    color: cornflowerblue;
+    font-weight: 600;
+  }
 </style>

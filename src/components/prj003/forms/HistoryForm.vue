@@ -3,7 +3,7 @@
             :visible.sync="dialogVisible"
             :close-on-click-modal="false" width="100%" center
             @close='resetDialog'>
-    <el-form ref="historyForm" :model="historyForm" label-width="130px" label-position="right">
+    <el-form ref="historyForm" :model="historyForm" label-width="140px" label-position="left">
       <el-alert v-if="check_status=='审核通过'" effect="dark"
                   title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
                   type="warning" :closable="false" show-icon>
@@ -63,7 +63,7 @@
         </el-radio>
       </el-form-item>
 
-      <el-form-item label="月经周期是否规律" label-width="170px">
+      <el-form-item label="月经周期是否规律">
         <el-switch v-model="historyForm.is_normal" active-text="尚规律" inactive-text="不规律"></el-switch>
       </el-form-item>
         <el-form-item v-show="historyForm.is_normal" label="尚规律">
@@ -174,7 +174,7 @@
       </el-form-item>
 
       <h3>（八）家族史</h3>
-        <h4 style="color: #409EFF;">一级亲属（母亲、姐妹、女儿）痛经史</h4>
+        <el-form-item label="一级亲属（母亲、姐妹、女儿）痛经史"  label-width="100%"></el-form-item>
         <el-form-item label="" >
           <el-radio v-model="historyForm.family_history" @change="changeHandler"
                     v-for="item in mydata.family_history"
@@ -187,7 +187,7 @@
                     :key="item" :label="item">
           </el-radio>
         </el-form-item>
-        <h4 style="color: #409EFF;">一级亲属（父母、兄弟姐妹、子女）其他疾病史</h4>
+        <el-form-item label="一级亲属（父母、兄弟姐妹、子女）其他疾病史"  label-width="100%"></el-form-item>
         <el-form-item label="">
           <el-radio-group v-model="historyForm.relative_history" @change="changeqitajibing">
             <el-radio class="radio" label="无">无</el-radio>

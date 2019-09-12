@@ -21,17 +21,17 @@
             </el-form-item>
 
             <el-form-item  v-show="zhifa_shizheng" label="实证治法">
-                <el-select v-model="cureForm.shizheng_cure" placeholder="请选择" >
-                    <el-option v-for="item in shizheng_cure_choices" :key="item" :label="item" :value="item">
-                    </el-option>
-                </el-select>
+              <el-radio v-model="cureForm.shizheng_cure"
+                        v-for="item in shizheng_cure_choices"
+                        :key="item" :label="item">
+              </el-radio>
                 <el-input v-model="cureForm.shizheng_cure_qita" placeholder="其他"></el-input>
             </el-form-item>
             <el-form-item v-show="zhifa_xuzheng"  label="虚证治法">
-                <el-select v-model="cureForm.xuzheng_cure" placeholder="请选择">
-                    <el-option v-for="item in xuzheng_cure_choices" :key="item" :label="item" :value="item">
-                    </el-option>
-                </el-select>
+              <el-radio v-model="cureForm.xuzheng_cure"
+                        v-for="item in xuzheng_cure_choices"
+                        :key="item" :label="item">
+              </el-radio>
                 <el-input v-model="cureForm.xuzheng_cure_qita"  placeholder="其他"></el-input>
             </el-form-item>
             <el-form-item  v-show="zhifa_xushi" label="虚实夹杂治法">
@@ -48,7 +48,7 @@
             <el-form-item v-show="daibiaofang_shizheng"  label="实证代表方">
                 <el-checkbox v-for="(val, key) in shizheng_daibiao" :key="key" :label="val" v-model="cureForm[key]">
                 </el-checkbox>
-                <el-input v-model="cureForm.shizheng_qita" placeholder="实证代表方-其他"></el-input>
+                <el-input v-model="cureForm.shizheng_qita" placeholder="其他"></el-input>
             </el-form-item>
             <el-form-item v-show="daibiaofang_xuzheng" label="虚证代表方">
                 <el-checkbox v-for="(val, key) in xuzheng_daibiao" :key="key" :label="val" v-model="cureForm[key]">
@@ -69,9 +69,11 @@
          </el-form-item>
 
          <el-form-item label="4. 中医其他治疗">
-             <el-checkbox v-for="(val, key) in zhongyi_qita_cure" :key="key" :label="val" v-model="cureForm[key]">
+            <el-checkbox label="无" v-model="cureForm['way_wu']">
+            </el-checkbox>
+             <el-checkbox v-show="!cureForm['way_wu']" v-for="(val, key) in zhongyi_qita_cure" :key="key" :label="val" v-model="cureForm[key]">
              </el-checkbox>
-             <el-input v-model="cureForm.way_qita" placeholder="其他"></el-input>
+             <el-input  v-show="!cureForm['way_wu']" v-model="cureForm.way_qita" placeholder="其他"></el-input>
          </el-form-item>
      </div>
  </div>

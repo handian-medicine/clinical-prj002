@@ -3,7 +3,7 @@
             :visible.sync="dialogVisible"
             :close-on-click-modal="false" width="100%" center
             @close='resetDialog'>
-    <el-form ref="resultsForm" :model="resultsForm" label-width="140px" label-position="right">
+    <el-form ref="resultsForm" :model="resultsForm" label-width="auto" label-position="left">
       <el-alert v-if="check_status=='审核通过'" effect="dark"
                   title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
                   type="warning" :closable="false" show-icon>
@@ -14,9 +14,9 @@
       </el-alert>
       <el-divider></el-divider>
 
-      <h4 style="color: #409EFF;">VAS评分（与治疗前比较）</h4>
-        <label>说明：数字0—10代表痛经程度依次递增，0代表无痛经；10代表极度疼痛甚则晕厥</label>
-        <p></p>
+      <el-form-item label="VAS评分（与治疗前比较）" label-width="100%"></el-form-item>
+      <label>说明：数字0—10代表痛经程度依次递增，0代表无痛经；10代表极度疼痛甚则晕厥</label>
+      <p></p>
       <el-form-item label="">
         <el-radio-group v-model="resultsForm.vas">
           <el-radio-button   v-for="item in radio_pain_level"  :key="item" :label="item">
@@ -51,7 +51,7 @@
           <label>个周期后，痛经症状消失。</label>
         </el-form-item>
       </el-form-item>
-      <h4 style="color: #409EFF;">停药3个月经周期后复发</h4>
+      <el-form-item label="停药3个月经周期后复发" label-width="100%"></el-form-item>
       <el-form-item label="">
           <el-radio v-model="resultsForm.stop_medicine"
                     v-for="item in radio_stop_medicine"

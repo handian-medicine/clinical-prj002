@@ -163,7 +163,7 @@
       </el-form-item>
 
       <h3>（八）家族史</h3>
-        <h4 style="color: #409EFF;">一级亲属（母亲、姐妹、女儿）痛经史</h4>
+        <el-form-item label="一级亲属（母亲、姐妹、女儿）痛经史"  label-width="100%"></el-form-item>
         <el-form-item label="" >
           <el-radio v-model="historyForm.family_history" @change="changeHandler"
                     v-for="item in mydata.family_history"
@@ -176,7 +176,7 @@
                     :key="item" :label="item">
           </el-radio>
         </el-form-item>
-        <h4 style="color: #409EFF;">一级亲属（父母、兄弟姐妹、子女）其他疾病史</h4>
+        <el-form-item label="一级亲属（父母、兄弟姐妹、子女）其他疾病史"  label-width="100%"></el-form-item>
         <el-form-item label="">
           <el-radio-group v-model="historyForm.relative_history" @change="changeqitajibing">
             <el-radio class="radio" label="无">无</el-radio>

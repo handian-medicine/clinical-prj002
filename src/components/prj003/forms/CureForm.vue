@@ -3,7 +3,7 @@
             :visible.sync="dialogVisible"
             :close-on-click-modal="false" width="80%" center
             @close='resetDialog'>
-    <el-form ref="cureForm" :model="cureForm" label-width="auto" label-position="left">
+    <el-form ref="cureForm" :model="cureForm" label-width="140px" label-position="left">
         <el-alert v-if="check_status=='审核通过'" effect="dark"
                   title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
                   type="warning" :closable="false" show-icon>
@@ -14,14 +14,11 @@
       </el-alert>
         <el-divider></el-divider>
 
-        <div>
           <h3>中西医结合治疗</h3>
           <el-form-item label="">
               <el-switch v-model="cureForm.is_together_cure" active-text="是" inactive-text="否"></el-switch>
           </el-form-item>
-        </div>
-        <div>
-          <div>
+
             <h3>I. 中医治疗</h3>
             <el-form-item label="1. 治法">
               <el-radio-group v-model="zhifa_result" @change="changezhifa">
@@ -32,18 +29,18 @@
             </el-form-item>
 
             <el-form-item  v-show="zhifa_shizheng" label="实证治法">
-                <el-select v-model="cureForm.shizheng_cure" placeholder="请选择"  style="width:300px">
-                    <el-option v-for="item in shizheng_cure_choices" :key="item" :label="item" :value="item">
-                    </el-option>
-                </el-select>
-                <el-input v-model="cureForm.shizheng_cure_qita" placeholder="其他"></el-input>
+              <el-radio v-model="cureForm.shizheng_cure"
+                        v-for="item in shizheng_cure_choices"
+                        :key="item" :label="item">
+              </el-radio>
+              <el-input v-model="cureForm.shizheng_cure_qita" placeholder="其他"></el-input>
             </el-form-item>
             <el-form-item v-show="zhifa_xuzheng"  label="虚证治法">
-                <el-select v-model="cureForm.xuzheng_cure" placeholder="请选择"  style="width:300px">
-                    <el-option v-for="item in xuzheng_cure_choices" :key="item" :label="item" :value="item">
-                    </el-option>
-                </el-select>
-                <el-input v-model="cureForm.xuzheng_cure_qita"  placeholder="其他"></el-input>
+              <el-radio v-model="cureForm.xuzheng_cure"
+                        v-for="item in xuzheng_cure_choices"
+                        :key="item" :label="item">
+              </el-radio>
+              <el-input v-model="cureForm.xuzheng_cure_qita"  placeholder="其他"></el-input>
             </el-form-item>
             <el-form-item  v-show="zhifa_xushi" label="虚实夹杂治法">
                 <el-input v-model="cureForm.xushi_cure" ></el-input>
@@ -59,7 +56,7 @@
             <el-form-item v-show="daibiaofang_shizheng"  label="实证代表方">
                 <el-checkbox v-for="(val, key) in shizheng_daibiao" :key="key" :label="val" v-model="cureForm[key]">
                 </el-checkbox>
-                <el-input v-model="cureForm.shizheng_qita" placeholder="实证代表方-其他"></el-input>
+                <el-input v-model="cureForm.shizheng_qita" placeholder="其他"></el-input>
             </el-form-item>
             <el-form-item v-show="daibiaofang_xuzheng" label="虚证代表方">
                 <el-checkbox v-for="(val, key) in xuzheng_daibiao" :key="key" :label="val" v-model="cureForm[key]">
@@ -80,14 +77,13 @@
                 </el-form-item>
 
                 <el-form-item label="4. 中医其他治疗">
-                    <el-checkbox v-for="(val, key) in zhongyi_qita_cure" :key="key" :label="val" v-model="cureForm[key]">
+                    <el-checkbox label="无" v-model="cureForm['way_wu']">
                     </el-checkbox>
-                    <el-input v-model="cureForm.way_qita" placeholder="其他"></el-input>
+                    <el-checkbox v-show="!cureForm['way_wu']" v-for="(val, key) in zhongyi_qita_cure" :key="key" :label="val" v-model="cureForm[key]">
+                    </el-checkbox>
+                    <el-input  v-show="!cureForm['way_wu']" v-model="cureForm.way_qita" placeholder="其他"></el-input>
                 </el-form-item>
-            </div>
-        </div>
 
-        <div>
             <h3>II. 西医治疗</h3>
             <el-form-item label="应用止痛药">
                 <el-switch v-model="cureForm.is_zhitong" active-text="是" inactive-text="否"></el-switch>
@@ -115,9 +111,7 @@
             <el-form-item label="西医其他治疗">
                 <el-input v-model="cureForm.other_cure" placeholder="其他"></el-input>
             </el-form-item>
-        </div>
 
-        <div>
             <h3>III. 药物具体使用情况（口服避孕药除外）</h3>
             <el-form-item label="服药频率">
                 <el-select v-model="cureForm.eat_times" placeholder="请选择" style="width:300px">
@@ -171,9 +165,6 @@
                 </el-input>
                 </el-col>
             </el-form-item>
-
-        </div>
-
 
     </el-form>
 

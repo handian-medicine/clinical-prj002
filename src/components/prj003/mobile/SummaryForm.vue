@@ -9,7 +9,7 @@
         </el-input>
       </el-form-item>
 
-      <h4 style="color: #409EFF;">疼痛程度（VAS评分）</h4>
+      <el-form-item label="疼痛程度（VAS评分）"  label-width="100%"></el-form-item>
         <label>说明：数字0—10代表痛经程度依次递增，0代表无痛经；10代表极度疼痛甚则晕厥</label>
         <p></p>
       <el-form-item label="">
@@ -92,7 +92,7 @@
         </el-form-item>
 
       <template v-for="(q_val,q_key) in mydata">
-        <h4 style="color: #409EFF;">{{q_val.name}}</h4>
+        <el-form-item :label="q_val.name"  label-width="100%"></el-form-item>
         <el-form-item label="" :key="q_key" :show-overflow-tooltip=true  label-width="50px">
           <el-switch v-model="summaryForm[q_key]" active-text="是" inactive-text="否"></el-switch>
         </el-form-item>
