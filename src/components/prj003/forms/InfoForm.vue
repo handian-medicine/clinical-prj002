@@ -3,7 +3,7 @@
             :visible.sync="dialogVisible"
             :close-on-click-modal="false"
             width="90%" center>
-    <el-form ref="infoForm" :model="infoForm" :rules="rules" label-width="130px" label-position="right">
+    <el-form ref="infoForm" :model="infoForm" :rules="rules" label-width="140px" label-position="left">
       <el-alert v-if="check_status=='审核通过'" effect="dark"
                   title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
                   type="warning" :closable="false" show-icon>
@@ -103,9 +103,11 @@
       </el-form-item>
 
       <el-form-item label="饮食偏好">
-        <el-checkbox v-for="(val, key) in dietCheckbox" :key="key" :label="val" v-model="infoForm[key]">
+        <el-checkbox  label="无特殊" v-model="infoForm['yinshi_wuteshu']">
         </el-checkbox>
-        <el-input v-model="infoForm.yinshi_qita" placeholder="其他"></el-input>
+        <el-checkbox v-show="!infoForm['yinshi_wuteshu']" v-for="(val, key) in dietCheckbox" :key="key" :label="val" v-model="infoForm[key]">
+        </el-checkbox>
+        <el-input v-show="!infoForm['yinshi_wuteshu']" v-model="infoForm.yinshi_qita" placeholder="其他"></el-input>
       </el-form-item>
 
       <el-form-item label="填表专家姓名">
@@ -159,7 +161,7 @@ export default {
       cultureSelection:["小学","初中","高中/中专","大专","本科","研究生及以上","未接受国家教育(文盲)"],
       experttitleSelection:["主任医师","副主任医师","主治医师"],
       specialCheckbox: {"environment_gaowen":"高温","environment_diwen":"低温","environment_yeban":"夜班/熬夜","environment_zaosheng":"噪声","environment_fushe":"辐射","environment_huagong":"化工印染","environment_julie":"剧烈运动","environment_qiyou":"汽油","environment_gaokong":"高空","environment_shileng":"湿冷","environment_wu":"无"},
-      dietCheckbox:    {"yinshi_wuteshu":"无特殊","yinshi_sushi":"素食","yinshi_suan":"酸","yinshi_tian":"甜","yinshi_xian":"咸","yinshi_xinla":"辛辣","yinshi_you":"油","yinshi_shengleng":"生冷","yinshi_cafei":"含咖啡因食物或饮品"},
+      dietCheckbox:    {"yinshi_sushi":"素食","yinshi_suan":"酸","yinshi_tian":"甜","yinshi_xian":"咸","yinshi_xinla":"辛辣","yinshi_you":"油","yinshi_shengleng":"生冷","yinshi_cafei":"含咖啡因食物或饮品"},
         rules:{
           patient_name: [
             {required: true, message: '请输入姓名', trigger: 'blur' }

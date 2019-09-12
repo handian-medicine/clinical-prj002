@@ -2,7 +2,7 @@
     <el-form ref="resultsForm" :model="resultsForm" :rules="rules"
             label-width="110px" label-position="left" class="mobile">
 
-      <h4 style="color: #409EFF;">VAS评分（与治疗前比较）</h4>
+      <el-form-item label="VAS评分（与治疗前比较）" label-width="100%"></el-form-item>
         <label>说明：数字0—10代表痛经程度依次递增，0代表无痛经；10代表极度疼痛甚则晕厥</label>
         <p></p>
       <el-form-item label="">
@@ -40,7 +40,7 @@
           <label>个周期后，痛经症状消失。</label>
         </el-form-item>
       </el-form-item>
-      <h4 style="color: #409EFF;">停药3个月经周期后复发</h4>
+      <el-form-item label="停药3个月经周期后复发" label-width="100%"></el-form-item>
       <el-form-item label="">
           <el-radio v-model="resultsForm.stop_medicine"
                     v-for="item in radio_stop_medicine"
