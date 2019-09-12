@@ -13,7 +13,7 @@
                   title="此条信息为其他用户创建，您无法修改"
                   type="warning" :closable="false" show-icon>
       </el-alert>
-      <el-divider></el-divider>
+      <p></p>
 
       <el-form-item label="患者姓名">
         <el-input v-model="infoForm.name"></el-input>
@@ -91,6 +91,29 @@
         </el-tag>
       </el-form-item>
 
+      <el-form-item label="血压">
+        <el-input placeholder="舒张压" v-model="infoForm.blood_pressure_diastolic" class="input-embedding">
+          <el-input v-model="infoForm.blood_pressure_systolic" slot="prepend" placeholder="收缩压">
+          </el-input>
+          <template slot="append">mm Hg</template>
+        </el-input>
+      </el-form-item>
+      <el-form-item label="脉搏">
+        <el-input v-model="infoForm.pulse" type="number" min="0">
+          <template slot="append">次/分</template>
+        </el-input>
+      </el-form-item>
+      <el-form-item label="呼吸">
+        <el-input v-model="infoForm.breath" type="number" min="0">
+          <template slot="append">次/分</template>
+        </el-input>
+      </el-form-item>
+      <el-form-item label="体温">
+        <el-input v-model="infoForm.temperature" type="number" min="0">
+          <template slot="append">℃</template>
+        </el-input>
+      </el-form-item>
+
       <el-form-item label="特殊工作环境">
         <el-checkbox v-for="(val, key) in specialCheckbox" :key="key" :label="val" v-model="infoForm[key]">
         </el-checkbox>
@@ -104,6 +127,7 @@
 
       <el-form-item label="多毛评分">
         <el-input v-model="infoForm.hairy" type="number" min="0"></el-input>
+        <img src="@/assets/hair.png" width="90%" alt="多毛图片" />
       </el-form-item>
 
       <h4>患者是否有痤疮&nbsp;&nbsp;<el-switch v-model="infoForm.acne" active-text="是" inactive-text="否"></el-switch></h4>
@@ -123,6 +147,8 @@
               <el-table-column prop="field2" label="类型"></el-table-column>
               <el-table-column prop="field3" label="部位"></el-table-column>
             </el-table>
+            <p>注：a.脓疱:由死皮细胞和细菌组成的皮肤感染。这些损害在外观上呈球形，里面充满脓液。颜色偏红，脓疱可能很疼，并且如果划伤或碰撞会轻易破开。</p>
+            <p>b.炎性皮疹：一种炎症性粉刺，类似于在皮肤上的红色小肿块</p>
         </div>
 
       <h4>患者是否有皮脂腺分泌过旺 &nbsp;&nbsp;<el-switch v-model="infoForm.glandula" active-text="是" inactive-text="否"></el-switch></h4>
@@ -248,3 +274,14 @@ export default {
     }
 };
 </script>
+</script>
+<style lang="scss">
+  .input-embedding .el-input-group__prepend{
+        padding:0px 0px;
+        background-color: #fff;
+        .el-input__inner {
+          border:none;
+          width:250px;
+        }
+  }
+</style>
