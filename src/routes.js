@@ -131,6 +131,12 @@ export default new Router({
           iconCls: 'fa fa-bar-chart',
           leaf: false
         },
+        { path: '/prj002/about',
+          name: '纳入标准与排除标准',
+          component: () => import('@/components/prj002/pages/About.vue'),
+          iconCls: 'fa fa-bar-chart',
+          leaf: false
+        }
 
       ]
     },

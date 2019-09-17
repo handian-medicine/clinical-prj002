@@ -1,9 +1,9 @@
 <template>
-  <el-dialog title="专科病史" class="my-dialog"
+  <el-dialog title="专病情况" class="my-dialog history-dialog"
             :visible.sync="dialogVisible"
             :close-on-click-modal="false" width="100%" center
             @close='resetDialog'>
-    <el-form ref="historyForm" :model="historyForm" label-width="130px" label-position="right">
+    <el-form ref="historyForm" :model="historyForm" label-width="80px" label-position="left">
       <el-alert v-if="check_status=='审核通过'" effect="dark"
                   title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
                   type="warning" :closable="false" show-icon>
@@ -15,101 +15,21 @@
       </el-alert>
       <el-divider></el-divider>
 
-      <el-form-item label="月经初潮年龄">
-        <el-radio v-model="historyForm.first_time"
-                  v-for="item in mydata.first_time"
-                  :key="item" :label="item">
-        </el-radio>
-        <el-input v-model="historyForm.first_time_qita" placeholder="其他情况"></el-input>
-      </el-form-item>
+      <table border="1" cellspacing="0">
+        <caption>Feriman－Gallwey多毛症评分表</caption>
+        <tr>
+          <th>区域</th>
+          <th>0分</th> <th>1分</th> <th>3分</th> <th>4分</th>
+        </tr>
+        <tr v-for="(val, key) in hairy_table" :key="key">
+          <td>{{val.name}}</td>
+          <td v-for="item in val.list" :key="item"><el-radio v-model="historyForm[key]" :label="item"></el-radio></td>
+        </tr>
+      </table>
 
-      <el-form-item label="月经周期是否规律">
-        <el-switch v-model="historyForm.is_normal" active-text="是" inactive-text="否"></el-switch>
-      </el-form-item>
-      <el-form-item v-show="historyForm.is_normal" label="尚规律">
-        <el-radio v-model="historyForm.normal"
-                  v-for="item in mydata.normal"
-                  :key="item" :label="item">
-        </el-radio>
-      </el-form-item>
-      <el-form-item v-show="!historyForm.is_normal" label="不规律">
-        <el-radio v-model="historyForm.abnormal"
-                  v-for="item in mydata.abnormal"
-                  :key="item" :label="item">
-        </el-radio>
-      </el-form-item>
-
-      <el-form-item label="行经天数">
-        <el-radio v-model="historyForm.cyclicity_sum"
-                  v-for="item in mydata.cyclicity_sum"
-                  :key="item" :label="item">
-        </el-radio>
-        <el-input v-model="historyForm.cyclicity_sum_qita" placeholder="其他情况"></el-input>
-      </el-form-item>
-
-      <el-form-item label="总出血量">
-        <el-radio v-model="historyForm.blood_cond"
-                  v-for="item in mydata.blood_cond"
-                  :key="item" :label="item">
-        </el-radio>
-        <el-input v-model="historyForm.blood_cond_qita" placeholder="其他情况"></el-input>
-      </el-form-item>
-
-      <el-form-item label="出血颜色">
-        <el-radio v-model="historyForm.blood_color"
-                  v-for="item in mydata.blood_color"
-                  :key="item" :label="item">
-        </el-radio>
-        <el-input v-model="historyForm.blood_color_qita" placeholder="其他情况"></el-input>
-      </el-form-item>
-
-      <el-form-item label="出血质地">
-        <el-radio v-model="historyForm.blood_quality"
-                  v-for="item in mydata.blood_quality"
-                  :key="item" :label="item">
-        </el-radio>
-        <el-radio v-model="historyForm.blood_block"
-                  v-for="item in mydata.blood_block"
-                  :key="item" :label="item">
-        </el-radio>
-      </el-form-item>
-
-      <el-form-item label="出血特点">
-        <el-radio v-model="historyForm.blood_character"
-                  v-for="item in mydata.blood_character"
-                  :key="item" :label="item">
-        </el-radio>
-      </el-form-item>
-
-      <el-form-item label="经期伴随症状">
-        <el-switch v-model="historyForm.menstruation_is_accompany" active-text="是" inactive-text="否"></el-switch>
-      </el-form-item>
-
-      <el-form-item label="末次行经日期">
-        <el-date-picker v-model="historyForm.last_time"
-                        type="date" placeholder="选择日期"
-                        format="yyyy 年 MM 月 dd 日"
-                        value-format="yyyy-MM-dd">
-        </el-date-picker>
-      </el-form-item>
-
-      <el-form-item label="平素带下情况">
-        <el-select v-model="historyForm.leucorrhea_quantity" placeholder="请选择">
-          <template slot="prefix">量</template>
-          <el-option v-for="item in mydata.leucorrhea_quantity" :key="item" :value="item">
-          </el-option>
-        </el-select>
-        <el-select v-model="historyForm.leucorrhea_color" placeholder="请选择">
-          <template slot="prefix">色</template>
-          <el-option v-for="item in mydata.leucorrhea_color" :key="item" :value="item">
-          </el-option>
-        </el-select>
-        <el-select v-model="historyForm.leucorrhea_feature" placeholder="请选择">
-          <template slot="prefix">质</template>
-          <el-option v-for="item in mydata.leucorrhea_feature" :key="item" :value="item">
-          </el-option>
-        </el-select>
-        <el-input v-model="historyForm.leucorrhea_color_qita" placeholder="其他情况"></el-input>
+      <el-form-item label="多毛评分">
+        <el-input v-model="historyForm.hairy" type="number" min="0"></el-input>
+        <img src="@/assets/hair.png" width="90%" alt="多毛图片" />
       </el-form-item>
 
       <el-form-item label="婚姻史">
@@ -167,7 +87,19 @@ export default {
   name:'HistoryForm',
   data() {
     return {
+      hairy_table:{
+        "shangchun":{name:"上唇",list:["无毛","散在几根","外侧1/4","全部上唇"]},
+        "xiae":     {name:"下额",list:["无毛","散在几根","散在，较多","覆盖下额，密"]},
+        "xiongbu":  {name:"胸部",list:["无毛","乳晕周围","乳晕，胸中线","覆盖前胸"]},
+        "shangfu":  {name:"上腹",list:["无毛","中线几根","中线，较多","覆盖上腹全部"]},
+        "xiafu":    {name:"下腹",list:["无毛","中线几根","中线，细带状","与阴毛相连，菱形"]},
+        "shangtun": {name:"上臀",list:["无毛","内侧几根","覆盖内侧面1/2","覆盖内侧面，密"]},
+        "datui":    {name:"大腿",list:["无毛","内侧几根","覆盖内侧面1/3","覆盖内侧面，密"]},
+        "shangbei": {name:"上背",list:["无毛","散在几根","覆盖上背部1/2","覆盖上背，密"]},
+        "yaodi":    {name:"腰骶",list:["无毛","骶部几根","覆盖腰骶部1/2","覆盖整个腰骶部"]},
+      },
       mydata:{
+        "shangchun":"1",
         first_time:["10岁以前","11岁以后","14岁以后","16岁以后"],
         is_normal:true,
         normal:["21-25天","26-30天","31-35天"],
@@ -270,5 +202,8 @@ export default {
 <style scoped>
 .el-input {
   margin-top: 10px;
+}
+.history-dialog td {
+    text-align:left;
 }
 </style>

@@ -15,22 +15,21 @@
       </el-alert>
       <p></p>
 
-      <el-form-item label="患者姓名">
-        <el-input v-model="infoForm.name"></el-input>
-        <!-- <el-input v-model="infoForm.name"><template slot="prepend">患者姓名</template></el-input> -->
+      <el-form-item label="患者姓名" prop="patient_name">
+        <el-input v-model="infoForm.patient_name"></el-input>
       </el-form-item>
 
-      <el-form-item label="手机号码" prop="phone">
-        <el-input v-model="infoForm.phone"></el-input>
+      <el-form-item label="手机号码" prop="patient_phone">
+        <el-input v-model="infoForm.patient_phone"></el-input>
       </el-form-item>
 
-      <el-form-item label="就诊医院" prop="hospital">
-        <el-input v-model="infoForm.hospital"></el-input>
+      <el-form-item label="就诊医院" prop="hospital_name">
+        <el-input v-model="infoForm.hospital_name"></el-input>
       </el-form-item>
 
-      <el-form-item label="出生日期" prop="birth">
+      <el-form-item label="出生日期" prop="patient_birth">
         <!-- format表示显示在页面的日期格式, value-format表示传递给后台的真实的数据格式 -->
-        <el-date-picker v-model="infoForm.birth"
+        <el-date-picker v-model="infoForm.patient_birth"
                         type="month" placeholder="选择日期"
                         format="yyyy 年 MM 月"
                         value-format="yyyy-MM">
@@ -125,60 +124,6 @@
         <el-input v-model="infoForm.yinshi_qita" placeholder="其他"></el-input>
       </el-form-item>
 
-      <el-form-item label="多毛评分">
-        <el-input v-model="infoForm.hairy" type="number" min="0"></el-input>
-        <img src="@/assets/hair.png" width="90%" alt="多毛图片" />
-      </el-form-item>
-
-      <h4>患者是否有痤疮&nbsp;&nbsp;<el-switch v-model="infoForm.acne" active-text="是" inactive-text="否"></el-switch></h4>
-        <div v-show="infoForm.acne">
-          <el-col :sm="24" :md="12">
-            <el-input v-model="infoForm.acne_part">
-              <template slot="prepend">请描述具体部位</template>
-            </el-input>
-          </el-col>
-          <el-col :sm="24" :md="12">
-            <el-input v-model="infoForm.acne_score" type="number" min="0" max="5">
-              <template slot="prepend">评分</template>
-            </el-input>
-          </el-col>
-            <el-table :data="acneData" style="width: 100%">
-              <el-table-column prop="field1" label="评分"></el-table-column>
-              <el-table-column prop="field2" label="类型"></el-table-column>
-              <el-table-column prop="field3" label="部位"></el-table-column>
-            </el-table>
-            <p>注：a.脓疱:由死皮细胞和细菌组成的皮肤感染。这些损害在外观上呈球形，里面充满脓液。颜色偏红，脓疱可能很疼，并且如果划伤或碰撞会轻易破开。</p>
-            <p>b.炎性皮疹：一种炎症性粉刺，类似于在皮肤上的红色小肿块</p>
-        </div>
-
-      <h4>患者是否有皮脂腺分泌过旺 &nbsp;&nbsp;<el-switch v-model="infoForm.glandula" active-text="是" inactive-text="否"></el-switch></h4>
-        <div v-if="infoForm.glandula">
-          <el-form-item label="具体部位">
-            <el-input v-model="infoForm.glandula_part"></el-input>
-          </el-form-item>
-          <el-form-item label="分泌程度">
-            <el-radio-group v-model="infoForm.glandula_level">
-              <el-radio label="轻">轻</el-radio>
-              <el-radio label="中">中</el-radio>
-              <el-radio label="重">重</el-radio>
-            </el-radio-group>
-          </el-form-item>
-        </div>
-
-      <h4>患者是否有雄性脱发&nbsp;&nbsp;<el-switch v-model="infoForm.male" active-text="是" inactive-text="否"></el-switch></h4>
-        <div v-if="infoForm.male">
-          <el-form-item label="具体部位">
-            <el-input v-model="infoForm.male_part"></el-input>
-          </el-form-item>
-          <el-form-item label="脱发程度">
-            <el-radio-group v-model="infoForm.male_level">
-              <el-radio label="轻">轻</el-radio>
-              <el-radio label="中">中</el-radio>
-              <el-radio label="重">重</el-radio>
-            </el-radio-group>
-          </el-form-item>
-        </div>
-
     </el-form>
     <span slot="footer">
         <el-button :disabled="check_status=='审核通过'" type="primary" @click="updateInfoForm">确定</el-button>
@@ -202,7 +147,7 @@ export default {
                         "崩龙族","保安族","裕固族","京族","塔塔尔族","独龙族","鄂伦春族","赫哲族","门巴族","珞巴族","基诺族","其它"],
       careerSelection: ["学生","个体","农民","军人","工人","财会人员","技术人员","服务业","科教文卫","行政管理","无业","其它"],
       specialCheckbox: {"special_gaowen":"高温","special_diwen":"低温","special_yeban":"夜班","special_zao":"噪声","special_fu":"辐射","special_hua":"化工污染","special_ju":"剧烈运动","special_qi":"汽油","special_kong":"高空","special_wu":"无"},
-      dietCheckbox:    {"yinshi_wuteshu":"无特殊","yinshi_sushi":"素食","yinshi_suan":"酸","yinshi_xian":"咸","yinshi_xinla":"辛辣","yinshi_you":"油","yinshi_shengleng":"生冷","yinshi_cafei":"含咖啡因食物或饮品"},
+      dietCheckbox:    {"yinshi_wuteshu":"无特殊","yinshi_qingdan":"清淡","yinshi_suan":"酸","yinshi_xian":"咸","yinshi_xinla":"辛辣","yinshi_you":"油腻","yinshi_gaozhi":"高脂","yinshi_laji":"垃圾食品"},
       acneData:[{field1: '0', field2: '无', field3: '无'},
                 {field1: '1', field2: '轻微', field3: '痤疮≥2mm，面部或躯干<10个'},
                 {field1: '2', field2: '轻', field3: '痤疮10-20个'},
@@ -273,7 +218,6 @@ export default {
       });
     }
 };
-</script>
 </script>
 <style lang="scss">
   .input-embedding .el-input-group__prepend{

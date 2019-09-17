@@ -7,6 +7,7 @@ import ExperimentForm from './ExperimentForm.vue'
 import HistoryForm from './HistoryForm.vue'
 import InfoForm from './InfoForm.vue'
 import SummaryForm from './SummaryForm.vue'
+import StandardForm from './StandardForm.vue'
 
 export {
     AddPatient,
@@ -17,5 +18,6 @@ export {
     ExperimentForm,
     HistoryForm,
     InfoForm,
-    SummaryForm
+    SummaryForm,
+    StandardForm
 }

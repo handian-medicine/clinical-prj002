@@ -55,11 +55,11 @@
       </el-table-column>
       <el-table-column type="index" width="40">
       </el-table-column>
-      <el-table-column prop="name" label="姓名" width="85">
+      <el-table-column prop="patient_name" label="姓名" width="85">
       </el-table-column>
       <el-table-column prop="serial" label="编码" width="125">
       </el-table-column>
-      <el-table-column prop="hospital" label="医院" width="150">
+      <el-table-column prop="hospital_name" label="医院" width="150">
       </el-table-column>
       <el-table-column prop="address" label="住址" width="150">
       </el-table-column>
@@ -87,8 +87,9 @@
         <template v-slot="scope">
           <el-button-group>
           <el-button type="btn-info" size="small" @click="openDataForm(scope.$index, scope.row, 'info')">一般情况</el-button>
+          <el-button type="btn-standard" size="small" @click="openDataForm(scope.$index, scope.row, 'standard')">诊断标准</el-button>
           <el-button type="btn-summary" size="small" @click="openDataForm(scope.$index, scope.row, 'summary')">病情概要</el-button>
-          <el-button type="btn-history"    size="small" @click="openDataForm(scope.$index, scope.row, 'history')">专科病史</el-button>
+          <el-button type="btn-history" size="small" @click="openDataForm(scope.$index, scope.row, 'history')">专科病史</el-button>
           <el-button type="btn-experiment" size="small" @click="openDataForm(scope.$index, scope.row, 'experiment')">实验室检查</el-button>
           <el-button type="btn-bxray" size="small" @click="openDataForm(scope.$index, scope.row, 'bxray')">B超</el-button>
           <el-button type="btn-clinical" size="small" @click="openDataForm(scope.$index, scope.row, 'clinical')">临床诊断</el-button>
@@ -118,17 +119,21 @@
 
     <!-- 一般情况dialog -->
     <InfoForm ref="info"></InfoForm>
+    <!-- 诊断标准dialog -->
+    <StandardForm ref="standard"></StandardForm>
     <!-- 病情概要dialog -->
     <SummaryForm ref="summary"></SummaryForm>
-    <!-- 专科病史dialog -->
+    <!-- 专病情况dialog -->
     <HistoryForm ref="history"></HistoryForm>
+    <!-- 病史dialog -->
+    <!-- <HistoryForm ref="history"></HistoryForm> -->
     <!-- 实验室检查dialog -->
     <ExperimentForm ref="experiment"></ExperimentForm>
     <!-- B超dialog -->
     <BxrayForm ref="bxray"></BxrayForm>
     <!-- 临床诊断dialog -->
     <ClinicalForm ref="clinical"></ClinicalForm>
-    <!-- 疗效dialog -->
+    <!-- 治疗情况dialog -->
     <CureForm ref="cure"></CureForm>
 
     <!-- 新增信息dialog -->
@@ -145,11 +150,11 @@
 import {apiGetPatientsList, apiSearchPatient, apiGetPatientDataForm, apiExportFile,apiRemovePatient} from '@/api/api-prj002'
 // 批量导入子组件
 import {AddPatient, CheckPatient} from '@/components/prj002/forms'
-import {InfoForm,SummaryForm,HistoryForm,ExperimentForm,BxrayForm,ClinicalForm,CureForm} from '@/components/prj002/forms'
+import {StandardForm,InfoForm,SummaryForm,HistoryForm,ExperimentForm,BxrayForm,ClinicalForm,CureForm} from '@/components/prj002/forms'
 import { userInfo } from 'os';
 export default {
   name:'Table',
-  components:{AddPatient,CheckPatient,InfoForm,SummaryForm,HistoryForm,ExperimentForm,BxrayForm,ClinicalForm,CureForm},
+  components:{AddPatient,CheckPatient,StandardForm,InfoForm,SummaryForm,HistoryForm,ExperimentForm,BxrayForm,ClinicalForm,CureForm},
   data () {
     return {
       expands:[],
