@@ -199,7 +199,7 @@ export default {
       pain_character: {'pain_character_leng':'冷痛','pain_character_zhui':'坠痛','pain_character_zhang':'胀痛','pain_character_ci':'刺痛','pain_character_jiao':'绞痛','pain_character_che':'掣痛','pain_character_kong':'空痛','pain_character_zhuo':'灼痛','pain_character_yin':'隐痛'},
       pain_hobby: {'hobby_xian':'喜按','hobby_juan':'拒按','hobby_xiwen':'喜温','hobby_buxiwen':'不喜温','hobby_dewenjian':'得温痛减','hobby_dewenbu':'得温痛不减','hobby_kuaijian':'块下痛减','hobby_kuaibu':'块下痛不减'},
       texture_choise:['淡红','淡白','红','紫暗有瘀点或瘀斑'],
-      tongue_coating: {'coating_bai':'白','coating_huang':'黄','coating_bo':'薄','coating_hou':'厚','coating_ni':'腻','coating_run':'润','coating_ganzao':'干','coating_shaotai':'少苔','coating_huabo':'花剥','coating_wutai':'无苔'},
+      tongue_coating: {'coating_bai':'白','coating_huang':'黄','coating_bo':'薄','coating_hou':'厚','coating_ni':'腻','coating_run':'润','coating_ganzao':'干燥','coating_shaotai':'少苔','coating_huabo':'花剥','coating_wutai':'无苔'},
       tongue_body:    {tongue_zhengchang:'正常',tongue_shouxiao:'瘦小',tongue_pangda:'胖大',tongue_chihen:'有齿痕',tongue_liewen:'有裂纹'},
       pulse:          {'pulse_fu':'浮','pulse_chen':'沉','pulse_hua':'滑','pulse_shu':'数','pulse_xian':'弦','pulse_xi':'细','pulse_ruo':'弱','pulse_huan':'缓','pulse_chi':'迟','pulse_se':'涩','pulse_jin':'紧'},
       summaryForm:{
