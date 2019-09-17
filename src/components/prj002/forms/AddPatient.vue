@@ -5,7 +5,7 @@
 
     <el-form ref="patientInfo" :model="patientInfo" :rules="rules" label-width="130px" label-position="left">
 
-      <el-form-item label="患者姓名" prop="name">
+      <el-form-item label="患者姓名" prop="patient_name">
         <el-input v-model="patientInfo.patient_name"></el-input>
       </el-form-item>
 
