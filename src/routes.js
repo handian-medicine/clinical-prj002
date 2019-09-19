@@ -69,6 +69,11 @@ export default new Router({
           path: '/mobile/prj003',
           name: 'Prj003手机端',
           component: () => import('@/components/prj003/mobile/MobilePrj003.vue'),
+        },
+        {
+          path: '/mobile/prj004',
+          name: 'Prj004手机端',
+          component: () => import('@/components/prj004/mobile/MobilePrj004.vue'),
         }
       ]
     },
@@ -162,6 +167,33 @@ export default new Router({
         { path: '/prj003/echarts',
           name: '数据分析',
           component: () => import('@/components/prj003/pages/Echarts.vue'),
+          iconCls: 'fa fa-bar-chart',
+          leaf: false
+        }
+      ]
+    },
+    {
+      path: '/prj004',
+      component: () => import('@/components/prj004/Prj004.vue'),
+      name: '滑胎（复发性流产）',
+      iconCls: 'fa fa-address-card',  //用户自定义属性
+      leaf: false, //用户自定义属性,用来确定某条菜单是否还有下级菜单
+      children: [
+        { path: '/prj004/table',
+          name: '数据列表',
+          component: () => import('@/components/prj004/pages/Table.vue'),
+          iconCls: 'fa fa-address-card',
+          leaf: false
+        },
+        { path: '/prj004/QRcode',
+          name: '移动端录入',
+          component: () => import('@/components/prj004/pages/QRcode.vue'),
+          iconCls: 'fa fa-qrcode',
+          leaf: false
+        },
+        { path: '/prj004/echarts',
+          name: '数据分析',
+          component: () => import('@/components/prj004/pages/Echarts.vue'),
           iconCls: 'fa fa-bar-chart',
           leaf: false
         }
