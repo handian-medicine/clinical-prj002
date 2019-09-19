@@ -278,7 +278,7 @@ export default {
       yinxue:["很少(护垫即可)","中等(卫生巾,与月经量相似)","大量(多于月经量)"],
       shezhi_choises:{shezhi_danhong:"淡红",shezhi_danbai:"淡白",shezhi_xianhong:"鲜红",shezhi_shenhong:"深红",shezhi_zihong:"紫红",shezhi_anhong:"黯红",shezhi_andan:"淡黯",shezhi_zian:"紫黯",shezhi_youyudian:"有瘀点或瘀斑",shezhi_jianhong:"舌边尖红"},
       shetai_choises:{shetai_bai:"白",shetai_huang:"黄",shetai_bo:"薄",shetai_hou:"厚",shetai_ni:"腻",shetai_run:"润",shetai_hua:"滑",shetai_gan:"干",shetai_shaotai:"少苔",shetai_huabao:"花剥",shetai_wutai:"无苔"},
-      sheti_choises:{sheti_zc:"正常",sheti_shou:"瘦小",sheti_pang:"胖大",sheti_chi:"有齿痕",sheti_lie:"有裂纹"},
+      sheti_choises:{sheti_shou:"瘦小",sheti_pang:"胖大",sheti_chi:"有齿痕",sheti_lie:"有裂纹"},
       mai_choises:{mai_fu:"浮",mai_chen:"沉",mai_hua:"滑",mai_shu:"数",mai_xuan:"弦",mai_xi:"细",mai_ruo:"弱",mai_huan:"缓",mai_chi:"迟",mai_se:"涩",mai_jin:"紧"},
 
       summaryForm:{
