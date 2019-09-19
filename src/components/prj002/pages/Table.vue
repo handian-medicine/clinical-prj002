@@ -89,6 +89,7 @@
           <el-button type="btn-info" size="small" @click="openDataForm(scope.$index, scope.row, 'info')">一般情况</el-button>
           <el-button type="btn-standard" size="small" @click="openDataForm(scope.$index, scope.row, 'standard')">诊断标准</el-button>
           <el-button type="btn-summary" size="small" @click="openDataForm(scope.$index, scope.row, 'summary')">病情概要</el-button>
+          <el-button type="btn-disease" size="small" @click="openDataForm(scope.$index, scope.row, 'disease')">专病情况</el-button>
           <el-button type="btn-history" size="small" @click="openDataForm(scope.$index, scope.row, 'history')">专科病史</el-button>
           <el-button type="btn-experiment" size="small" @click="openDataForm(scope.$index, scope.row, 'experiment')">实验室检查</el-button>
           <el-button type="btn-bxray" size="small" @click="openDataForm(scope.$index, scope.row, 'bxray')">B超</el-button>
@@ -124,9 +125,9 @@
     <!-- 病情概要dialog -->
     <SummaryForm ref="summary"></SummaryForm>
     <!-- 专病情况dialog -->
-    <HistoryForm ref="history"></HistoryForm>
+    <DiseaseForm ref="disease"></DiseaseForm>
     <!-- 病史dialog -->
-    <!-- <HistoryForm ref="history"></HistoryForm> -->
+    <HistoryForm ref="history"></HistoryForm>
     <!-- 实验室检查dialog -->
     <ExperimentForm ref="experiment"></ExperimentForm>
     <!-- B超dialog -->
@@ -150,11 +151,11 @@
 import {apiGetPatientsList, apiSearchPatient, apiGetPatientDataForm, apiExportFile,apiRemovePatient} from '@/api/api-prj002'
 // 批量导入子组件
 import {AddPatient, CheckPatient} from '@/components/prj002/forms'
-import {StandardForm,InfoForm,SummaryForm,HistoryForm,ExperimentForm,BxrayForm,ClinicalForm,CureForm} from '@/components/prj002/forms'
+import {StandardForm,InfoForm,SummaryForm,DiseaseForm,HistoryForm,ExperimentForm,BxrayForm,ClinicalForm,CureForm} from '@/components/prj002/forms'
 import { userInfo } from 'os';
 export default {
   name:'Table',
-  components:{AddPatient,CheckPatient,StandardForm,InfoForm,SummaryForm,HistoryForm,ExperimentForm,BxrayForm,ClinicalForm,CureForm},
+  components:{AddPatient,CheckPatient,StandardForm,InfoForm,SummaryForm,DiseaseForm,HistoryForm,ExperimentForm,BxrayForm,ClinicalForm,CureForm},
   data () {
     return {
       expands:[],

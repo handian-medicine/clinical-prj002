@@ -3,6 +3,7 @@ import CheckPatient from './CheckPatient.vue'
 import BxrayForm from './BxrayForm.vue'
 import ClinicalForm from './ClinicalForm.vue'
 import CureForm from './CureForm.vue'
+import DiseaseForm from './DiseaseForm.vue'
 import ExperimentForm from './ExperimentForm.vue'
 import HistoryForm from './HistoryForm.vue'
 import InfoForm from './InfoForm.vue'
@@ -15,6 +16,7 @@ export {
     BxrayForm,
     ClinicalForm,
     CureForm,
+    DiseaseForm,
     ExperimentForm,
     HistoryForm,
     InfoForm,
