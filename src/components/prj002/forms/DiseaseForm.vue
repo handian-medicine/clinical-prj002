@@ -45,8 +45,8 @@
         </div>
 
       <h4>3. 痤疮 <el-switch v-model="diseaseForm.chuochuang" active-text="有" inactive-text="无"></el-switch></h4>
-        <div v-show="diseaseForm.is_a">
-          <p>如果有，请描述具体部位 <el-input v-model="diseaseForm.d"></el-input></p>
+        <div v-show="diseaseForm.chuochuang">
+          <p>如果有，请描述具体部位 <el-input v-model="diseaseForm.is_chuochuang_buwei"></el-input></p>
           <table border="1" cellspacing="0" cellpadding="3px" style="width: 60%;margin:auto">
             <caption>痤疮评分表</caption>
             <tr>
@@ -54,7 +54,7 @@
             </tr>
             <tr v-for="item in cuochuang_table" :key="item.symptom">
               <td style="text-align:center;">
-                <el-radio v-model="diseaseForm.c" :label="item.score">{{item.score+'分'}}</el-radio>
+                <el-radio v-model="diseaseForm.is_chuochuang_score" :label="item.score">{{item.score+'分'}}</el-radio>
               </td>
               <td style="text-align:center;">{{item.type}}</td>
               <td>{{item.symptom}}</td>
@@ -63,10 +63,10 @@
           <p>注：脓疱:由死皮细胞和细菌组成的皮肤感染。这些损害在外观上呈球形，里面充满脓液。颜色偏红，脓疱可能很疼，并且如果划伤或碰撞会轻易破开。</p>
         </div>
 
-      <h4>4. 黑棘皮症 <el-switch v-model="diseaseForm.is_b" active-text="有" inactive-text="无"></el-switch></h4>
+      <h4>4. 黑棘皮症 <el-switch v-model="diseaseForm.heiji" active-text="有" inactive-text="无"></el-switch></h4>
         <p>注：黑色棘皮症简称黑棘皮症，是以皮肤角化过度、色素沉着及乳头瘤样增生为特征的一种少见的皮肤病。）</p>
-        <div v-show="diseaseForm.is_b">
-          <p>如果有，请描述具体部位 <el-input v-model="diseaseForm.e"></el-input></p>
+        <div v-show="diseaseForm.heiji">
+          <p>如果有，请描述具体部位 <el-input v-model="diseaseForm.is_heiji_buwei"></el-input></p>
         </div>
 
       <h4>5. 抑郁自评</h4>
@@ -162,48 +162,48 @@ export default {
         "cuochuang 5":{score:5,type:"囊性",symptom:"炎性皮损≥5mm"}
       },
       depression_table:{
-        "depression 1": {name:"1  我觉得闷闷不乐，情绪低沉", list:["","","",""],score:0},
-        "depression 2": {name:"2  我觉得一天之中早晨最好", list:["","","",""],score:0},
-        "depression 3": {name:"3  我一阵阵地哭出来或是想哭", list:["","","",""],score:0},
-        "depression 4": {name:"4  我晚上睡眠不好", list:["","","",""],score:0},
-        "depression 5": {name:"5  我吃的和平时一样多", list:["","","",""],score:0},
-        "depression 6": {name:"6  我与异性接触时和以往一样感到愉快", list:["","","",""],score:0},
-        "depression 7": {name:"7  我发觉我的体重在下降", list:["","","",""],score:0},
-        "depression 8": {name:"8  我有便秘的苦恼", list:["","","",""],score:0},
-        "depression 9": {name:"9  我心跳比平时快", list:["","","",""],score:0},
-        "depression 10":{name:"10 我无缘无故感到疲乏", list:["","","",""],score:0},
-        "depression 11":{name:"11 我的头脑和平时一样清楚", list:["","","",""],score:0},
-        "depression 12":{name:"12 我觉得经常做的事情并没有困难", list:["","","",""],score:0},
-        "depression 13":{name:"13 我觉得不安而平静不下来", list:["","","",""],score:0},
-        "depression 14":{name:"14 我对将来抱有希望", list:["","","",""],score:0},
-        "depression 15":{name:"15 我比平常容易激动", list:["","","",""],score:0},
-        "depression 16":{name:"16 我觉得做出决定是容易的", list:["","","",""],score:0},
-        "depression 17":{name:"17 我觉得自己是个有用的人，有人需要我", list:["","","",""],score:0},
-        "depression 18":{name:"18 我的生活过得很有意思", list:["","","",""],score:0},
-        "depression 19":{name:"19 我认为如果我死了别人会生活的更好些", list:["","","",""],score:0},
-        "depression 20":{name:"20 平常感兴趣的事我仍然照样感兴趣", list:["","","",""],score:0},
+        "yiyu_bule": {name:"1  我觉得闷闷不乐，情绪低沉", list:["","","",""],score:0},
+        "yiyu_zao": {name:"2  我觉得一天之中早晨最好", list:["","","",""],score:0},
+        "yiyu_ku": {name:"3  我一阵阵地哭出来或是想哭", list:["","","",""],score:0},
+        "yiyu_shui": {name:"4  我晚上睡眠不好", list:["","","",""],score:0},
+        "yiyu_chi": {name:"5  我吃的和平时一样多", list:["","","",""],score:0},
+        "yiyu_yixing": {name:"6  我与异性接触时和以往一样感到愉快", list:["","","",""],score:0},
+        "yiyu_tizhong": {name:"7  我发觉我的体重在下降", list:["","","",""],score:0},
+        "yiyu_bian": {name:"8  我有便秘的苦恼", list:["","","",""],score:0},
+        "yiyu_xin": {name:"9  我心跳比平时快", list:["","","",""],score:0},
+        "yiyu_pifa":{name:"10 我无缘无故感到疲乏", list:["","","",""],score:0},
+        "yiyu_nao":{name:"11 我的头脑和平时一样清楚", list:["","","",""],score:0},
+        "yiyu_kunnan":{name:"12 我觉得经常做的事情并没有困难", list:["","","",""],score:0},
+        "yiyu_buan":{name:"13 我觉得不安而平静不下来", list:["","","",""],score:0},
+        "yiyu_xiwang":{name:"14 我对将来抱有希望", list:["","","",""],score:0},
+        "yiyu_jidong":{name:"15 我比平常容易激动", list:["","","",""],score:0},
+        "yiyu_jueding":{name:"16 我觉得做出决定是容易的", list:["","","",""],score:0},
+        "yiyu_yong":{name:"17 我觉得自己是个有用的人，有人需要我", list:["","","",""],score:0},
+        "yiyu_yisi":{name:"18 我的生活过得很有意思", list:["","","",""],score:0},
+        "yiyu_si":{name:"19 我认为如果我死了别人会生活的更好些", list:["","","",""],score:0},
+        "yiyu_xing":{name:"20 平常感兴趣的事我仍然照样感兴趣", list:["","","",""],score:0},
       },
       anxiety_table:{
-        "anxiety 1": {name:"1  我觉得比平常容易紧张和着急", list:["","","",""],score:0},
-        "anxiety 2": {name:"2  我无缘无故地感到害怕", list:["","","",""],score:0},
-        "anxiety 3": {name:"3  我容易心里烦乱或觉得惊慌", list:["","","",""],score:0},
-        "anxiety 4": {name:"4  我觉得我可能将要发疯", list:["","","",""],score:0},
-        "anxiety 5": {name:"5  我觉得一切都很好，也不会发生什么不幸 ", list:["","","",""],score:0},
-        "anxiety 6": {name:"6  我与异性接触时和以往一样感到愉快", list:["","","",""],score:0},
-        "anxiety 7": {name:"7  我因为头痛、头颈痛和背痛而苦恼", list:["","","",""],score:0},
-        "anxiety 8": {name:"8  我感觉容易衰弱和疲乏", list:["","","",""],score:0},
-        "anxiety 9": {name:"9  我觉得心平气和，并且容易安静地坐着  ", list:["","","",""],score:0},
-        "anxiety 10":{name:"10 我觉得心跳得很快", list:["","","",""],score:0},
-        "anxiety 11":{name:"11 我因为一阵阵头晕而苦恼", list:["","","",""],score:0},
-        "anxiety 12":{name:"12 我有晕倒发作，或觉得要晕倒似的", list:["","","",""],score:0},
-        "anxiety 13":{name:"13 我有晕倒发作，或觉得要晕倒似的  ", list:["","","",""],score:0},
-        "anxiety 14":{name:"14 我手脚麻木和刺痛", list:["","","",""],score:0},
-        "anxiety 15":{name:"15 我因为胃痛和消化不良而苦恼", list:["","","",""],score:0},
-        "anxiety 16":{name:"16 我常常要小便", list:["","","",""],score:0},
-        "anxiety 17":{name:"17 我的手常常是干燥温暖的  ", list:["","","",""],score:0},
-        "anxiety 18":{name:"18 我脸红发热", list:["","","",""],score:0},
-        "anxiety 19":{name:"19 我容易入睡并且一夜睡得很好 ", list:["","","",""],score:0},
-        "anxiety 20":{name:"20 我作恶梦", list:["","","",""],score:0},
+        "jiaolv_jin":   {name:"1  我觉得比平常容易紧张和着急", list:["","","",""],score:0},
+        "jiaolv_wu":    {name:"2  我无缘无故地感到害怕", list:["","","",""],score:0},
+        "jiaolv_jing":  {name:"3  我容易心里烦乱或觉得惊慌", list:["","","",""],score:0},
+        "jiaolv_feng":  {name:"4  我觉得我可能将要发疯", list:["","","",""],score:0},
+        "jiaolv_hao":   {name:"5  我觉得一切都很好，也不会发生什么不幸 ", list:["","","",""],score:0},
+        "jiaolv_yi":    {name:"6  我与异性接触时和以往一样感到愉快", list:["","","",""],score:0},
+        "jiaolv_ku":    {name:"7  我因为头痛、头颈痛和背痛而苦恼", list:["","","",""],score:0},
+        "jiaolv_pi":    {name:"8  我感觉容易衰弱和疲乏", list:["","","",""],score:0},
+        "jiaolv_ping":  {name:"9  我觉得心平气和，并且容易安静地坐着  ", list:["","","",""],score:0},
+        "jiaolv_kuai":  {name:"10 我觉得心跳得很快", list:["","","",""],score:0},
+        "jiaolv_yun":   {name:"11 我因为一阵阵头晕而苦恼", list:["","","",""],score:0},
+        "jiaolv_fazuo": {name:"12 我有晕倒发作，或觉得要晕倒似的", list:["","","",""],score:0},
+        "jiaolv_huxi":  {name:"13 我有晕倒发作，或觉得要晕倒似的  ", list:["","","",""],score:0},
+        "jiaolv_ma":    {name:"14 我手脚麻木和刺痛", list:["","","",""],score:0},
+        "jiaolv_wei":   {name:"15 我因为胃痛和消化不良而苦恼", list:["","","",""],score:0},
+        "jiaolv_xiao":  {name:"16 我常常要小便", list:["","","",""],score:0},
+        "jiaolv_shou":  {name:"17 我的手常常是干燥温暖的  ", list:["","","",""],score:0},
+        "jiaolv_lian":  {name:"18 我脸红发热", list:["","","",""],score:0},
+        "jiaolv_ru":    {name:"19 我容易入睡并且一夜睡得很好 ", list:["","","",""],score:0},
+        "jiaolv_e":     {name:"20 我作恶梦", list:["","","",""],score:0},
       },
       diseaseForm:{},
       dialogVisible: false,
