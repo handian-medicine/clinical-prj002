@@ -47,7 +47,7 @@
       <!-- <el-table-column type="selection" width="55">
       </el-table-column> -->
       <el-table-column prop="index" width="40">
-        <template slot="header" slot-scope="scope">
+        <template slot="header">
           <el-button type="primary" size="mini" mini circle plain
                     @click="expand"
                     :class="expandFlag?'el-icon-caret-right':'el-icon-caret-bottom'"></el-button>
@@ -162,9 +162,9 @@ export default {
       expandFlag:true,
       is_admin:true,
       search: {
-        name: '', phone:'', hospital:'', address:'', check_status:''//career:'',birth:''
+        patient_name: '', patient_phone:'', hospital_name:'', patient_birth:'', check_status:''//career:'',birth:''
       },
-      searchName: {name:'姓名',phone:'电话',hospital:'医院',address:'地址'},//career:'职业',birth:'出生日期',
+      searchName: {patient_name:'姓名',patient_phone:'电话',hospital_name:'医院',patient_birth:'出生年月'},//career:'职业',birth:'出生日期',
       patientsList: [], // 数据列表
       totalNum: 0, // 数据总条数
       page: 1, //当前页码
@@ -235,7 +235,7 @@ export default {
     },
     // 获取患者列表
     getPatients () {
-      this.search = {name: '', phone:'', hospital:'', address:'', check_status:''}//career:'', birth:''
+      this.search = {patient_name: '', patient_phone:'', hospital_name:'', patient_birth:'', check_status:''}//career:'', birth:''
       let para = {page: this.page}
       this.listLoading = true
       this.expandFlag = true
