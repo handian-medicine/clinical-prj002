@@ -16,27 +16,33 @@
       <p></p>
 
       <h4>1.多囊卵巢综合征病程</h4>
-        <el-input v-model="historyForm.duonang_year"></el-input>
-        <el-input v-model="historyForm.duonang_month"></el-input>
-
-      <h4>2.其他疾病史 <el-switch v-model="historyForm.other_disease" active-text="无" inactive-text="有"></el-switch></h4>
-        <h5>生殖障碍</h5>
-          <el-checkbox v-for="(val, key) in shengzhi" :key="key"
-                      v-model="historyForm[key]" :label="val">
-          </el-checkbox>
-          <el-input v-model="historyForm.shengzhi_zi_juti"></el-input>
-          <el-input v-model="historyForm.shengzhi_ti_pei"></el-input>
-          <el-input v-model="historyForm.shengzhi_ti_zhuo"></el-input>
-        <h5>代谢障碍</h5>
-          <el-checkbox v-for="(val, key) in daixie" :key="key"
-                      v-model="historyForm[key]" :label="val">
-          </el-checkbox>
-        <h5>孕产期并发症</h5>
-          <el-checkbox v-for="(val, key) in yunchanqi" :key="key"
-                      v-model="historyForm[key]" :label="val">
-          </el-checkbox>
-          <el-input v-model="historyForm.yunchan_qita"></el-input>
-
+        <div class="history-input">
+          <el-input v-model="historyForm.duonang_year" style="width:50px;"></el-input>年
+          <el-input v-model="historyForm.duonang_month" style="width:50px;"></el-input>月
+        </div>
+      <h4>2.其他疾病史 <el-switch v-model="historyForm.other_disease" active-text="有" inactive-text="无"></el-switch></h4>
+        <div v-show="historyForm.other_disease">
+          <h5>生殖障碍</h5>
+            <el-checkbox v-for="(val, key) in shengzhi" :key="key"
+                        v-model="historyForm[key]" :label="val">
+            </el-checkbox>
+            <el-input v-model="historyForm.shengzhi_zi_juti" v-if="historyForm.shengzhi_zi" placeholder="自然流产-具体孕周"></el-input>
+            <div class="history-input" v-if="historyForm.shengzhi_ti">
+              胚胎移植
+              <el-input v-model="historyForm.shengzhi_ti_pei" style="width:50px;"></el-input>
+              次,着床
+              <el-input v-model="historyForm.shengzhi_ti_zhuo" style="width:50px;"></el-input>次
+            </div>
+          <h5>代谢障碍</h5>
+            <el-checkbox v-for="(val, key) in daixie" :key="key"
+                        v-model="historyForm[key]" :label="val">
+            </el-checkbox>
+          <h5>孕产期并发症</h5>
+            <el-checkbox v-for="(val, key) in yunchanqi" :key="key"
+                        v-model="historyForm[key]" :label="val">
+            </el-checkbox>
+            <el-input v-model="historyForm.yunchan_qita" placeholder="其他"></el-input>
+        </div>
       <h4>3.个人史</h4>
         <h5>(1)饮食习惯</h5>
           <el-checkbox v-for="(val, key) in yinshi" :key="key"
@@ -69,6 +75,7 @@
                     v-for="item in chuchao"
                     :key="item" :label="item">
           </el-radio>
+          <el-input v-model="historyForm.first_time_qita"></el-input>
         <h5>(2)月经周期</h5>
           <el-radio v-model="historyForm.yuejing_zhouqi"
                     v-for="item in zhouqi"
@@ -115,8 +122,8 @@
                     :key="item" :label="item">
           </el-radio></h5>
 
-      <h4>6.孕产史 <el-switch v-model="historyForm.yunchan_history" active-text="无" inactive-text="有"></el-switch></h4>
-        <div class="history-input">
+      <h4>6.孕产史 <el-switch v-model="historyForm.yunchan_history" active-text="有" inactive-text="无"></el-switch></h4>
+        <div class="history-input" v-show="historyForm.yunchan_history">
           孕<el-input v-model="historyForm.yunchan_history_yun" style="width:50px;"></el-input>次、
           顺产<el-input v-model="historyForm.yunchan_history_shun" style="width:50px;"></el-input>次、
           剖宫产<el-input v-model="historyForm.yunchan_history_pou" style="width:50px;"></el-input>次、
@@ -126,27 +133,31 @@
           异位妊娠<el-input v-model="historyForm.yunchan_history_yi" style="width:50px;"></el-input>次、
           低体重儿<el-input v-model="historyForm.yunchan_history_di" style="width:50px;"></el-input>个、
           巨大儿<el-input v-model="historyForm.yunchan_history_ju" style="width:50px;"></el-input>个
+          <el-input v-model="historyForm.yunchan_history_qita" placeholder="其他"></el-input>
         </div>
-        <el-input v-model="historyForm.yunchan_history_qita"></el-input>
 
-      <h4>7.避孕措施 <el-switch v-model="historyForm.biyun" active-text="无" inactive-text="有"></el-switch></h4>
+      <h4>7.避孕措施 <el-switch v-model="historyForm.biyun" active-text="有" inactive-text="无"></el-switch></h4>
+        <div v-show="historyForm.biyun">
           <el-checkbox v-for="(val, key) in biyun" :key="key"
                       v-model="historyForm[key]" :label="val">
           </el-checkbox>
-          <el-input v-model="historyForm.biyun_qita"></el-input>
+          <el-input v-model="historyForm.biyun_qita" placeholder="其他"></el-input>
+        </div>
 
-      <h4>8.家族史：一级亲属（父母、兄弟姐妹、子女）其他疾病史 <el-switch v-model="historyForm.family_history" active-text="无" inactive-text="有"></el-switch></h4>
+      <h4>8.家族史：一级亲属（父母、兄弟姐妹、子女）其他疾病史 <el-switch v-model="historyForm.family_history" active-text="有" inactive-text="无"></el-switch></h4>
+        <div v-show="historyForm.family_history">
           <el-checkbox v-for="(val, key) in family_history" :key="key"
                       v-model="historyForm[key]" :label="val">
           </el-checkbox>
-          <el-input v-model="historyForm.family_history_qita"></el-input>
-      <h4>9.过敏史 <el-switch v-model="historyForm.guomin_history" active-text="无" inactive-text="有"></el-switch></h4>
-          <el-input v-model="historyForm.guomin_history_detail" placeholder="请具体填写"></el-input>
+          <el-input v-model="historyForm.family_history_qita" placeholder="其他"></el-input>
+        </div>
+      <h4>9.过敏史 <el-switch v-model="historyForm.guomin_history" active-text="有" inactive-text="无"></el-switch></h4>
+          <el-input v-model="historyForm.guomin_history_detail" v-show="historyForm.guomin_history" placeholder="请具体填写过敏史"></el-input>
 
     </el-form>
 
     <span slot="footer">
-      <el-button type="primary" :disabled="check_status=='审核通过'" v-if="exist"  @click="updateHistoryForm">确定</el-button>
+      <el-button type="primary" :disabled="check_status=='审核通过'" v-if="exist" @click="updateHistoryForm">确定</el-button>
       <el-button type="primary" v-else  @click="createHistoryForm">确定</el-button>
       <el-button @click="dialogVisible=false">取消</el-button>
     </span>
@@ -209,7 +220,6 @@ export default {
         "person_eat_ji":"过饥",
         "person_eat_xi":"喜甜",
         "person_eat_fei":"肥甘厚腻",
-        "person_eat_qita":"其他"
       },
       shihao:{
         "person_hobby_wu":"无",
@@ -230,7 +240,7 @@ export default {
         "person_source_wang":"网络信息",
         "person_source_yi":"医护宣教",
       },
-      chuchao:["＜10周岁","10≤年龄≤16周岁","≤16周岁","其他"],
+      chuchao:["＜10周岁","10≤年龄≤16周岁","≤16周岁"],
       zhouqi:["规律","稀发","频发","月经不规则"],
       jingliang:["正常","少","中","多"],
       jingqi:["正常","延长"],

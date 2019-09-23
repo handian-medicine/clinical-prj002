@@ -13,75 +13,110 @@
                   title="此条信息为其他用户创建，您无法修改"
                   type="warning" :closable="false" show-icon>
       </el-alert>
-      <el-divider></el-divider>
+      <p></p>
 
-      <el-form-item label="中西医结合治疗">
-        <el-switch v-model="cureForm.is_jiehe" active-text="是" inactive-text="否"></el-switch>
-      </el-form-item>
+      <h4>1.生活方式干预</h4>
+        <h5>（1）饮食控制: <el-switch v-model="cureForm.shenghuo_eat" active-text="有" inactive-text="无"></el-switch></h5>
+        <h5>（2）运动: </h5>
+          <el-radio v-model="cureForm.shenghuo_sport"
+                    v-for="item in shenghuo_sport"
+                    :key="item" :label="item">
+          </el-radio>
+        <h5>（3）行为干预:</h5>
+          <el-checkbox v-for="(val, key) in shenghuo_xingwei" :key="key"
+                      v-model="cureForm[key]" :label="val">
+          </el-checkbox>
 
-      <div>
-        <div>
-          <h3>中医治疗</h3>
-          <h4>(1)治法</h4>
-          <el-form-item label="虚证">
-            <el-checkbox v-for="(val, key) in mydata.xu"
-            :key="key" :label="val" v-model="cureForm[key]">
+      <h4>2.治疗模式</h4>
+          <el-checkbox v-model="cureForm.cure_zhong" label="中医治疗"></el-checkbox>
+          <el-checkbox v-model="cureForm.cure_xi" label="西医治疗"></el-checkbox>
+          <el-checkbox v-model="cureForm.cure_jiehe" label="中西医结合治疗"></el-checkbox>
+      <h4>3.中医治疗</h4>
+        <h5>（1）治法:</h5>
+          <p>①虚证:</p>
+          <el-checkbox v-for="(val, key) in zhong_xu" :key="key"
+                      v-model="cureForm[key]" :label="val">
+          </el-checkbox>
+          <el-input v-model="cureForm.zhong_xu_qita" placeholder="其他"></el-input>
+          <p>②实证:</p>
+          <el-checkbox v-for="(val, key) in zhong_shi" :key="key"
+                      v-model="cureForm[key]" :label="val">
+          </el-checkbox>
+          <el-input v-model="cureForm.zhong_shi_qita" placeholder="其他"></el-input>
+          <p>③虚实夹杂证:</p>
+          <el-checkbox v-for="(val, key) in zhong_xushi" :key="key"
+                      v-model="cureForm[key]" :label="val">
+          </el-checkbox>
+          <el-input v-model="cureForm.zhong_xushi_qita" placeholder="其他"></el-input>
+        <h5>（2）选用方药及剂量:</h5>
+          <el-input type="textarea" :rows="2" v-model="cureForm.fangyao"></el-input>
+        <h5>（3）中成药: <el-switch v-model="cureForm.zhongchengyao" active-text="有" inactive-text="无"></el-switch></h5>
+          <el-input v-show="cureForm.zhongchengyao" v-model="cureForm.zhongchengyao_detail" placeholder="具体药物"></el-input>
+        <h5>（4）调周法: <el-switch v-model="cureForm.tiaozhou" active-text="有" inactive-text="无"></el-switch></h5>
+          <div v-show="cureForm.tiaozhou">
+            <p>①分期:<el-input v-model="cureForm.tiaozhou_qi" style="width:50px"></el-input>期</p>
+            <p>②各期治法与方药:</p>
+              <el-input v-model="cureForm.tiaozhou_detail" type="textarea" :rows="2"></el-input>
+          </div>
+        <h5>（5）针刺: <el-switch v-model="cureForm.zhenci" active-text="有" inactive-text="无"></el-switch></h5>
+          <div v-show="cureForm.zhenci">
+            <p>①具体穴位:</p>
+              <el-input v-model="cureForm.zhenci_xuewei" type="textarea" :rows="2"></el-input>
+            <p>②针刺手法:</p>
+              <el-input v-model="cureForm.zhenci_shoufa" type="textarea" :rows="2"></el-input>
+          </div>
+      <h4>4.西医治疗</h4>
+        <h5>（1）调整月经周期治疗: <el-switch v-model="cureForm.xi_yuejing" active-text="有" inactive-text="无"></el-switch></h5>
+          <div v-show="cureForm.xi_yuejing">
+            <p>避孕药类</p>
+            <el-checkbox v-for="(val, key) in xi_yuejing_biyun" :key="key"
+                        v-model="cureForm[key]" :label="val">
             </el-checkbox>
-            <el-input v-model="cureForm.xu_qita"></el-input>
-          </el-form-item>
-          <el-form-item label="实证">
-            <el-checkbox v-for="(val, key) in mydata.shi"
-            :key="key" :label="val" v-model="cureForm[key]">
+            <el-input v-model="cureForm.xi_yuejing_biyun_qita" placeholder="其他"></el-input>
+            <p>孕激素类</p>
+            <el-checkbox v-for="(val, key) in xi_yuejing_jisu" :key="key"
+                        v-model="cureForm[key]" :label="val">
             </el-checkbox>
-            <el-input v-model="cureForm.shi_qita"></el-input>
-          </el-form-item>
-          <el-form-item label="虚实夹杂证">
-            <el-checkbox v-for="(val, key) in mydata.xushi"
-            :key="key" :label="val" v-model="cureForm[key]">
+            <el-input v-model="cureForm.xi_yuejing_jisu_qita" placeholder="其他"></el-input>
+            <p>雌孕激素周期序贯治疗</p>
+            <el-input v-model="cureForm.xi_ciyunjisu" placeholder="其他"></el-input>
+          </div>
+        <h5>（2）降低血雄激素水平治疗: <el-switch v-model="cureForm.xuexiong_shui" active-text="有" inactive-text="无"></el-switch></h5>
+          <div v-show="cureForm.xuexiong_shui">
+            <el-checkbox v-for="(val, key) in xuexiong_shui" :key="key"
+                      v-model="cureForm[key]" :label="val">
             </el-checkbox>
-            <el-input v-model="cureForm.xushi_qita"></el-input>
-          </el-form-item>
-          <h4>(2)方剂</h4>
-          <el-form-item label="选用方剂">
-            <el-input v-model="cureForm.xuanji"></el-input>
-          </el-form-item>
-          <el-form-item label="具体组成及剂量">
-            <el-input v-model="cureForm.zucheng"></el-input>
-          </el-form-item>
-          <h4>(3)中成药</h4>
-          <el-form-item label="是否使用中成药">
-            <el-switch v-model="cureForm.zhongcheng" active-text="是" inactive-text="否"></el-switch>
-            <el-input v-model="cureForm.zhongcheng_juti" v-show="cureForm.zhongcheng" placeholder="具体药物"></el-input>
-          </el-form-item>
-        </div>
-        <div>
-          <h3>西医治疗</h3>
-          <el-form-item label="高雄激素血症的治疗">
-            <el-switch v-model="cureForm.gaoxiong" active-text="是" inactive-text="否"></el-switch>
-            <el-input v-model="cureForm.gaoxiong_juti" v-show="cureForm.gaoxiong" placeholder="具体药物"></el-input>
-          </el-form-item>
-          <el-form-item label="高胰岛素血症的治疗">
-            <el-switch v-model="cureForm.yidao" active-text="是" inactive-text="否"></el-switch>
-            <el-input v-model="cureForm.yidao_juti" v-show="cureForm.yidao" placeholder="具体药物"></el-input>
-          </el-form-item>
-          <el-form-item label="调周治疗">
-            <el-switch v-model="cureForm.tiaozhou" active-text="是" inactive-text="否"></el-switch>
-            <el-input v-model="cureForm.tiaozhou_juti" v-show="cureForm.tiaozhou" placeholder="具体药物"></el-input>
-          </el-form-item>
-          <el-form-item label="促排卵治疗">
-            <el-switch v-model="cureForm.pailuan" active-text="是" inactive-text="否"></el-switch>
-            <el-input v-model="cureForm.pailuan_juti" v-show="cureForm.pailuan" placeholder="具体药物"></el-input>
-          </el-form-item>
-          <el-form-item label="手术治疗">
-            <el-switch v-model="cureForm.shoushu" active-text="是" inactive-text="否"></el-switch>
-            <el-input v-model="cureForm.shoushu_juti" v-show="cureForm.shoushu" placeholder="具体手术方式"></el-input>
-          </el-form-item>
-          <el-form-item label="其他治疗">
-            <el-input v-model="cureForm.cure_qita"></el-input>
-          </el-form-item>
-        </div>
+            <el-input v-model="cureForm.xuexiong_qita" placeholder="其他"></el-input>
+          </div>
+        <h5>（3）改善胰岛素抵抗治疗: <el-switch v-model="cureForm.yidaosu" active-text="有" inactive-text="无"></el-switch></h5>
+          <div v-show="cureForm.yidaosu">
+            <el-checkbox v-for="(val, key) in yidaosu" :key="key"
+                      v-model="cureForm[key]" :label="val">
+            </el-checkbox>
+            <el-input v-model="cureForm.yidaosu_qita" placeholder="其他"></el-input>
+          </div>
+        <h5>（4）诱发排卵治疗: <el-switch v-model="cureForm.youfa" active-text="有" inactive-text="无"></el-switch></h5>
+          <div v-show="cureForm.youfa">
+            <el-checkbox v-for="(val, key) in youfa" :key="key"
+                        v-model="cureForm[key]" :label="val">
+            </el-checkbox>
+            <el-input v-model="cureForm.youfa_qita" placeholder="其他"></el-input>
+          </div>
+        <h5>（5）促进生育: <el-switch v-model="cureForm.shengyu" active-text="有" inactive-text="无"></el-switch></h5>
+          <div v-show="cureForm.shengyu">
+            <el-checkbox v-for="(val, key) in shengyu" :key="key"
+                        v-model="cureForm[key]" :label="val">
+            </el-checkbox>
+            <el-input v-model="cureForm.shengyu_qita" placeholder="其他"></el-input>
+          </div>
 
-      </div>
+      <h4>5.是否接受心理治疗: <el-switch v-model="cureForm.xi_xinli" active-text="有" inactive-text="无"></el-switch></h4>
+
+      <h4>6.其他治疗: <el-switch v-model="cureForm.xi_other" active-text="有" inactive-text="无"></el-switch></h4>
+          <el-input v-model="cureForm.xi_other_qita" placeholder="其他"></el-input>
+
+
+
     </el-form>
 
     <span slot="footer">
@@ -98,71 +133,79 @@ export default {
   name:'CureForm',
   data() {
     return {
-      mydata: {
-        'is_jiehe': '中西医结合治疗',
-        xu:{'xu_yiqi': '益气健脾，养血调经','xu_bushen': '补肾助阳，温中健脾','xu_jian': '健脾温阳调经','xu_chong': '补肾益气，调补冲任','xu_ziyin': '滋阴补肾调经','xu_zhuyang': '温肾助阳，调补冲任','xu_buxue': '补血益气调经','xu_yangyin': '养阴清热调经'},
-        'xu_qita': '虚症其他',
-        shi:{'shi_xie': '泻肝清热除湿','shi_tiao': '疏肝解郁，理气调冲','shi_qing': '疏肝解郁，清热调经','shi_huo': '理气化瘀，活血调经','shi_zao': '燥湿化痰调经','shi_xue': '活血化瘀调经','shi_tan': '化痰祛瘀，活血调经'},
-        'shi_qita': '实证其他',
-        xushi:{'xushi_qushi': '健脾祛湿化痰','xushi_yijing': '补肾益精，疏肝理气调经','xushi_hua': '补肾益精，化痰燥湿','xushi_xue': '补肾益精，活血化痰调经','xushi_ziyin': '滋肾清热调经'},
-        'xushi_qita': '虚实夹杂其他',
-        'xuanji': '选用方剂',
-        'zucheng': '具体组成及剂量',
-        'zhongcheng': '中成药',
-        'zhongcheng_juti': '中成药-具体药物',
-        'gaoxiong': '高雄激素血症的治疗',
-        'gaoxiong_juti': '高雄激素血症的治疗-具体药物',
-        'yidao': '高胰岛素血症的治疗',
-        'yidao_juti': '高胰岛素血症的治疗-具体药物',
-        'tiaozhou': '调周治疗',
-        'tiaozhou_juti': '调周治疗-具体药物',
-        'pailuan': '促排卵治疗',
-        'pailuan_juti': '促排卵治疗-具体药物',
-        'shoushu': '手术治疗',
-        'shoushu_juti': '手术治疗-具体手术方式',
-        'cure_qita': '其他治疗',
+      'shenghuo_sport':['无', '偶尔', '一周1-2次', '一周3-5次', '每天'],
+      'shenghuo_xingwei':{
+          'shenghuo_xingwei_wu':'无',
+          'shenghuo_xingwei_xinli':'接受心理疏导',
+          'shenghuo_xingwei_qingxu':'改善情绪，保持乐观心态',
+          'shenghuo_xingwei_yanjiu':'戒烟戒酒',
+          'shenghuo_xingwei_shuimian':'有增加睡眠时间，提高睡眠质量',
+      },
+      'zhong_xu':{
+          'zhong_xu_yiqi':'益气健脾养血',
+          'zhong_xu_shen':'补肾助阳，温中健脾',
+          'zhong_xu_jianpi':'健脾温阳',
+          'zhong_xu_bushen':'补肾益气',
+          'zhong_xu_ziyin':'滋阴补肾',
+          'zhong_xu_wenshen':'温肾助阳，调补冲任',
+          'zhong_xu_buxue':'补血益气',
+          'zhong_xu_yangyin':'养阴清热',
+      },
+      'zhong_shi':{
+          'zhong_shi_xiegan':'泻肝清热除湿',
+          'zhong_shi_jieyu':'疏肝解郁理气调冲',
+          'zhong_shi_shugan':'疏肝解郁清热',
+          'zhong_shi_liqi':'理气化瘀活血',
+          'zhong_shi_zaoshi':'燥湿化痰',
+          'zhong_shi_huatan':'化痰祛瘀活血',
+      },
+      'zhong_xushi':{
+          'zhong_xushi_huatan':'健脾祛湿化痰',
+          'zhong_xushi_liqi':'补肾益精，疏肝理气',
+          'zhong_xushi_zaoshi':'补肾益精，化痰燥湿',
+          'zhong_xushi_yijing':'补肾益精，活血化痰',
+          'zhong_xushi_tiaojing':'滋肾清热调经',
+          'zhong_xushi_qingre':'滋肾清热，化瘀利湿',
+          'zhong_xushi_bushen':'补肾清热，化瘀利湿',
+      },
+
+      'xi_yuejing_biyun':{
+          'xi_yuejing_biyun_da':'达英35',
+          'xi_yuejing_biyun_ma':'妈富隆',
+      },
+      'xi_yuejing_jisu':{
+          'xi_yuejing_jisu_diqu':'地屈孕酮',
+          'xi_yuejing_jisu_weili':'微粒化黄体酮',
+          'xi_yuejing_jisu_huangti':'黄体酮',
+          'xi_yuejing_jisu_cusuan':'醋酸甲羟孕酮',
+      },
+
+      'xuexiong_shui':{
+          'xuexiong_tang':'糖皮质激素类',
+          'xuexiong_huan':'环丙孕酮',
+          'xuexiong_luo':'螺内酯',
+      },
+      'yidaosu':{
+          'yidaosu_erjia':'二甲双胍类',
+          'yidaosu_gelie':'吡格列酮',
+          'yidaosu_aka':'阿卡波糖',
+      },
+      'youfa':{
+          'youfa_mi':'氯米芬',
+          'youfa_lai':'来曲唑',
+          'youfa_cu':'促性腺激素',
+          'youfa_hm':'hMG',
+          'youfa_hp':'HP-FSH',
+          'youfa_rf':'rFSH',
+      },
+      'shengyu':{
+          'shengyu_fu':'腹腔镜下卵巢打孔术',
+          'shengyu_iv':'IVF-ET',
+          'shengyu_tiwai':'体外成熟培养',
+          'shengyu_yidao':'胰岛素增敏剂',
       },
       cureForm:{
-        is_jiehe: '',
-        xu_yiqi: '',
-        xu_bushen: '',
-        xu_jian: '',
-        xu_chong: '',
-        xu_ziyin: '',
-        xu_zhuyang: '',
-        xu_buxue: '',
-        xu_yangyin: '',
-        xu_qita: '',
-        shi_xie: '',
-        shi_tiao: '',
-        shi_qing: '',
-        shi_huo: '',
-        shi_zao: '',
-        shi_xue: '',
-        shi_tan: '',
-        shi_qita: '',
-        xushi_qushi: '',
-        xushi_yijing: '',
-        xushi_hua: '',
-        xushi_xue: '',
-        xushi_ziyin: '',
-        xushi_qita: '',
-        xuanji: '',
-        zucheng: '',
-        zhongcheng: '',
-        zhongcheng_juti: '',
-        gaoxiong: '',
-        gaoxiong_juti: '',
-        yidao: '',
-        yidao_juti: '',
-        tiaozhou: '',
-        tiaozhou_juti: '',
-        pailuan: '',
-        pailuan_juti: '',
-        shoushu: '',
-        shoushu_juti: '',
-        cure_qita: '',
-        },
+      },
       dialogVisible: false,
       exist: true,
       formName:'',
@@ -210,7 +253,6 @@ export default {
       this.formName = data.formName
       this.check_status = data.check_status
       this.isOwnedByUser = data.isOwnedByUser
-      console.log("传进来了",data.isOwnedByUser)
       if (!data.exist) {
         //未创建
         this.cureForm.info = data.formData.info

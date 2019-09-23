@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="B超" class="my-dialog"
+  <el-dialog title="B超" class="my-dialog bxray-dialog"
             :visible.sync="dialogVisible"
             :close-on-click-modal="false" width="100%" center
             @close='resetDialog'
@@ -14,133 +14,55 @@
                   title="此条信息为其他用户创建，您无法修改"
                   type="warning" :closable="false" show-icon>
       </el-alert>
-      <el-divider></el-divider>
+      <p></p>
       <!-- <div style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)"> -->
       <div>
         <h3>1、子宫</h3>
-        <el-form-item label="大小">
-          <el-col :sm="24" :md="8" :lg="8">
-            <el-input v-model="bxrayForm.zigong_chang" type="number" min="0">
-              <template slot="prepend">长径</template>
-              <template slot="append">mm</template>
-            </el-input>
-          </el-col>
-          <el-col :sm="24" :md="8" :lg="8">
-            <el-input v-model="bxrayForm.zigong_kuan" type="number" min="0">
-              <template slot="prepend">宽径</template>
-              <template slot="append">mm</template>
-            </el-input>
-          </el-col>
-          <el-col :sm="24" :md="8" :lg="8">
-            <el-input v-model="bxrayForm.zigong_qianhou" type="number" min="0">
-              <template slot="prepend">前后径</template>
-              <template slot="append">mm</template>
-            </el-input>
-          </el-col>
-        </el-form-item>
+          <h4 class="bxray-input">a.大小：
+            <el-input v-model="bxrayForm.zigong_chang" style="width:50px;" type="number" min=0></el-input>mm×
+            <el-input v-model="bxrayForm.zigong_kuan" style="width:50px;" type="number" min=0></el-input>mm×
+            <el-input v-model="bxrayForm.zigong_qianhou" style="width:50px;" type="number" min=0></el-input>mm
+          </h4>
+          <h4>b.畸形:
+            <el-switch v-model="bxrayForm.zigong_jixing" active-text="有" inactive-text="无"></el-switch>
+            <p v-show="bxrayForm.zigong_jixing">
+              <el-input v-model="bxrayForm.zigong_jixing_juti" placeholder="具体为"></el-input>
+            </p>
+          </h4>
 
-        <el-form-item label="形态">
-          <el-col :sm="24" :md="4" :lg="12">
-            <el-switch v-model="bxrayForm.zigong_xingtai" active-text="正常" inactive-text="异常"></el-switch>
-          </el-col>
-          <el-col :sm="24" :md="20" :lg="12">
-              <el-form-item label="具体为" v-show="!bxrayForm.zigong_xingtai">
-                <el-input v-model="bxrayForm.zigong_juti"></el-input>
-              </el-form-item>
-          </el-col>
-        </el-form-item>
+          <h4>c.子宫内膜厚度:
+            <el-input v-model="bxrayForm.zigong_neimo" type="number" min=0></el-input>
+          </h4>
 
-        <el-form-item label="子宫内膜厚度">
-          <el-input v-model="bxrayForm.zigong_neimo"></el-input>
-        </el-form-item>
+          <h4>d.是否有子宫肌瘤:
+            <el-switch v-model="bxrayForm.zigong_is_jiliu" active-text="有" inactive-text="无"></el-switch>
+            <h5 class="bxray-input" v-show="bxrayForm.zigong_is_jiliu">最大子宫肌瘤的大小：
+              <el-input v-model="bxrayForm.zigong_daxiaochang" style="width:50px;" type="number" min=0></el-input>mm×
+              <el-input v-model="bxrayForm.zigong_daxiaokuan" style="width:50px;" type="number" min=0></el-input>mm×
+              <el-input v-model="bxrayForm.zigong_daxiaogao" style="width:50px;" type="number" min=0></el-input>mm
+            </h5>
+          </h4>
 
-        <el-form-item label="是否有子宫肌瘤">
-          <el-switch v-model="bxrayForm.zigong_is_jiliu" active-text="是" inactive-text="否"></el-switch>
-        </el-form-item>
-        <div v-show="bxrayForm.zigong_is_jiliu">
-          <el-form-item label="子宫肌瘤的位置">
-            <el-input v-model="bxrayForm.zigong_weizhi"></el-input>
-          </el-form-item>
-          <el-form-item label="子宫肌瘤的个数">
-            <el-input v-model="bxrayForm.zigong_geshu" type="number" min="0">
-              <template slot="append">个</template>
-            </el-input>
-          </el-form-item>
-          <el-form-item label="最大子宫肌瘤的大小">
-              <el-col :span="8">
-                <el-input v-model="bxrayForm.zigong_daxiaochang" type="number" min="0">
-                  <template slot="prepend">长径</template>
-                  <template slot="append">mm</template>
-                </el-input>
-              </el-col>
-              <el-col :span="8">
-                <el-input v-model="bxrayForm.zigong_daxiaokuan" type="number" min="0">
-                  <template slot="prepend">宽径</template>
-                  <template slot="append">mm</template>
-                </el-input>
-              </el-col>
-              <el-col :span="8">
-                <el-input v-model="bxrayForm.zigong_daxiaogao" type="number" min="0">
-                  <template slot="prepend">前后径</template>
-                  <template slot="append">mm</template>
-                </el-input>
-              </el-col>
-          </el-form-item>
-        </div>
-
-        <el-form-item label="是否有子宫腺肌症">
+          <h4>e.是否有子宫腺肌症:
           <el-switch v-model="bxrayForm.zigong_xainji" active-text="是" inactive-text="否"></el-switch>
-        </el-form-item>
+          </h4>
       </div>
 
       <div>
         <h3>2、左卵巢</h3>
-        <el-form-item label="大小">
-            <el-col :sm="12" :md="6" :lg="6">
-              <el-input v-model="bxrayForm.zuo_chang" type="number" min="0">
-                <template slot="prepend">长径</template>
-                <template slot="append">mm</template>
-              </el-input>
-            </el-col>
-            <el-col :sm="12" :md="6" :lg="6">
-              <el-input v-model="bxrayForm.zuo_kuan" type="number" min="0">
-                <template slot="prepend">宽径</template>
-                <template slot="append">mm</template>
-              </el-input>
-            </el-col>
-            <el-col :sm="12" :md="6" :lg="6">
-              <el-input v-model="bxrayForm.zuo_qianhou" type="number" min="0">
-                <template slot="prepend">前后径</template>
-                <template slot="append">mm</template>
-              </el-input>
-            </el-col>
-            <el-col :sm="12" :md="6" :lg="6">
-              <el-input v-model="bxrayForm.zuo_tiji" type="number" min="0">
-                <template slot="prepend">体积</template>
-                <template slot="append">cm<sup>3</sup></template>
-              </el-input>
-            </el-col>
-        </el-form-item>
+          <h4 class="bxray-input">大小：
+            <el-input v-model="bxrayForm.zuo_chang" style="width:50px;" type="number" min=0></el-input>mm×
+            <el-input v-model="bxrayForm.zuo_kuan" style="width:50px;" type="number" min=0></el-input>mm×
+            <el-input v-model="bxrayForm.zuo_qianhou" style="width:50px;" type="number" min=0></el-input>mm
+          </h4>
 
         <el-form-item label="请选择">
-          <el-checkbox v-model="bxrayForm.zuo_nangzhong">左卵巢是否有直径>10mm的囊肿</el-checkbox>
+          左卵巢是否有直径>10mm的囊肿:<el-switch v-model="bxrayForm.zuo_nangzhong" active-text="是" inactive-text="否"></el-switch>
         </el-form-item>
-        <el-form-item v-show="bxrayForm.zuo_nangzhong" label="左卵巢最大囊肿大小">
-          <el-row>
-            <el-col :sm="24" :md="12" :lg="10">
-              <el-input v-model="bxrayForm.zuo_daxiaochang" type="number" min="0">
-                <template slot="prepend">长径</template>
-                <template slot="append">mm</template>
-              </el-input>
-            </el-col>
-            <el-col :sm="24" :md="12" :lg="10">
-              <el-input v-model="bxrayForm.zuo_daxiaokuan" type="number" min="0">
-                <template slot="prepend">横径</template>
-                <template slot="append">mm</template>
-              </el-input>
-            </el-col>
-          </el-row>
-        </el-form-item>
+        <h4 class="bxray-input" v-show="bxrayForm.zuo_nangzhong">左卵巢最大囊肿大小：
+          <el-input v-model="bxrayForm.zuo_daxiaochang" style="width:50px;" type="number" min=0></el-input>mm×
+          <el-input v-model="bxrayForm.zuo_daxiaokuan" style="width:50px;" type="number" min=0></el-input>mm
+        </h4>
 
         <el-form-item label="形态">
             <el-radio v-model="bxrayForm.zuo_xingtai" label="正常">正常</el-radio>
@@ -148,7 +70,7 @@
         </el-form-item>
 
         <el-form-item label="窦卵泡数">
-          <el-input v-model="bxrayForm.zuo_paoshu" type="number" min="0">
+          <el-input v-model="bxrayForm.zuo_paoshu" type="number" min=0>
             <template slot="append">个</template>
           </el-input>
         </el-form-item>
@@ -157,52 +79,19 @@
 
       <div>
         <h3>3、右卵巢</h3>
-        <el-form-item label="大小">
-            <el-col :sm="12" :md="6" :lg="6">
-              <el-input v-model="bxrayForm.you_chang" type="number" min="0">
-                <template slot="prepend">长径</template>
-                <template slot="append">mm</template>
-              </el-input>
-            </el-col>
-            <el-col :sm="12" :md="6" :lg="6">
-              <el-input v-model="bxrayForm.you_kuan" type="number" min="0">
-                <template slot="prepend">宽径</template>
-                <template slot="append">mm</template>
-              </el-input>
-            </el-col>
-            <el-col :sm="12" :md="6" :lg="6">
-              <el-input v-model="bxrayForm.you_qianhou" type="number" min="0">
-                <template slot="prepend">前后径</template>
-                <template slot="append">mm</template>
-              </el-input>
-            </el-col>
-            <el-col :sm="12" :md="6" :lg="6">
-              <el-input v-model="bxrayForm.you_tiji" type="number" min="0">
-                <template slot="prepend">体积</template>
-                <template slot="append">cm<sup>3</sup></template>
-              </el-input>
-            </el-col>
-        </el-form-item>
+          <h4 class="bxray-input">大小：
+            <el-input v-model="bxrayForm.you_chang" style="width:50px;" type="number" min=0></el-input>mm×
+            <el-input v-model="bxrayForm.you_kuan" style="width:50px;" type="number" min=0></el-input>mm×
+            <el-input v-model="bxrayForm.you_qianhou" style="width:50px;" type="number" min=0></el-input>mm
+          </h4>
 
         <el-form-item label="请选择">
-          <el-checkbox v-model="bxrayForm.you_nangzhong">右卵巢是否有直径>10mm的囊肿</el-checkbox>
+          右卵巢是否有直径>10mm的囊肿:<el-switch v-model="bxrayForm.you_nangzhong" active-text="是" inactive-text="否"></el-switch>
         </el-form-item>
-        <el-form-item v-show="bxrayForm.you_nangzhong" label="右卵巢最大囊肿大小">
-          <el-row>
-            <el-col :sm="24" :md="12" :lg="10">
-              <el-input v-model="bxrayForm.you_daxiaochang" type="number" min="0">
-                <template slot="prepend">长径</template>
-                <template slot="append">mm</template>
-              </el-input>
-            </el-col>
-            <el-col :sm="24" :md="12" :lg="10">
-              <el-input v-model="bxrayForm.you_daxiaokuan" type="number" min="0">
-                <template slot="prepend">横径</template>
-                <template slot="append">mm</template>
-              </el-input>
-            </el-col>
-          </el-row>
-        </el-form-item>
+        <h4 class="bxray-input" v-show="bxrayForm.you_nangzhong">右卵巢最大囊肿大小：
+          <el-input v-model="bxrayForm.you_daxiaochang" style="width:50px;" type="number" min=0></el-input>mm×
+          <el-input v-model="bxrayForm.you_daxiaokuan" style="width:50px;" type="number" min=0></el-input>mm
+        </h4>
 
         <el-form-item label="形态">
             <el-radio v-model="bxrayForm.you_xingtai" label="正常">正常</el-radio>
@@ -210,7 +99,7 @@
         </el-form-item>
 
         <el-form-item label="窦卵泡数">
-          <el-input v-model="bxrayForm.you_paoshu" type="number" min="0">
+          <el-input v-model="bxrayForm.you_paoshu" type="number" min=0>
             <template slot="append">个</template>
           </el-input>
         </el-form-item>
@@ -309,5 +198,17 @@ export default {
 
 }
 </script>
-<style lang="">
+<style lang="scss">
+.bxray-dialog {
+  h4 {
+    color:cornflowerblue;
+    h5 {
+      color:black
+    }
+  }
+}
+.bxray-input .el-input__inner {
+  // margin-top: 10px;
+  padding:0 5px;
+}
 </style>

@@ -13,37 +13,30 @@
                   title="此条信息为其他用户创建，您无法修改"
                   type="warning" :closable="false" show-icon>
       </el-alert>
-      <el-divider></el-divider>
+      <p></p>
 
-      <el-form-item label="中医诊断">
+      <el-form-item label="1、中医诊断">
           <el-checkbox v-for="(val, key) in mydata.zhongyi" :key="key" :label="val" v-model="clinicalForm[key]"></el-checkbox>
           <el-input v-model="clinicalForm.zhong_qita" placeholder="其他"></el-input>
       </el-form-item>
 
-      <el-form-item label="辩证分型">
+      <h4 style="color:cornflowerblue">2、辩证分型</h4>
         <el-form-item label="虚证">
           <el-checkbox v-for="(val, key) in mydata.xuzheng" :key="key" :label="val" v-model="clinicalForm[key]"></el-checkbox>
-          <el-input v-model="clinicalForm.xu_qita" placeholder="其他" ></el-input>
+          <el-input v-model="clinicalForm.bian_xu_qita" placeholder="其他" ></el-input>
         </el-form-item>
-        <!-- 单选 -->
-        <!-- <el-form-item label="虚证">
-            <el-radio-group v-model="clinicalForm.xuzheng">
-              <el-radio v-for="(val, key) in mydata.xuzheng" :key="key" :label="val">{{val}}</el-radio>
-            </el-radio-group>
-        </el-form-item> -->
         <el-form-item label="实证">
           <el-checkbox v-for="(val, key) in mydata.shizheng" :key="key" :label="val" v-model="clinicalForm[key]"></el-checkbox>
-          <el-input v-model="clinicalForm.shi_qita" placeholder="其他"></el-input>
+          <el-input v-model="clinicalForm.bian_shi_qita" placeholder="其他"></el-input>
         </el-form-item>
         <el-form-item label="虚实夹杂证">
           <el-checkbox v-for="(val, key) in mydata.xushi" :key="key" :label="val" v-model="clinicalForm[key]"></el-checkbox>
-          <el-input v-model="clinicalForm.xushi_qita" placeholder="其他"></el-input>
+          <el-input v-model="clinicalForm.bian_xushi_qita" placeholder="其他"></el-input>
         </el-form-item>
-      </el-form-item>
 
-      <el-form-item label="西医诊断">
+      <el-form-item label="3、西医诊断">
         <el-checkbox label="多囊卵巢综合征" v-model="clinicalForm.xiyi_duonang"></el-checkbox>
-        <el-input v-model="clinicalForm.xiyi_qita" placeholder="其他" ></el-input>
+        <el-input v-model="clinicalForm.xi_qita" placeholder="其他" ></el-input>
       </el-form-item>
     </el-form>
 
