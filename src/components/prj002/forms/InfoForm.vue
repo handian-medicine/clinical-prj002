@@ -91,8 +91,8 @@
       </el-form-item>
 
       <el-form-item label="血压">
-        <el-input placeholder="舒张压" v-model="infoForm.blood_pressure_diastolic" class="input-embedding">
-          <el-input v-model="infoForm.blood_pressure_systolic" slot="prepend" placeholder="收缩压">
+        <el-input placeholder="舒张压" v-model="infoForm.blood_pressure_diastolic" type="number" min=0 class="input-embedding">
+          <el-input v-model="infoForm.blood_pressure_systolic" slot="prepend" type="number" min=0 placeholder="收缩压">
           </el-input>
           <template slot="append">mm Hg</template>
         </el-input>
