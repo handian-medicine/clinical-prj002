@@ -91,7 +91,8 @@
       </el-form-item>
 
       <el-form-item label="特殊工作环境">
-        <el-checkbox v-for="(val, key) in specialCheckbox" :key="key" :label="val" v-model="infoForm[key]">
+        <el-checkbox label="无" v-model="infoForm.environment_wu"></el-checkbox>
+        <el-checkbox v-show="!infoForm.environment_wu" v-for="(val, key) in specialCheckbox" :key="key" :label="val" v-model="infoForm[key]">
         </el-checkbox>
       </el-form-item>
 

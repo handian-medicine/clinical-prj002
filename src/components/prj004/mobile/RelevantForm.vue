@@ -3,33 +3,38 @@
             label-width="110px" label-position="left" class="mobile">
 
       <el-form-item label="体格检查" >
-          <el-switch v-model="relevantForm.body_check_wu" active-text="无" inactive-text="有"></el-switch>
-      </el-form-item>
-      <el-form-item v-show="!relevantForm.body_check_wu" label="">
-        <el-checkbox v-for="(val, key) in body_check" :key="key" :label="val" v-model="relevantForm[key]">
+        <el-checkbox label="无" v-model="relevantForm.tige_check_wu">
+        </el-checkbox>
+        <el-checkbox v-show="!relevantForm.tige_check_wu" v-for="(val, key) in tige_check_choises" :key="key" :label="val" v-model="relevantForm[key]">
         </el-checkbox>
       </el-form-item>
+
       <el-form-item label="辅助检查" >
-          <el-switch v-model="relevantForm.assist_check_wu" active-text="无" inactive-text="有"></el-switch>
+        <el-checkbox label="无" v-model="relevantForm.fuzhu_wu">
+        </el-checkbox>
+        <el-checkbox v-show="!relevantForm.fuzhu_wu" v-for="(val, key) in fuzhu_check_choises" :key="key" :label="val" v-model="relevantForm[key]">
+        </el-checkbox>
+        <el-input v-show="!relevantForm.fuzhu_wu"  v-model="relevantForm.fuzhu_qita" placeholder="其他"></el-input>
       </el-form-item>
-      <el-form-item  v-show="!relevantForm.assist_check_wu" label="">
-        <el-checkbox  :label="assist_check.assist_check_chao" v-model="relevantForm['assist_check_chao']"></el-checkbox>
-        <el-checkbox  :label="assist_check.assist_check_mri" v-model="relevantForm['assist_check_mri']"></el-checkbox>
-        <!--
-        <el-checkbox  :label="assist_check.assist_check_gong" v-model="relevantForm['assist_check_gong']"></el-checkbox>
-        <el-checkbox  :label="assist_check.assist_check_fu" v-model="relevantForm['assist_check_fu']"></el-checkbox>
-        <el-checkbox  :label="assist_check.assist_check_zi" v-model="relevantForm['assist_check_zi']"></el-checkbox>
-        <el-checkbox  :label="assist_check.assist_check_ji" v-model="relevantForm['assist_check_ji']"></el-checkbox>
-        <el-checkbox v-show="relevantForm['assist_check_ji']" :label="assist_check.assist_check_ji_dan" v-model="relevantForm['assist_check_ji_dan']"></el-checkbox>
-        <el-checkbox v-show="relevantForm['assist_check_ji']"  :label="assist_check.assist_check_ji_shuang" v-model="relevantForm['assist_check_ji_shuang']"></el-checkbox>
-        -->
-        <el-checkbox  :label="assist_check.assist_check_pen" v-model="relevantForm['assist_check_pen']"></el-checkbox>
-        <el-checkbox  :label="assist_check.assist_check_jing" v-model="relevantForm['assist_check_jing']"></el-checkbox>
+      <el-form-item v-show="relevantForm.fuzhu_fuqi" label-width="100%" label="夫妻双方染色体检查" >
       </el-form-item>
-      <el-form-item label="检查结果">
-        <label>以上检查结果如有异常请输入检查结果</label>
-        <el-input v-model="relevantForm.check_result"></el-input>
+      <el-form-item v-show="relevantForm.fuzhu_fuqi" label="" >
+        <el-radio v-show="relevantForm.fuzhu_fuqi" v-model="relevantForm.is_fuzhu_fuqi"
+                  @change="changefuqi"
+                  v-for="item in fuzhu_fuqi_radio"
+                  :key="item" :label="item">
+        </el-radio>
+        <el-input v-show="is_show_fuqi"  v-model="relevantForm.fuzhu_fuqi_yichang"  placeholder="异常"></el-input>
       </el-form-item>
+      <el-form-item v-show="relevantForm.fuzhu_nanfang" label="男方精液检查" >
+        <el-radio v-show="relevantForm.fuzhu_nanfang" v-model="relevantForm.is_fuzhu_nanfang"
+                  @change="changenanfang"
+                  v-for="item in fuzhu_nanfang_radio"
+                  :key="item" :label="item">
+        </el-radio>
+        <el-input v-show="is_show_nanfang"  v-model="relevantForm.fuzhu_nanfang_yichang"  placeholder="异常"></el-input>
+      </el-form-item>
+
     </el-form>
 
 </template>
@@ -38,14 +43,37 @@ export default {
   name:'relevantForm',
   data() {
     return {
-      body_check:{body_check_fuke:"妇科检查",body_check_quan:"全身检查"},
-      assist_check:{assist_check_chao:"超声",assist_check_mri:"盆腔MRI检查",assist_check_gong:"宫腔镜检查",assist_check_fu:"腹腔镜检查",assist_check_zi:"子宫输卵管造影",assist_check_ji:"基础体温测定",assist_check_ji_dan:"单相",assist_check_ji_shuang:"双相",assist_check_pen:"盆腔血流图检查",assist_check_jing:"经血前列腺素测定"},
+      tige_check_choises:{tige_check_fu:"妇科检查",tige_check_quan:"全身检查"},
+      fuzhu_check_choises:{fuzhu_chaosheng:"超声检查", fuzhu_baidai:"白带常规", fuzhu_tiwen:"基础体温测定（BBT)", fuzhu_hcg:"尿妊娠试验或血hCG检测", fuzhu_jisu:"性激素六项（FSH、LH、E2、PRL、T、P）", fuzhu_amh:"AMH", fuzhu_guagong:"刮宫或子宫内膜活组织检查", fuzhu_gongqiang:"宫腔镜检查", fuzhu_jiazhuang:"甲状腺功能测定（TSH、FT3、FT4、T3、T4）", fuzhu_danbai:"抗甲状腺球蛋白抗体（anti-Tg）", fuzhu_yanghua:"抗甲状腺炎过氧化物酶抗体（anti-TPO）", fuzhu_kanghe:"抗核抗体", fuzhu_kanglin:"抗磷脂抗体", fuzhu_dna:"抗双链DNA抗体", fuzhu_fengbi:"封闭抗体", fuzhu_xibao:"全血细胞计数", fuzhu_ningxue:"凝血功能检查", fuzhu_erju:"D-二聚体", fuzhu_xuejiang:"血浆同型半胱氨酸", fuzhu_huohua:"活化蛋白C抵抗试验",fuzhu_fuqi:"夫妻双方染色体检查",fuzhu_nanfang:"男方精液检查"},
+      fuzhu_fuqi_radio:["不详","正常","异常"],
+      fuzhu_nanfang_radio:["不详","正常","异常"],
+      is_show_fuqi:false,
+      is_show_nanfang:false,
+
       relevantForm:{
       },
       rules:{},
     }
   },
   methods: {
+    changefuqi(value){
+      if(value == "不详"){
+        this.is_show_fuqi=false
+      }else if(value == "正常"){
+        this.is_show_fuqi=false
+      }else if(value == "异常"){
+        this.is_show_fuqi=true
+      }
+    },
+    changenanfang(value){
+      if(value == "不详"){
+        this.is_show_nanfang=false
+      }else if(value == "正常"){
+        this.is_show_nanfang=false
+      }else if(value == "异常"){
+        this.is_show_nanfang=true
+      }
+    },
   },
 };
 </script>
