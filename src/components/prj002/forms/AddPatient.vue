@@ -9,9 +9,9 @@
         <el-input v-model="patientInfo.patient_name"></el-input>
       </el-form-item>
 
-      <el-form-item label="就诊日期" prop="birth">
+      <el-form-item label="就诊日期" prop="patient_date">
         <!-- format表示显示在页面的日期格式, value-format表示传递给后台的真实的数据格式 -->
-        <el-date-picker v-model="patientInfo.birth"
+        <el-date-picker v-model="patientInfo.patient_date"
                         type="date" placeholder="选择日期"
                         format="yyyy 年 MM 月 dd 日"
                         value-format="yyyy-MM-dd">
@@ -65,7 +65,6 @@ export default {
     name:'AddPatient',
     data () {
       return {
-        // patientInfo: {name:'测试用', phone:'13110983476', hospital:'汉典医院', birth:'1980-09', career:'个体'},
         patientInfo:{
           'patient_name':'真多',
           'patient_date':'2000-01-01',
@@ -78,7 +77,6 @@ export default {
           'expert_email':'',
           'expert_title':'',
         },
-        // titleSelection: ["主任医师","副主任医师","主治医师"],
         dialogVisible: false,
         rules:{
           patient_name: [

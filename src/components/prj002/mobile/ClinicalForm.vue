@@ -2,27 +2,31 @@
     <el-form ref="clinicalForm" :model="clinicalForm"
             class="mobile" label-width="100px" label-position="left">
 
-      <el-form-item label="中医诊断">
+
+      <el-form-item label="1、中医诊断">
           <el-checkbox v-for="(val, key) in mydata.zhongyi" :key="key" :label="val" v-model="clinicalForm[key]"></el-checkbox>
           <el-input v-model="clinicalForm.zhong_qita" placeholder="其他"></el-input>
       </el-form-item>
 
-      <el-form-item label="辩证分型">
-        <p>虚证</p>
+      <h4 style="color:cornflowerblue">2、辩证分型</h4>
+        <el-form-item label="虚证">
           <el-checkbox v-for="(val, key) in mydata.xuzheng" :key="key" :label="val" v-model="clinicalForm[key]"></el-checkbox>
-          <el-input v-model="clinicalForm.xu_qita" placeholder="其他" ></el-input>
-        <p>实证</p>
+          <el-input v-model="clinicalForm.bian_xu_qita" placeholder="其他" ></el-input>
+        </el-form-item>
+        <el-form-item label="实证">
           <el-checkbox v-for="(val, key) in mydata.shizheng" :key="key" :label="val" v-model="clinicalForm[key]"></el-checkbox>
-          <el-input v-model="clinicalForm.shi_qita" placeholder="其他"></el-input>
-        <p>虚实夹杂证</p>
+          <el-input v-model="clinicalForm.bian_shi_qita" placeholder="其他"></el-input>
+        </el-form-item>
+        <el-form-item label="虚实夹杂证">
           <el-checkbox v-for="(val, key) in mydata.xushi" :key="key" :label="val" v-model="clinicalForm[key]"></el-checkbox>
-          <el-input v-model="clinicalForm.xushi_qita" placeholder="其他"></el-input>
+          <el-input v-model="clinicalForm.bian_xushi_qita" placeholder="其他"></el-input>
+        </el-form-item>
+
+      <el-form-item label="3、西医诊断">
+        <el-checkbox label="多囊卵巢综合征" v-model="clinicalForm.xiyi_duonang"></el-checkbox>
+        <el-input v-model="clinicalForm.xi_qita" placeholder="其他" ></el-input>
       </el-form-item>
 
-      <el-form-item label="西医诊断">
-        <el-checkbox label="多囊卵巢综合征" v-model="clinicalForm.xiyi_duonang"></el-checkbox>
-        <el-input v-model="clinicalForm.xiyi_qita" placeholder="其他" ></el-input>
-      </el-form-item>
     </el-form>
 
 </template>

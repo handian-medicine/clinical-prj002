@@ -43,9 +43,7 @@ export default {
   name:'ExperimentForm',
   data() {
     return {
-      experimentForm:{
-
-      },
+      experimentForm:{},
       mydata:{
           'check_luanpao': ["卵泡刺激素（FSH）", 'IU/l'],
           'check_huangti': ["黄体生成素（LH）", 'IU/ml'],
@@ -68,7 +66,6 @@ export default {
           'check_dimizhi': ["空腹低密度脂蛋白", 'mmol'],
           // 'yidaosu_dikang':["胰岛素抵抗指数（HOMA-IR", ''],          //胰岛素抵抗指数（HOMA-IR） （空腹血糖×空腹胰岛素）/22.5
           // 'yidaosu_mingan':["胰岛素敏感指数（ISI）", '']           //胰岛素敏感指数（ISI） 1/（空腹血糖×空腹胰岛素）
-
       },
       dialogVisible: false,
       exist: true,

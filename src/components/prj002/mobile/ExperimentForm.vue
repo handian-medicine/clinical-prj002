@@ -2,9 +2,9 @@
     <el-form ref="experimentForm"
             class="mobile" :model="experimentForm"
             label-width="210px" label-position="left">
+      <p>（说明：性激素测定抽血时间为：有周期者在月经周期的第3-5天进行；无周期者可在B超提示处于卵泡期或黄体酮撤退后出血的3-5天进行）</p>
 
       <el-form-item v-for="(val, key) in mydata" :key="key" :label="val[0]">
-        <!-- 这里应该提供度量单位 -->
         <el-input v-model="experimentForm[key]" type="number" min="0">
           <template slot="append">{{val[1]}}</template>
         </el-input>
@@ -24,35 +24,29 @@ export default {
   name:'ExperimentForm',
   data() {
     return {
-      experimentForm:{
-          check_gaotong:'',           //睾酮（T）
-          check_ci:'',                //雌二醇（E2）
-          check_huangti:'',           //黄体生成素（LH）
-          check_luanpao:'',           //卵泡刺激素（FSH）
-          check_xue:'',               //血清泌乳素（PRL）
-          check_xuetang:'',           //空腹血糖（FPG）
-          check_kangmiao:'',          //抗苗勒氏测定（AMH
-          check_yidaosu:'',           //空腹胰岛素（FINS）
-          check_canxue:'',            //餐后30mins血糖（FPG）
-          check_canyi:'',             //餐后30mins胰岛素（FINS）
-          check_cantang:'',           //餐后60mins血糖（FPG）
-          check_candao:'',            //餐后60mins胰岛素（FINS）
-          check_canxuetang:'',        //餐后120mins血糖（FPG）
-          check_canyidao:'',          //餐后1200mins胰岛素（FINS）
-          check_xuezhi:'',            //空腹血脂
-          check_gaomizhi:'',          //空腹高密度脂蛋白
-          check_dimizhi:'',           //空腹低密度脂蛋白
-          yidaosu_dikang:'',          //胰岛素抵抗指数（HOMA-IR） （空腹血糖×空腹胰岛素）/22.5
-          yidaosu_mingan:''           //胰岛素敏感指数（ISI） 1/（空腹血糖×空腹胰岛素）
-      },
+      experimentForm:{},
       mydata:{
-            'check_gaotong':['睾酮（T）','ng/dl'],'check_ci':['雌二醇（E2）','pg/ml'],'check_huangti':['黄体生成素（LH）','W/ml'],
-            'check_luanpao':['卵泡刺激素（FSH）','W/l'],'check_xue':['血清泌乳素（PRL）','ng/ml'],'check_xuetang':['空腹血糖（FPG）','uV/ml'],
-            'check_yidaosu':['空腹胰岛素（FINS）',' mmol/l'],'check_canxue':['餐后30mins血糖（FPG）',' uV/ml'],
-            'check_canyi':['餐后30mins胰岛素（FINS）','mmol/l'],'check_cantang':['餐后60mins血糖（FPG）',' uV/ml'],
-            'check_candao':['餐后60mins胰岛素（FINS）','mmol/l'],'check_canxuetang':['餐后120mins血糖（FPG）','uV/ml'],
-            'check_canyidao':['餐后1200mins胰岛素（FINS）','mmol/l'],'check_xuezhi':['空腹血脂','mmol/l'],'check_gaomizhi':['空腹高密度脂蛋白','mmol/l'],
-            'check_dimizhi':['空腹低密度脂蛋白','mmol/l']
+          'check_luanpao': ["卵泡刺激素（FSH）", 'IU/l'],
+          'check_huangti': ["黄体生成素（LH）", 'IU/ml'],
+          'check_ci': ["雌二醇（E2）", 'pg/ml'],
+          'check_yuntong': ["孕酮（P）", 'ng/dl'],
+          'check_gaotong': ["睾酮（T）", 'ng/dl'],
+          'check_xue': ["血清泌乳素（PRL）", 'ng/dl'],
+          'check_kangmiao': ["抗苗勒氏测定（AMH）", 'ng/dl'],
+          'check_xuetang': ["空腹血糖（FPG）", 'mmol/l'],
+          'check_canxue': ["餐后30mins血糖（FPG）", 'mmol/l'],
+          'check_cantang': ["餐后60mins血糖（FPG）", 'mmol/l'],
+          'check_canxuetang': ["餐后120mins血糖（FPG）", 'mmol/l'],
+          'check_yidaosu': ["空腹胰岛素（FINS）", 'ulu/ml'],
+          'check_canyi': ["餐后30mins胰岛素（FINS）", 'ulu/ml'],
+          'check_candao': ["餐后60mins胰岛素（FINS）", 'ulu/ml'],
+          'check_canyidao': ["餐后120mins胰岛素（FINS）", 'ulu/ml'],
+          'check_sanzhi': ["甘油三酯（TG）", 'mmol'],
+          'check_guchun': ["血清总胆固醇（TC）", 'mmol'],
+          'check_gaomizhi': ["空腹高密度脂蛋白", 'mmol'],
+          'check_dimizhi': ["空腹低密度脂蛋白", 'mmol'],
+          // 'yidaosu_dikang':["胰岛素抵抗指数（HOMA-IR", ''],          //胰岛素抵抗指数（HOMA-IR） （空腹血糖×空腹胰岛素）/22.5
+          // 'yidaosu_mingan':["胰岛素敏感指数（ISI）", '']           //胰岛素敏感指数（ISI） 1/（空腹血糖×空腹胰岛素）
       },
       dialogVisible: false,
       exist: true,

@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="一般情况" class="my-dialog"
+  <el-dialog title="一般情况" class="my-dialog" :rules="rules"
             :visible.sync="dialogVisible"
             :close-on-click-modal="false"
             width="90%" center>
@@ -148,12 +148,23 @@ export default {
       careerSelection: ["学生","个体","农民","军人","工人","财会人员","技术人员","服务业","科教文卫","行政管理","无业","其它"],
       specialCheckbox: {"special_gaowen":"高温","special_diwen":"低温","special_yeban":"夜班","special_zao":"噪声","special_fu":"辐射","special_hua":"化工污染","special_ju":"剧烈运动","special_qi":"汽油","special_kong":"高空","special_wu":"无"},
       dietCheckbox:    {"yinshi_wuteshu":"无特殊","yinshi_qingdan":"清淡","yinshi_suan":"酸","yinshi_xian":"咸","yinshi_xinla":"辛辣","yinshi_you":"油腻","yinshi_gaozhi":"高脂","yinshi_laji":"垃圾食品"},
-      acneData:[{field1: '0', field2: '无', field3: '无'},
-                {field1: '1', field2: '轻微', field3: '痤疮≥2mm，面部或躯干<10个'},
-                {field1: '2', field2: '轻', field3: '痤疮10-20个'},
-                {field1: '3', field2: '中', field3: '痤疮>20个或脓疱<20个'},
-                {field1: '4', field2: '重', field3: '脓疱≥20个'},
-                {field1: '5', field2: '囊性', field3: '炎性病损≥5mm'}],
+      rules:{
+          patient_name: [
+            {required: true, message: '请输入姓名', trigger: 'blur' }
+          ],
+          patient_date: [
+            {required: true, message: '请输入就诊日期', trigger: 'blur' }
+          ],
+          hospital_name:[
+            {required: true, message: '请填写就诊医院名称'}
+          ],
+          hospital_belong:  [
+            {required: true, message: '请填写就诊医院所属级别'}
+          ],
+          patient_phone: [
+            {required: true, pattern: /^1\d{10}$/, message: '请输入11位手机号码',trigger: 'blur'}
+          ]
+        },
       exist: true,
       formName:'',
       isOwnedByUser: true,

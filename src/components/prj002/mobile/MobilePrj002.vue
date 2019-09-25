@@ -8,8 +8,14 @@
     <el-tab-pane label="一般情况">
       <InfoForm ref="info"></InfoForm>
     </el-tab-pane>
+    <el-tab-pane label="诊断标准">
+      <StandardForm ref="standard"></StandardForm>
+    </el-tab-pane>
     <el-tab-pane label="病情概要">
       <SummaryForm ref="summary"></SummaryForm>
+    </el-tab-pane>
+    <el-tab-pane label="专病情况">
+      <DiseaseForm ref="disease"></DiseaseForm>
     </el-tab-pane>
     <el-tab-pane label="专科病史">
       <HistoryForm ref="history"></HistoryForm>
@@ -36,12 +42,12 @@
 </template>
 
 <script>
-import {InfoForm,SummaryForm,HistoryForm,ExperimentForm,BxrayForm,ClinicalForm,CureForm} from '@/components/prj002/mobile'
+import {InfoForm,StandardForm,SummaryForm,DiseaseForm,HistoryForm,ExperimentForm,BxrayForm,ClinicalForm,CureForm} from '@/components/prj002/mobile'
 import { apiMobileForm,apiMobileLogin } from '@/api/api-prj002'
 
 export default {
-  name:'MobilePrj001',
-  components:{InfoForm,SummaryForm,HistoryForm,ExperimentForm,BxrayForm,ClinicalForm,CureForm},
+  name:'MobilePrj002',
+  components:{InfoForm,StandardForm,SummaryForm,DiseaseForm,HistoryForm,ExperimentForm,BxrayForm,ClinicalForm,CureForm},
   computed: {
 
   },
@@ -50,7 +56,14 @@ export default {
       // 汇总所有信息表
       const data = {
         "info":this.$refs.info.$data.infoForm,
+        "standard":this.$refs.standard.$data.standardForm,
         "summary":this.$refs.summary.$data.summaryForm,
+        "disease":this.$refs.disease.$data.diseaseForm,
+        "history":this.$refs.history.$data.historyForm,
+        "experiment":this.$refs.experiment.$data.experimentForm,
+        "bxray":this.$refs.bxray.$data.bxrayForm,
+        "clinical":this.$refs.clinical.$data.clinicalForm,
+        "cure":this.$refs.cure.$data.cureForm,
       }
       console.log("看一下",data)
       this.$refs.info.$refs.infoForm.validate( (valid1, fields1) => {

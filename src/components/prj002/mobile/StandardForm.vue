@@ -1,20 +1,5 @@
 <template>
-  <el-dialog title="多囊卵巢综合征调查诊断标准" class="my-dialog standard-dialog"
-            :visible.sync="dialogVisible"
-            :close-on-click-modal="false" width="100%" center
-            @close='resetDialog'>
     <el-form ref="form" :model="form" label-width="130px" label-position="left">
-      <el-alert v-if="check_status=='审核通过'" effect="dark"
-                  title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
-                  type="warning" :closable="false" show-icon>
-      </el-alert>
-      <p></p>
-      <el-alert v-if="!isOwnedByUser" effect="dark"
-                  title="此条信息为其他用户创建，您无法修改"
-                  type="warning" :closable="false" show-icon>
-      </el-alert>
-      <el-divider></el-divider>
-
 
       <h3><el-radio v-model="form.clinical_standard" label="1" class="h3-radio" border>Rotterdam的诊断标准</el-radio></h3>
         <div v-show="form.clinical_standard == '1'">
@@ -52,96 +37,25 @@
         </div>
 
     </el-form>
-    <span slot="footer">
-        <el-button type="primary" :disabled="check_status=='审核通过'" v-if="exist"  @click="updateForm">确定</el-button>
-        <el-button type="primary" v-else  @click="createForm">确定</el-button>
-        <el-button @click="dialogVisible=false">取消</el-button>
-    </span>
 
-  </el-dialog>
 </template>
 <script>
-import { apiUpdatePatientDataForm, apiCreatePatientDataForm } from '@/api/api-prj002'
 export default {
   name:'StandardForm',
   data() {
     return {
-      mydata: {
+      form: {
       },
-      form:{},
       dialogVisible: false,
       exist: true,
       formName:'',
-      isOwnedByUser: true,
       check_status:''
     }
   },
   methods: {
-    updateForm () {
-      apiUpdatePatientDataForm({formData:this.form,formName:this.formName})
-      .then((res)=> {
-        this.resetDialog()
-        if (res.data.detail) {
-          this.$message({message: '对不起, 您没有对该记录操作的权限',type: 'error'})
-        } else {
-          this.$message({message: '提交成功',type: 'success'})
-        }
-        this.dialogVisible = false
-        this.$parent.getPatients()
-      })
-      .catch()
-    },
-    createForm () {
-      apiCreatePatientDataForm({formData:this.form,formName:this.formName})
-      .then((res)=> {
-        this.resetDialog()
-        if (res.data.detail) {
-          this.$message({message: '对不起, 您没有对该记录操作的权限',type: 'error'})
-        } else {
-          this.$message({message: '提交成功',type: 'success'})
-        }
-        this.dialogVisible = false
-        this.$parent.getPatients()
-      })
-      .catch()
-    },
-    resetDialog () {
-      // 清空
-      this.form = {}
-    }
   },
-  created() {
-    this.$on("openEvent", (data)=>{
-      this.dialogVisible = true
-      this.exist = data.exist
-      this.formName = data.formName
-      this.check_status = data.check_status
-      this.isOwnedByUser = data.isOwnedByUser
-      //如果form未创建,需要从infoForm取到url;如果form已创建,form都会被传入的form覆盖
-      if (!data.exist) {
-        //未创建,form的info接受data.url的值,其余字段初始化为空
-        this.form.info = data.formData.info
-      } else {
-        //已创建(修改),form初始化为从api请求得到的数据
-        this.form = data.formData
-      }
-    })
-  }
-}
-</script>
-<style lang="scss">
-.standard-dialog {
-    .el-checkbox__label {
-      display: inline;
-    }
-    .el-checkbox, .el-checkbox__input {
-      white-space: normal;
-    }
-}
-.h3-radio .el-radio__label {
-    font-size: 16px;
-    padding-left: 10px;
-    color:black;
-}
-</style>
 
+};
+</script>
+<style lang="">
+</style>
