@@ -5,31 +5,49 @@
 
     <el-form ref="patientInfo" :model="patientInfo" :rules="rules" label-width="130px" label-position="left">
 
-      <el-form-item label="姓名" prop="name">
-        <el-input v-model="patientInfo.name"></el-input>
+      <el-form-item label="患者姓名" prop="patient_name">
+        <el-input v-model="patientInfo.patient_name"></el-input>
       </el-form-item>
 
-      <el-form-item label="手机号码" prop="phone">
-        <el-input v-model="patientInfo.phone"></el-input>
-      </el-form-item>
-
-      <el-form-item label="就诊医院" prop="hospital">
-        <el-input v-model="patientInfo.hospital"></el-input>
-      </el-form-item>
-
-      <el-form-item label="出生日期" prop="birth">
+      <el-form-item label="就诊日期" prop="birth">
         <!-- format表示显示在页面的日期格式, value-format表示传递给后台的真实的数据格式 -->
         <el-date-picker v-model="patientInfo.birth"
-                        type="month" placeholder="选择日期"
-                        format="yyyy 年 MM 月"
-                        value-format="yyyy-MM">
+                        type="date" placeholder="选择日期"
+                        format="yyyy 年 MM 月 dd 日"
+                        value-format="yyyy-MM-dd">
         </el-date-picker>
       </el-form-item>
 
-      <el-form-item label="职业" prop="career">
-        <el-select v-model="patientInfo.career" placeholder="请选择">
-          <el-option v-for="item in careerSelection" :key="item" :label="item" :value="item">
-          </el-option>
+      <el-form-item label="医院名称" prop="hospital_name">
+        <el-input v-model="patientInfo.hospital_name"></el-input>
+      </el-form-item>
+      <el-form-item label="医院所属" prop="hospital_belong">
+        <el-radio v-model="patientInfo.hospital_belong" label="省级医院"></el-radio>
+        <el-radio v-model="patientInfo.hospital_belong" label="市级医院"></el-radio>
+        <el-radio v-model="patientInfo.hospital_belong" label="区/县级医院"></el-radio>
+      </el-form-item>
+
+      <el-form-item label="患者电话" prop="patient_phone">
+        <el-input v-model="patientInfo.patient_phone"></el-input>
+      </el-form-item>
+
+      <el-form-item label="填表专家姓名" prop="expert_name">
+        <el-input v-model="patientInfo.expert_name"></el-input>
+      </el-form-item>
+      <el-form-item label="填表专家单位" prop="expert_hospital">
+        <el-input v-model="patientInfo.expert_hospital"></el-input>
+      </el-form-item>
+      <el-form-item label="填表专家电话" prop="expert_phone">
+        <el-input v-model="patientInfo.expert_phone"></el-input>
+      </el-form-item>
+      <el-form-item label="填表专家邮箱" prop="expert_email">
+        <el-input v-model="patientInfo.expert_email"></el-input>
+      </el-form-item>
+      <el-form-item label="填表专家职称" prop="title">
+        <el-select v-model="patientInfo.title" placeholder="请选择">
+          <el-option label="主任医师" value="主任医师"></el-option>
+          <el-option label="副主任医师" value="副主任医师"></el-option>
+          <el-option label="主治医师" value="主治医师"></el-option>
         </el-select>
       </el-form-item>
 
@@ -48,19 +66,36 @@ export default {
     data () {
       return {
         // patientInfo: {name:'测试用', phone:'13110983476', hospital:'汉典医院', birth:'1980-09', career:'个体'},
-        patientInfo: {name:'', phone:'', hospital:'', birth:'', career:''},
-        careerSelection: ["学生","个体","农民","军人","工人","财会人员","技术人员","服务业","科教文卫","行政管理","无业","其它"],
+        patientInfo:{
+          'patient_name':'真多',
+          'patient_date':'2000-01-01',
+          'hospital_name':'汉典',
+          'hospital_belong':'省级医院',
+          'patient_phone':'12312312311',
+          'expert_name':'',
+          'expert_hospital':'',
+          'expert_phone':'',
+          'expert_email':'',
+          'expert_title':'',
+        },
+        // titleSelection: ["主任医师","副主任医师","主治医师"],
         dialogVisible: false,
         rules:{
-          name: [
+          patient_name: [
             {required: true, message: '请输入姓名', trigger: 'blur' }
           ],
-          phone: [
-            {required: true, pattern: /^1\d{10}$/, message: '请输入11位手机号码',trigger: 'blur'}
+          patient_date: [
+            {required: true, message: '请输入就诊日期', trigger: 'blur' }
           ],
-          hospital:[{required: true, message: '请填写就诊医院名称'}],
-          birth:   [{required: true, message: '请填写出生日期'}],
-          career:  [{required: true, message: '请填写职业'}]
+          hospital_name:[
+            {required: true, message: '请填写就诊医院名称'}
+          ],
+          hospital_belong:  [
+            {required: true, message: '请填写就诊医院所属级别'}
+          ],
+          patient_phone: [
+            {required: true, pattern: /^1\d{10}$/, message: '请输入11位手机号码',trigger: 'blur'}
+          ]
         }
       }
 
@@ -95,34 +130,10 @@ export default {
     }
 }
 
-    // // 新增
-    // addSubmit: function () {
-    //   this.$refs.addForm.validate((valid) => {
-    //     if (valid) {
-    //       this.$confirm('确认提交吗？', '提示', {}).then(() => {
-    //         this.addLoading = true
-    //         // NProgress.start();
-    //         let para = Object.assign({}, this.addForm)
-    //         para.birth = (!para.birth || para.birth === '') ? '' : util.formatDate.format(new Date(para.birth), 'yyyy-MM-dd')
-    //         addUser(para).then((res) => {
-    //           this.addLoading = false
-    //           // NProgress.done();
-    //           this.$message({
-    //             message: '提交成功',
-    //             type: 'success'
-    //           })
-    //           this.$refs['addForm'].resetFields()
-    //           this.addFormVisible = false
-    //           this.getPatients()
-    //         })
-    //       })
-    //     }
-    //   })
-    // },
 </script>
 
 <style lang="scss" scoped>
 .el-date-editor.el-input, .el-date-editor.el-input__inner {
-  width:180px
+  width:190px
 }
 </style>
