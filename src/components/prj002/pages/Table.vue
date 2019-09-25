@@ -73,12 +73,12 @@
           </el-progress>
         </template>
       </el-table-column>
-      <el-table-column prop="check_status" label="审核状态" width="110">
+      <el-table-column prop="check_status" label="数据状态" width="110">
         <template v-slot="scope">
           <el-tag v-if="scope.row.check_status=='未审核'" type="warn">{{scope.row.check_status}}</el-tag>
           <el-tag v-if="scope.row.check_status=='审核通过'" type="success">{{scope.row.check_status}}</el-tag>
           <el-tag v-if="scope.row.check_status=='审核不通过'" type="danger"
-                  @click="showReason(scope.$index, scope.row.reason_for_check)">
+                  @click.stop="showReason(scope.$index, scope.row.reason_for_check)">
                   {{scope.row.check_status}}</el-tag>
         </template>
       </el-table-column>
