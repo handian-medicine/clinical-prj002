@@ -11,7 +11,6 @@
     <el-tab-pane label="病情概要">
       <SummaryForm ref="summary"></SummaryForm>
     </el-tab-pane>
-    <!--
     <el-tab-pane  label="患者病史">
       <HistoryForm ref="history"></HistoryForm>
     </el-tab-pane>
@@ -25,9 +24,8 @@
       <CureForm ref="cure"></CureForm>
     </el-tab-pane>
     <el-tab-pane label="疗效">
-      <ResultsForm ref="results"></ResultsForm>
+      <ResultsForm ref="result"></ResultsForm>
     </el-tab-pane>
-    -->
     <el-tab-pane label="提交">
       <span>
         <el-button type="primary" @click="submit">确定</el-button>
@@ -54,11 +52,11 @@ export default {
       const data = {
         "info":this.$refs.info.$data.infoForm,
         "summary":this.$refs.summary.$data.summaryForm,
-        //"history":this.$refs.history.$data.historyForm,
-        //"relevant":this.$refs.relevant.$data.relevantForm,
-        //"clinical":this.$refs.clinical.$data.clinicalForm,
-        //"cure":this.$refs.cure.$data.cureForm,
-       //"results":this.$refs.results.$data.resultsForm,
+        "history":this.$refs.history.$data.historyForm,
+        "relevant":this.$refs.relevant.$data.relevantForm,
+        "clinical":this.$refs.clinical.$data.clinicalForm,
+        "cure":this.$refs.cure.$data.cureForm,
+        "result":this.$refs.result.$data.resultsForm,
       }
       console.log("submit mobile prj004")
       console.log(JSON.stringify(data.info))

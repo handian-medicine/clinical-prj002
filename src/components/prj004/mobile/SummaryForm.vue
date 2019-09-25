@@ -2,6 +2,7 @@
     <el-form ref="summaryForm" :model="summaryForm" :rules="rules"
             label-width="110px" label-position="left" class="mobile">
 
+
       <el-form-item label="主诉">
         <label>反复自然流产</label>
         <el-input v-model="summaryForm.zhusu" type="number" min="0">
@@ -15,13 +16,15 @@
         <template v-for="(q_val,q_key) in liuchan_time_choises">
           <el-checkbox  :label="q_val.name" v-model="summaryForm[q_val.para]">
           </el-checkbox>
-          <el-input v-model="summaryForm[q_val.times]"   type="number" min="0">
+          <el-input v-model="summaryForm[q_val.times]" type="number" min="0">
             <template slot="append">次</template>
           </el-input>
           </template>
       </el-form-item>
 
-      <el-form-item label="最近一次流产时间">
+      <el-form-item  label-width="100%" label="最近一次流产时间">
+      </el-form-item>
+      <el-form-item label="">
         <el-date-picker v-model="summaryForm.liuchan_last_time"
                         type="month" placeholder="选择日期"
                         format="yyyy 年 MM 月"
@@ -32,7 +35,9 @@
       <el-form-item label="是否活产过" >
         <el-switch v-model="summaryForm.live_is_checked" active-text="是" inactive-text="否"></el-switch>
       </el-form-item>
-      <el-form-item v-show="summaryForm.live_is_checked" label="活产次数及方式">
+      <el-form-item v-show="summaryForm.live_is_checked"  label-width="100%" label="活产次数及方式">
+      </el-form-item>
+      <el-form-item v-show="summaryForm.live_is_checked" label="">
           <el-checkbox  label="顺产" v-model="summaryForm.shunchan">
           </el-checkbox>
           <el-input v-model="summaryForm.shunchan_times"  type="number" min="0">
@@ -44,7 +49,9 @@
             <template slot="append">次</template>
           </el-input>
       </el-form-item>
-      <el-form-item v-show="summaryForm.live_is_checked"  label="最近一次活产时间">
+      <el-form-item v-show="summaryForm.live_is_checked" label-width="100%" label="最近一次活产时间">
+      </el-form-item>
+      <el-form-item v-show="summaryForm.live_is_checked"  label="">
         <el-date-picker v-model="summaryForm.last_live"
                         type="month" placeholder="选择日期"
                         format="yyyy 年 MM 月"
@@ -60,7 +67,9 @@
         </el-date-picker>
       </el-form-item>
 
-      <el-form-item label="目前是否妊娠中">
+      <el-form-item label-width="100%" label="目前是否妊娠中">
+      </el-form-item>
+      <el-form-item label="">
         <el-radio v-model="summaryForm.renchen"
                   v-for="item in radio_renchen"
                   :key="item" :label="item" @change="choose_is_renshen">
@@ -92,6 +101,7 @@
       </template>
 
       <el-form-item label="(10) 睡眠">
+      </el-form-item>
         <el-form-item label="每日睡眠时间">
           <el-radio v-model="summaryForm.shui_time"
                     v-for="item in shui_time_radio"
@@ -105,8 +115,6 @@
           </el-checkbox>
           <el-input v-show="!summaryForm.shui_wu"  v-model="summaryForm.shui_qita"  placeholder="其他"></el-input>
         </el-form-item>
-      </el-form-item>
-
 
       <el-form-item label="(11) 性欲">
         <el-checkbox label="正常" v-model="summaryForm.sex_zc">
@@ -164,6 +172,7 @@
         <el-input  v-model="summaryForm.mai_qita" placeholder="其他"></el-input>
       </el-form-item>
 
+
     </el-form>
 </template>
 <script>
@@ -171,7 +180,7 @@ export default {
   name:'SummaryForm',
   data() {
     return {
-      liuchan_time_choises:{
+       liuchan_time_choises:{
         first:{name:"<6周", para:"liuchan_six", times:"liuchan_six_times"},
         second:{name:"≥6周<8周", para:"liuchan_eight", times:"liuchan_eight_times"},
         third:{name:"≥8周<10周", para:"liuchan_ten", times:"liuchan_ten_times"},
@@ -253,6 +262,7 @@ export default {
       shetai_choises:{shetai_bai:"白",shetai_huang:"黄",shetai_bo:"薄",shetai_hou:"厚",shetai_ni:"腻",shetai_run:"润",shetai_hua:"滑",shetai_gan:"干",shetai_shaotai:"少苔",shetai_huabao:"花剥",shetai_wutai:"无苔"},
       sheti_choises:{sheti_shou:"瘦小",sheti_pang:"胖大",sheti_chi:"有齿痕",sheti_lie:"有裂纹"},
       mai_choises:{mai_fu:"浮",mai_chen:"沉",mai_hua:"滑",mai_shu:"数",mai_xuan:"弦",mai_xi:"细",mai_ruo:"弱",mai_huan:"缓",mai_chi:"迟",mai_se:"涩",mai_jin:"紧"},
+
       summaryForm:{
       },
       rules:{},

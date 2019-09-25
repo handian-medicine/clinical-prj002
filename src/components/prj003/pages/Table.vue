@@ -59,6 +59,7 @@
       </el-table-column>
       <el-table-column prop="owner_name" label="录入人" width="90">
       </el-table-column>
+      <!--
       <el-table-column prop="degree_of_completion" label="信息完整度" width="90">
         <template v-slot="scope">
           <el-progress type="circle"
@@ -67,6 +68,7 @@
           </el-progress>
         </template>
       </el-table-column>
+      -->
       <el-table-column prop="check_status" label="审核状态" width="110">
         <template v-slot="scope">
           <el-tag v-if="scope.row.check_status=='未审核'" type="warn">{{scope.row.check_status}}</el-tag>

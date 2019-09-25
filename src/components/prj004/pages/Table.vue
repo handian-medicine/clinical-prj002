@@ -59,6 +59,7 @@
       </el-table-column>
       <el-table-column prop="owner_name" label="录入人" width="90">
       </el-table-column>
+      <!--
       <el-table-column prop="degree_of_completion" label="信息完整度" width="90">
         <template v-slot="scope">
           <el-progress type="circle"
@@ -67,7 +68,8 @@
           </el-progress>
         </template>
       </el-table-column>
-      <el-table-column prop="check_status" label="审核状态" width="110">
+      -->
+      <el-table-column prop="check_status" label="数据状态" width="110">
         <template v-slot="scope">
           <el-tag v-if="scope.row.check_status=='未审核'" type="warn">{{scope.row.check_status}}</el-tag>
           <el-tag v-if="scope.row.check_status=='审核通过'" type="success">{{scope.row.check_status}}</el-tag>
@@ -81,13 +83,11 @@
           <el-button-group>
           <el-button type="btn-info" size="small" @click="openDataForm(scope.$index, scope.row, 'info')">一般情况</el-button>
           <el-button type="btn-summary" size="small" @click="openDataForm(scope.$index, scope.row, 'summary')">病情概要</el-button>
-          <!--
           <el-button type="btn-history"    size="small" @click="openDataForm(scope.$index, scope.row, 'history')">专科病史</el-button>
           <el-button type="btn-relevant" size="small" @click="openDataForm(scope.$index, scope.row, 'relevant')">相关检查</el-button>
           <el-button type="btn-clinical" size="small" @click="openDataForm(scope.$index, scope.row, 'clinical')">临床诊断</el-button>
           <el-button type="btn-cure" size="small" @click="openDataForm(scope.$index, scope.row, 'cure')">治疗</el-button>
-          <el-button type="btn-results" size="small" @click="openDataForm(scope.$index, scope.row, 'results')">疗效</el-button>
-          -->
+          <el-button type="btn-results" size="small" @click="openDataForm(scope.$index, scope.row, 'result')">疗效</el-button>
           </el-button-group>
           <el-button type="danger" size="mini" style="margin-left:8px" v-if="is_admin"
                     @click="checkPatient(scope.$index, scope.row)" icon="el-icon-view" circle>
@@ -124,7 +124,7 @@
     <!-- 治疗dialog -->
     <CureForm ref="cure"></CureForm>
     <!-- 疗效dialog -->
-    <ResultsForm ref="results"></ResultsForm>
+    <ResultsForm ref="result"></ResultsForm>
 
     <!-- 新增信息dialog -->
     <AddPatient ref="addPatient" ></AddPatient>
