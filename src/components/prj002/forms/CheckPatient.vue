@@ -7,7 +7,7 @@
 
       <el-form-item label="审核结果">
         <el-radio-group v-model="checkData.check_status">
-          <el-radio label="未审核">未审核</el-radio>
+          <!-- <el-radio label="未审核">未审核</el-radio> -->
           <el-radio label="审核通过">审核通过</el-radio>
           <el-radio label="审核不通过">审核不通过</el-radio>
         </el-radio-group>

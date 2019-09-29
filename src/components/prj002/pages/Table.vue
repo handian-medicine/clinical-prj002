@@ -75,7 +75,10 @@
       </el-table-column>
       <el-table-column prop="check_status" label="数据状态" width="110">
         <template v-slot="scope">
-          <el-tag v-if="scope.row.check_status=='未审核'" type="warn">{{scope.row.check_status}}</el-tag>
+          <el-tag v-if="scope.row.check_status=='未提交'" type="danger"
+                  @click.stop="submitPatient(scope.$index, scope.row)">
+                  {{scope.row.check_status}}</el-tag>
+          <el-tag v-if="scope.row.check_status=='已提交'" type="warn">{{scope.row.check_status}}</el-tag>
           <el-tag v-if="scope.row.check_status=='审核通过'" type="success">{{scope.row.check_status}}</el-tag>
           <el-tag v-if="scope.row.check_status=='审核不通过'" type="danger"
                   @click.stop="showReason(scope.$index, scope.row.reason_for_check)">
@@ -96,7 +99,9 @@
           <el-button type="btn-clinical" size="small" @click="openDataForm(scope.$index, scope.row, 'clinical')">临床诊断</el-button>
           <el-button type="btn-cure" size="small" @click="openDataForm(scope.$index, scope.row, 'cure')">治疗</el-button>
           </el-button-group>
-          <el-button type="danger" size="mini" style="margin-left:8px" v-if="is_admin"
+          <el-button type="danger" size="mini" style="margin-left:8px"
+                    v-show="scope.row.check_status!='审核通过'"
+                    v-if="is_admin"
                     @click="checkPatient(scope.$index, scope.row)" icon="el-icon-view" circle>
                     </el-button>
           <el-button v-show="scope.row.check_status!='审核通过'" icon="el-icon-delete" circle
@@ -141,21 +146,24 @@
     <AddPatient ref="addPatient" ></AddPatient>
     <!-- 审查dialog -->
     <CheckPatient ref="checkPatient" ></CheckPatient>
+    <!-- 提交dialog -->
+    <SubmitPatient ref="submitPatient" ></SubmitPatient>
 
   </section>
 </template>
 
 <script>
 // import util from '@/common/js/util'
+import { apiCheckPatient } from '@/api/api-prj002'
 // axios请求,向express做请求
 import {apiGetPatientsList, apiSearchPatient, apiGetPatientDataForm, apiExportFile,apiRemovePatient} from '@/api/api-prj002'
 // 批量导入子组件
-import {AddPatient, CheckPatient} from '@/components/prj002/forms'
+import {AddPatient, CheckPatient, SubmitPatient} from '@/components/prj002/forms'
 import {StandardForm,InfoForm,SummaryForm,DiseaseForm,HistoryForm,ExperimentForm,BxrayForm,ClinicalForm,CureForm} from '@/components/prj002/forms'
 import { userInfo } from 'os';
 export default {
   name:'Table',
-  components:{AddPatient,CheckPatient,StandardForm,InfoForm,SummaryForm,DiseaseForm,HistoryForm,ExperimentForm,BxrayForm,ClinicalForm,CureForm},
+  components:{AddPatient,CheckPatient,SubmitPatient, StandardForm,InfoForm,SummaryForm,DiseaseForm,HistoryForm,ExperimentForm,BxrayForm,ClinicalForm,CureForm},
   data () {
     return {
       expands:[],
@@ -176,7 +184,8 @@ export default {
           {color: '#e6a23c', percentage: 50},
           {color: '#1989fa', percentage: 80},
           {color: '#5cb87a', percentage: 100}
-        ]
+      ],
+      submitDialogVisible:false
     }
   },
   methods: {
@@ -191,6 +200,16 @@ export default {
     // 新增信息dialog
     addPatient () {
       this.$refs.addPatient.$emit("addEvent")
+    },
+
+    // 提交
+    submitPatient (index, row) {
+      const checkData = {
+        check:row.check,// check字段是一个url
+        check_status:row.check_status,
+        reason_for_check:row.reason_for_check
+        }
+      this.$refs.submitPatient.$emit("submitEvent",checkData)
     },
     // 审核
     checkPatient (index, row) {

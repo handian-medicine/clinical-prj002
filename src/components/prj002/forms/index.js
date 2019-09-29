@@ -1,5 +1,6 @@
 import AddPatient from './AddPatient.vue'
 import CheckPatient from './CheckPatient.vue'
+import SubmitPatient from './SubmitPatient.vue'
 import BxrayForm from './BxrayForm.vue'
 import ClinicalForm from './ClinicalForm.vue'
 import CureForm from './CureForm.vue'
@@ -13,6 +14,7 @@ import StandardForm from './StandardForm.vue'
 export {
     AddPatient,
     CheckPatient,
+    SubmitPatient,
     BxrayForm,
     ClinicalForm,
     CureForm,
