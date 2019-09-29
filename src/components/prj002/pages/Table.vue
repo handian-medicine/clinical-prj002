@@ -82,7 +82,7 @@
           <el-tag v-if="scope.row.check_status=='已提交'">{{scope.row.check_status}}</el-tag>
           <el-tag v-if="scope.row.check_status=='审核通过'" type="success">{{scope.row.check_status}}</el-tag>
           <el-tag v-if="scope.row.check_status=='审核不通过'" type="danger"
-                  @click.stop="showReason(scope.$index, scope.row.reason_for_check)">
+                  @click.stop="showReason(scope.$index, scope.row)">
                   {{scope.row.check_status}}</el-tag>
         </template>
       </el-table-column>
@@ -227,13 +227,26 @@ export default {
         }
       this.$refs.checkPatient.$emit("checkEvent",checkData)
     },
-    showReason (index, reason) {
-        this.$alert(reason, '审核不通过原因', {
-          confirmButtonText: '确定',
+    showReason (index, row) {
+        this.$confirm(row.reason_for_check, '审核不通过原因', {
           cancelButtonText: '取消',
+          confirmButtonText: '重新提交',
           type: 'warning',
           center: true,
-          callback: action => {}
+          callback: action => {
+            var checkData = {
+              check:row.check,
+              check_status:'已提交',
+              reason_for_check:row.reason_for_check
+            }
+            if (action === 'confirm') {
+              apiCheckPatient(checkData)
+              .then( (res)=> {
+                this.$message({message: '提交成功',type: 'success'})
+                this.getPatients()
+                })
+            }
+          }
         });
     },
     // 搜索功能
