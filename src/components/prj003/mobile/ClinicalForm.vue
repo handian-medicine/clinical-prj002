@@ -4,7 +4,13 @@
 
       <h3>中医诊断</h3>
       <el-form-item label="痛经" >
+        <el-radio-group v-model="clinicalForm.zhong_tongjing">
+          <el-radio :label="true">是</el-radio>
+          <el-radio :label="false">否</el-radio>
+        </el-radio-group>
+        <!--
           <el-switch v-model="clinicalForm.zhong_tongjing" active-text="是" inactive-text="否"></el-switch>
+          -->
       </el-form-item>
       <el-form-item label="辨证分型">
         <el-radio-group v-model="bianzheng_result" @change="changebianzheng">
@@ -35,7 +41,13 @@
 
       <h3>西医诊断</h3>
       <el-form-item label="原发性痛经" >
+        <el-radio-group v-model="clinicalForm.xi_tongjing">
+          <el-radio :label="true">是</el-radio>
+          <el-radio :label="false">否</el-radio>
+        </el-radio-group>
+        <!--
           <el-switch v-model="clinicalForm.xi_tongjing" active-text="是" inactive-text="否"></el-switch>
+          -->
       </el-form-item>
     </el-form>
 

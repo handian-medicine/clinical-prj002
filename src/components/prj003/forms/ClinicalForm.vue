@@ -8,10 +8,6 @@
                   title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
                   type="warning" :closable="false" show-icon>
       </el-alert>
-      <el-alert v-if="check_status=='已提交'" effect="dark"
-                  title="此条信息已经提交审核,无法更改。如需修改, 请更改审核状态"
-                  type="warning" :closable="false" show-icon>
-      </el-alert>
       <el-alert v-if="!isOwnedByUser" effect="dark"
                   title="此条信息为其他用户创建，您无法修改"
                   type="warning" :closable="false" show-icon>
@@ -19,7 +15,13 @@
       <el-divider></el-divider>
       <h3>中医诊断</h3>
       <el-form-item label="痛经" >
+        <el-radio-group v-model="clinicalForm.zhong_tongjing">
+          <el-radio :label="true">是</el-radio>
+          <el-radio :label="false">否</el-radio>
+        </el-radio-group>
+        <!--
           <el-switch v-model="clinicalForm.zhong_tongjing" active-text="是" inactive-text="否"></el-switch>
+          -->
       </el-form-item>
       <el-form-item label="辨证分型">
         <el-radio-group v-model="bianzheng_result" @change="changebianzheng">
@@ -48,7 +50,13 @@
 
       <h3>西医诊断</h3>
       <el-form-item label="原发性痛经" >
+        <el-radio-group v-model="clinicalForm.xi_tongjing">
+          <el-radio :label="true">是</el-radio>
+          <el-radio :label="false">否</el-radio>
+        </el-radio-group>
+        <!--
           <el-switch v-model="clinicalForm.xi_tongjing" active-text="是" inactive-text="否"></el-switch>
+          -->
       </el-form-item>
     </el-form>
 

@@ -8,10 +8,6 @@
                   title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
                   type="warning" :closable="false" show-icon>
       </el-alert>
-      <el-alert v-if="check_status=='已提交'" effect="dark"
-                  title="此条信息已经提交审核,无法更改。如需修改, 请更改审核状态"
-                  type="warning" :closable="false" show-icon>
-      </el-alert>
       <el-alert v-if="!isOwnedByUser" effect="dark"
                   title="此条信息为其他用户创建，您无法修改"
                   type="warning" :closable="false" show-icon>
@@ -19,17 +15,29 @@
       <el-divider></el-divider>
 
       <el-form-item label="体格检查" >
-          <el-switch v-model="relevantForm.body_check_wu" active-text="无" inactive-text="有"></el-switch>
+        <el-radio-group v-model="relevantForm.body_check_wu">
+          <el-radio :label="true">有</el-radio>
+          <el-radio :label="false">无</el-radio>
+        </el-radio-group>
+        <!--
+        <el-switch v-model="relevantForm.body_check_wu" active-text="无" inactive-text="有"></el-switch>
+        -->
       </el-form-item>
-      <el-form-item v-show="!relevantForm.body_check_wu" label="">
+      <el-form-item v-show="relevantForm.body_check_wu" label="">
         <el-checkbox v-for="(val, key) in body_check" :key="key" :label="val" v-model="relevantForm[key]">
         </el-checkbox>
       </el-form-item>
 
       <el-form-item label="辅助检查" >
+        <el-radio-group v-model="relevantForm.assist_check_wu">
+          <el-radio :label="true">有</el-radio>
+          <el-radio :label="false">无</el-radio>
+        </el-radio-group>
+        <!--
           <el-switch v-model="relevantForm.assist_check_wu" active-text="无" inactive-text="有"></el-switch>
+          -->
       </el-form-item>
-      <el-form-item  v-show="!relevantForm.assist_check_wu" label="">
+      <el-form-item  v-show="relevantForm.assist_check_wu" label="">
         <el-checkbox  :label="assist_check.assist_check_chao" v-model="relevantForm['assist_check_chao']"></el-checkbox>
         <el-checkbox  :label="assist_check.assist_check_mri" v-model="relevantForm['assist_check_mri']"></el-checkbox>
         <!--

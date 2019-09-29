@@ -3,16 +3,28 @@
             label-width="110px" label-position="left" class="mobile">
 
       <el-form-item label="体格检查" >
+        <el-radio-group v-model="relevantForm.body_check_wu">
+          <el-radio :label="true">有</el-radio>
+          <el-radio :label="false">无</el-radio>
+        </el-radio-group>
+        <!--
           <el-switch v-model="relevantForm.body_check_wu" active-text="无" inactive-text="有"></el-switch>
+          -->
       </el-form-item>
-      <el-form-item v-show="!relevantForm.body_check_wu" label="">
+      <el-form-item v-show="relevantForm.body_check_wu" label="">
         <el-checkbox v-for="(val, key) in body_check" :key="key" :label="val" v-model="relevantForm[key]">
         </el-checkbox>
       </el-form-item>
       <el-form-item label="辅助检查" >
+        <el-radio-group v-model="relevantForm.assist_check_wu">
+          <el-radio :label="true">有</el-radio>
+          <el-radio :label="false">无</el-radio>
+        </el-radio-group>
+        <!--
           <el-switch v-model="relevantForm.assist_check_wu" active-text="无" inactive-text="有"></el-switch>
+          -->
       </el-form-item>
-      <el-form-item  v-show="!relevantForm.assist_check_wu" label="">
+      <el-form-item  v-show="relevantForm.assist_check_wu" label="">
         <el-checkbox  :label="assist_check.assist_check_chao" v-model="relevantForm['assist_check_chao']"></el-checkbox>
         <el-checkbox  :label="assist_check.assist_check_mri" v-model="relevantForm['assist_check_mri']"></el-checkbox>
         <!--

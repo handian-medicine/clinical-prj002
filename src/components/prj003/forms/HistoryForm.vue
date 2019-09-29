@@ -8,10 +8,6 @@
                   title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
                   type="warning" :closable="false" show-icon>
       </el-alert>
-      <el-alert v-if="check_status=='已提交'" effect="dark"
-                  title="此条信息已经提交审核,无法更改。如需修改, 请更改审核状态"
-                  type="warning" :closable="false" show-icon>
-      </el-alert>
       <el-alert v-if="!isOwnedByUser" effect="dark"
                   title="此条信息为其他用户创建，您无法修改"
                   type="warning" :closable="false" show-icon>
@@ -20,7 +16,13 @@
 
       <h3>（一）既往史</h3>
       <el-form-item label="既往史" >
+          <el-radio-group v-model="historyForm.has_history">
+            <el-radio :label="true">是</el-radio>
+            <el-radio :label="false">否</el-radio>
+          </el-radio-group>
+          <!--
           <el-switch v-model="historyForm.has_history" active-text="有" inactive-text="无"></el-switch>
+          -->
           <el-input  v-show="historyForm.has_history" v-model="historyForm.history_content" ></el-input>
       </el-form-item>
 
@@ -44,7 +46,13 @@
         </el-radio>
       </el-form-item>
       <el-form-item label="体育锻炼">
+        <el-radio-group v-model="historyForm.is_exercise">
+          <el-radio :label="true">是</el-radio>
+          <el-radio :label="false">否</el-radio>
+        </el-radio-group>
+        <!--
         <el-switch v-model="historyForm.is_exercise" active-text="有" inactive-text="无"></el-switch>
+        -->
         <el-form-item  v-show="historyForm.is_exercise" label="(1)频次">
           <el-radio v-model="historyForm.exercise_pinci"
                     v-for="item in mydata.physical_exercise"
@@ -68,7 +76,13 @@
       </el-form-item>
 
       <el-form-item label="月经周期是否规律">
+        <el-radio-group v-model="historyForm.is_normal">
+          <el-radio :label="true">尚规律</el-radio>
+          <el-radio :label="false">不规律</el-radio>
+        </el-radio-group>
+        <!--
         <el-switch v-model="historyForm.is_normal" active-text="尚规律" inactive-text="不规律"></el-switch>
+        -->
       </el-form-item>
         <el-form-item v-show="historyForm.is_normal" label="尚规律">
           <el-radio v-model="historyForm.normal"
@@ -121,7 +135,13 @@
 
       <h3>（四）平素全身症状</h3>
       <el-form-item label="平素全身症状" >
+        <el-radio-group v-model="historyForm.body_all">
+          <el-radio :label="true">有</el-radio>
+          <el-radio :label="false">无</el-radio>
+        </el-radio-group>
+        <!--
           <el-switch v-model="historyForm.body_all" active-text="有" inactive-text="无"></el-switch>
+          -->
       </el-form-item>
       <el-form-item v-show="historyForm.body_all" label="精神情绪">
         <el-checkbox v-for="(val, key) in mydata.body_spirit" :key="key" :label="val" v-model="historyForm[key]">

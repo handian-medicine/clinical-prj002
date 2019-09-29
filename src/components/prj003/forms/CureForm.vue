@@ -16,7 +16,13 @@
 
           <h3>中西医结合治疗</h3>
           <el-form-item label="">
+            <el-radio-group v-model="cureForm.is_together_cure">
+              <el-radio :label="true">是</el-radio>
+              <el-radio :label="false">否</el-radio>
+            </el-radio-group>
+            <!--
               <el-switch v-model="cureForm.is_together_cure" active-text="是" inactive-text="否"></el-switch>
+              -->
           </el-form-item>
 
             <h3>I. 中医治疗</h3>
@@ -68,7 +74,13 @@
             </el-form-item>
 
                 <el-form-item label="3. 中成药">
+                  <el-radio-group v-model="cureForm.zcy">
+                    <el-radio :label="true">是</el-radio>
+                    <el-radio :label="false">否</el-radio>
+                  </el-radio-group>
+                  <!--
                     <el-switch v-model="cureForm.zcy" active-text="是" inactive-text="否"></el-switch>
+                    -->
                 </el-form-item>
                 <el-form-item v-show="cureForm.zcy" label="">
                     <el-checkbox v-for="(val, key) in medicine" :key="key" :label="val" v-model="cureForm[key]">
@@ -86,7 +98,13 @@
 
             <h3>II. 西医治疗</h3>
             <el-form-item label="应用止痛药">
+              <el-radio-group v-model="cureForm.is_zhitong">
+                <el-radio :label="true">是</el-radio>
+                <el-radio :label="false">否</el-radio>
+              </el-radio-group>
+              <!--
                 <el-switch v-model="cureForm.is_zhitong" active-text="是" inactive-text="否"></el-switch>
+                -->
             </el-form-item>
 
             <el-form-item v-show="cureForm.is_zhitong" label="具体药物-口服">
@@ -101,7 +119,13 @@
             </el-form-item>
 
             <el-form-item label="口服避孕药">
+              <el-radio-group v-model="cureForm.is_biyunyao">
+                <el-radio :label="true">是</el-radio>
+                <el-radio :label="false">否</el-radio>
+              </el-radio-group>
+              <!--
                 <el-switch v-model="cureForm.is_biyunyao" active-text="是" inactive-text="否"></el-switch>
+                -->
             </el-form-item>
             <el-form-item v-show="cureForm.is_biyunyao" label="避孕具体药物">
                 <el-checkbox v-for="(val, key) in biyun" :key="key" :label="val" v-model="cureForm[key]">

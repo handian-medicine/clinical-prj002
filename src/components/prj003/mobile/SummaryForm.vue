@@ -94,7 +94,13 @@
       <template v-for="(q_val,q_key) in mydata">
         <el-form-item :label="q_val.name"  label-width="100%"></el-form-item>
         <el-form-item label="" :key="q_key" :show-overflow-tooltip=true  label-width="50px">
+          <el-radio-group v-model="summaryForm[q_key]">
+            <el-radio :label="true">是</el-radio>
+            <el-radio :label="false">否</el-radio>
+          </el-radio-group>
+          <!--
           <el-switch v-model="summaryForm[q_key]" active-text="是" inactive-text="否"></el-switch>
+          -->
         </el-form-item>
         <el-form-item v-show="summaryForm[q_key]" label="总发作时间">
           <el-radio-group v-model="summaryForm[q_val.para_time]">
@@ -115,16 +121,34 @@
       </template>
 
       <el-form-item label="汗出" >
-        <el-switch v-model="summaryForm.is_hanchu" active-text="是" inactive-text="否"></el-switch>
+        <el-radio-group v-model="summaryForm.is_hanchu">
+          <el-radio :label="true" >是</el-radio>
+          <el-radio :label="false">否</el-radio>
+        </el-radio-group>
       </el-form-item>
       <el-form-item label="肛门坠胀" >
-        <el-switch v-model="summaryForm.is_gangmen" active-text="是" inactive-text="否"></el-switch>
+        <el-radio-group v-model="summaryForm.is_gangmen">
+          <el-radio :label="true">是</el-radio>
+          <el-radio :label="false">否</el-radio>
+        </el-radio-group>
       </el-form-item>
       <el-form-item label="四肢厥冷" >
+        <el-radio-group v-model="summaryForm.is_sizhi">
+          <el-radio :label="true">是</el-radio>
+          <el-radio :label="false">否</el-radio>
+        </el-radio-group>
+        <!--
         <el-switch v-model="summaryForm.is_sizhi" active-text="是" inactive-text="否"></el-switch>
+        -->
       </el-form-item>
       <el-form-item label="晕厥" >
+        <el-radio-group v-model="summaryForm.is_yunjue">
+          <el-radio :label="true">是</el-radio>
+          <el-radio :label="false">否</el-radio>
+        </el-radio-group>
+        <!--
         <el-switch v-model="summaryForm.is_yunjue" active-text="是" inactive-text="否"></el-switch>
+        -->
       </el-form-item>
       <el-form-item v-show="summaryForm.is_yunjue" label="晕厥频次">
          <el-radio-group v-model="summaryForm.is_yunjue_level">
