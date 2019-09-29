@@ -9,8 +9,9 @@
               <el-input v-if="key!='check_status'" v-model="search[key]" :placeholder="searchName[key]"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-select v-model="search.check_status" placeholder="查询审核状态">
-                <el-option value="未审核" label="未审核"></el-option>
+              <el-select v-model="search.check_status" placeholder="查询数据状态">
+                <el-option value="未提交" label="未提交"></el-option>
+                <el-option value="已提交" label="已提交"></el-option>
                 <el-option value="审核通过" label="审核通过"></el-option>
                 <el-option value="审核不通过" label="审核不通过"></el-option>
               </el-select>
@@ -65,20 +66,20 @@
       </el-table-column>
       <el-table-column prop="owner_name" label="录入人" width="90">
       </el-table-column>
-      <el-table-column prop="degree_of_completion" label="信息完整度" width="90">
+      <!-- <el-table-column prop="degree_of_completion" label="信息完整度" width="90">
         <template v-slot="scope">
           <el-progress type="circle"
                       :percentage="Math.round(Number(scope.row.degree_of_completion))"
                       :width="40" :color="customColors">
           </el-progress>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column prop="check_status" label="数据状态" width="110">
         <template v-slot="scope">
-          <el-tag v-if="scope.row.check_status=='未提交'" type="danger"
+          <el-tag v-if="scope.row.check_status=='未提交'" type="warning"
                   @click.stop="submitPatient(scope.$index, scope.row)">
                   {{scope.row.check_status}}</el-tag>
-          <el-tag v-if="scope.row.check_status=='已提交'" type="warn">{{scope.row.check_status}}</el-tag>
+          <el-tag v-if="scope.row.check_status=='已提交'">{{scope.row.check_status}}</el-tag>
           <el-tag v-if="scope.row.check_status=='审核通过'" type="success">{{scope.row.check_status}}</el-tag>
           <el-tag v-if="scope.row.check_status=='审核不通过'" type="danger"
                   @click.stop="showReason(scope.$index, scope.row.reason_for_check)">
@@ -223,6 +224,7 @@ export default {
     showReason (index, reason) {
         this.$alert(reason, '审核不通过原因', {
           confirmButtonText: '确定',
+          cancelButtonText: '取消',
           type: 'warning',
           center: true,
           callback: action => {}
@@ -387,7 +389,7 @@ export default {
 background:red;
 border:1px solid red;
 }
-.el-tag.el-tag--danger {
+.el-tag {
   cursor: pointer;
 }
 </style>
