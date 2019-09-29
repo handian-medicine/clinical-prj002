@@ -9,8 +9,8 @@
                   type="warning" :closable="false" show-icon>
       </el-alert>
       <el-alert v-if="check_status=='已提交'" effect="dark"
-                  title="此条信息已经提交审核,无法更改。如需修改, 请更改审核状态"
-                  type="warning" :closable="false" show-icon>
+                        title="此条信息已经提交审核,无法更改。如需修改, 请更改审核状态"
+                        type="warning" :closable="false" show-icon>
       </el-alert>
       <el-alert v-if="!isOwnedByUser" effect="dark"
                   title="此条信息为其他用户创建，您无法修改"
