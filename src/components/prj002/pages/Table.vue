@@ -210,7 +210,13 @@ export default {
         check_status:row.check_status,
         reason_for_check:row.reason_for_check
         }
-      this.$refs.submitPatient.$emit("submitEvent",checkData)
+      var userinfo = JSON.parse(sessionStorage.getItem('userinfo'))
+      var isOwnedByUser = (userinfo.id == row.owner_id)
+      if (isOwnedByUser) {
+        this.$refs.submitPatient.$emit("submitEvent",checkData)
+      } else {
+        this.$message({message: '该数据不属于您，不能提交该条数据',type: 'error'})
+      }
     },
     // 审核
     checkPatient (index, row) {

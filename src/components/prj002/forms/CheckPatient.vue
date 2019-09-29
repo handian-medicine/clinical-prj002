@@ -33,7 +33,7 @@ export default {
     name:'CheckPatient',
     data () {
       return {
-        checkData: {check:'', check_status:'未审核', reason_for_check:'填写原因'},
+        checkData: {check:'', check_status:'', reason_for_check:''},
         dialogVisible: false,
       }
 
