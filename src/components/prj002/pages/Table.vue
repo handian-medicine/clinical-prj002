@@ -101,7 +101,7 @@
           <el-button type="btn-cure" size="small" @click="openDataForm(scope.$index, scope.row, 'cure')">治疗</el-button>
           </el-button-group>
           <el-button type="danger" size="mini" style="margin-left:8px"
-                    v-show="scope.row.check_status!='审核通过'"
+                    v-show="!(scope.row.check_status ==='审核通过' || scope.row.check_status ==='未提交')"
                     v-if="is_admin"
                     @click="checkPatient(scope.$index, scope.row)" icon="el-icon-view" circle>
                     </el-button>
