@@ -63,6 +63,7 @@ export default {
       this.$refs.info.$refs.infoForm.validate( (valid1, fields1) => {
         // 提示第一条错误信息
         //console.log("valid1 = " + valid1)
+        //console.log("data = " + JSON.stringify(data))
         if (valid1) {
           apiMobileForm({data:data})
           .then((res)=> {
