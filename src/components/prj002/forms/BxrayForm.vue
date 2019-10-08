@@ -25,7 +25,7 @@
           <h4 class="bxray-input">a.大小：
             <el-input v-model="bxrayForm.zigong_chang" style="width:50px;" type="number" min=0></el-input>mm×
             <el-input v-model="bxrayForm.zigong_kuan" style="width:50px;" type="number" min=0></el-input>mm×
-            <el-input v-model="bxrayForm.zigong_qianhou" style="width:50px;" type="number" min=0></el-input>mm
+            <el-input v-model="bxrayForm.zigong_gao" style="width:50px;" type="number" min=0></el-input>mm
           </h4>
           <h4>b.畸形:
             <el-switch v-model="bxrayForm.zigong_jixing" active-text="有" inactive-text="无"></el-switch>
@@ -127,7 +127,7 @@ export default {
   data() {
     return {
       bxrayForm:{
-        zigong_chang: '', zigong_kuan: '', zigong_qianhou: '',
+        zigong_chang: '', zigong_kuan: '', zigong_gao: '',
         zigong_xingtai: true, zigong_juti: '',
         zigong_neimo: '',
         zigong_is_jiliu: false, zigong_weizhi: '', zigong_geshu: '', zigong_daxiaochang: '', zigong_daxiaokuan: '', zigong_daxiaogao: '',
