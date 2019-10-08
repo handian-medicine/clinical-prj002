@@ -234,17 +234,27 @@ export default {
           type: 'warning',
           center: true,
           callback: action => {
-            var checkData = {
-              check:row.check,
-              check_status:'已提交',
-              reason_for_check:row.reason_for_check
-            }
-            if (action === 'confirm') {
-              apiCheckPatient(checkData)
-              .then( (res)=> {
-                this.$message({message: '提交成功',type: 'success'})
-                this.getPatients()
-                })
+            if (action === 'confirm'){
+              this.$confirm('提交后,除非审核不通过,否则将无法再修改数据！','提示',{
+                  cancelButtonText: '取消',
+                  confirmButtonText: '确定',
+                  type: 'warning',
+                  center: true,
+                  callback: action =>
+                  {
+                    if (action === 'confirm') {
+                      var checkData ={
+                        check:row.check,
+                        check_status:'已提交',
+                        reason_for_check:row.reason_for_check }
+                      apiCheckPatient(checkData)
+                      .then( (res)=> {
+                        this.$message({message: '提交成功',type: 'success'})
+                        this.getPatients()
+                      })
+                    }
+                  }
+              })
             }
           }
         });
