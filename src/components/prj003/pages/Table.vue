@@ -10,8 +10,8 @@
             </el-form-item>
             <el-form-item>
               <el-select v-model="search.check_status" placeholder="查询数据状态">
-                <el-option value="未审核" label="未提交"></el-option>
-                <el-option value="未审核" label="已提交"></el-option>
+                <el-option value="未提交" label="未提交"></el-option>
+                <el-option value="已提交" label="已提交"></el-option>
                 <el-option value="审核通过" label="审核通过"></el-option>
                 <el-option value="审核不通过" label="审核不通过"></el-option>
               </el-select>
