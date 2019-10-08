@@ -165,7 +165,7 @@
         </el-radio>
       </el-form-item>
 
-      <h3>（六）孕产史</h3>
+      <h3>（六）孕产史（无性生活者无需填写）</h3>
       <el-form-item label="孕产史">
         <el-col :sm="24" :md="12" :lg="8" v-for="(val, key) in mydata.pastpreg" :key="key">
           <el-input type="number" min="0" v-model="historyForm[key]">
