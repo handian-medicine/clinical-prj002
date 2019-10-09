@@ -29,7 +29,7 @@
     <el-tab-pane label="临床诊断">
       <ClinicalForm ref="clinical"></ClinicalForm>
     </el-tab-pane>
-    <el-tab-pane label="疗效">
+    <el-tab-pane label="治疗">
       <CureForm ref="cure"></CureForm>
     </el-tab-pane>
     <el-tab-pane label="提交">

@@ -17,7 +17,7 @@
                   title="此条信息为其他用户创建，您无法修改"
                   type="warning" :closable="false" show-icon>
       </el-alert>
-      <p>（说明：性激素测定抽血时间为：有周期者在月经周期的第3-5天进行；无周期者可在B超提示处于卵泡期或黄体酮撤退后出血的3-5天进行）</p>
+      <p>（说明：性激素测定抽血时间为：有周期者在月经周期的第2-4天进行；无周期者可在B超提示处于卵泡期或黄体酮撤退后出血的2-4天进行）</p>
 
       <el-form-item v-for="(val, key) in mydata" :key="key" :label="val[0]">
         <el-input v-model="experimentForm[key]" type="number" min="0">

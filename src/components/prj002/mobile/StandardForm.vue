@@ -1,7 +1,12 @@
 <template>
     <el-form ref="form" :model="form" label-width="130px" label-position="left">
 
-      <h3><el-radio v-model="form.clinical_standard" label="1" class="h3-radio" border>Rotterdam的诊断标准</el-radio></h3>
+      <h2>1、诊断标准</h2>
+      <h3>
+        <el-radio v-model="form.clinical_standard" label="1" class="h3-radio" border>
+        Rotterdam的诊断标准
+        </el-radio>
+      </h3>
         <div v-show="form.clinical_standard == '1'">
           <el-checkbox v-model="form.rotterdam_one" label="稀发排卵或无排卵"></el-checkbox>
           <p></p>
@@ -12,7 +17,11 @@
           同时，排除其他导致雄激素过多的疾病如先天性肾上腺皮质增生、库欣综合征、分泌雄激素的肿瘤、大剂量外源性雄激素作用、严重的胰岛素抵抗综合征、甲状腺功能异常、并排除低促性腺激素性无排卵和卵巢早衰等。
         </div>
 
-      <h3><el-radio v-model="form.clinical_standard" label="2" class="h3-radio" border>2018年多囊卵巢综合征中国诊疗指南的诊断标准</el-radio></h3>
+      <h3>
+        <el-radio v-model="form.clinical_standard" label="2" class="h3-radio" border>
+          2018年多囊卵巢综合征中国诊疗指南的诊断标准
+          </el-radio>
+      </h3>
         <div v-show="form.clinical_standard == '2'">
           <h4><el-radio v-model="form.china_standard" label="1" border>(1)育龄期PCOS的诊断</el-radio></h4>
             <div v-show="form.china_standard == '1'">

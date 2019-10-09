@@ -17,7 +17,7 @@
                   title="此条信息为其他用户创建，您无法修改"
                   type="warning" :closable="false" show-icon>
       </el-alert>
-      <el-divider></el-divider>
+      <p></p>
 
       <h4>1.月经情况</h4>
         <h5>(1)周期 <el-switch v-model="summaryForm.is_normal" active-text="规律" inactive-text="不规律"></el-switch></h5>
