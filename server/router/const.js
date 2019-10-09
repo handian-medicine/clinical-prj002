@@ -11,6 +11,7 @@ const scope_prj001 = "prj001"
 const scope_prj002 = "prj002"
 const scope_prj003 = "prj003"
 const scope_prj004 = "prj004"
+const scope_prj005 = "prj005"
 const scope_users = "users"
 
 module.exports.apiurl = apiurl
@@ -20,4 +21,5 @@ module.exports.scope_prj001 = scope_prj001
 module.exports.scope_prj002 = scope_prj002
 module.exports.scope_prj003 = scope_prj003
 module.exports.scope_prj004 = scope_prj004
+module.exports.scope_prj005 = scope_prj005
 module.exports.scope_users = scope_users
