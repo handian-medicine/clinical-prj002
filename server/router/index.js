@@ -10,6 +10,7 @@ const prj001 = require('./prj001/index')
 const prj002 = require('./prj002/index')
 const prj003 = require('./prj003/index')
 const prj004 = require('./prj004/index')
+const prj005 = require('./prj005/index')
 
 router.use('/login',login)
 router.use('/home',home)
@@ -20,5 +21,6 @@ router.use('/prj001',prj001)
 router.use('/prj002',prj002)
 router.use('/prj003',prj003)
 router.use('/prj004',prj004)
+router.use('/prj005',prj005)
 
 module.exports = router
