@@ -49,7 +49,7 @@
             <el-input v-model="cureForm.cure_zhong_time_qita" placeholder="其他"></el-input>
         </div>
 
-      <h4>3.中医治疗</h4>
+      <h4>4.中医治疗</h4>
         <h5>（1）治法:</h5>
           <p>①虚证:</p>
           <el-checkbox v-for="(val, key) in zhong_xu" :key="key"
@@ -83,7 +83,7 @@
             <p>②针刺手法:</p>
               <el-input v-model="cureForm.zhenci_shoufa" type="textarea" :rows="2"></el-input>
           </div>
-      <h4>4.西医治疗</h4>
+      <h4>5.西医治疗</h4>
         <h5>（1）调整月经周期治疗: <el-switch v-model="cureForm.xi_yuejing" active-text="有" inactive-text="无"></el-switch></h5>
           <div v-show="cureForm.xi_yuejing">
             <p>避孕药类</p>
@@ -128,9 +128,9 @@
             <el-input v-model="cureForm.shengyu_qita" placeholder="其他"></el-input>
           </div>
 
-      <h4>5.是否接受心理治疗: <el-switch v-model="cureForm.xi_xinli" active-text="有" inactive-text="无"></el-switch></h4>
+      <h4>6.是否接受心理治疗: <el-switch v-model="cureForm.xi_xinli" active-text="有" inactive-text="无"></el-switch></h4>
 
-      <h4>6.其他治疗: <el-switch v-model="cureForm.xi_other" active-text="有" inactive-text="无"></el-switch></h4>
+      <h4>7.其他治疗: <el-switch v-model="cureForm.xi_other" active-text="有" inactive-text="无"></el-switch></h4>
           <el-input v-model="cureForm.xi_other_qita" placeholder="其他"></el-input>
 
 
