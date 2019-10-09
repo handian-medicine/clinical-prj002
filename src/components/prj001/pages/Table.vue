@@ -57,9 +57,9 @@
       </el-table-column>
       <el-table-column prop="address" label="住址" width="150">
       </el-table-column>
-      <el-table-column prop="expert" label="专家">
+      <el-table-column prop="expert" label="专家" width="80">
       </el-table-column>
-      <el-table-column prop="owner" label="录入人">
+      <el-table-column prop="owner" label="录入人" width="90">
       </el-table-column>
       <el-table-column prop="degree_of_completion" label="信息完整度" width="100px">
         <!-- 遗留问题 -->

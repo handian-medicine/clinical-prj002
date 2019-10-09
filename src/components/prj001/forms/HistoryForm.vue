@@ -362,7 +362,8 @@ export default {
         this.resetDialog()
         this.$message({message: '提交成功',type: 'success'})
         this.dialogVisible = false
-        this.$parent.getPatients()
+        this.$parent.searchPatient()
+        // this.$parent.getPatients()
       })
       .catch(
       )
@@ -385,7 +386,8 @@ export default {
         this.resetDialog()
         this.$message({message: '提交成功',type: 'success'})
         this.dialogVisible = false
-        this.$parent.getPatients()
+        this.$parent.searchPatient()
+        // this.$parent.getPatients()
       })
       .catch(
       )

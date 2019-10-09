@@ -170,7 +170,8 @@ export default {
               // this.resetDialog()
               this.$message({message: '提交成功',type: 'success'})
               this.dialogVisible = false
-              this.$parent.getPatients()
+              this.$parent.searchPatient()
+              // this.$parent.getPatients()
             }).catch()
         } else {
           this.$message({message: '请填写完整信息',type: 'warning'})
