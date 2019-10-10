@@ -53,6 +53,8 @@ export default {
       body_check:{body_check_fuke:"妇科检查",body_check_quan:"全身检查"},
       assist_check:{assist_check_chao:"超声",assist_check_mri:"盆腔MRI检查",assist_check_gong:"宫腔镜检查",assist_check_fu:"腹腔镜检查",assist_check_zi:"子宫输卵管造影",assist_check_ji:"基础体温测定",assist_check_ji_dan:"单相",assist_check_ji_shuang:"双相",assist_check_pen:"盆腔血流图检查",assist_check_jing:"经血前列腺素测定"},
       relevantForm:{
+        body_check_wu:false,
+        assist_check_wu:false,
       },
       rules:{},
     }

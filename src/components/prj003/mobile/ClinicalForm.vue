@@ -60,6 +60,8 @@ export default {
       shizheng:["寒凝血瘀证","气滞血瘀证","湿热瘀阻证","肝郁化火证"],
       xuzheng:["肾虚证","肾气亏虚证","肝肾亏损证","阳虚内寒证","气血虚弱证"],
       clinicalForm: {
+        zhong_tongjing:false,
+        xi_tongjing:false,
       },
       rules:{},
       result_shizheng:false,

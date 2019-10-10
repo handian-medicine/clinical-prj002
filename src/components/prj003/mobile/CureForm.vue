@@ -1,6 +1,6 @@
 <template>
   <el-form ref="cureForm" :model="cureForm" :rules="rules"
-          label-width="110px" label-position="left" class="mobile">
+          label-width="120px" label-position="left" class="mobile">
 
     <div>
         <h3>中西医结合治疗</h3>
@@ -184,8 +184,6 @@ export default {
   name:'CureForm',
   data() {
     return {
-      mydata: {
-      },
       eat_time_choices: ['经前', '经期', '经后'],
       eat_times_choices:['总是服用（每个月经周期）', '经常服用', '偶尔服用'],
       shizheng_cure_choices:['温经散寒，化瘀止痛', '行气活血，化瘀止痛', '清热除湿，化瘀止痛', '清热解郁，化瘀止痛'],
@@ -299,6 +297,10 @@ export default {
         'xi_zs_antong': '安痛定注射液',
       },
       cureForm:{
+        is_together_cure:false,
+        zcy:false,
+        is_zhitong:false,
+        is_biyunyao:false,
         },
       rules:{},
       zhifa_result:"",

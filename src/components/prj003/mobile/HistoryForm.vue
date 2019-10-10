@@ -252,6 +252,10 @@ export default {
       },
       is_family_history:false,
       historyForm:{
+        is_normal:false,
+        has_history:false,
+        is_exercise:false,
+        body_all:false,
       },
       rules:{},
       showqitajibinginput:false
