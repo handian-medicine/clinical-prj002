@@ -70,11 +70,13 @@ export default {
           this.$message({message: '提交成功',type: 'success'})
         }
         this.dialogVisible = false
-        this.$parent.getPatients()
+        //this.$parent.getPatients()
+        this.$parent.searchPatient()
       })
       .catch()
     },
     createresultsForm () {
+      console.log("result form = " + JSON.stringify(this.resultsForm))
       apiCreatePatientDataForm({formData:this.resultsForm,formName:this.formName})
       .then((res)=> {
         this.resetDialog()
@@ -84,7 +86,8 @@ export default {
           this.$message({message: '提交成功',type: 'success'})
         }
         this.dialogVisible = false
-        this.$parent.getPatients()
+        //this.$parent.getPatients()
+        this.$parent.searchPatient()
       })
       .catch()
     },

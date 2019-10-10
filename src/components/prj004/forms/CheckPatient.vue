@@ -7,7 +7,7 @@
 
       <el-form-item label="审核结果">
         <el-radio-group v-model="checkData.check_status">
-          <el-radio label="未审核">未审核</el-radio>
+          <!-- <el-radio label="未审核">未审核</el-radio> -->
           <el-radio label="审核通过">审核通过</el-radio>
           <el-radio label="审核不通过">审核不通过</el-radio>
         </el-radio-group>
@@ -33,7 +33,7 @@ export default {
     name:'CheckPatient',
     data () {
       return {
-        checkData: {check:'', check_status:'未审核', reason_for_check:'填写原因'},
+        checkData: {check:'', check_status:'', reason_for_check:''},
         dialogVisible: false,
       }
 
@@ -44,7 +44,8 @@ export default {
           .then( (res)=> {
             this.$message({message: '提交成功',type: 'success'})
             this.dialogVisible = false
-            this.$parent.getPatients()
+            //this.$parent.getPatients()
+            this.$parent.searchPatient()
             }
           )
           .catch()

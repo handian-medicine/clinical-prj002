@@ -9,8 +9,9 @@
               <el-input v-if="key!='check_status'" v-model="search[key]" :placeholder="searchName[key]"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-select v-model="search.check_status" placeholder="查询审核状态">
-                <el-option value="未审核" label="未审核"></el-option>
+              <el-select v-model="search.check_status" placeholder="查询数据状态">
+                <el-option value="未提交" label="未提交"></el-option>
+                <el-option value="已提交" label="已提交"></el-option>
                 <el-option value="审核通过" label="审核通过"></el-option>
                 <el-option value="审核不通过" label="审核不通过"></el-option>
               </el-select>
@@ -71,10 +72,13 @@
       -->
       <el-table-column prop="check_status" label="数据状态" width="110">
         <template v-slot="scope">
-          <el-tag v-if="scope.row.check_status=='未审核'" type="warn">{{scope.row.check_status}}</el-tag>
+          <el-tag v-if="scope.row.check_status=='未提交'" type="warning"
+                  @click.stop="submitPatient(scope.$index, scope.row)">
+                  {{scope.row.check_status}}</el-tag>
+          <el-tag v-if="scope.row.check_status=='已提交'">{{scope.row.check_status}}</el-tag>
           <el-tag v-if="scope.row.check_status=='审核通过'" type="success">{{scope.row.check_status}}</el-tag>
           <el-tag v-if="scope.row.check_status=='审核不通过'" type="danger"
-                  @click="showReason(scope.$index, scope.row.reason_for_check)">
+                  @click.stop="showReason(scope.$index, scope.row)">
                   {{scope.row.check_status}}</el-tag>
         </template>
       </el-table-column>
@@ -89,7 +93,9 @@
           <el-button type="btn-cure" size="small" @click="openDataForm(scope.$index, scope.row, 'cure')">治疗</el-button>
           <el-button type="btn-results" size="small" @click="openDataForm(scope.$index, scope.row, 'result')">疗效</el-button>
           </el-button-group>
-          <el-button type="danger" size="mini" style="margin-left:8px" v-if="is_admin"
+          <el-button type="danger" size="mini" style="margin-left:8px"
+                    v-show="!((scope.row.check_status=='未提交')||(scope.row.check_status=='审核通过'))"
+                    v-if="is_admin"
                     @click="checkPatient(scope.$index, scope.row)" icon="el-icon-view" circle>
                     </el-button>
           <el-button v-show="scope.row.check_status!='审核通过'" icon="el-icon-delete" circle
@@ -130,19 +136,22 @@
     <AddPatient ref="addPatient" ></AddPatient>
     <!-- 审查dialog -->
     <CheckPatient ref="checkPatient" ></CheckPatient>
+    <!-- 提交dialog -->
+    <SubmitPatient ref="submitPatient" ></SubmitPatient>
 
   </section>
 </template>
 
 <script>
 // axios请求,向express做请求
+import { apiCheckPatient } from '@/api/api-prj004'
 import {apiGetPatientsList, apiRemovePatient, apiSearchPatient, apiGetPatientDataForm, apiExportFile} from '@/api/api-prj004'
 // 批量导入子组件
-import {AddPatient, CheckPatient} from '@/components/prj004/forms'
+import {AddPatient, CheckPatient,SubmitPatient} from '@/components/prj004/forms'
 import {InfoForm,SummaryForm,HistoryForm,RelevantForm,ResultsForm,ClinicalForm,CureForm} from '@/components/prj004/forms'
 export default {
   name:'Table',
-  components:{AddPatient,CheckPatient,InfoForm,SummaryForm,HistoryForm,RelevantForm,ResultsForm,ClinicalForm,CureForm},
+  components:{AddPatient,CheckPatient,SubmitPatient,InfoForm,SummaryForm,HistoryForm,RelevantForm,ResultsForm,ClinicalForm,CureForm},
   data () {
     return {
       expands:[],
@@ -163,7 +172,8 @@ export default {
           {color: '#6f7ad3', percentage: 40},
           {color: '#e6a23c', percentage: 80},
           {color: '#5cb87a', percentage: 100},
-        ]
+        ],
+        submitDialogVisible:false
     }
   },
   methods: {
@@ -179,6 +189,21 @@ export default {
         window.location.href = "http://" + res.data.path
       })
     },
+    // 提交
+    submitPatient (index, row) {
+      const checkData = {
+        check:row.check,// check字段是一个url
+        check_status:row.check_status,
+        reason_for_check:row.reason_for_check
+        }
+      var userinfo = JSON.parse(sessionStorage.getItem('userinfo'))
+      var isOwnedByUser = (userinfo.id == row.owner_id)
+      if (isOwnedByUser) {
+        this.$refs.submitPatient.$emit("submitEvent",checkData)
+      } else {
+        this.$message({message: '该数据不属于您，不能提交该条数据',type: 'error'})
+      }
+    },
     // 审核
     checkPatient (index, row) {
       const checkData = {
@@ -186,14 +211,38 @@ export default {
         check_status:row.check_status,
         reason_for_check:row.reason_for_check
         }
-      this.$refs.checkPatient.$emit("checkEvent",checkData)
+        this.$refs.checkPatient.$emit("checkEvent",checkData)
     },
-    showReason (index, reason) {
-        this.$alert(reason, '审核不通过原因', {
-          confirmButtonText: '确定',
+    showReason (index, row) {
+        this.$confirm(row.reason_for_check, '审核不通过原因', {
+          cancelButtonText: '取消',
+          confirmButtonText: '重新提交',
           type: 'warning',
           center: true,
-          callback: action => {}
+          callback: action => {
+            if (action === 'confirm'){
+              this.$confirm('提交后,除非审核不通过,否则将无法再修改数据！','提示',{
+                  cancelButtonText: '取消',
+                  confirmButtonText: '确定',
+                  type: 'warning',
+                  center: true,
+                  callback: action =>
+                  {
+                    if (action === 'confirm') {
+                      var checkData ={
+                        check:row.check,
+                        check_status:'已提交',
+                        reason_for_check:row.reason_for_check }
+                      apiCheckPatient(checkData)
+                      .then( (res)=> {
+                        this.$message({message: '提交成功',type: 'success'})
+                        this.getPatients()
+                      })
+                    }
+                  }
+              })
+            }
+          }
         });
     },
     // 删除

@@ -58,8 +58,8 @@ export default {
         "cure":this.$refs.cure.$data.cureForm,
         "result":this.$refs.result.$data.resultsForm,
       }
-      console.log("submit mobile prj004")
-      console.log(JSON.stringify(data.info))
+      //console.log("submit mobile prj004")
+      //console.log(JSON.stringify(data.info))
       this.$refs.info.$refs.infoForm.validate( (valid1, fields1) => {
         // 提示第一条错误信息
         //console.log("valid1 = " + valid1)

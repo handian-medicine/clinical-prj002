@@ -83,8 +83,6 @@
 
       <el-form-item label="就诊时全身伴随症状" label-width="100%">
       </el-form-item>
-      <label>说明：若目前处于妊娠状态者请填写1-14题，若无请填写1-13题；有该症状在□内打√，根据情况可多选</label>
-      <p></p>
       <el-form-item :label="sprite.name">
         <el-checkbox v-for="(val, key) in sprite.choises" :key="key" :label="val" v-model="summaryForm[key]">
         </el-checkbox>
@@ -137,10 +135,10 @@
         <el-input v-show="!summaryForm.xiao_zc" v-model="summaryForm.xiao_qita"  placeholder="其他"></el-input>
       </el-form-item>
 
-      <el-form-item label="(14) 阴道流血" >
+      <el-form-item  v-show="is_renchen" label="(14) 阴道流血" >
         <el-switch v-model="summaryForm.yin_xue" active-text="有" inactive-text="无"></el-switch>
       </el-form-item>
-      <el-form-item label="" >
+      <el-form-item  v-show="is_renchen" label="" >
         <el-radio v-show="summaryForm.yin_xue" v-model="summaryForm.has_xue"
                   v-for="item in yinxue"
                   :key="item" :label="item">

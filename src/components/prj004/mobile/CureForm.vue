@@ -62,6 +62,7 @@
 
         <el-form-item label="(3) 中成药">
           <el-radio-group v-model="zhongchengyao_result" @change="changezhongchengyao">
+            <el-radio class="radio" label="无">无</el-radio>
             <el-radio class="radio" label="虚证中成药">虚证中成药</el-radio>
             <el-radio class="radio" label="实证中成药">实证中成药</el-radio>
             <el-radio class="radio" label="虚实夹杂证中成药">虚实夹杂证中成药</el-radio>
@@ -84,9 +85,11 @@
         </el-form-item>
 
         <el-form-item label="(4) 中医其他治疗">
-            <el-checkbox v-for="(val, key) in zhongyi_qita_choises" :key="key" :label="val" v-model="cureForm[key]">
+            <el-checkbox label="无" v-model="cureForm.zhong_qita_wu">
             </el-checkbox>
-            <el-input  v-model="cureForm.zhong_qita_qita" placeholder="其他"></el-input>
+            <el-checkbox v-show="!(cureForm.zhong_qita_wu)" v-for="(val, key) in zhongyi_qita_choises" :key="key" :label="val" v-model="cureForm[key]">
+            </el-checkbox>
+            <el-input v-show="!(cureForm.zhong_qita_wu)"  v-model="cureForm.zhong_qita_qita" placeholder="其他"></el-input>
         </el-form-item>
 
         <h3>西医治疗</h3>
@@ -301,7 +304,28 @@ export default {
     },
 
     changezhongchengyao(value){
-      if(value == "虚证中成药"){
+      if(value == "无"){
+        this.zhongchengyao_xuzheng=false
+        this.zhongchengyao_shizheng=false
+        this.zhongchengyao_xushi=false
+        /*
+        this.cureForm.zcy_xu_qita = null
+        this.cureForm.zcy_shi_qita = null
+        this.cureForm.zcy_xushi_qita = null
+        for (var x in this.zcy_xu_choises)
+        {
+          this.cureForm[x] = false
+        }
+        for (var x in this.zcy_shi_choises)
+        {
+          this.cureForm[x] = false
+        }
+        for (var x in this.zcy_xushi_choises)
+        {
+          this.cureForm[x] = false
+        }
+        */
+      }else if(value == "虚证中成药"){
         this.zhongchengyao_xuzheng=true
         this.zhongchengyao_shizheng=false
         this.zhongchengyao_xushi=false
