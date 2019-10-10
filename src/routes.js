@@ -88,25 +88,25 @@ export default new Router({
         { path: '/prj001/table',
           name: '数据列表',
           component: () => import('@/components/prj001/pages/Table.vue'),
-          iconCls: 'fa fa-address-card',
+          iconCls: 'fa fa-home fa-lg',
           leaf: false
         },
         { path: '/prj001/QRcode',
           name: '移动端录入',
           component: () => import('@/components/prj001/pages/QRcode.vue'),
-          iconCls: 'fa fa-qrcode',
+          iconCls: 'fa fa-qrcode fa-lg',
           leaf: false
         },
         { path: '/prj001/echarts',
           name: '数据分析',
           component: () => import('@/components/prj001/pages/Echarts.vue'),
-          iconCls: 'fa fa-bar-chart',
+          iconCls: 'fa fa-bar-chart fa-lg',
           leaf: false
         },
         { path: '/prj001/about',
           name: '关于',
           component: () => import('@/components/prj001/pages/About.vue'),
-          iconCls: 'fa fa-id-card-o',
+          iconCls: 'fa fa-tag fa-lg',
           leaf: false
         }
       ]
@@ -121,25 +121,25 @@ export default new Router({
         { path: '/prj002/table',
           name: '数据列表',
           component: () => import('@/components/prj002/pages/Table.vue'),
-          iconCls: 'fa fa-address-card',
+          iconCls: 'fa fa-home fa-lg',
           leaf: false
         },
         { path: '/prj002/QRcode',
           name: '移动端录入',
           component: () => import('@/components/prj002/pages/QRcode.vue'),
-          iconCls: 'fa fa-qrcode',
+          iconCls: 'fa fa-qrcode fa-lg',
           leaf: false
         },
         { path: '/prj002/echarts',
           name: '数据分析',
           component: () => import('@/components/prj002/pages/Echarts.vue'),
-          iconCls: 'fa fa-bar-chart',
+          iconCls: 'fa fa-bar-chart fa-lg',
           leaf: false
         },
         { path: '/prj002/about',
           name: '纳入标准与排除标准',
           component: () => import('@/components/prj002/pages/About.vue'),
-          iconCls: 'fa fa-bar-chart',
+          iconCls: 'fa fa-tag fa-lg',
           leaf: false
         }
 
@@ -155,19 +155,19 @@ export default new Router({
         { path: '/prj003/table',
           name: '数据列表',
           component: () => import('@/components/prj003/pages/Table.vue'),
-          iconCls: 'fa fa-address-card',
+          iconCls: 'fa fa-home fa-lg',
           leaf: false
         },
         { path: '/prj003/QRcode',
           name: '移动端录入',
           component: () => import('@/components/prj003/pages/QRcode.vue'),
-          iconCls: 'fa fa-qrcode',
+          iconCls: 'fa fa-qrcode fa-lg',
           leaf: false
         },
         { path: '/prj003/echarts',
           name: '数据分析',
           component: () => import('@/components/prj003/pages/Echarts.vue'),
-          iconCls: 'fa fa-bar-chart',
+          iconCls: 'fa fa-bar-chart fa-lg',
           leaf: false
         }
       ]
@@ -182,19 +182,19 @@ export default new Router({
         { path: '/prj004/table',
           name: '数据列表',
           component: () => import('@/components/prj004/pages/Table.vue'),
-          iconCls: 'fa fa-address-card',
+          iconCls: 'fa fa-home fa-lg',
           leaf: false
         },
         { path: '/prj004/QRcode',
           name: '移动端录入',
           component: () => import('@/components/prj004/pages/QRcode.vue'),
-          iconCls: 'fa fa-qrcode',
+          iconCls: 'fa fa-qrcode fa-lg',
           leaf: false
         },
         { path: '/prj004/echarts',
           name: '数据分析',
           component: () => import('@/components/prj004/pages/Echarts.vue'),
-          iconCls: 'fa fa-bar-chart',
+          iconCls: 'fa fa-bar-chart fa-lg',
           leaf: false
         }
       ]
