@@ -50,7 +50,6 @@
                     v-for="item in renzhichengdu"
                     :key="item" :label="item">
           </el-radio>
-          <el-input v-model="historyForm.first_time_qita"></el-input>
         <h5>(5)对本病的认知来源</h5>
           <el-checkbox v-for="(val, key) in renzhilaiyuan" :key="key"
                       v-model="historyForm[key]" :label="val">
