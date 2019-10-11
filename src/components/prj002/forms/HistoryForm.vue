@@ -30,7 +30,7 @@
             <el-checkbox v-for="(val, key) in shengzhi" :key="key"
                         v-model="historyForm[key]" :label="val">
             </el-checkbox>
-            <el-input v-model="historyForm.shengzhi_zi_juti" v-if="historyForm.shengzhi_zi" placeholder="自然流产-具体孕周"></el-input>
+            <el-input v-model="historyForm.shengzhi_zi_juti" v-if="historyForm.shengzhi_zi" type="number" min="0" placeholder="自然流产-具体孕周"></el-input>
             <div class="history-input" v-if="historyForm.shengzhi_ti">
               胚胎移植
               <el-input v-model="historyForm.shengzhi_ti_pei" style="width:50px;"></el-input>
@@ -67,7 +67,6 @@
                     v-for="item in renzhichengdu"
                     :key="item" :label="item">
           </el-radio>
-          <el-input v-model="historyForm.first_time_qita"></el-input>
         <h5>(5)对本病的认知来源</h5>
           <el-checkbox v-for="(val, key) in renzhilaiyuan" :key="key"
                       v-model="historyForm[key]" :label="val">

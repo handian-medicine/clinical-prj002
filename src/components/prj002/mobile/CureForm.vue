@@ -19,7 +19,21 @@
           <el-checkbox v-model="cureForm.cure_zhong" label="中医治疗"></el-checkbox>
           <el-checkbox v-model="cureForm.cure_xi" label="西医治疗"></el-checkbox>
           <el-checkbox v-model="cureForm.cure_jiehe" label="中西医结合治疗"></el-checkbox>
-      <h4>3.中医治疗</h4>
+
+      <h4>3.（单纯中医治疗者请填写）已就诊时间是否≥3个月
+        <el-switch v-model="cureForm.is_cure_zhong_time" active-text="有" inactive-text="无"></el-switch>
+      </h4>
+        <div v-show="cureForm.is_cure_zhong_time">
+          <p>已就诊时间：<el-input v-model="cureForm.cure_zhong_time" style="width:60px;" type="number" min=0></el-input>月</p>
+          <p>自主排卵月经次数：<el-input v-model="cureForm.cure_zhong_pailuan" style="width:70px;" type="number" min=0></el-input>次</p>
+          自主排卵月经诊断依据：
+            <el-checkbox v-model="cureForm.cure_zhong_pailuan_bxray" label="B超"></el-checkbox>
+            <el-checkbox v-model="cureForm.cure_zhong_pailuan_yuntong" label="孕酮"></el-checkbox>
+            <el-checkbox v-model="cureForm.cure_zhong_pailuan_tiwen" label="基础体温"></el-checkbox>
+            <el-input v-model="cureForm.cure_zhong_time_qita" placeholder="其他"></el-input>
+        </div>
+
+      <h4>4.中医治疗</h4>
         <h5>（1）治法:</h5>
           <p>①虚证:</p>
           <el-checkbox v-for="(val, key) in zhong_xu" :key="key"
@@ -53,7 +67,7 @@
             <p>②针刺手法:</p>
               <el-input v-model="cureForm.zhenci_shoufa" type="textarea" :rows="2"></el-input>
           </div>
-      <h4>4.西医治疗</h4>
+      <h4>5.西医治疗</h4>
         <h5>（1）调整月经周期治疗: <el-switch v-model="cureForm.xi_yuejing" active-text="有" inactive-text="无"></el-switch></h5>
           <div v-show="cureForm.xi_yuejing">
             <p>避孕药类</p>
@@ -98,10 +112,11 @@
             <el-input v-model="cureForm.shengyu_qita" placeholder="其他"></el-input>
           </div>
 
-      <h4>5.是否接受心理治疗: <el-switch v-model="cureForm.xi_xinli" active-text="有" inactive-text="无"></el-switch></h4>
+      <h4>6.是否接受心理治疗: <el-switch v-model="cureForm.xi_xinli" active-text="有" inactive-text="无"></el-switch></h4>
 
-      <h4>6.其他治疗: <el-switch v-model="cureForm.xi_other" active-text="有" inactive-text="无"></el-switch></h4>
+      <h4>7.其他治疗: <el-switch v-model="cureForm.xi_other" active-text="有" inactive-text="无"></el-switch></h4>
           <el-input v-model="cureForm.xi_other_qita" placeholder="其他"></el-input>
+
 
     </el-form>
 

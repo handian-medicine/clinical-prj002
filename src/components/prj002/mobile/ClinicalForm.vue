@@ -36,20 +36,16 @@ export default {
   data() {
     return {
       mydata: {
-        zhongyi:{"zhong_bijing":"闭经", "zhong_buyun":"不孕", "zhong_zhengjia":"癥瘕", "zhong_benglou":"崩漏", "zhong_shitiao":"月经失调"},
-        xuzheng:{"xu_piqixu":"脾气虚证", "xu_pishenyangxu":"脾肾阳虚证", "xu_piyangxu":"脾阳虚证", "xu_shenqixu":"肾气虚证",
-                "xu_shenyinxu":"肾阴虚证", "xu_shenyangxu":"肾阳虚证", "xu_xuexu":"血虚证", "xu_yinxuneire":"阴虚内热证"},
-        shizheng:{"shi_shire":"肝经湿热证", "shi_qizhi":"肝郁气滞证", "shi_yure":"肝经郁热证", "shi_qizhixueyu":"气滞血瘀证",
-                  "shi_tanshi":"痰湿证", "shi_xueyu":"血瘀证", "shi_hujie":"痰瘀互结证"},
-        xushi:{"xushi_pixutanshi":"脾虚痰湿证", "xushi_shenxuganyu":"肾虚肝郁证", "xushi_shenxutanshi":"肾虛痰湿证", "xushi_shenxuxueyu":"肾虚血瘀证", "xushi_shenxuneire":"肾虚内热证"}
+        zhongyi:{"zhong_bi":"闭经", "zhong_bu":"不孕", "zhong_xia":"癥瘕", "zhong_beng":"崩漏", "zhong_yue":"月经失调"},
+        xuzheng:{"bian_xu_piqi":"脾气虚证", "bian_xu_pishen":"脾肾阳虚证", "bian_xu_piyang":"脾阳虚证", "bian_xu_shenqi":"肾气虚证",
+                "bian_xu_shenyin":"肾阴虚证", "bian_xu_shenyang":"肾阳虚证", "bian_xu_xue":"血虚证", "bian_xu_yin":"阴虚内热证"},
+        shizheng:{"bian_shi_shire":"肝经湿热证", "bian_shi_qizhi":"肝郁气滞证", "bian_shi_yure":"肝经郁热证", "bian_shi_xueyu":"气滞血瘀证",
+                  "bian_shi_tanshi":"痰湿证", "bian_shi_hujie":"痰瘀互结证"},
+        xushi:{"bian_xushi_pixu":"脾虚痰湿证", "bian_xushi_ganyu":"肾虚肝郁证", "bian_xushi_tanshi":"肾虛痰湿证",
+                "bian_xushi_xueyu":"肾虚血瘀证", "bian_xushi_neire":"肾虚内热证","bian_xushi_shenyin":"	肾（阴）虚湿热夹瘀证",
+                "bian_xushi_shenqi":"肾（气）虚湿热夹瘀证"}
       },
-      clinicalForm: {
-        "zhong_bijing":'', "zhong_buyun":'', "zhong_zhengjia":'', "zhong_benglou":'', "zhong_shitiao":'', "zhong_qita":'',
-        "xu_piqixu":'', "xu_piyangxu":'', "xu_shenqixu":'', "xu_shenyinxu":'', "xu_shenyangxu":'', "xu_xuexu":'', "xu_yinxuneire":'', "xu_qita":'',
-        "shi_shire":'', "shi_qizhi":'', "shi_yure":'', "shi_qizhixueyu":'', "shi_tanshi":'', "shi_xueyu":'', "shi_hujie":'', "shi_qita":'',
-        "xushi_pixutanshi":'', "xushi_shenxuganyu":'', "xushi_shenxutanshi":'', "xushi_shenxuxueyu":'', "xushi_shenxuneire":'', "xushi_qita":'',
-        "xiyi_duonang":'', "xiyi_qita":'',
-      },
+      clinicalForm: {},
       dialogVisible: false,
       exist: true,
       formName:'',
