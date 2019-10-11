@@ -205,6 +205,7 @@ export default {
           patient_birth:  [{required: true, message: '一般信息: 请填写出生年月'}],
           career:  [{required: true, message: '一般信息: 请填写职业'}],
           owner:  [{required: true, message: '一般信息: 请填写辅助医生信息'}],
+          expert_email:[{ type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }]
         },
       area_options:[],
       hospital_options:[],
