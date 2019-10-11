@@ -137,7 +137,6 @@ export default {
                     name:chartData.bar[2].name.slice(0,10),
                     type:'bar',
                     stack: 'hospital',
-                    //设置柱的宽度，要是数据太少，柱子太宽不美观~
                     barWidth:20,
                     data:chartData.bar[2].data.slice(0,10)
                 },
