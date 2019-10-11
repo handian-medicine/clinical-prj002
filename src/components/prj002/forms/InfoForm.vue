@@ -3,7 +3,7 @@
             :visible.sync="dialogVisible"
             :close-on-click-modal="false"
             width="90%" center>
-    <el-form ref="infoForm" :model="infoForm" label-width="90px" label-position="right">
+    <el-form ref="infoForm" :model="infoForm" label-width="100px" label-position="right">
       <el-alert v-if="check_status=='审核通过'" effect="dark"
                   title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
                   type="warning" :closable="false" show-icon>
@@ -94,10 +94,13 @@
         </el-tag>
       </el-form-item>
 
-      <el-form-item label="血压">
-        <el-input placeholder="舒张压" v-model="infoForm.blood_pressure_diastolic" type="number" min=0 class="input-embedding">
-          <el-input v-model="infoForm.blood_pressure_systolic" slot="prepend" type="number" min=0 placeholder="收缩压">
-          </el-input>
+      <el-form-item label="血压-收缩压">
+        <el-input placeholder="收缩压" v-model="infoForm.blood_pressure_systolic" type="number" min=0>
+        </el-input>
+        <template slot="append">mm Hg</template>
+      </el-form-item>
+      <el-form-item label="血压-舒张压">
+        <el-input placeholder="舒张压" v-model="infoForm.blood_pressure_diastolic" type="number" min=0>
           <template slot="append">mm Hg</template>
         </el-input>
       </el-form-item>

@@ -56,7 +56,7 @@ export default {
       // 汇总所有信息表
       const data = {
         "info":this.$refs.info.$data.infoForm,
-        "standard":this.$refs.standard.$data.standardForm,
+        "standard":this.$refs.standard.$data.form,
         "summary":this.$refs.summary.$data.summaryForm,
         "disease":this.$refs.disease.$data.diseaseForm,
         "history":this.$refs.history.$data.historyForm,

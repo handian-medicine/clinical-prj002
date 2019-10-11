@@ -23,7 +23,7 @@
         </el-form-item>
 
       <el-form-item label="3、西医诊断">
-        <el-checkbox label="多囊卵巢综合征" v-model="clinicalForm.xiyi_duonang"></el-checkbox>
+        <el-checkbox label="多囊卵巢综合征" v-model="clinicalForm.xi_duo"></el-checkbox>
         <el-input v-model="clinicalForm.xi_qita" placeholder="其他" ></el-input>
       </el-form-item>
 

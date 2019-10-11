@@ -131,13 +131,18 @@
         </el-tag>
       </el-form-item>
 
-      <el-form-item label="血压">
-        <el-input placeholder="舒张压" v-model="infoForm.blood_pressure_diastolic" type="number" min=0 class="input-embedding">
-          <el-input v-model="infoForm.blood_pressure_systolic" slot="prepend" type="number" min=0 placeholder="收缩压">
-          </el-input>
+
+      <el-form-item label="血压-收缩压">
+        <el-input placeholder="收缩压" v-model="infoForm.blood_pressure_systolic" type="number" min=0>
           <template slot="append">mm Hg</template>
         </el-input>
       </el-form-item>
+      <el-form-item label="血压-舒张压">
+        <el-input placeholder="舒张压" v-model="infoForm.blood_pressure_diastolic" type="number" min=0>
+          <template slot="append">mm Hg</template>
+        </el-input>
+      </el-form-item>
+
       <el-form-item label="脉搏">
         <el-input v-model="infoForm.pulse" type="number" min="0">
           <template slot="append">次/分</template>
