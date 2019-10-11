@@ -126,7 +126,7 @@
         <el-input v-model="infoForm.expert_phone"></el-input>
       </el-form-item>
 
-      <el-form-item label="填表专家邮箱">
+      <el-form-item label="填表专家邮箱" prop="expert_email">
         <el-input v-model="infoForm.expert_email"></el-input>
       </el-form-item>
 
@@ -178,6 +178,9 @@ export default {
           patient_date:   [{required: true, message: '请填写就诊日期'}],
           expert_phone: [
             {pattern: /^1\d{10}$/, message: '请输入11位手机号码',trigger: 'blur'}
+          ],
+          expert_email: [
+            {type: 'email', message: '请输入正确的邮箱地址',trigger: ['blur','change']}
           ],
         },
       exist: true,
