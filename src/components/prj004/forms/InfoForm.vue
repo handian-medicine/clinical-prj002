@@ -103,7 +103,6 @@
                   :key="item" :label="item"
                   v-model="infoForm.entrance">
         </el-radio>
-        <el-input v-model="infoForm.entrance_qita" placeholder="其他"></el-input>
       </el-form-item>
 
       <el-form-item label="文化程度">
@@ -168,7 +167,7 @@ export default {
                         "毛难族","仡佬族","锡伯族","阿昌族","普米族","塔吉克族","怒族","乌孜别克族","俄罗斯族","鄂温克族",
                         "崩龙族","保安族","裕固族","京族","塔塔尔族","独龙族","鄂伦春族","赫哲族","门巴族","珞巴族","基诺族","其它"],
       careerSelection: ["学生(大学生/研究生)","个体","农民","军人","工人","财会人员","技术人员","服务业","科教文卫","行政管理","无业","其它"],
-      entranceSelection: ["门诊","学校"],
+      entranceSelection: ["门诊","病房"],
       cultureSelection:["未接受国家教育(文盲)","小学及以下","初中","高中/中专","大专","本科","研究生及以上"],
       experttitleSelection:["主任医师","副主任医师","主治医师"],
       specialCheckbox: {"environment_gaowen":"高温","environment_diwen":"低温","environment_yeban":"夜班/熬夜","environment_zaosheng":"噪声","environment_fushe":"辐射","environment_huagong":"化工印染","environment_julie":"剧烈运动","environment_qiyou":"汽油","environment_gaokong":"高空"},
