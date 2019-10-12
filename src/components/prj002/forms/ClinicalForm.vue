@@ -24,7 +24,7 @@
           <el-input v-model="clinicalForm.zhong_qita" placeholder="其他"></el-input>
       </el-form-item>
 
-      <h4 style="color:cornflowerblue">2、辩证分型</h4>
+      <h4 style="color:cornflowerblue">2、辨证分型</h4>
         <el-form-item label="虚证">
           <el-checkbox v-for="(val, key) in mydata.xuzheng" :key="key" :label="val" v-model="clinicalForm[key]"></el-checkbox>
           <el-input v-model="clinicalForm.bian_xu_qita" placeholder="其他" ></el-input>
