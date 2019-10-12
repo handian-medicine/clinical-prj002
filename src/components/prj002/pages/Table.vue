@@ -278,7 +278,13 @@ export default {
         this.patientsList = res.data.searchResults
         this.totalNum = res.data.searchResultsNum
         this.listLoading = false
-      })
+      }).catch( (error)=> {
+        if (error.response.status == 500) {
+          this.$message({message: '登录信息已过期，请重新登录',type: 'success',showClose:true})
+          this.$router.push({ path: '/login' })
+        }
+          console.log("错误3",error.response.status)
+      } )
     },
     handleListPagination (currentPage) {
       console.log('分页',currentPage)

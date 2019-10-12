@@ -110,7 +110,7 @@ export default {
         zuo_xingtai: '',
         zuo_paoshu: '',
         you_chang: '', you_kuan: '', you_qianhou: '', you_tiji: '',
-        you_nangzhong: '', you_daxiaochang: '', you_daxiaokuan: '',
+        you_nangzhong: false, you_daxiaochang: '', you_daxiaokuan: '',
         you_xingtai: '',
         you_paoshu: '',
         },

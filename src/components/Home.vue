@@ -66,8 +66,13 @@ export default {
             apiPrj(params)
             .then( (res) => {
                 this.$router.push(`${row.linkurl}table`)
-            })
-            .catch()
+            }).catch( (error)=> {
+                if (error.response.status == 500) {
+                  this.$message({message: '登录信息已过期，请重新登录',type: 'success',showClose:true})
+                  this.$router.push({ path: '/login' })
+                }
+                console.log("错误3",error.response.status)
+            } )
 
         }
     },
