@@ -5,32 +5,26 @@
       中医妇科临床流调数据中心
     </h1>
   <el-tabs type="border-card">
-    <el-tab-pane label="一般情况">
+    <el-tab-pane label="一般信息">
       <InfoForm ref="info"></InfoForm>
-    </el-tab-pane>
-    <el-tab-pane label="诊断标准">
-      <StandardForm ref="standard"></StandardForm>
     </el-tab-pane>
     <el-tab-pane label="病情概要">
       <SummaryForm ref="summary"></SummaryForm>
     </el-tab-pane>
-    <el-tab-pane label="专病情况">
-      <DiseaseForm ref="disease"></DiseaseForm>
-    </el-tab-pane>
-    <el-tab-pane label="专科病史">
+    <el-tab-pane label="患者病史">
       <HistoryForm ref="history"></HistoryForm>
     </el-tab-pane>
-    <el-tab-pane label="实验室检查">
-      <ExperimentForm ref="experiment"></ExperimentForm>
-    </el-tab-pane>
-    <el-tab-pane label="B超">
-      <BxrayForm ref="bxray"></BxrayForm>
+    <el-tab-pane label="相关检查">
+      <RelevantForm ref="relevant"></RelevantForm>
     </el-tab-pane>
     <el-tab-pane label="临床诊断">
       <ClinicalForm ref="clinical"></ClinicalForm>
     </el-tab-pane>
-    <el-tab-pane label="疗效">
+    <el-tab-pane label="中西治疗">
       <CureForm ref="cure"></CureForm>
+    </el-tab-pane>
+    <el-tab-pane label="疗效">
+      <ResultsForm ref="results"></ResultsForm>
     </el-tab-pane>
     <el-tab-pane label="提交">
       <span>

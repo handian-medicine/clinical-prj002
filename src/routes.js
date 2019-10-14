@@ -74,6 +74,11 @@ export default new Router({
           path: '/mobile/prj004',
           name: 'Prj004手机端',
           component: () => import('@/components/prj004/mobile/MobilePrj004.vue'),
+        },
+        {
+          path: '/mobile/prj005',
+          name: 'Prj005手机端',
+          component: () => import('@/components/prj005/mobile/MobilePrj005.vue'),
         }
       ]
     },
@@ -197,6 +202,40 @@ export default new Router({
           iconCls: 'fa fa-bar-chart fa-lg',
           leaf: false
         }
+      ]
+    },
+    {
+      path: '/prj005',
+      component: () => import('@/components/prj005/Prj005.vue'),
+      name: '盆腔炎性疾病及其后遗症',
+      iconCls: 'fa fa-address-card',  //用户自定义属性
+      leaf: false, //用户自定义属性,用来确定某条菜单是否还有下级菜单
+      children: [
+        { path: '/prj005/table',
+          name: '数据列表',
+          component: () => import('@/components/prj005/pages/Table.vue'),
+          iconCls: 'fa fa-home fa-lg',
+          leaf: false
+        },
+        { path: '/prj005/QRcode',
+          name: '移动端录入',
+          component: () => import('@/components/prj005/pages/QRcode.vue'),
+          iconCls: 'fa fa-qrcode fa-lg',
+          leaf: false
+        },
+        { path: '/prj005/echarts',
+          name: '数据分析',
+          component: () => import('@/components/prj005/pages/Echarts.vue'),
+          iconCls: 'fa fa-bar-chart fa-lg',
+          leaf: false
+        },
+        { path: '/prj005/about',
+          name: '关于',
+          component: () => import('@/components/prj005/pages/About.vue'),
+          iconCls: 'fa fa-tag fa-lg',
+          leaf: false
+        }
+
       ]
     },
     /* ***** */

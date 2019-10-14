@@ -124,24 +124,20 @@
       </el-pagination>
     </el-col>
 
-    <!-- 一般情况dialog -->
+    <!-- 基本信息 dialog -->
     <InfoForm ref="info"></InfoForm>
-    <!-- 诊断标准dialog -->
-    <StandardForm ref="standard"></StandardForm>
-    <!-- 病情概要dialog -->
+    <!-- 病情概要 dialog -->
     <SummaryForm ref="summary"></SummaryForm>
-    <!-- 专病情况dialog -->
-    <DiseaseForm ref="disease"></DiseaseForm>
-    <!-- 病史dialog -->
+    <!-- 患者病史 dialog -->
     <HistoryForm ref="history"></HistoryForm>
-    <!-- 实验室检查dialog -->
-    <ExperimentForm ref="experiment"></ExperimentForm>
-    <!-- B超dialog -->
-    <BxrayForm ref="bxray"></BxrayForm>
+    <!-- 相关检查 dialog -->
+    <RelevantForm ref="relevant"></RelevantForm>
     <!-- 临床诊断dialog -->
     <ClinicalForm ref="clinical"></ClinicalForm>
-    <!-- 治疗情况dialog -->
+    <!-- 中西治疗 dialog -->
     <CureForm ref="cure"></CureForm>
+    <!-- 疗效 dialog -->
+    <ResultsForm ref="results"></ResultsForm>
 
     <!-- 新增信息dialog -->
     <AddPatient ref="addPatient" ></AddPatient>
@@ -235,27 +231,34 @@ export default {
           center: true,
           callback: action => {
             if (action === 'confirm'){
-              this.$confirm('提交后,除非审核不通过,否则将无法再修改数据！','提示',{
-                  cancelButtonText: '取消',
-                  confirmButtonText: '确定',
-                  type: 'warning',
-                  center: true,
-                  callback: action =>
-                  {
-                    if (action === 'confirm') {
-                      var checkData ={
-                        check:row.check,
-                        check_status:'已提交',
-                        reason_for_check:row.reason_for_check }
-                      apiCheckPatient(checkData)
-                      .then( (res)=> {
-                        this.$message({message: '提交成功',type: 'success'})
-                        this.getPatients()
-                      })
+              var userinfo = JSON.parse(sessionStorage.getItem('userinfo'))
+              var isOwnedByUser = (userinfo.id == row.owner_id)
+              if (isOwnedByUser) {
+                  this.$confirm('提交后,除非审核不通过,否则将无法再修改数据！','提示',{
+                    cancelButtonText: '取消',
+                    confirmButtonText: '确定',
+                    type: 'warning',
+                    center: true,
+                    callback: action =>
+                    {
+                      if (action === 'confirm') {
+                        var checkData ={
+                          check:row.check,
+                          check_status:'已提交',
+                          reason_for_check:row.reason_for_check }
+                        apiCheckPatient(checkData)
+                        .then( (res)=> {
+                          this.$message({message: '提交成功',type: 'success'})
+                          this.getPatients()
+                        })
+                      }
                     }
-                  }
-              })
-            }
+                  })
+              } else {
+                this.$message({message: '该数据不属于您，不能提交该条数据',type: 'error'})
+              }
+
+            }//if (action === 'confirm')
           }
         });
     },
@@ -271,7 +274,13 @@ export default {
         this.patientsList = res.data.searchResults
         this.totalNum = res.data.searchResultsNum
         this.listLoading = false
-      })
+      }).catch( (error)=> {
+        if (error.response.status == 500) {
+          this.$message({message: '登录信息已过期，请重新登录',type: 'success',showClose:true})
+          this.$router.push({ path: '/login' })
+        }
+          console.log("错误3",error.response.status)
+      } )
     },
     handleListPagination (currentPage) {
       console.log('分页',currentPage)

@@ -57,11 +57,11 @@ export default {
       const data = {
         "info":this.$refs.info.$data.infoForm,
         "summary":this.$refs.summary.$data.summaryForm,
-        "summary":this.$refs.history.$data.historyForm,
-        "summary":this.$refs.relevant.$data.relevantForm,
-        "summary":this.$refs.cc.$data.ccForm,
-        "summary":this.$refs.cure.$data.cureForm,
-        "summary":this.$refs.results.$data.resultsForm,
+        "history":this.$refs.history.$data.historyForm,
+        "relevant":this.$refs.relevant.$data.relevantForm,
+        "cc":this.$refs.cc.$data.ccForm,
+        "cure":this.$refs.cure.$data.cureForm,
+        "results":this.$refs.results.$data.resultsForm,
       }
       this.$refs.info.$refs.infoForm.validate( (valid1, fields1) => {
         // 提示第一条错误信息
