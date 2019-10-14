@@ -10,7 +10,7 @@
           </li>
       </ul>
       <div >
-          <img src="@/assets/QRcode002.png" style="width: 195px;height: 195px;" alt="">
+          <img src="@/assets/QRcode005.png" style="width: 195px;height: 195px;" alt="">
       </div>
   </div>
 </template>

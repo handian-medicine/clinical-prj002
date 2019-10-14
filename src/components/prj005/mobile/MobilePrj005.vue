@@ -36,12 +36,12 @@
 </template>
 
 <script>
-import {InfoForm,StandardForm,SummaryForm,DiseaseForm,HistoryForm,ExperimentForm,BxrayForm,ClinicalForm,CureForm} from '@/components/prj002/mobile'
-import { apiMobileForm,apiMobileLogin } from '@/api/api-prj002'
+import {InfoForm,SummaryForm,HistoryForm,RelevantForm,ClinicalForm,CureForm,ResultsForm} from '@/components/prj005/mobile'
+import { apiMobileForm,apiMobileLogin } from '@/api/api-prj005'
 
 export default {
-  name:'MobilePrj002',
-  components:{InfoForm,StandardForm,SummaryForm,DiseaseForm,HistoryForm,ExperimentForm,BxrayForm,ClinicalForm,CureForm},
+  name:'MobilePrj005',
+  components:{InfoForm,SummaryForm,HistoryForm,RelevantForm,ClinicalForm,CureForm,ResultsForm},
   computed: {
 
   },
@@ -50,14 +50,12 @@ export default {
       // 汇总所有信息表
       const data = {
         "info":this.$refs.info.$data.infoForm,
-        "standard":this.$refs.standard.$data.standardForm,
         "summary":this.$refs.summary.$data.summaryForm,
-        "disease":this.$refs.disease.$data.diseaseForm,
         "history":this.$refs.history.$data.historyForm,
-        "experiment":this.$refs.experiment.$data.experimentForm,
-        "bxray":this.$refs.bxray.$data.bxrayForm,
-        "clinical":this.$refs.clinical.$data.clinicalForm,
+        "relevant":this.$refs.relevant.$data.relevantForm,
+        "clinical":this.$refs.cc.$data.clinicalForm,
         "cure":this.$refs.cure.$data.cureForm,
+        "results":this.$refs.results.$data.resultsForm,
       }
       console.log("看一下",data)
       this.$refs.info.$refs.infoForm.validate( (valid1, fields1) => {

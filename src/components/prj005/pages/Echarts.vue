@@ -22,7 +22,7 @@
 
 <script>
 import echarts from 'echarts';
-import {apiECharts} from '@/api/api-prj002';
+import {apiECharts} from '@/api/api-prj005';
 export default {
   data () {
     return {
@@ -46,7 +46,7 @@ export default {
         this.chartPie.setOption({
           title: {
             text: '流调数据状态占比',
-            subtext: '排卵障碍性异常子宫出血',
+            subtext: '盆腔炎性疾病及其后遗症临床流行病学',
             x: 'center'
           },
           tooltip: {
@@ -82,7 +82,7 @@ export default {
         this.chartBar.setOption({
             title : {
                 text: '流调数据提交医院排名',
-                subtext: '排卵障碍性异常子宫出血',
+                subtext: '盆腔炎性疾病及其后遗症临床流行病学',
                 x:'center'
             },
             tooltip : {

@@ -91,14 +91,12 @@
         <template v-slot="scope">
           <el-button-group>
           <el-button type="btn-info" size="small" @click="openDataForm(scope.$index, scope.row, 'info')">一般情况</el-button>
-          <el-button type="btn-standard" size="small" @click="openDataForm(scope.$index, scope.row, 'standard')">诊断标准</el-button>
           <el-button type="btn-summary" size="small" @click="openDataForm(scope.$index, scope.row, 'summary')">病情概要</el-button>
-          <el-button type="btn-disease" size="small" @click="openDataForm(scope.$index, scope.row, 'disease')">专病情况</el-button>
-          <el-button type="btn-history" size="small" @click="openDataForm(scope.$index, scope.row, 'history')">专科病史</el-button>
-          <el-button type="btn-experiment" size="small" @click="openDataForm(scope.$index, scope.row, 'experiment')">实验室检查</el-button>
-          <el-button type="btn-bxray" size="small" @click="openDataForm(scope.$index, scope.row, 'bxray')">B超</el-button>
+          <el-button type="btn-history"    size="small" @click="openDataForm(scope.$index, scope.row, 'history')">专科病史</el-button>
+          <el-button type="btn-relevant" size="small" @click="openDataForm(scope.$index, scope.row, 'relevant')">相关检查</el-button>
           <el-button type="btn-clinical" size="small" @click="openDataForm(scope.$index, scope.row, 'clinical')">临床诊断</el-button>
           <el-button type="btn-cure" size="small" @click="openDataForm(scope.$index, scope.row, 'cure')">治疗</el-button>
+          <el-button type="btn-results" size="small" @click="openDataForm(scope.$index, scope.row, 'results')">疗效</el-button>
           </el-button-group>
           <el-button type="danger" size="mini" style="margin-left:8px"
                     v-show="!(scope.row.check_status ==='审核通过' || scope.row.check_status ==='未提交')"
@@ -151,16 +149,17 @@
 
 <script>
 // import util from '@/common/js/util'
-import { apiCheckPatient } from '@/api/api-prj002'
+import { apiCheckPatient } from '@/api/api-prj005'
 // axios请求,向express做请求
-import {apiGetPatientsList, apiSearchPatient, apiGetPatientDataForm, apiExportFile,apiRemovePatient} from '@/api/api-prj002'
+import {apiGetPatientsList, apiSearchPatient, apiGetPatientDataForm, apiExportFile,apiRemovePatient} from '@/api/api-prj005'
 // 批量导入子组件
-import {AddPatient, CheckPatient, SubmitPatient} from '@/components/prj002/forms'
-import {StandardForm,InfoForm,SummaryForm,DiseaseForm,HistoryForm,ExperimentForm,BxrayForm,ClinicalForm,CureForm} from '@/components/prj002/forms'
-import { userInfo } from 'os';
+import {AddPatient, CheckPatient, SubmitPatient} from '@/components/prj005/forms'
+import {InfoForm,SummaryForm,HistoryForm,RelevantForm,ResultsForm,ClinicalForm,CureForm} from '@/components/prj005/forms'
+
 export default {
   name:'Table',
-  components:{AddPatient,CheckPatient,SubmitPatient, StandardForm,InfoForm,SummaryForm,DiseaseForm,HistoryForm,ExperimentForm,BxrayForm,ClinicalForm,CureForm},
+  components:{AddPatient,CheckPatient,SubmitPatient,InfoForm,SummaryForm,
+              HistoryForm,RelevantForm,ResultsForm,ClinicalForm,CureForm},
   data () {
     return {
       expands:[],
@@ -407,7 +406,7 @@ export default {
   background:#fcbad3;
   border:1px solid #fcbad3
 }
-.el-button--btn-experiment {
+.el-button--btn-relevant {
   background:#ffffd2;
   border:1px solid #ffffd2
 }
@@ -423,11 +422,15 @@ export default {
   background:#d7d1c9;
   border:1px solid #d7d1c9
 }
+.el-button--btn-results {
+  background:#d5a4cf;
+  border:1px solid #d5a4cf
+}
 .el-button--myinfo {
 background:red;
 border:1px solid red;
 }
-.el-tag {
+.el-tag.el-tag--danger {
   cursor: pointer;
 }
 </style>

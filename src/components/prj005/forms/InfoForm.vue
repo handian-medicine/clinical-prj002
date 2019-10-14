@@ -137,7 +137,7 @@
   </el-dialog>
 </template>
 <script>
-import { apiUpdatePatientDataForm } from '@/api/api-prj002'
+import { apiUpdatePatientDataForm } from '@/api/api-prj005'
 export default {
   name: "InfoForm",
   data() {
@@ -236,12 +236,4 @@ export default {
 };
 </script>
 <style lang="scss">
-  .input-embedding .el-input-group__prepend{
-        padding:0px 0px;
-        background-color: #fff;
-        .el-input__inner {
-          border:none;
-          width:250px;
-        }
-  }
 </style>
