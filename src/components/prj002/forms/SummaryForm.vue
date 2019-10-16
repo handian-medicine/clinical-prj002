@@ -122,7 +122,7 @@
           <td v-for="item in list" :key="item"><el-radio v-model="summaryForm[key]" :label="item"></el-radio></td>
         </tr>
         <tr>
-          <td>四肢</td>
+          <td><strong>四肢</strong></td>
           <td colspan="4">
             <el-checkbox v-for="(val, key) in mydata.limbs" :key="key"
                         v-model="summaryForm[key]" :label="val">
@@ -130,7 +130,7 @@
           </td>
         </tr>
         <tr>
-          <td>形体</td>
+          <td><strong>形体</strong></td>
           <td colspan="4">
             <el-checkbox v-for="(val, key) in mydata.body" :key="key"
                         v-model="summaryForm[key]" :label="val">
@@ -147,7 +147,7 @@
           <td v-for="item in list" :key="item"><el-radio v-model="summaryForm[key]" :label="item"></el-radio></td>
         </tr>
         <tr>
-          <td>寒热及汗出</td>
+          <td><strong>寒热及汗出</strong></td>
           <td colspan="4">
             <el-checkbox v-for="(val, key) in mydata.cold_hot" :key="key"
                         v-model="summaryForm[key]" :label="val">
@@ -164,7 +164,7 @@
           <td v-for="item in list" :key="item"><el-radio v-model="summaryForm[key]" :label="item"></el-radio></td>
         </tr>
         <tr>
-          <td>睡眠</td>
+          <td><strong>睡眠</strong></td>
           <td colspan="4">
             <el-checkbox v-for="(val, key) in mydata.sleep" :key="key"
                         v-model="summaryForm[key]" :label="val">
@@ -181,7 +181,7 @@
           <td v-for="item in list" :key="item"><el-radio v-model="summaryForm[key]" :label="item"></el-radio></td>
         </tr>
         <tr>
-          <td>皮肤</td>
+          <td><strong>皮肤</strong></td>
           <td colspan="4">
             <el-checkbox v-for="(val, key) in mydata.skin" :key="key"
                         v-model="summaryForm[key]" :label="val">
@@ -189,7 +189,7 @@
           </td>
         </tr>
         <tr>
-          <td>小便</td>
+          <td><strong>小便</strong></td>
           <td colspan="4">
             <el-checkbox v-for="(val, key) in mydata.pee" :key="key"
                         v-model="summaryForm[key]" :label="val">
