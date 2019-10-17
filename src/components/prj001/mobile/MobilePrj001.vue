@@ -2,7 +2,7 @@
   <div>
     <h1 class="main-title">
       <i class="fa fa-envira" style="color:green"></i>
-      中医妇科临床流调数据中心
+      排卵障碍性异常子宫出血调查
     </h1>
   <el-tabs type="border-card">
     <el-tab-pane label="一般信息">
