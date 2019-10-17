@@ -66,11 +66,11 @@ export default {
     data () {
       return {
         patientInfo:{
-          'patient_name':'真多',
-          'patient_date':'2000-01-01',
-          'hospital_name':'汉典',
-          'hospital_belong':'省级医院',
-          'patient_phone':'12312312311',
+          'patient_name':'',      //真多
+          'patient_date':'',      //2000-01-01
+          'hospital_name':'',     //汉典
+          'hospital_belong':'',   //省级医院
+          'patient_phone':'',     //12312312311
           'expert_name':'',
           'expert_hospital':'',
           'expert_phone':'',
