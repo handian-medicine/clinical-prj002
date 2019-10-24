@@ -42,6 +42,18 @@
         </el-date-picker>
       </el-form-item>
 
+      <el-form-item label="身高">
+        <el-input v-model="patientInfo.height" type="number" min="0">
+            <template slot="append">cm</template>
+        </el-input>
+      </el-form-item>
+
+      <el-form-item label="体重">
+        <el-input v-model="patientInfo.weight" type="number" min="0">
+          <template slot="append">kg</template>
+        </el-input>
+      </el-form-item>
+
       <el-form-item label="民族" prop="nation">
         <el-select v-model="patientInfo.nation" placeholder="请选择">
           <el-option v-for="item in mydata.nationSelection" :key="item" :label="item" :value="item">
@@ -63,6 +75,16 @@
         </el-select>
       </el-form-item>
 
+      <el-form-item label="特殊工作环境">
+        <el-checkbox v-for="(val, key) in mydata.specialCheckbox" :key="key" :label="val" v-model="patientInfo[key]">
+        </el-checkbox>
+      </el-form-item>
+
+      <el-form-item label="饮食偏好">
+        <el-checkbox v-for="(val, key) in mydata.dietCheckbox" :key="key" :label="val" v-model="patientInfo[key]">
+        </el-checkbox>
+        <el-input v-model="patientInfo.qita" placeholder="其他"></el-input>
+      </el-form-item>
 
     </el-form>
       <span slot="footer">
@@ -88,6 +110,8 @@ export default {
                         "崩龙族","保安族","裕固族","京族","塔塔尔族","独龙族","鄂伦春族","赫哲族","门巴族","珞巴族","基诺族","其它"],
             careerSelection: ["学生","个体","农民","军人","工人","财会人员","技术人员","服务业","科教文卫","行政管理","无业","其它"],
             cultureSelection: ["未接受国家教育(文盲)","小学及以下","初中","高中","大专","本科","研究生及以上"],
+            specialCheckbox: {"gaowen":"高温","diwen":"低温","yeban":"夜班","zaosheng":"噪声","fushe":"辐射","huagongyinran":"化工污染","julieyundong":"剧烈运动","qiyou":"汽油","gaokong":"高空","wu":"无"},
+            dietCheckbox:    {"wuteshu":"无特殊","sushi":"素食","suan":"酸","xian":"咸","xinla":"辛辣","you":"油","shengleng":"生冷","cafei":"含咖啡因食物或饮品"},
         },
         dialogVisible: false,
         // patientInfo: {
@@ -173,7 +197,10 @@ export default {
     },
     created() {
       this.$on("addEvent", function(data) {
-        this.patientInfo = {}
+        this.patientInfo = {
+          "gaowen":false,"diwen":false,"yeban":false,"zaosheng":false,"fushe":false,"huagongyinran":false,"julieyundong":false,"qiyou":false,"gaokong":false,"wu":false,
+          "wuteshu":false,"sushi":false,"suan":false,"xian":false,"xinla":false,"you":false,"shengleng":false,"cafei":false,
+        }
         this.dialogVisible = true;
       });
     }
