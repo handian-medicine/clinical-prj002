@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { apiAddPatient } from '@/api/api-prj002'
+import { apiAddPatient } from '@/api/api-prj005'
 export default {
     name:'AddPatient',
     data () {
@@ -123,6 +123,7 @@ export default {
     },
     created() {
       this.$on("addEvent", function(data) {
+        this.patientInfo = {}
         this.dialogVisible = true;
       });
     }

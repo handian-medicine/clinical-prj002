@@ -123,6 +123,7 @@ export default {
     },
     created() {
       this.$on("addEvent", function(data) {
+        this.patientInfo = {}
         this.dialogVisible = true;
       });
     }

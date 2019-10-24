@@ -46,7 +46,7 @@ router.post('/add', function (req, res, next) {
     headers: {'Authorization': 'Bearer ' + req.cookies.prj005token.access_token}
   }
   request.post(options, function (error, response, body) {
-    console.log("增加信息", body)
+    console.log("增加信息05", body)
     res.send({msg:'成功了'})
   })
 
