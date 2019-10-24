@@ -10,18 +10,56 @@
         </el-alert>
         <el-divider v-if="is_checked=='审核通过'"></el-divider>
 
-        <h3>近期治疗</h3>
-        <el-form-item class="results-input">
-            经治疗
-            <el-input v-model="resultsForm.last_result" type="number" min="0"></el-input>
-            天后，阴道流血停止
-        </el-form-item>
-        <h3>远期治疗</h3>
-        <el-form-item class="results-input">
-            经治疗
-            <el-input v-model="resultsForm.far_result" type="number" min="0"></el-input>
-            天后，月经周期恢复正常.
-        </el-form-item>
+    <h4>疗效评价</h4>
+        <p>
+            ①下腹疼痛缓解情况：
+            <el-radio v-model="resultsForm.pain_xia"
+                    v-for="item in radio1"
+                    :key="item" :label="item">
+            </el-radio>
+        </p>
+        <p>
+            ②腰骶部疼痛缓解情况：
+            <el-radio v-model="resultsForm.pain_yao"
+                    v-for="item in radio1"
+                    :key="item" :label="item">
+            </el-radio>
+        </p>
+        <p>
+            ③带下异常改善情况：
+            <el-radio v-model="resultsForm.pain_dai"
+                    v-for="item in radio2"
+                    :key="item" :label="item">
+            </el-radio>
+        </p>
+        <p>
+            ④经期异常改善情况：
+            <el-radio v-model="resultsForm.pain_qi"
+                    v-for="item in radio3"
+                    :key="item" :label="item">
+            </el-radio>
+        </p>
+        <p>
+            ⑤经量异常改善情况：
+            <el-radio v-model="resultsForm.pain_liang"
+                    v-for="item in radio3"
+                    :key="item" :label="item">
+            </el-radio>
+        </p>
+        <p>
+            ⑥腹部体征改善情况：
+            <el-radio v-model="resultsForm.pain_fu"
+                    v-for="item in radio4"
+                    :key="item" :label="item">
+            </el-radio>
+        </p>
+        <p>
+            ⑦盆腔体征（妇科检查）改善情况：
+            <el-radio v-model="resultsForm.pain_pen"
+                    v-for="item in radio4"
+                    :key="item" :label="item">
+            </el-radio>
+        </p>
 
     </el-form>
     <span slot="footer">
@@ -35,12 +73,17 @@
 </template>
 
 <script>
-import { apiUpdatePatientDataForm, apiCreatePatientDataForm } from '@/api/api-prj001'
+import { apiUpdatePatientDataForm, apiCreatePatientDataForm } from '@/api/api-prj005'
 
 export default {
     name:'Relevant',
     data () {
         return {
+            radio1:['疼痛消失','疼痛明显缓解','疼痛有所缓解','疼痛未缓解或有加重'],
+            radio2:['恢复正常','明显改善','有所改善','无改善'],
+            radio3:['经期恢复正常','明显改善','有所改善','无改善'],
+            radio4:['体征消失','体征明显改善','体征有所改善','体征无改善或有加重'],
+
             resultsForm:{},//修改
             dialogVisible: false,
             exist: true,
@@ -95,18 +138,4 @@ export default {
 }
 </script>
 <style lang="scss">
-  .results-input  {
-    .el-input__inner {
-        width: 60px;
-        border-radius:1px;
-        border-top-width: 0px;
-        border-left-width: 0px;
-        border-right-width: 0px;
-        border-bottom-width: 1px;
-    }
-    .el-input {
-        display: inline;
-    }
-  }
-
 </style>

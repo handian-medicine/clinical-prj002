@@ -96,7 +96,7 @@
           <el-button type="btn-relevant" size="small" @click="openDataForm(scope.$index, scope.row, 'relevant')">相关检查</el-button>
           <el-button type="btn-clinical" size="small" @click="openDataForm(scope.$index, scope.row, 'clinical')">临床诊断</el-button>
           <el-button type="btn-cure" size="small" @click="openDataForm(scope.$index, scope.row, 'cure')">治疗</el-button>
-          <el-button type="btn-results" size="small" @click="openDataForm(scope.$index, scope.row, 'results')">疗效</el-button>
+          <el-button type="btn-results" size="small" @click="openDataForm(scope.$index, scope.row, 'result')">疗效</el-button>
           </el-button-group>
           <el-button type="danger" size="mini" style="margin-left:8px"
                     v-show="!(scope.row.check_status ==='审核通过' || scope.row.check_status ==='未提交')"
@@ -135,7 +135,7 @@
     <!-- 中西治疗 dialog -->
     <CureForm ref="cure"></CureForm>
     <!-- 疗效 dialog -->
-    <ResultsForm ref="results"></ResultsForm>
+    <ResultsForm ref="result"></ResultsForm>
 
     <!-- 新增信息dialog -->
     <AddPatient ref="addPatient" ></AddPatient>

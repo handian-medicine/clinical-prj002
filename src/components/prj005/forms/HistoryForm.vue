@@ -71,23 +71,88 @@
           ①性生活：<el-checkbox v-model="historyForm.sex_life">有</el-checkbox>
         </p>
         <p>
-          ②初次性生活年龄：<el-checkbox v-model="historyForm.sex_life">有</el-checkbox>
+          ②初次性生活年龄：
+          <el-radio v-model="historyForm.sex_life_first_time" label="＜18岁"></el-radio>
+          <el-radio v-model="historyForm.sex_life_first_time" label="≥18岁"></el-radio>
         </p>
         <p>
-          ③性伴侣：<el-checkbox v-model="historyForm.sex_life">有</el-checkbox>
+          ③性伴侣：
+          <el-radio v-model="historyForm.sex_lover" label="固定"></el-radio>
+          <el-radio v-model="historyForm.sex_lover" label="不固定"></el-radio>
         </p>
         <p>
-          ④性伴侣个数（个）：<el-checkbox v-model="historyForm.sex_life">有</el-checkbox>
+          ④性伴侣个数（个）：
+          <el-radio v-model="historyForm.sex_lover_number" label="1"></el-radio>
+          <el-radio v-model="historyForm.sex_lover_number" label="2"></el-radio>
+          <el-radio v-model="historyForm.sex_lover_number" label="3"></el-radio>
         </p>
         <p>
-          ⑤性生活频次：<el-checkbox v-model="historyForm.sex_life">有</el-checkbox>
+          ⑤性生活频次：
+          <el-radio v-model="historyForm.sex_life_times" label="＜1次/周"></el-radio>
+          <el-radio v-model="historyForm.sex_life_times" label="1-3次/周"></el-radio>
+          <el-radio v-model="historyForm.sex_life_times" label="＞3次/周"></el-radio>
         </p>
         <p>
-          ⑥性伴侣是否伴有性传播疾病：<el-checkbox v-model="historyForm.sex_life">有</el-checkbox>
+          ⑥性伴侣是否伴有性传播疾病：<el-checkbox v-model="historyForm.sex_lover_disease">是</el-checkbox>
         </p>
       <h4>避孕措施</h4>
-      <h4>感染性疾病史</h4>
+        <el-checkbox v-for="(val, key) in contraception"
+                  v-model="historyForm[key]"
+                  :key="key" :label="val">
+        </el-checkbox>
+        <el-input v-model="historyForm.contraception_qita" placeholder="其他"></el-input>
       <h4>性卫生不良</h4>
+          <p>
+            ①经期同房：
+            <el-checkbox v-model="historyForm.bad_jingqi">有</el-checkbox>
+            <span v-show="historyForm.bad_jingqi">
+              (
+              <el-radio v-model="historyForm['bad_jingqi' + '_exist']" label="偶尔"></el-radio>
+              <el-radio v-model="historyForm['bad_jingqi' + '_exist']" label="有时"></el-radio>
+              <el-radio v-model="historyForm['bad_jingqi' + '_exist']" label="经常"></el-radio>
+              )
+            </span>
+          </p>
+          <p>
+            ②产褥期（产后42天内）同房：
+            <el-checkbox v-model="historyForm.bad_chanru">有</el-checkbox>
+            <span v-show="historyForm.bad_chanru">
+              (
+              <el-radio v-model="historyForm['bad_chanru' + '_exist']" label="偶尔"></el-radio>
+              <el-radio v-model="historyForm['bad_chanru' + '_exist']" label="有时"></el-radio>
+              <el-radio v-model="historyForm['bad_chanru' + '_exist']" label="经常"></el-radio>
+              )
+            </span>
+          </p>
+          <p>
+            ③流产后同房（流产1月内）：
+            <el-checkbox v-model="historyForm.bad_liuchan">有</el-checkbox>
+            <span v-show="historyForm.bad_liuchan">
+              (
+              <el-radio v-model="historyForm['bad_liuchan' + '_exist']" label="偶尔"></el-radio>
+              <el-radio v-model="historyForm['bad_liuchan' + '_exist']" label="有时"></el-radio>
+              <el-radio v-model="historyForm['bad_liuchan' + '_exist']" label="经常"></el-radio>
+              )
+            </span>
+          </p>
+          <p>
+            ④经期使用不洁卫生巾
+            <el-checkbox v-model="historyForm.bad_bujie">有</el-checkbox>
+          </p>
+          <p>
+            ⑤阴道冲洗器使用
+            <el-checkbox v-model="historyForm.bad_yindao">有</el-checkbox>
+            <span v-show="historyForm.bad_yindao">
+              (
+              <el-radio v-model="historyForm['bad_yindao' + '_exist']" label="偶尔"></el-radio>
+              <el-radio v-model="historyForm['bad_yindao' + '_exist']" label="有时"></el-radio>
+              <el-radio v-model="historyForm['bad_yindao' + '_exist']" label="经常"></el-radio>
+              )
+            </span>
+            <el-input v-model="historyForm.bad_yindao_exist_times"
+                      style="width:100px;"
+                      type='number' placeholder="单位:次/周"></el-input>
+          </p>
 
     </el-form>
 
@@ -99,7 +164,7 @@
   </el-dialog>
 </template>
 <script>
-import { apiUpdatePatientDataForm, apiCreatePatientDataForm } from '@/api/api-prj002'
+import { apiUpdatePatientDataForm, apiCreatePatientDataForm } from '@/api/api-prj005'
 export default {
   name:'HistoryForm',
   data() {
@@ -152,7 +217,23 @@ export default {
           "operation_pen_yiwei":"子宫内膜异位症手术",
           "operation_pen_lawei":"阑尾切除术",
       },
-
+      "contraception":{
+          "contraception_tao":"避孕套",
+          "contraception_qi":"宫内节育器",
+          "contraception_shuan":"避孕栓",
+          "contraception_mo":"阴道隔膜",
+          "contraception_an":"安全期避孕",
+          "contraception_wai":"体外射精",
+          "contraception_ji":"激素避孕药",
+          "contraception_kou":"口服短效",
+          "contraception_chang":"长效避孕药",
+          "contraception_jin":"紧急避孕药",
+          "contraception_zhen":"避孕针",
+          "contraception_pi":"皮下埋植入剂",
+          "contraception_yin":"阴道药环",
+          "contraception_pian":"避孕贴片",
+          "contraception_han":"含药的宫内节育器",
+      },
 
 
       historyForm:{},
