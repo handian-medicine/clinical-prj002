@@ -3,7 +3,7 @@
             :visible.sync="dialogVisible"
             :close-on-click-modal="false" width="100%" center
             @close='resetDialog'>
-    <el-form ref="clinicalForm" :model="clinicalForm" label-width="auto" label-position="left">
+    <el-form ref="clinicalForm" :model="clinicalForm" label-width="160px" label-position="left">
       <el-alert v-if="check_status=='审核通过'" effect="dark"
                   title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
                   type="warning" :closable="false" show-icon>
@@ -19,29 +19,55 @@
       </el-alert>
       <p></p>
 
-      <el-form-item label="1、中医诊断">
-          <el-checkbox v-for="(val, key) in mydata.zhongyi" :key="key" :label="val" v-model="clinicalForm[key]"></el-checkbox>
-          <el-input v-model="clinicalForm.zhong_qita" placeholder="其他"></el-input>
+      <el-form-item label="中医诊断">
+          <el-checkbox v-for="(val, key) in herbalist_Checkbox" :key="key" :label="val" v-model="clinicalForm[key]"></el-checkbox>
+          <el-input v-model="clinicalForm.herbalist_qita" placeholder="其他"></el-input>
+      </el-form-item>
+      <el-form-item v-show="clinicalForm.herbalist_bu" label="月经不调">
+          <el-checkbox v-for="(val, key) in herbalist_bu_Checkbox" :key="key" :label="val" v-model="clinicalForm[key]"></el-checkbox>
       </el-form-item>
 
-      <h4 style="color:cornflowerblue">2、辨证分型</h4>
-        <el-form-item label="虚证">
-          <el-checkbox v-for="(val, key) in mydata.xuzheng" :key="key" :label="val" v-model="clinicalForm[key]"></el-checkbox>
-          <el-input v-model="clinicalForm.bian_xu_qita" placeholder="其他" ></el-input>
+        <el-form-item label="辨证分型">
         </el-form-item>
-        <el-form-item label="实证">
-          <el-checkbox v-for="(val, key) in mydata.shizheng" :key="key" :label="val" v-model="clinicalForm[key]"></el-checkbox>
-          <el-input v-model="clinicalForm.bian_shi_qita" placeholder="其他"></el-input>
+        <el-form-item label="①实证">
+          <el-radio v-model="clinicalForm.discriminate_shi"
+                    v-for="item in discriminate_shi_Radio"
+                    :key="item" :label="item">
+          </el-radio>
+          <el-input v-model="clinicalForm.discriminate_shi_qita" placeholder="其他"></el-input>
         </el-form-item>
-        <el-form-item label="虚实夹杂证">
-          <el-checkbox v-for="(val, key) in mydata.xushi" :key="key" :label="val" v-model="clinicalForm[key]"></el-checkbox>
-          <el-input v-model="clinicalForm.bian_xushi_qita" placeholder="其他"></el-input>
+        <el-form-item label="②虚实夹杂证">
+          <el-radio v-model="clinicalForm.discriminate_xushi"
+                    v-for="item in discriminate_xushi_Radio"
+                    :key="item" :label="item">
+          </el-radio>
+          <el-input v-model="clinicalForm.discriminate_xushi_qita" placeholder="其他"></el-input>
         </el-form-item>
 
-      <el-form-item label="3、西医诊断">
-        <el-checkbox label="多囊卵巢综合征" v-model="clinicalForm.xi_duo"></el-checkbox>
-        <el-input v-model="clinicalForm.xi_qita" placeholder="其他" ></el-input>
+      <el-form-item label="西医诊断">
+        <el-radio v-model="clinicalForm.western"
+                  v-for="item in western_Radio"
+                  :key="item" :label="item">
+        </el-radio>
+        <el-input v-model="clinicalForm.western_qita" placeholder="其他" ></el-input>
       </el-form-item>
+      <el-form-item v-if="clinicalForm.western=='盆腔炎性疾病后遗症'" v-show="true" label="盆腔炎性疾病后遗症">
+          <el-checkbox v-for="(val, key) in western_hou_Checkbox" :key="key" :label="val" v-model="clinicalForm[key]"></el-checkbox>
+      </el-form-item>
+      <el-form-item label="盆腔炎性疾病反复发作的频率" label-width="100%">
+      </el-form-item>
+      <el-form-item label="1年内发作次数">
+          <el-checkbox v-for="(val, key) in repeat_one_Checkbox" :key="key" :label="val" v-model="clinicalForm[key]"></el-checkbox>
+      </el-form-item>
+      <el-form-item label="2年内发作次数">
+          <el-checkbox v-for="(val, key) in repeat_two_Checkbox" :key="key" :label="val" v-model="clinicalForm[key]"></el-checkbox>
+      </el-form-item>
+      <el-form-item label="发病以来共发作次数">
+          <el-input v-model="clinicalForm.repeat_total" >
+            <template slot="append">次</template>
+          </el-input>
+      </el-form-item>
+
     </el-form>
 
     <span slot="footer">
@@ -53,21 +79,20 @@
   </el-dialog>
 </template>
 <script>
-import { apiUpdatePatientDataForm, apiCreatePatientDataForm } from '@/api/api-prj002'
+import { apiUpdatePatientDataForm, apiCreatePatientDataForm } from '@/api/api-prj005'
 export default {
   name:'ClinicalForm',
   data() {
     return {
-      mydata: {
-        zhongyi:{"zhong_bi":"闭经", "zhong_bu":"不孕", "zhong_xia":"癥瘕", "zhong_beng":"崩漏", "zhong_yue":"月经失调"},
-        xuzheng:{"bian_xu_piqi":"脾气虚证", "bian_xu_pishen":"脾肾阳虚证", "bian_xu_piyang":"脾阳虚证", "bian_xu_shenqi":"肾气虚证",
-                "bian_xu_shenyin":"肾阴虚证", "bian_xu_shenyang":"肾阳虚证", "bian_xu_xue":"血虚证", "bian_xu_yin":"阴虚内热证"},
-        shizheng:{"bian_shi_shire":"肝经湿热证", "bian_shi_qizhi":"肝郁气滞证", "bian_shi_yure":"肝经郁热证", "bian_shi_xueyu":"气滞血瘀证",
-                  "bian_shi_tanshi":"痰湿证", "bian_shi_hujie":"痰瘀互结证"},
-        xushi:{"bian_xushi_pixu":"脾虚痰湿证", "bian_xushi_ganyu":"肾虚肝郁证", "bian_xushi_tanshi":"肾虛痰湿证",
-                "bian_xushi_xueyu":"肾虚血瘀证", "bian_xushi_neire":"肾虚内热证","bian_xushi_shenyin":"	肾（阴）虚湿热夹瘀证",
-                "bian_xushi_shenqi":"肾（气）虚湿热夹瘀证"}
-      },
+      herbalist_Checkbox:{herbalist_pen:"盆腔炎", herbalist_fu:"妇人腹痛", herbalist_re:"热入血室", herbalist_jing:"经病腹痛", herbalist_dai:"带下病", herbalist_xia:"癥瘕", herbalist_yun:"不孕症", herbalist_bu:"月经不调"},
+      herbalist_bu_Checkbox:{herbalist_bu_xian:"月经先期", herbalist_bu_duo:"月经过多", herbalist_bu_yan:"经期延长", herbalist_bu_lou:"崩漏", herbalist_bu_hou:"月经后期", herbalist_bu_shao:"月经过少"},
+      discriminate_shi_Radio:["热毒炽盛证", "湿毒壅盛证", "湿热蕴结证", "瘀热内结证", "湿热瘀结证", "气滞血瘀证", "寒湿瘀阻证"],
+      discriminate_xushi_Radio:["气虚血瘀证", "肾虚血瘀证"],
+      western_Radio:["盆腔炎性疾病", "盆腔炎性疾病后遗症"],
+      western_hou_Checkbox:{western_houyi_man:"慢性盆腔痛", western_houyi_pen:"盆腔炎性疾病反复发作", western_houyi_bu:"不孕", western_houyi_yi:"异位妊娠"},
+      repeat_one_Checkbox:{repeat_one_t:"≤2次", repeat_one_f:"3-5次", repeat_one_e:"疼痛持续存在3月以上", repeat_one_s:"疼痛持续存在6月以上"},
+      repeat_two_Checkbox:{repeat_two_t:"3-5次", repeat_two_f:"大于5次"},
+
       clinicalForm: {},
       dialogVisible: false,
       exist: true,
