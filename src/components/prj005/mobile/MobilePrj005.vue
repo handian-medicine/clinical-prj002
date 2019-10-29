@@ -2,7 +2,7 @@
   <div>
     <h1 class="main-title">
       <i class="fa fa-envira" style="color:green"></i>
-      中医妇科临床流调数据中心
+      盆腔炎性疾病及其后遗症
     </h1>
   <el-tabs type="border-card">
     <el-tab-pane label="一般信息">
@@ -53,7 +53,7 @@ export default {
         "summary":this.$refs.summary.$data.summaryForm,
         "history":this.$refs.history.$data.historyForm,
         "relevant":this.$refs.relevant.$data.relevantForm,
-        "clinical":this.$refs.cc.$data.clinicalForm,
+        "clinical":this.$refs.clinical.$data.clinicalForm,
         "cure":this.$refs.cure.$data.cureForm,
         "results":this.$refs.results.$data.resultsForm,
       }

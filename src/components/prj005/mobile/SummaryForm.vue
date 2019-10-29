@@ -2,225 +2,320 @@
     <el-form ref="summaryForm" :model="summaryForm"
             class="mobile" label-width="60px" label-position="left">
 
+      <h4>主诉</h4>
+        <p class="prj005-summary">
+          下腹部疼痛
+          <el-input v-model="summaryForm.main_xiafu" style="width:250px;">
+            <el-select v-model="summaryForm.main_xiafu_unit" slot="append" placeholder="单位">
+              <el-option label="天" value="天"></el-option>
+              <el-option label="月" value="月"></el-option>
+              <el-option label="年" value="年"></el-option>
+            </el-select>
+          </el-input>
+          ，加重
+          <el-input v-model="summaryForm.main_xiafu_more" style="width:250px;">
+            <span slot="append">天</span>
+          </el-input>
+        </p>
+        <p class="prj005-summary">
+          腰骶疼痛&nbsp;&nbsp;&nbsp;
+          <el-input v-model="summaryForm.main_yao" style="width:250px;">
+            <el-select v-model="summaryForm.main_yao_unit" slot="append" placeholder="单位">
+              <el-option label="天" value="天"></el-option>
+              <el-option label="月" value="月"></el-option>
+              <el-option label="年" value="年"></el-option>
+            </el-select>
+          </el-input>
+          ，加重
+          <el-input v-model="summaryForm.main_yao_more" style="width:250px;">
+            <span slot="append">天</span>
+          </el-input>
+        </p>
+        <p class="prj005-summary">
+          发热&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <el-input v-model="summaryForm.main_fare" style="width:250px;">
+            <el-select v-model="summaryForm.main_fare_unit" slot="append" placeholder="单位">
+              <el-option label="天" value="天"></el-option>
+              <el-option label="月" value="月"></el-option>
+              <el-option label="年" value="年"></el-option>
+            </el-select>
+          </el-input>
+        </p>
+        <p class="prj005-summary">
+          白带异常&nbsp;&nbsp;&nbsp;
+          <el-input v-model="summaryForm.main_baidai" style="width:250px;">
+            <el-select v-model="summaryForm.main_baidai_unit" slot="append" placeholder="单位">
+              <el-option label="天" value="天"></el-option>
+              <el-option label="月" value="月"></el-option>
+              <el-option label="年" value="年"></el-option>
+            </el-select>
+          </el-input>
+        </p>
+        <p class="prj005-summary">
+          月经异常&nbsp;&nbsp;&nbsp;
+          <el-input v-model="summaryForm.main_yuejing" style="width:250px;">
+            <el-select v-model="summaryForm.main_yuejing_unit" slot="append" placeholder="单位">
+              <el-option label="天" value="天"></el-option>
+              <el-option label="月" value="月"></el-option>
+              <el-option label="年" value="年"></el-option>
+            </el-select>
+          </el-input>
+        </p>
+        <p class="prj005-summary">
+          其他&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <el-input v-model="summaryForm.main_qita" style="width:250px;">
+            <el-select v-model="summaryForm.main_qita_unit" slot="append" placeholder="单位">
+              <el-option label="天" value="天"></el-option>
+              <el-option label="月" value="月"></el-option>
+              <el-option label="年" value="年"></el-option>
+            </el-select>
+          </el-input>
+        </p>
 
-      <h4>1.月经情况</h4>
-        <h5>(1)周期 <el-switch v-model="summaryForm.is_normal" active-text="规律" inactive-text="不规律"></el-switch></h5>
-          <div v-show="summaryForm.is_normal">
-            <el-radio v-model="summaryForm.normal"
-                      v-for="item in normal"
-                      :key="item" :label="item">
-            </el-radio>
-          </div>
-          <div v-show="!summaryForm.is_normal">
-            <el-radio v-model="summaryForm.abnormal"
-                      v-for="item in abnormal"
-                      :key="item" :label="item">
-            </el-radio>
-          </div>
-        <h5>(2)经期</h5>
-          <el-radio v-model="summaryForm.jingqi"
-                  v-for="item in jingqi"
+      <h4>疼痛部位</h4>
+        <el-checkbox v-for="(val, key) in part"
+                  v-model="summaryForm[key]"
+                  :key="key" :label="val">
+        </el-checkbox>
+        <el-input v-model="summaryForm.part_qita"></el-input>
+      <h4>疼痛持续时间</h4>
+        <el-checkbox v-for="(val, key) in duration"
+                  v-model="summaryForm[key]"
+                  :key="key" :label="val">
+        </el-checkbox>
+      <h4>疼痛性质</h4>
+        <el-checkbox v-for="(val, key) in pain"
+                  v-model="summaryForm[key]"
+                  :key="key" :label="val">
+        </el-checkbox>
+        <el-input v-model="summaryForm.part_qita"></el-input>
+      <h4>疼痛加重及缓解因素</h4>
+        <el-checkbox v-for="(val, key) in pain_more"
+                  v-model="summaryForm[key]"
+                  :key="key" :label="val">
+        </el-checkbox>
+      <h4>疼痛与月经的关系</h4>
+        <el-checkbox  v-model="summaryForm['pain_menses_wu']" label="与月经无关"></el-checkbox>
+        <el-checkbox v-for="(val, key) in pain_menses"
+                  v-model="summaryForm[key]"
+                  :key="key" :label="val"
+                  v-show="summaryForm.pain_menses_wu !== true">
+        </el-checkbox>
+      <h4>疼痛与季节、时间的关系</h4>
+        <el-checkbox  v-model="summaryForm['pain_season_wu']" label="与季节无关"></el-checkbox>
+        <el-checkbox v-for="(val, key) in pain_season"
+                  v-model="summaryForm[key]"
+                  :key="key" :label="val"
+                  v-show="summaryForm.pain_season_wu !== true">
+        </el-checkbox>
+        <p></p>
+        <el-checkbox  v-model="summaryForm['pain_time_wu']" label="与时间无关 "></el-checkbox>
+        <el-checkbox v-for="(val, key) in pain_time"
+                  v-model="summaryForm[key]"
+                  :key="key" :label="val"
+                  v-show="summaryForm.pain_time_wu !== true">
+        </el-checkbox>
+      <h4>发热状态</h4>
+        <el-radio v-model="summaryForm.fever_status"
+                  v-for="item in fever_status"
                   :key="item" :label="item">
-          </el-radio>
-        <h5>(3)血量</h5>
-          <el-radio v-model="summaryForm.xueliang"
-                    v-for="item in xueliang"
+        </el-radio>
+        <el-input v-model="summaryForm.fever_status_qita"></el-input>
+      <h4>带下异常情况</h4>
+        <p>
+          ①白带量：
+          <el-radio v-model="summaryForm.leucorrhea_quantity"
+                    v-for="item in leucorrhea_quantity"
                     :key="item" :label="item">
           </el-radio>
-        <h5>(4)颜色</h5>
-          <el-radio v-model="summaryForm.yanse"
-                    v-for="item in yanse"
+        </p>
+        <p>
+          ②白带颜色：
+          <el-checkbox v-for="(val, key) in leucorrhea_color"
+                    v-model="summaryForm[key]"
+                    :key="key" :label="val">
+          </el-checkbox>
+          <el-input v-model="summaryForm.leucorrhea_color_qita"></el-input>
+        </p>
+        <p>
+          ③白带性状
+          <el-radio v-model="summaryForm.leucorrhea_character"
+                    v-for="item in leucorrhea_character"
                     :key="item" :label="item">
           </el-radio>
-        <h5>(5)质地</h5>
-          <el-radio v-model="summaryForm.zhidi"
-                    v-for="item in zhidi"
-                    :key="item+'1'" :label="item">
-          </el-radio>
-        <h5>(6)出血特点</h5>
-          <el-radio v-model="summaryForm.tedian"
-                    v-for="item in tedian"
+          <el-input v-model="summaryForm.leucorrhea_character_qita"></el-input>
+        </p>
+        <p>
+          ④白带气味
+          <el-radio v-model="summaryForm.leucorrhea_smell"
+                    v-for="item in leucorrhea_smell"
                     :key="item" :label="item">
           </el-radio>
-        <h5>(7)月经前后伴随症状 <el-switch v-model="summaryForm.menstruation_accompany" active-text="有" inactive-text="无"></el-switch></h5>
-          <div v-show="summaryForm.menstruation_accompany">
-            <el-checkbox v-for="(val, key) in accompany_symptom"
-                      v-model="summaryForm[key]"
-                      :key="key" :label="val">
-            </el-checkbox>
-          </div>
-        <h5>(8)月经近期异常持续时间 <el-input v-model="summaryForm.yichang_chixu"></el-input></h5>
+          <el-input v-model="summaryForm.leucorrhea_smell_qita"></el-input>
+        </p>
 
-      <h4>2.带下情况</h4>
-        <h5>(1)带下量</h5>
-          <el-radio v-model="summaryForm.daixia_liang"
-                    v-for="item in daixia_liang"
+      <h4>月经异常情况</h4>
+        <p>
+          ①末次月经行经天数
+          <el-radio v-model="summaryForm.menses_days"
+                    v-for="item in menses_days"
                     :key="item" :label="item">
           </el-radio>
-        <h5>(2)颜色</h5>
-          <el-radio v-model="summaryForm.daixia_se"
-                    v-for="item in daixia_se"
+        </p>
+        <p>
+          ②末次月经期出血量
+          <el-radio v-model="summaryForm.menses_quantity" label="正常"></el-radio>
+          <el-radio v-model="summaryForm.menses_quantity" label="增多"></el-radio>
+            <span v-show="summaryForm.menses_quantity == '增多'">
+              （<el-radio v-model="summaryForm.menses_quantity_more" label="1/3"></el-radio>
+              <el-radio v-model="summaryForm.menses_quantity_more" label="1/2"></el-radio>
+              <el-radio v-model="summaryForm.menses_quantity_more" label="1倍及以上"></el-radio>）
+            </span>
+          <el-radio v-model="summaryForm.menses_quantity" label="减少"></el-radio>
+            <span v-show="summaryForm.menses_quantity == '减少'">
+              （<el-radio v-model="summaryForm.menses_quantity_more" label="1/3"></el-radio>
+              <el-radio v-model="summaryForm.menses_quantity_more" label="1/2"></el-radio>
+              <el-radio v-model="summaryForm.menses_quantity_more" label="点滴即净"></el-radio>）
+            </span>
+          <el-input v-model="summaryForm.menses_quantity_qita"></el-input>
+        </p>
+        <p>
+          ③末次月经颜色
+          <el-radio v-model="summaryForm.menses_color"
+                    v-for="item in menses_color"
                     :key="item" :label="item">
           </el-radio>
-        <h5>(3)质地</h5>
-          <el-radio v-model="summaryForm.daixia_zhi"
-                    v-for="item in daixia_zhi"
-                    :key="item" :label="item">
-          </el-radio>
-
-      <h4>3.全身症状</h4>
-        <h5></h5>
-
-      <table border="1" cellspacing="0">
-        <tr>
-          <th>头面部</th>
-          <th v-for="item in list_head" :key="item">{{item}}</th>
-        </tr>
-        <tr v-for="(val, key) in mydata.face_head" :key="key">
-          <td>{{val}}</td>
-          <td v-for="item in list" :key="item"><el-radio v-model="summaryForm[key]" :label="item"></el-radio></td>
-        </tr>
-        <tr>
-          <td>面色</td>
-          <td colspan="4">
-            <el-checkbox v-for="(val, key) in mydata.face_color" :key="key"
-                        v-model="summaryForm[key]" :label="val">
-            </el-checkbox>
-          </td>
-        </tr>
-        <tr>
-          <td>口咽部</td>
-          <td colspan="4">
-            <el-checkbox v-for="(val, key) in mydata.mouth" :key="key"
-                        v-model="summaryForm[key]" :label="val">
-            </el-checkbox>
-          </td>
-        </tr>
-
-        <tr>
-          <th>精神情绪</th>
-          <th v-for="item in list_head" :key="item">{{item}}</th>
-        </tr>
-        <tr v-for="(val, key) in mydata.spirit" :key="key">
-          <td>{{val}}</td>
-          <td v-for="item in list" :key="item"><el-radio v-model="summaryForm[key]" :label="item"></el-radio></td>
-        </tr>
-        <tr>
-          <td>四肢</td>
-          <td colspan="4">
-            <el-checkbox v-for="(val, key) in mydata.limbs" :key="key"
-                        v-model="summaryForm[key]" :label="val">
-            </el-checkbox>
-          </td>
-        </tr>
-        <tr>
-          <td>形体</td>
-          <td colspan="4">
-            <el-checkbox v-for="(val, key) in mydata.body" :key="key"
-                        v-model="summaryForm[key]" :label="val">
-            </el-checkbox>
-          </td>
-        </tr>
-
-        <tr>
-          <th>胸胁</th>
-          <th v-for="item in list_head" :key="item">{{item}}</th>
-        </tr>
-        <tr v-for="(val, key) in mydata.chest" :key="key">
-          <td>{{val}}</td>
-          <td v-for="item in list" :key="item"><el-radio v-model="summaryForm[key]" :label="item"></el-radio></td>
-        </tr>
-        <tr>
-          <td>寒热及汗出</td>
-          <td colspan="4">
-            <el-checkbox v-for="(val, key) in mydata.cold_hot" :key="key"
-                        v-model="summaryForm[key]" :label="val">
-            </el-checkbox>
-          </td>
-        </tr>
-
-        <tr>
-          <th>腹腰</th>
-          <th v-for="item in list_head" :key="item">{{item}}</th>
-        </tr>
-        <tr v-for="(val, key) in mydata.waist" :key="key">
-          <td>{{val}}</td>
-          <td v-for="item in list" :key="item"><el-radio v-model="summaryForm[key]" :label="item"></el-radio></td>
-        </tr>
-        <tr>
-          <td>睡眠</td>
-          <td colspan="4">
-            <el-checkbox v-for="(val, key) in mydata.sleep" :key="key"
-                        v-model="summaryForm[key]" :label="val">
-            </el-checkbox>
-          </td>
-        </tr>
-
-        <tr>
-          <th>饮食</th>
-          <th v-for="item in list_head" :key="item">{{item}}</th>
-        </tr>
-        <tr v-for="(val, key) in mydata.diet" :key="key">
-          <td>{{val}}</td>
-          <td v-for="item in list" :key="item"><el-radio v-model="summaryForm[key]" :label="item"></el-radio></td>
-        </tr>
-        <tr>
-          <td>皮肤</td>
-          <td colspan="4">
-            <el-checkbox v-for="(val, key) in mydata.skin" :key="key"
-                        v-model="summaryForm[key]" :label="val">
-            </el-checkbox>
-          </td>
-        </tr>
-        <tr>
-          <td>小便</td>
-          <td colspan="4">
-            <el-checkbox v-for="(val, key) in mydata.pee" :key="key"
-                        v-model="summaryForm[key]" :label="val">
-            </el-checkbox>
-          </td>
-        </tr>
-
-        <tr>
-          <th>大便</th>
-          <th v-for="item in list_head" :key="item">{{item}}</th>
-        </tr>
-        <tr v-for="(val, key) in mydata.feces" :key="key">
-          <td>{{val}}</td>
-          <td v-for="item in list" :key="item"><el-radio v-model="summaryForm[key]" :label="item"></el-radio></td>
-        </tr>
-        <tr>
-          <td>其他</td>
-          <td colspan="4">
-            <el-checkbox v-for="(val, key) in mydata.qita" :key="key"
-                        v-model="summaryForm[key]" :label="val">
-            </el-checkbox>
-          </td>
-        </tr>
-      </table>
-
-      <el-form-item label="舌质">
-        <el-checkbox v-for="(val, key) in tongue_texture" :key="key" :label="val" v-model="summaryForm[key]">
+          <el-input v-model="summaryForm.menses_color_qita"></el-input>
+        </p>
+        <p>
+          ④末次月经质地
+          <el-checkbox v-for="(val, key) in menses_quality"
+                    v-model="summaryForm[key]"
+                    :key="key" :label="val">
+          </el-checkbox>
+        </p>
+      <h4>主要症状出现的频率</h4>
+          <p v-for="(val, key) in rate" :key="val">
+            {{val}}：
+            <el-checkbox v-model="summaryForm[key]">有</el-checkbox>
+            <span v-show="summaryForm[key]">
+              (
+              <el-radio v-model="summaryForm[key + '_exist']" label="偶尔"></el-radio>
+              <el-radio v-model="summaryForm[key + '_exist']" label="有时"></el-radio>
+              <el-radio v-model="summaryForm[key + '_exist']" label="经常"></el-radio>
+              )
+            </span>
+          </p>
+      <h4>精神情绪</h4>
+        <el-checkbox v-for="(val, key) in spirit"
+                  v-model="summaryForm[key]"
+                  :key="key" :label="val">
         </el-checkbox>
-        <el-input v-model="summaryForm.texture_qita"></el-input>
-      </el-form-item>
-      <el-form-item label="舌苔">
-        <el-checkbox v-for="(val, key) in tongue_coating" :key="key" :label="val" v-model="summaryForm[key]">
+        <el-input v-model="summaryForm.spirit_qita"></el-input>
+      <h4>寒热</h4>
+        <el-checkbox v-for="(val, key) in cold"
+                  v-model="summaryForm[key]"
+                  :key="key" :label="val">
         </el-checkbox>
-        <el-input v-model="summaryForm.coating_qita"></el-input>
-      </el-form-item>
-      <el-form-item label="舌体">
-        <el-checkbox v-for="(val, key) in tongue_body" :key="key" :label="val" v-model="summaryForm[key]">
+      <h4>汗出</h4>
+        <el-checkbox v-for="(val, key) in perspire"
+                  v-model="summaryForm[key]"
+                  :key="key" :label="val">
         </el-checkbox>
-        <el-input v-model="summaryForm.tongue_qita"></el-input>
-      </el-form-item>
-      <el-form-item label="脉象">
-        <el-checkbox v-for="(val, key) in pulse" :key="key" :label="val" v-model="summaryForm[key]">
+        <el-input v-model="summaryForm.perspire_qita"></el-input>
+      <h4>面色</h4>
+        <el-checkbox v-for="(val, key) in face"
+                  v-model="summaryForm[key]"
+                  :key="key" :label="val">
         </el-checkbox>
-        <el-input v-model="summaryForm.pulse_qita"></el-input>
-      </el-form-item>
+      <h4>头面部症状</h4>
+        <el-checkbox v-for="(val, key) in head"
+                  v-model="summaryForm[key]"
+                  :key="key" :label="val">
+        </el-checkbox>
+        <el-input v-model="summaryForm.head_qita"></el-input>
+      <h4>口咽部</h4>
+        <el-checkbox v-for="(val, key) in mouth"
+                  v-model="summaryForm[key]"
+                  :key="key" :label="val">
+        </el-checkbox>
+        <el-input v-model="summaryForm.mouth_qita"></el-input>
+      <h4>胸胁</h4>
+        <el-checkbox v-for="(val, key) in chest"
+                  v-model="summaryForm[key]"
+                  :key="key" :label="val">
+        </el-checkbox>
+        <el-input v-model="summaryForm.chest_qita"></el-input>
+      <h4>四肢</h4>
+        <el-checkbox v-for="(val, key) in limbs"
+                  v-model="summaryForm[key]"
+                  :key="key" :label="val">
+        </el-checkbox>
+        <el-input v-model="summaryForm.limbs_qita"></el-input>
+      <h4>饮食</h4>
+        <el-checkbox v-for="(val, key) in diet"
+                  v-model="summaryForm[key]"
+                  :key="key" :label="val">
+        </el-checkbox>
+        <el-input v-model="summaryForm.diet_qita"></el-input>
+      <h4>睡眠</h4>
+        <el-checkbox v-for="(val, key) in sleep"
+                  v-model="summaryForm[key]"
+                  :key="key" :label="val">
+        </el-checkbox>
+        <el-input v-model="summaryForm.sleep_qita"></el-input>
+      <h4>性欲</h4>
+        <el-radio v-model="summaryForm.sexuality"
+                  v-for="item in sexuality"
+                  :key="item" :label="item">
+        </el-radio>
+      <h4>二便情况</h4>
+        <p>
+          ①大便：
+          <el-checkbox v-for="(val, key) in feces"
+                    v-model="summaryForm[key]"
+                    :key="key" :label="val">
+          </el-checkbox>
+        </p>
+        <p>
+          ②小便：
+          <el-checkbox v-for="(val, key) in pee"
+                    v-model="summaryForm[key]"
+                    :key="key" :label="val">
+          </el-checkbox>
+          <el-input v-model="summaryForm.pee_qita"></el-input>
+        </p>
+      <h4>舌象</h4>
+        <p>
+          ①舌质
+          <el-checkbox v-for="(val, key) in texture"
+                    v-model="summaryForm[key]"
+                    :key="key" :label="val">
+          </el-checkbox>
+          <el-input v-model="summaryForm.texture_qita"></el-input>
+        </p>
+        <p>
+          ②舌苔
+          <el-checkbox v-for="(val, key) in coating"
+                    v-model="summaryForm[key]"
+                    :key="key" :label="val">
+          </el-checkbox>
+          <el-input v-model="summaryForm.coating_qita"></el-input>
+        </p>
+        <p>
+          ③舌体
+          <el-checkbox v-for="(val, key) in tongue"
+                    v-model="summaryForm[key]"
+                    :key="key" :label="val">
+          </el-checkbox>
+          <el-input v-model="summaryForm.tongue_qita"></el-input>
+        </p>
+      <h4>脉象</h4>
+          <el-checkbox v-for="(val, key) in pulse"
+                    v-model="summaryForm[key]"
+                    :key="key" :label="val">
+          </el-checkbox>
 
-      </el-form-item>
 
     </el-form>
 </template>
@@ -229,66 +324,257 @@ export default {
   name:'SummaryForm',
   data() {
     return {
-      "normal":["21-25天","26-30天","31-35天"],
-      "abnormal":["1月多次","1＜周期≤2个月1行","2＜周期≤3个月1行","3＜周期≤6个月1行","周期＞6个月1行"],
-      "jingqi":["≤2天","3≤天数≤7天","7＜天数≤15天"],
-      "xueliang":["≤5张卫生巾(日用)","6-10张卫生巾(日用)","11-19张卫生巾(日用)","≥20张卫生巾(日用或夜用)","几乎不用卫生巾,用护垫即可"],
-      "yanse":["淡红","鲜红","暗红","深红","淡黯","紫黯","紫黑","褐色",],
-      "zhidi":["正常","粘稠","清稀","经常出现血块","偶有血块"],
-      "tedian":["顺畅","不顺畅","血崩（出血量多，势急）","淋漓不断","点滴即净"],
-      "accompany_symptom":{
-          "accompany_rufang":"乳房胀痛",
-          "accompany_toutong":"头痛",
-          "accompany_touyun":"头晕",
-          "accompany_fare":"发热",
-          "accompany_koushe":"口舌糜烂",
-          "accompany_zhiti":"肢体浮肿",
-          "accompany_xiexie":"泄泻",
-          "accompany_saoyang":"疹块瘙痒",
-          "accompany_yichang":"情志异常",
-          "accompany_futong":"腹痛",
-          "accompany_juan":"腹疼痛拒按",
-          "accompany_xian":"腹痛喜按",
-          "accompany_dere":"腹痛得热痛减",
-          "accompany_xuekuai":"血块下痛减",
-          "accompany_gangmen":"肛门坠胀"
+      "part":{
+            "part_xia":"下腹部正中",
+            "part_zuo":"左侧少腹部",
+            "part_you":"右侧少腹部",
+            "part_liang":"两侧少腹部",
+            "part_quan":"全下腹疼痛",
+            "part_yao":"腰骶部疼痛",
         },
-      "daixia_liang":["正常","少","多"],
-      "daixia_se":["透明","黄","白","黄绿","赤"],
-      "daixia_zhi":["黏而不稠","清稀","稠"],
-      "list":["无","轻","中","重"],
-      "list_head":["无","轻(偶尔或不舒影响轻)","中(多时或不舒但能忍受)","重(绝大部分或全部时间或不舒难以忍受)"],
-
-      mydata: {
-        'face_head': {'body_touyun':'头晕','body_erming':'耳鸣','body_touzhang':'头胀','body_touzhong':'头重如裹','body_yanhua':'目眩眼花','body_ganyang':'目涩干痒','body_fuzhong':'晨起眼睑浮肿'},
-        'face_color':{"body_face_zc":"正常",'body_face_fu':'面白浮肿','body_face_hui':'面色晦暗','body_face_wei':'面色萎黄','body_face_dan':'面色淡白无华','body_face_chao':'面色潮红','body_face_hei':'面目黧黑','body_face_hong':'面红唇赤'},
-        'mouth':     {'body_kou_zc':'正常','body_kou_chi':'齿松发脱','body_kou_gan':'口干不欲饮','body_kou_ke':'口渴欲饮','body_kou_nian':'口黏腻','body_kou_dan':'口淡','body_kou_ku':'口苦','body_kou_suan':'口酸','body_kou_tian':'口甜','body_kou_xian':'口咸','body_kou_yan':'咽干','body_kou_tong':'咽痛','body_kou_yang':'咽痒','body_kou_yiwu':'咽部异物感','body_kou_duotan':'喉间多痰'},
-
-        'spirit':    {'body_chongpei':'精力充沛','body_shishui':'嗜睡','body_fali':'神疲乏力','body_yiyu':'精神抑郁','body_jiaolv':'焦虑','body_jianwang':'健忘','body_fanzao':'烦躁易怒','body_kangfen':'亢奋'},
-        'limbs':     {'body_sizhi_zc':'正常','body_sizhi_mamu':'麻木','body_sizhi_shouzu':'手足心热','body_sizhi_zhiti':'肢体困重','body_sizhi_yaoxi':'腰膝酸软','body_sizhi_weihan':'畏寒肢冷','body_sizhi_zugen':'足跟痛'},
-        'body':      {'body_xing_zc':'正常','body_xing_fuzhong':'肢体浮肿','body_xing_fei':'形体肥胖','body_xing_shou':'形体瘦弱'},
-
-        'chest':     {'body_xinji':'心慌心悸','body_xiongmen':'胸闷','body_qiduan':'气短','body_taixi':'善太息','body_exin':'恶心','body_outu':'呕吐','body_zhang':'胸胁胀满','body_ci':'胸胁刺痛','body_ruzhang':'乳房胀痛','body_ruci':'乳房刺痛','body_yiru':'溢乳'},
-        'cold_hot':  {'body_han_zc':'正常','body_han_re':'畏热','body_han_weihan':'畏寒','body_han_han':'烘热汗出','body_han_fan':'五心烦热','body_han_wu':'午后发热','body_han_shen':'身热不扬','body_han_di':'低热不退','body_han_chao':'潮热颧红','body_han_dong':'动则汗出','body_han_zi':'自汗','body_han_dao':'盗汗'},
-
-        'waist':     {'body_fuzhang':'脘腹胀满','body_zhangtong':'腹部胀痛','body_yintong':'腹部隐痛','body_zhuitong':'腹部坠痛','body_kongtong':'腹部空痛','body_zhuotong':'腹部灼痛','body_citong':'腹部刺痛','body_suantong':'腰部酸痛','body_lengtong':'腰部冷痛'},
-        'sleep':     {'body_sleep_yixing':'易醒','body_sleep_shishui':'嗜睡','body_sleep_duomeng':'多梦','body_sleep_shimian':'失眠'},
-
-        'diet':      {'body_shiyu':'食欲不振','body_duoshi':'多食易饥','body_xire':'喜热饮','body_xileng':'喜冷饮','body_xixin':'喜辛辣','body_shihou':'食后腹胀','body_shishao':'食少纳呆','body_fansuan':'嗳气反酸','body_baoyin':'暴饮暴食'},
-        'skin':      {'body_skin_zc':'正常','body_skin_cucao':'皮肤粗糙','body_skin_youzhi':'汗粘油脂多','body_skin_jifu':'肌肤甲错'},
-        'pee':       {'body_xiao_zc':'正常','body_xiao_shu':'频数','body_xiao_ji':'尿急','body_xiao_tong':'尿痛','body_xiao_duo':'夜尿频多','body_xiao_bujin':'余沥不尽','body_xiao_qing':'小便清长','body_xiao_huang':'小便黄','body_xiao_chi':'小便赤'},
-
-        'feces':     {'body_xitang':'大便稀溏','body_mijie':'大便秘结','body_ganxi':'时干时稀','body_qianxie':'天亮前泄泻','body_nianni':'大便黏腻','body_jia':'夹未消化食物'},
-        'qita':      {'body_qita_xing':'性欲减退','body_qita_yin':'阴道干涩','body_qita_chen':'唇甲青紫','body_qita_xiong':'胸腹满闷'}
+      "duration":{"duration_zhen":"阵发性","duration_chi":"持续性","duration_shi":"时痛时止"},
+      "pain":{
+            "pain_zhang":"胀痛",
+            "pain_ci":"刺痛",
+            "pain_yin":"隐痛",
+            "pain_zhuo":"灼痛",
+            "pain_leng":"冷痛",
+            "pain_suan":"酸痛",
+            "pain_kong":"空痛",
+            "pain_zhui":"坠痛",
+            "pain_jiao":"绞痛",
+            "pain_che":"掣痛",
+            "pain_tiao":"跳痛",
+            "pain_chu":"触痛",
+            "pain_zou":"走窜痛",
+            "pain_gu":"固定痛",
       },
-      tongue_texture: {'texture_danhong':'淡红','texture_danbai':'淡白','texture_xianhong':'鲜红','texture_shenhong':'深红','texture_zihong':'紫红','texture_anhong':'黯红','texture_danan':'淡黯','texture_zian':'紫黯','texture_yudian':'有瘀点或瘀斑','texture_jianhong':'舌边尖红'},
-      texture_qita:   '其他',
-      tongue_coating: {'coating_bai':'白','coating_huang':'黄','coating_bo':'薄','coating_hou':'厚','coating_ni':'腻','coating_run':'润','coating_hua':'滑','coating_gan':'干','coating_shaotai':'少苔','coating_huabo':'花剥','coating_wutai':'无苔'},
-      coating_qita:   '其他',
-      tongue_body:    {'tongue_zhengchang':'正常','tongue_shouxiao':'瘦小','tongue_pangda':'胖大','tongue_youchihen':'有齿痕','tongue_youliewen':'有裂纹'},
-      tongue_qita:    '其他',
-      pulse:          {'pulse_fu':'浮','pulse_chen':'沉','pulse_hua':'滑','pulse_shu':'数','pulse_xian':'弦','pulse_xi':'细','pulse_ruo':'弱','pulse_huan':'缓','pulse_chi':'迟','pulse_se':'涩','pulse_jin':'紧'},
-      pulse_qita:     '其他',
+      "pain_more":{
+            "pain_more_lao":"劳累后加重",
+            "pain_more_tong":"同房后加重",
+            "pain_more_xin":"食辛辣后加重",
+            "pain_more_sheng":"食生冷后加重",
+            "pain_more_shou":"受凉后加重",
+            "pain_more_yin":"阴雨天加重",
+            "pain_more_de":"得温则减",
+            "pain_more_xi":"喜按",
+            "pain_more_ju":"拒按",
+      },
+      "pain_menses":{
+            "pain_menses_qi":"经期加重",
+            "pain_menses_qian":"经前加重",
+            "pain_menses_jian":"经间期加重",
+            "pain_menses_jing":"经净后加重",
+      },
+      "pain_season":{
+            "pain_season_chun":"春季加重",
+            "pain_season_xia":"夏季加重",
+            "pain_season_qiu":"秋季加重",
+            "pain_season_dong":"冬季加重",
+      },
+      "pain_time":{
+            "pain_time_shang":"上午加重",
+            "pain_time_xia":"下午加重",
+            "pain_time_ye":"夜间加重",
+      },
+      "fever_status":["无发热","寒战高热","壮热不退","发热恶寒","低热起伏","低热，日晡或入夜尤盛"],
+      "leucorrhea_quantity":["适中","多","少"],
+      "leucorrhea_color":{
+            "leucorrhea_color_zc":"正常",
+            "leucorrhea_color_huang":"黄色",
+            "leucorrhea_color_bai":"白色",
+            "leucorrhea_color_hui":"灰黄色",
+            "leucorrhea_color_lv":"黄绿色",
+            "leucorrhea_color_he":"褐色",
+            "leucorrhea_color_jia":"夹血丝",
+      },
+      "leucorrhea_character":["正常","泡沫状","豆渣样","稀薄样","脓性","血性","脓血相间","质稠","质清稀"],
+      "leucorrhea_smell":["无异味","气味腥","气味臭","气味秽臭"],
+      "menses_days":["≤2天","3-7天","＞7日，甚至半月","半月以上"],
+      "menses_color":["正常","淡红","鲜红","暗红","紫红","紫黯","紫黑","酱红色","褐色"],
+      "menses_quality":{
+              "menses_quality_zc":"正常",
+              "menses_quality_chou":"粘稠",
+              "menses_quality_qing":"清稀",
+              "menses_quality_wu":"无血块",
+              "menses_quality_xiao":"夹小血块",
+              "menses_quality_da":"夹较大血块",
+              "menses_quality_nian":"夹黏液"
+        },
+      "rate":{
+              "rate_xia":"下腹部疼痛",
+              "rate_yao":"腰骶疼痛",
+              "rate_fa":"发热",
+              "rate_bai":"白带异常",
+              "rate_yue":"月经异常",
+        },
+      "spirit":{
+            "spirit_jing":"精力充沛",
+            "spirit_shen":"神疲乏力",
+            "spirit_fan":"烦躁易怒",
+            "spirit_ya":"压力大",
+            "spirit_jiao":"焦虑或抑郁",
+            "spirit_xi":"喜怒无常",
+      },
+      "cold":{
+            "cold_zc":"正常",
+            "cold_fa":"发热恶寒",
+            "cold_han":"寒战高热",
+            "cold_zhuang":"壮热不退",
+            "cold_di":"低热起伏",
+            "cold_ri":"日晡或入夜发热",
+            "cold_wei":"畏寒",
+            "cold_wu":"五心烦热",
+      },
+      "perspire":{
+            "perspire_zc":"正常",
+            "perspire_dong":"动则汗出",
+            "perspire_ye":"夜卧汗出，醒后汗止",
+            "perspire_hong":"烘热汗出",
+      },
+      "face":{
+            "face_zc":"正常",
+            "face_dan":"淡白无华",
+            "face_cang":"苍白",
+            "face_qing":"青白",
+            "face_bai":"白而浮肿",
+            "face_fu":"黄而浮肿",
+            "face_wei":"萎黄",
+            "face_hui":"晦黯",
+            "face_hei":"面目黧黑",
+            "face_chao":"潮红",
+            "face_yan":"颜面痤疮",
+            "face_huang":"黄褐斑",
+      },
+      "head":{
+            "head_yun":"头晕耳鸣",
+            "head_tong":"头痛",
+            "head_hua":"眼花",
+            "head_se":"目涩",
+            "head_yang":"目痒",
+            "head_zhong":"晨起眼睑浮肿",
+      },
+      "mouth":{
+            "mouth_zc":"正常",
+            "mouth_kouku":"口苦",
+            "mouth_kougan":"口干",
+            "mouth_kouni":"口腻",
+            "mouth_koudan":"口淡无味",
+            "mouth_kouqi":"口气（口臭）",
+            "mouth_yantong":"咽痛",
+            "mouth_yanyang":"咽痒",
+            "mouth_yiwu":"咽部异物感",
+      },
+      "chest":{
+            "chest_zc":"正常",
+            "chest_xinhuang":"心慌气短",
+            "chest_zhangmen":"胸胁胀闷",
+            "chest_xiongyin":"胸胁隐痛",
+            "chest_xiongci":"胸胁刺痛",
+            "chest_ruci":"乳房刺痛",
+            "chest_ruzhang":"乳房胀痛",
+      },
+      "limbs":{
+            "limbs_zc":"正常",
+            "limbs_kun":"困重",
+            "limbs_juan":"肢倦",
+            "limbs_leng":"肢冷",
+            "limbs_zu":"手足心热",
+            "limbs_fu":"浮肿",
+            "limbs_suan":"膝酸软",
+            "limbs_gen":"足跟痛",
+            "limbs_xi":"膝痛",
+            "limbs_shang":"上肢关节疼痛",
+            "limbs_xia":"下肢关节疼痛",
+      },
+      "diet":{
+            "diet_zc":"正常",
+            "diet_xinla":"喜辛辣",
+            "diet_re":"喜热饮",
+            "diet_leng":"喜冷饮",
+            "diet_fu":"脘腹胀满",
+            "diet_shao":"食少纳呆",
+            "diet_hou":"食后胃脘不舒",
+            "diet_yuyin":"口干欲饮",
+            "diet_buyin":"口干不欲饮",
+            "diet_fan":"烦渴欲饮",
+      },
+      "sleep":{
+            "sleep_zc":"正常",
+            "sleep_duo":"多梦",
+            "sleep_yi":"易醒",
+            "sleep_nan":"难以入眠",
+            "sleep_bu":"彻夜不眠",
+            "sleep_shi":"嗜睡",
+      },
+      "sexuality":["正常","性欲低下","性欲旺盛"],
+      "feces":{
+            "feces_zc":"正常",
+            "feces_times":"大便次数",
+            "feces_times_choices":"大便次数",
+            "feces_gan":"便干结",
+            "feces_shi":"时干时稀",
+            "feces_bu":"大便不成形",
+            "feces_xie":"溏泄",
+            "feces_jin":"质黏，排不尽",
+            "feces_jia":"夹杂未消化食物",
+      },
+      "pee":{
+            "pee_zc":"正常",
+            "pee_duan":"短黄",
+            "pee_chang":"清长",
+            "pee_pin":"频数",
+            "pee_ji":"尿急",
+            "pee_tong":"尿痛",
+            "pee_duo":"夜尿频多",
+      },
+      "texture":{
+            "texture_danhong":"淡红",
+            "texture_danbai":"淡白",
+            "texture_hong":"红",
+            "texture_shenhong":"深红",
+            "texture_zihong":"紫红",
+            "texture_anhong":"黯红",
+            "texture_zian":"紫黯",
+            "texture_yudian":"有瘀点或瘀斑",
+            "texture_jianhong":"舌边尖红",
+      },
+      "coating":{
+              "coating_bai":"白",
+              "coating_huang":"黄",
+              "coating_bo":"薄",
+              "coating_bohuang":"薄黄",
+              "coating_hui":"灰黑",
+              "coating_hou":"厚",
+              "coating_ni":"腻",
+              "coating_run":"润",
+              "coating_hua":"滑",
+              "coating_gan":"干",
+              "coating_shaotai":"少苔",
+              "coating_huabo":"花剥",
+              "coating_wutai":"无苔",
+              "coating_lie":"有裂纹",
+      },
+      "tongue":{
+            "tongue_zc":"正常",
+            "tongue_xiao":"瘦小",
+            "tongue_da":"胖大",
+            "tongue_chi":"有齿痕",
+      },
+      "pulse":{
+            "pulse_fu":"浮",
+            "pulse_chen":"沉",
+            "pulse_hua":"滑",
+            "pulse_shu":"数",
+            "pulse_xian":"弦",
+            "pulse_xi":"细",
+            "pulse_ruo":"弱",
+            "pulse_huan":"缓",
+            "pulse_chi":"迟",
+            "pulse_se":"涩",
+            "pulse_jin":"紧",
+            "pulse_wuli":"无力",
+      },
       summaryForm:{
       },
       dialogVisible: false,
