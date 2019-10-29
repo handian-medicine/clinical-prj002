@@ -62,7 +62,11 @@ router.post('/sendemail', function (req, res, next) {
     request.post(options, function (error, response, body) {
         var verify_data = JSON.parse(body);
         console.log("if,verify_data",verify_data);
-        res.json({msg:verify_data.msg, error:verify_data.non_field_errors[0]});
+        if (verify_data.msg) {
+          res.json({msg:verify_data.msg});
+        } else {
+          res.json({error:verify_data.non_field_errors[0]});
+        }
     })
 })
 module.exports = router;
