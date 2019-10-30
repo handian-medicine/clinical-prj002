@@ -1,6 +1,6 @@
 <template>
     <el-form ref="historyForm" :model="historyForm"
-            class="mobile" label-width="80px" label-position="left">
+            class="mobile prj005-dialog" label-width="80px" label-position="left">
 
       <h4>感染性疾病史</h4>
         <p>
@@ -229,5 +229,10 @@ export default {
   }
 .el-input {
   margin-top: 10px;
+}
+.prj005-dialog {
+  h4 {
+    color:cornflowerblue;
+  }
 }
 </style>

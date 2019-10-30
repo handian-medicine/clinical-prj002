@@ -138,4 +138,9 @@ export default {
 }
 </script>
 <style lang="scss">
+.prj005-dialog {
+    h4 {
+        color:cornflowerblue;
+    }
+}
 </style>

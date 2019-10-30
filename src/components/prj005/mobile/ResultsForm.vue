@@ -1,6 +1,6 @@
 <template>
     <el-form ref="resultsForm" :model="resultsForm" :rules="rules"
-            label-width="110px" label-position="left" class="mobile">
+            label-width="110px" label-position="left" class="mobile prj005-dialog">
 
       <h4>疗效评价</h4>
           <p>
@@ -93,5 +93,10 @@ export default {
 
 }
 </script>
-<style lang="">
+<style lang="scss">
+.prj005-dialog {
+  h4 {
+    color:cornflowerblue;
+  }
+}
 </style>

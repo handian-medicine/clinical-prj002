@@ -1,6 +1,6 @@
 <template>
     <el-form ref="summaryForm" :model="summaryForm"
-            class="mobile" label-width="60px" label-position="left">
+            class="mobile prj005-dialog" label-width="60px" label-position="left">
 
       <h4>主诉</h4>
         <p class="prj005-summary">
@@ -588,6 +588,11 @@ export default {
   },
 }
 </script>
-<style lang="">
+<style lang="scss">
+.prj005-dialog {
+  h4 {
+    color:cornflowerblue;
+  }
+}
 </style>
 

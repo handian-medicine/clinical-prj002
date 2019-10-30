@@ -433,4 +433,7 @@ border:1px solid red;
 .el-tag.el-tag--danger {
   cursor: pointer;
 }
+.el-tag.el-tag--warning {
+  cursor: pointer;
+}
 </style>

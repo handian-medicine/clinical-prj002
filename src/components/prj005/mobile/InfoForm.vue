@@ -1,6 +1,6 @@
 <template>
     <el-form ref="infoForm" :model="infoForm" :rules="rules"
-            class="mobile" label-width="100px" label-position="left">
+            class="mobile prj005-dialog" label-width="100px" label-position="left">
       <el-form-item label="辅助医生" prop="owner">
         <el-select v-model="infoForm.area"
                   @change="getHospital"
@@ -381,4 +381,9 @@ export default {
           width:100px;
         }
   }
+.prj005-dialog {
+  h4 {
+    color:cornflowerblue;
+  }
+}
 </style>

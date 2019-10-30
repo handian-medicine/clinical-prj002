@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="一般情况" class="my-dialog" :rules="rules"
+  <el-dialog title="一般情况" class="my-dialog prj005-dialog" :rules="rules"
             :visible.sync="dialogVisible"
             :close-on-click-modal="false"
             width="90%" center>
@@ -326,6 +326,11 @@ export default {
 .prj005-info {
   .el-input-group__append, .el-input-group__prepend {
     width: 50px;
+  }
+}
+.prj005-dialog {
+  h4 {
+    color:cornflowerblue;
   }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="病情概要" class="my-dialog summary-dialog"
+  <el-dialog title="病情概要" class="my-dialog summary-dialog prj005-dialog"
             :visible.sync="dialogVisible"
             :close-on-click-modal="false" width="100%" center
             @close='resetDialog'>
@@ -671,6 +671,12 @@ export default {
   .el-input-group>.el-input__inner{
     vertical-align: middle;
     display: initial;
+  }
+}
+
+.prj005-dialog {
+  h4 {
+    color:cornflowerblue;
   }
 }
 </style>

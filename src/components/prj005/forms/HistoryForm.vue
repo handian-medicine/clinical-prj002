@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="专科病史" class="my-dialog history-dialog"
+  <el-dialog title="专科病史" class="my-dialog history-dialog prj005-dialog"
             :visible.sync="dialogVisible"
             :close-on-click-modal="false" width="100%" center
             @close='resetDialog'>
@@ -304,5 +304,10 @@ export default {
 .history-input .el-input__inner {
   margin-top: 10px;
   padding:0 5px;
+}
+.prj005-dialog {
+  h4 {
+    color:cornflowerblue;
+  }
 }
 </style>
