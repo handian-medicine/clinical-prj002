@@ -5,7 +5,7 @@
             v-if='dialogVisible'
             @close='resetDialog'>
             <!-- 这里改 -->
-        <el-form ref="relevantForm" :model="relevantForm" label-width="160px" label-position="left">
+        <el-form ref="relevantForm" :model="relevantForm" label-width="170px" label-position="left">
             <el-alert v-if="is_checked=='审核通过'"
                     title="此条信息已经审核通过,无法更改。如需修改, 请更改审核状态"
                     type="warning" :closable="false" show-icon>
@@ -20,7 +20,7 @@
                          v-model="relevantForm[key]"
                          :key="key" :label="val">
                 </el-checkbox>
-                <el-input v-model="relevantForm.gynaecology_wai_abnormal_qita"  placeholder="异常描述"></el-input>
+                <el-input v-show="relevantForm.gynaecology_wai_abnormal" v-model="relevantForm.gynaecology_wai_abnormal_qita"  placeholder="异常描述"></el-input>
             </el-form-item>
             <el-form-item label="阴道">
                 <el-checkbox v-for="(val, key) in gynaecology_yin_Checkbox"
@@ -134,7 +134,7 @@
                            :key="key" :label="val">
                 </el-checkbox>
               </el-form-item>
-              <el-form-item v-show="relevantForm.protein_yes" label="全血C反应蛋白">
+              <el-form-item v-show="relevantForm.protein_yes" label="检查结果">
                 <el-checkbox v-for="(val, key) in protein_yes_Checkbox"
                            v-model="relevantForm[key]"
                            :key="key" :label="val">
@@ -147,7 +147,7 @@
                            :key="key" :label="val">
                 </el-checkbox>
               </el-form-item>
-              <el-form-item v-show="relevantForm.erythrocyte_yes" label="红细胞沉降率">
+              <el-form-item v-show="relevantForm.erythrocyte_yes" label="检查结果">
                 <el-checkbox v-for="(val, key) in erythrocyte_yes_Checkbox"
                            v-model="relevantForm[key]"
                            :key="key" :label="val">
@@ -160,7 +160,7 @@
                            :key="key" :label="val">
                 </el-checkbox>
               </el-form-item>
-              <el-form-item v-show="relevantForm.check_vagina_yes" label="阴道分泌物常规检查项">
+              <el-form-item v-show="relevantForm.check_vagina_yes" label="检查项">
                 <el-checkbox v-for="(val, key) in check_vagina_item_Checkbox"
                            v-model="relevantForm[key]"
                            :key="key" :label="val">
@@ -216,7 +216,7 @@
                            :key="key" :label="val">
                 </el-checkbox>
               </el-form-item>
-              <el-form-item v-show="relevantForm.check_cervix_yes" label="宫颈管分泌物检测">
+              <el-form-item v-show="relevantForm.check_cervix_yes" label="检查结果">
                 <el-checkbox v-for="(val, key) in check_cervix_yes_Checkbox"
                            v-model="relevantForm[key]"
                            :key="key" :label="val">
@@ -261,7 +261,7 @@
                            :key="key" :label="val">
                 </el-checkbox>
               </el-form-item>
-              <el-form-item v-show="relevantForm.check_hpv_yes" label="HPV检测">
+              <el-form-item v-show="relevantForm.check_hpv_yes" label="检查结果">
                 <el-radio v-model="relevantForm.check_hpv_character"
                           v-for="item in check_hpv_character_Radio"
                           :key="item" :label="item">
@@ -304,7 +304,7 @@
                 <el-input v-model="relevantForm.check_contrast_qita" placeholder="其他">
                 </el-input>
               </el-form-item>
-              <el-form-item v-show="relevantForm.check_contrast_yes" label="子宫输卵管造影">
+              <el-form-item v-show="relevantForm.check_contrast_yes" label="检查结果">
                 <el-input v-model="relevantForm.check_contrast_yes_qita" placeholder="详情">
                 </el-input>
               </el-form-item>

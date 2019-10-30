@@ -277,7 +277,9 @@
         </el-radio>
       </el-form-item>
 
-      <el-form-item label="因盆腔炎性疾病及其后遗症进行手术治疗">
+      <el-form-item label="因盆腔炎性疾病及其后遗症进行手术治疗" label-width="100%">
+      </el-form-item>
+      <el-form-item label="">
         <el-switch v-model="cureForm.op_after" active-text="有" inactive-text="无"></el-switch>
       </el-form-item>
       <h4>请填患者因以下哪种情况行手术治疗</h4>
@@ -300,44 +302,58 @@
         <el-input v-model="cureForm.xi_others_qita" placeholder="具体治疗方法"></el-input>
       </el-form-item>
 
-      <el-form-item label="患者对治疗方法的依从性总体影响">
+      <el-form-item label="患者对治疗方法的依从性总体影响" label-width="100%">
+      </el-form-item>
+      <el-form-item label="">
         <el-radio v-model="cureForm.infection_all"
                   v-for="item in infection_all_Radio"
                   :key="item" :label="item">
         </el-radio>
       </el-form-item>
-      <el-form-item label="①对抗生素治疗的依从性">
+      <el-form-item label="①对抗生素治疗的依从性" label-width="100%">
+      </el-form-item>
+      <el-form-item label="">
         <el-radio v-model="cureForm.infection_kang"
                   v-for="item in infection_kang_Radio"
                   :key="item" :label="item">
         </el-radio>
       </el-form-item>
-      <el-form-item label="②患者对西医其他治疗（物理治疗）的依从性">
+      <el-form-item label="②患者对西医其他治疗（物理治疗）的依从性" label-width="100%">
+      </el-form-item>
+      <el-form-item label="">
         <el-radio v-model="cureForm.infection_xi"
                   v-for="item in infection_xi_Radio"
                   :key="item" :label="item">
         </el-radio>
       </el-form-item>
-      <el-form-item label="③患者对中医汤药治疗的依从性">
+      <el-form-item label="③患者对中医汤药治疗的依从性" label-width="100%">
+      </el-form-item>
+      <el-form-item label="">
         <el-radio v-model="cureForm.infection_tang"
                   v-for="item in infection_tang_Radio"
                   :key="item" :label="item">
         </el-radio>
       </el-form-item>
-      <el-form-item label="④患者对中成药治疗的依从性">
+      <el-form-item label="④患者对中成药治疗的依从性" label-width="100%">
+      </el-form-item>
+      <el-form-item label="">
         <el-radio v-model="cureForm.infection_cheng"
                   v-for="item in infection_cheng_Radio"
                   :key="item" :label="item">
         </el-radio>
       </el-form-item>
-      <el-form-item label="⑤患者对中医外治方法的依从性">
+      <el-form-item label="⑤患者对中医外治方法的依从性" label-width="100%">
+      </el-form-item>
+      <el-form-item label="">
         <el-radio v-model="cureForm.infection_wai"
                   v-for="item in infection_wai_Radio"
                   :key="item" :label="item">
         </el-radio>
       </el-form-item>
 
-      <el-form-item label="影响治疗依从性的原因">
+      <el-form-item label="影响治疗依从性的原因" label-width="100%">
+      </el-form-item>
+      <el-form-item label="">
         <el-checkbox v-for="(val, key) in infection_reason_Checkbox"
             :key="key" :label="val" v-model="cureForm[key]">
         </el-checkbox>
