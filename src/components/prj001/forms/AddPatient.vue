@@ -99,6 +99,14 @@ import { apiAddPatient } from '@/api/api-prj001'
 export default {
     name:'AddPatient',
     data () {
+      var birthAlert = (rule, value, callback) => {
+        var selectYear = Number(this.patientInfo.birth.split('-')[0]);
+        var thisYear = new Date().getFullYear();
+        if (selectYear >= thisYear) {
+          return callback(new Error('您选择的出生日期超出了范围'))
+        }
+        callback();
+      };
       return {
         mydata:{
             entranceSelection:["门诊","病房"],
@@ -159,7 +167,8 @@ export default {
           entrance:  [{required: true, message: '请填写就诊机构'}],
           nation:  [{required: true, message: '请填写民族'}],
           culture:  [{required: true, message: '请填写最高学历'}],
-          birth:  [{required: true, message: '请填写出生年月'}],
+          birth:  [{required: true, message: '请填写出生年月'},
+                    {validator:birthAlert,trigger: 'blur' }],
           title:  [{required: true, message: '请填写专家职称'}],
           expert:  [{required: true, message: '请填写专家姓名'}],
         }
