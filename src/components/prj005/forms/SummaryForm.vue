@@ -22,7 +22,7 @@
       <h4>主诉</h4>
         <p class="prj005-summary">
           下腹部疼痛
-          <el-input v-model="summaryForm.main_xiafu" style="width:250px;">
+          <el-input v-model="summaryForm.main_xiafu" style="width:250px;" type="number">
             <el-select v-model="summaryForm.main_xiafu_unit" slot="append" placeholder="单位">
               <el-option label="天" value="天"></el-option>
               <el-option label="月" value="月"></el-option>
@@ -30,13 +30,13 @@
             </el-select>
           </el-input>
           ，加重
-          <el-input v-model="summaryForm.main_xiafu_more" style="width:250px;">
+          <el-input v-model="summaryForm.main_xiafu_more" style="width:250px;" type="number">
             <span slot="append">天</span>
           </el-input>
         </p>
         <p class="prj005-summary">
           腰骶疼痛&nbsp;&nbsp;&nbsp;
-          <el-input v-model="summaryForm.main_yao" style="width:250px;">
+          <el-input v-model="summaryForm.main_yao" style="width:250px;" type="number">
             <el-select v-model="summaryForm.main_yao_unit" slot="append" placeholder="单位">
               <el-option label="天" value="天"></el-option>
               <el-option label="月" value="月"></el-option>
@@ -44,13 +44,13 @@
             </el-select>
           </el-input>
           ，加重
-          <el-input v-model="summaryForm.main_yao_more" style="width:250px;">
+          <el-input v-model="summaryForm.main_yao_more" style="width:250px;" type="number">
             <span slot="append">天</span>
           </el-input>
         </p>
         <p class="prj005-summary">
           发热&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <el-input v-model="summaryForm.main_fare" style="width:250px;">
+          <el-input v-model="summaryForm.main_fare" style="width:250px;" type="number">
             <el-select v-model="summaryForm.main_fare_unit" slot="append" placeholder="单位">
               <el-option label="天" value="天"></el-option>
               <el-option label="月" value="月"></el-option>
@@ -60,7 +60,7 @@
         </p>
         <p class="prj005-summary">
           白带异常&nbsp;&nbsp;&nbsp;
-          <el-input v-model="summaryForm.main_baidai" style="width:250px;">
+          <el-input v-model="summaryForm.main_baidai" style="width:250px;" type="number">
             <el-select v-model="summaryForm.main_baidai_unit" slot="append" placeholder="单位">
               <el-option label="天" value="天"></el-option>
               <el-option label="月" value="月"></el-option>
@@ -70,7 +70,7 @@
         </p>
         <p class="prj005-summary">
           月经异常&nbsp;&nbsp;&nbsp;
-          <el-input v-model="summaryForm.main_yuejing" style="width:250px;">
+          <el-input v-model="summaryForm.main_yuejing" style="width:250px;" type="number">
             <el-select v-model="summaryForm.main_yuejing_unit" slot="append" placeholder="单位">
               <el-option label="天" value="天"></el-option>
               <el-option label="月" value="月"></el-option>
@@ -81,11 +81,11 @@
         <p class="prj005-summary">
           其他&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <el-input v-model="summaryForm.main_qita" style="width:250px;">
-            <el-select v-model="summaryForm.main_qita_unit" slot="append" placeholder="单位">
+            <!-- <el-select v-model="summaryForm.main_qita_unit" slot="append" placeholder="单位">
               <el-option label="天" value="天"></el-option>
               <el-option label="月" value="月"></el-option>
               <el-option label="年" value="年"></el-option>
-            </el-select>
+            </el-select> -->
           </el-input>
         </p>
 
@@ -105,7 +105,7 @@
                   v-model="summaryForm[key]"
                   :key="key" :label="val">
         </el-checkbox>
-        <el-input v-model="summaryForm.part_qita"></el-input>
+        <el-input v-model="summaryForm.pain_qita"></el-input>
       <h4>疼痛加重及缓解因素</h4>
         <el-checkbox v-for="(val, key) in pain_more"
                   v-model="summaryForm[key]"
@@ -293,6 +293,11 @@
                     v-model="summaryForm[key]"
                     :key="key" :label="val">
           </el-checkbox>
+          <br>
+          <el-radio v-show="summaryForm.feces_times" v-model="summaryForm.feces_times_choices" label="2-3日1次"></el-radio>
+          <el-radio v-show="summaryForm.feces_times" v-model="summaryForm.feces_times_choices" label="3日以上1次"></el-radio>
+          <el-radio v-show="summaryForm.feces_times" v-model="summaryForm.feces_times_choices" label="1日2-3次"></el-radio>
+          <el-radio v-show="summaryForm.feces_times" v-model="summaryForm.feces_times_choices" label="1日3次以上"></el-radio>
         </p>
         <p>
           ②小便：
@@ -536,7 +541,6 @@ export default {
       "feces":{
             "feces_zc":"正常",
             "feces_times":"大便次数",
-            "feces_times_choices":"大便次数",
             "feces_gan":"便干结",
             "feces_shi":"时干时稀",
             "feces_bu":"大便不成形",

@@ -150,8 +150,8 @@
           <el-radio v-model="infoForm.leukorrheal_quantity" label="异常" style="width:50px;"></el-radio>
           <span v-show="infoForm.leukorrheal_quantity == '异常'">
             （
-            <el-radio v-model="infoForm.leukorrheal_quantity2" label="量多" style="width:50px;"></el-radio>
-            <el-radio v-model="infoForm.leukorrheal_quantity2" label="量少" style="width:50px;"></el-radio>
+            <el-radio v-model="infoForm.leukorrheal_quantity_more" label="量多" style="width:50px;"></el-radio>
+            <el-radio v-model="infoForm.leukorrheal_quantity_more" label="量少" style="width:50px;"></el-radio>
             ）
           </span>
         </p>
