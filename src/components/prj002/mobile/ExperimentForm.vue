@@ -4,11 +4,19 @@
             label-width="210px" label-position="left">
       <p>（说明：性激素测定抽血时间为：有周期者在月经周期的第2-4天进行；无周期者可在B超提示处于卵泡期或黄体酮撤退后出血的2-4天进行）</p>
 
-      <el-form-item v-for="(val, key) in mydata" :key="key" :label="val[0]">
+      <!-- <el-form-item v-for="(val, key) in mydata" :key="key" :label="val[0]">
         <el-input v-model="experimentForm[key]" type="number" min="0">
           <template slot="append">{{val[1]}}</template>
         </el-input>
-      </el-form-item>
+      </el-form-item> -->
+      <div v-for="(val, key) in mydata" :key="key">
+        <p style="color:cornflowerblue">{{val[0]}}</p>
+        <el-input v-model="experimentForm[key]" type="number" min="0">
+          <template slot="append">{{val[1]}}</template>
+        </el-input>
+      </div>
+
+      <p></p>
 
       <el-form-item label="胰岛素抵抗指数(HOMA-IR)">
         <el-input type="number" min="0" v-model="HOMAIR" disabled></el-input>
@@ -78,5 +86,6 @@ export default {
   }
 };
 </script>
-<style lang="">
+<style lang="scss">
+
 </style>
