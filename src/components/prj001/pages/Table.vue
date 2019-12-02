@@ -6,7 +6,12 @@
         <el-row>
           <el-col>
             <el-form-item v-for="(val, key, index) in search" :key="index">
-              <el-input v-if="key!='is_checked'&& key!='types'" v-model="search[key]" :placeholder="searchName[key]"></el-input>
+              <el-input v-if="key!='is_checked'&& key!='types' && key!='owner__user_name' && key!='owner__hospital'"
+                        v-model="search[key]" :placeholder="searchName[key]"></el-input>
+            </el-form-item>
+            <el-form-item v-for="(val, key, index) in search" :key="index">
+              <el-input v-if="(key=='owner__user_name' && is_admin) || (key=='owner__hospital' && is_admin)"
+                        v-model="search[key]" :placeholder="searchName[key]"></el-input>
             </el-form-item>
             <el-form-item>
               <el-select v-model="search.is_checked" placeholder="查询审核状态">
@@ -15,6 +20,9 @@
                 <el-option value="审核不通过" label="审核不通过"></el-option>
               </el-select>
             </el-form-item>
+            <!-- <el-form-item>
+              <el-input v-if="key!='is_checked'&& key!='types'" v-model="search[key]" :placeholder="searchName[key]"></el-input>
+            </el-form-item> -->
           </el-col>
         </el-row>
         <el-row>
@@ -154,9 +162,11 @@ export default {
       expandFlag:true,
       is_admin:'',
       search: {
-        name: '', telephone:'', hospital:'', address:'', is_checked:'', types:'search'
+        name:'', telephone:'', hospital:'', address:'',
+        owner__user_name:'', owner__hospital:'',
+        is_checked:'', types:'search'
       },
-      searchName: {name:'姓名',telephone:'电话',hospital:'医院',address:'地址'},
+      searchName: {name:'姓名',telephone:'电话',hospital:'医院',address:'地址', owner__user_name:'医生姓名', owner__hospital:'医生所在医院'},
       patientsList: [], // 数据列表
       totalNum: 0, //  数据总条数
       page: 1, //当前页码
@@ -235,7 +245,8 @@ export default {
     },
     // 获取患者列表
     getPatients () {
-      this.search = {name: '', telephone:'', hospital:'', address:'', types:'search'}
+      this.search = {name: '', telephone:'', hospital:'', address:'',
+                    owner__user_name:'', owner__hospital:'', types:'search'}
       let para = {
         page: this.page
       }
