@@ -166,7 +166,8 @@ export default {
         owner__user_name:'', owner__hospital:'',
         is_checked:'', types:'search'
       },
-      searchName: {name:'姓名',telephone:'电话',hospital:'医院',address:'地址', owner__user_name:'医生姓名', owner__hospital:'医生所在医院'},
+      searchName: {name:'姓名',telephone:'电话',hospital:'医院',address:'地址',
+                    owner__user_name:'医生姓名', owner__hospital:'医生所在医院'},
       patientsList: [], // 数据列表
       totalNum: 0, //  数据总条数
       page: 1, //当前页码
