@@ -150,7 +150,7 @@ export default {
       "vagina":{
           "vagina_wai":"外阴阴道假丝酵母菌病",
           "vagina_xi":"细菌性阴道病",
-          "vagina_xu":"需氧菌性阴道炎",
+          "vagina_hun":"混合性阴道炎",
           "vagina_di":"滴虫性阴道炎",
           "vagina_lao":"老年性阴道炎",
       },
@@ -176,11 +176,12 @@ export default {
       },
       "operation_gong":{
           "operation_gong_ren":"人工流产术",
-          "operation_gong_gua":"刮宫术",
+          "operation_gong_qing":"清宫术",
+          "operation_gong_gua":"诊断性刮宫术",
           "operation_gong_zhi":"节育器置入术",
           "operation_gong_qu":"节育器取出术",
-          "operation_gong_tong":"输卵管通液术",
-          "operation_gong_zao":"输卵管造影术",
+          "operation_gong_tong":"子宫输卵管通液术",
+          "operation_gong_zao":"子宫输卵管造影术",
           "operation_gong_gong":"宫腔镜检查",
       },
       "operation_pen":{
@@ -188,11 +189,9 @@ export default {
           "operation_pen_chu":"子宫切除术",
           "operation_pen_jia":"全子宫加双附件切除术",
           "operation_pen_wa":"子宫肌瘤挖除术",
-          "operation_pen_tong":"输卵管通液术",
           "operation_pen_jie":"输卵管结扎术",
           "operation_pen_luan":"卵巢囊肿剥除术",
           "operation_pen_fennian":"盆腔分粘术",
-          "operation_pen_yiwei":"子宫内膜异位症手术",
           "operation_pen_lawei":"阑尾切除术",
       },
       "contraception":{

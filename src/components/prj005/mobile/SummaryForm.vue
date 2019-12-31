@@ -109,7 +109,7 @@
                   v-show="summaryForm.pain_season_wu !== true">
         </el-checkbox>
         <p></p>
-        <el-checkbox  v-model="summaryForm['pain_time_wu']" label="与时间无关 "></el-checkbox>
+        <el-checkbox  v-model="summaryForm['pain_time_wu']" label="与时辰无关 "></el-checkbox>
         <el-checkbox v-for="(val, key) in pain_time"
                   v-model="summaryForm[key]"
                   :key="key" :label="val"
@@ -130,7 +130,7 @@
           </el-radio>
         </p>
         <p>
-          ②白带颜色：
+          ②白带颜色（可多选）：
           <el-checkbox v-for="(val, key) in leucorrhea_color"
                     v-model="summaryForm[key]"
                     :key="key" :label="val">
@@ -173,9 +173,10 @@
             </span>
           <el-radio v-model="summaryForm.menses_quantity" label="减少"></el-radio>
             <span v-show="summaryForm.menses_quantity == '减少'">
-              （<el-radio v-model="summaryForm.menses_quantity_more" label="1/3"></el-radio>
-              <el-radio v-model="summaryForm.menses_quantity_more" label="1/2"></el-radio>
-              <el-radio v-model="summaryForm.menses_quantity_more" label="点滴即净"></el-radio>）
+              （<el-radio v-model="summaryForm.menses_quantity_less" label="1/3"></el-radio>
+              <el-radio v-model="summaryForm.menses_quantity_less" label="1/2"></el-radio>
+              <el-radio v-model="summaryForm.menses_quantity_less" label="2/3"></el-radio>
+              <el-radio v-model="summaryForm.menses_quantity_less" label="点滴即净"></el-radio>）
             </span>
           <el-input v-model="summaryForm.menses_quantity_qita"></el-input>
         </p>
@@ -212,11 +213,6 @@
                   :key="key" :label="val">
         </el-checkbox>
         <el-input v-model="summaryForm.spirit_qita"></el-input>
-      <h4>寒热</h4>
-        <el-checkbox v-for="(val, key) in cold"
-                  v-model="summaryForm[key]"
-                  :key="key" :label="val">
-        </el-checkbox>
       <h4>汗出</h4>
         <el-checkbox v-for="(val, key) in perspire"
                   v-model="summaryForm[key]"
@@ -439,7 +435,7 @@ export default {
       },
       "face":{
             "face_zc":"正常",
-            "face_dan":"淡白无华",
+            "face_dan":"晄白无华",
             "face_cang":"苍白",
             "face_qing":"青白",
             "face_bai":"白而浮肿",
@@ -452,7 +448,9 @@ export default {
             "face_huang":"黄褐斑",
       },
       "head":{
-            "head_yun":"头晕耳鸣",
+            "head_zc":"正常",
+            "head_touyun":"头晕",
+            "head_erming":"耳鸣",
             "head_tong":"头痛",
             "head_hua":"眼花",
             "head_se":"目涩",
@@ -472,7 +470,6 @@ export default {
       },
       "chest":{
             "chest_zc":"正常",
-            "chest_xinhuang":"心慌气短",
             "chest_zhangmen":"胸胁胀闷",
             "chest_xiongyin":"胸胁隐痛",
             "chest_xiongci":"胸胁刺痛",
@@ -485,10 +482,10 @@ export default {
             "limbs_juan":"肢倦",
             "limbs_leng":"肢冷",
             "limbs_zu":"手足心热",
-            "limbs_fu":"浮肿",
+            "limbs_fu":"下肢浮肿",
             "limbs_suan":"膝酸软",
-            "limbs_gen":"足跟痛",
             "limbs_xi":"膝痛",
+            "limbs_gen":"足跟痛",
             "limbs_shang":"上肢关节疼痛",
             "limbs_xia":"下肢关节疼痛",
       },
@@ -497,7 +494,7 @@ export default {
             "diet_xinla":"喜辛辣",
             "diet_re":"喜热饮",
             "diet_leng":"喜冷饮",
-            "diet_fu":"脘腹胀满",
+            "diet_fu":"食后脘腹胀满",
             "diet_shao":"食少纳呆",
             "diet_hou":"食后胃脘不舒",
             "diet_yuyin":"口干欲饮",
@@ -541,7 +538,7 @@ export default {
             "texture_anhong":"黯红",
             "texture_zian":"紫黯",
             "texture_yudian":"有瘀点或瘀斑",
-            "texture_jianhong":"舌边尖红",
+            "texture_jianhong":"边尖红",
       },
       "coating":{
               "coating_bai":"白",
@@ -563,7 +560,7 @@ export default {
             "tongue_zc":"正常",
             "tongue_xiao":"瘦小",
             "tongue_da":"胖大",
-            "tongue_chi":"有齿痕",
+            "tongue_chi":"边有齿痕",
       },
       "pulse":{
             "pulse_fu":"浮",
