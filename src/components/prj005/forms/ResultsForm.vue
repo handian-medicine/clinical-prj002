@@ -11,6 +11,7 @@
         <el-divider v-if="is_checked=='审核通过'"></el-divider>
 
     <h4>疗效评价</h4>
+    <p style="color:red">经既往治疗方法治疗后，患者目前症状、体征改善情况。若患者为盆腔炎性疾病急性期或盆腔炎疾病反复发作加重期初次就诊，此项不填</p>
         <p>
             ①下腹疼痛缓解情况：
             <el-radio v-model="resultsForm.pain_xia"

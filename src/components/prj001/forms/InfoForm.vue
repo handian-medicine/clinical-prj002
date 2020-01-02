@@ -193,7 +193,7 @@ export default {
   },
   created() {
       this.$on("openEvent", (data)=>{
-        console.log('一般情况获取到的数据',data)
+        // console.log('一般情况获取到的数据',data)
         this.dialogVisible = true
         this.exist = data.exist
         this.is_checked = data.is_checked

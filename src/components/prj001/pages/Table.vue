@@ -286,7 +286,7 @@ export default {
     },
     //核心的Form表单
     openDataForm (index, row, formName) {
-      console.log('formName',formName)
+      // console.log('formName',formName)
       // 如果DataForm表未创建,不需要请求后端,直接显示空表
       /* 遗留问题 */
       if (formName == 'info') { row[formName] = row['url'] }
@@ -303,7 +303,7 @@ export default {
         let para = {page: this.page, url: row[formName]}
         apiGetPatientDataForm(para)
         .then((res)=> {
-          console.log('拿到的已创建的DataForm表',res.data)
+          // console.log('拿到的已创建的DataForm表',res.data)
 
           /* 遗留问题 */
           //放在infoForm里面会有datepicker的bug
