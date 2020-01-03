@@ -16,6 +16,9 @@
                   title="此条信息为其他用户创建，您无法修改"
                   type="warning" :closable="false" show-icon>
       </el-alert>
+      <el-alert  title="没有治疗者不填"
+                        type="info" :closable="false" show-icon>
+      </el-alert>
       <el-divider></el-divider>
 
       <el-form-item label="VAS评分（与治疗前比较）" label-width="100%"></el-form-item>

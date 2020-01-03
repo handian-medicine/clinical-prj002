@@ -18,7 +18,13 @@
  <div>
      <div>
          <h3>I. 中医治疗</h3>
-            <el-form-item label="1. 治法">
+           <el-form-item label="">
+             <el-radio-group v-model="cureForm.is_zhongyi">
+               <el-radio :label="true">是</el-radio>
+               <el-radio :label="false">否</el-radio>
+             </el-radio-group>
+           </el-form-item>
+            <el-form-item  v-show="cureForm.is_zhongyi" label="1. 治法">
               <el-radio-group v-model="zhifa_result" @change="changezhifa">
                 <el-radio class="radio" label="实证治法">实证治法</el-radio>
                 <el-radio class="radio" label="虚证治法">虚证治法</el-radio>
@@ -26,46 +32,46 @@
               </el-radio-group>
             </el-form-item>
 
-            <el-form-item  v-show="zhifa_shizheng" label="实证治法">
+            <el-form-item  v-show="zhifa_shizheng&&cureForm.is_zhongyi" label="实证治法">
               <el-radio v-model="cureForm.shizheng_cure"
                         v-for="item in shizheng_cure_choices"
                         :key="item" :label="item">
               </el-radio>
                 <el-input v-model="cureForm.shizheng_cure_qita" placeholder="其他"></el-input>
             </el-form-item>
-            <el-form-item v-show="zhifa_xuzheng"  label="虚证治法">
+            <el-form-item v-show="zhifa_xuzheng&&cureForm.is_zhongyi"  label="虚证治法">
               <el-radio v-model="cureForm.xuzheng_cure"
                         v-for="item in xuzheng_cure_choices"
                         :key="item" :label="item">
               </el-radio>
                 <el-input v-model="cureForm.xuzheng_cure_qita"  placeholder="其他"></el-input>
             </el-form-item>
-            <el-form-item  v-show="zhifa_xushi" label="虚实夹杂治法">
+            <el-form-item  v-show="zhifa_xushi&&cureForm.is_zhongyi" label="虚实夹杂治法">
                 <el-input v-model="cureForm.xushi_cure" ></el-input>
             </el-form-item>
 
-            <el-form-item label="2. 代表方">
+            <el-form-item v-show="cureForm.is_zhongyi" label="2. 代表方">
               <el-radio-group v-model="daibiaofang_result" @change="changedaibiaofang">
                 <el-radio class="radio" label="实证代表方">实证代表方</el-radio>
                 <el-radio class="radio" label="虚证代表方">虚证代表方</el-radio>
                 <el-radio class="radio" label="虚实夹杂证代表方">虚实夹杂证代表方</el-radio>
               </el-radio-group>
             </el-form-item>
-            <el-form-item v-show="daibiaofang_shizheng"  label="实证代表方">
+            <el-form-item v-show="daibiaofang_shizheng&&cureForm.is_zhongyi"  label="实证代表方">
                 <el-checkbox v-for="(val, key) in shizheng_daibiao" :key="key" :label="val" v-model="cureForm[key]">
                 </el-checkbox>
                 <el-input v-model="cureForm.shizheng_qita" placeholder="其他"></el-input>
             </el-form-item>
-            <el-form-item v-show="daibiaofang_xuzheng" label="虚证代表方">
+            <el-form-item v-show="daibiaofang_xuzheng&&cureForm.is_zhongyi" label="虚证代表方">
                 <el-checkbox v-for="(val, key) in xuzheng_daibiao" :key="key" :label="val" v-model="cureForm[key]">
                 </el-checkbox>
                 <el-input v-model="cureForm.xuzheng_qita" placeholder="其他"></el-input>
             </el-form-item>
-            <el-form-item v-show="daibiaofang_xushi" label="虚实夹杂证代表方">
+            <el-form-item v-show="daibiaofang_xushi&&cureForm.is_zhongyi" label="虚实夹杂证代表方">
                 <el-input v-model="cureForm.xushi_represent" ></el-input>
             </el-form-item>
 
-         <el-form-item label="3. 中成药">
+         <el-form-item v-show="cureForm.is_zhongyi" label="3. 中成药">
            <el-radio-group v-model="cureForm.zcy">
              <el-radio :label="true">是</el-radio>
              <el-radio :label="false">否</el-radio>
@@ -74,13 +80,13 @@
              <el-switch v-model="cureForm.zcy" active-text="是" inactive-text="否"></el-switch>
              -->
          </el-form-item>
-         <el-form-item v-show="cureForm.zcy" label="">
+         <el-form-item v-show="cureForm.zcy&&cureForm.is_zhongyi" label="">
              <el-checkbox v-for="(val, key) in medicine" :key="key" :label="val" v-model="cureForm[key]">
              </el-checkbox>
              <el-input v-model="cureForm.medicine_qita"  placeholder="其他"></el-input>
          </el-form-item>
 
-         <el-form-item label="4. 中医其他治疗">
+         <el-form-item v-show="cureForm.is_zhongyi" label="4. 中医其他治疗">
             <el-checkbox label="无" v-model="cureForm['way_wu']">
             </el-checkbox>
              <el-checkbox v-show="!cureForm['way_wu']" v-for="(val, key) in zhongyi_qita_cure" :key="key" :label="val" v-model="cureForm[key]">
@@ -92,7 +98,13 @@
 
     <div>
         <h3>II. 西医治疗</h3>
-        <el-form-item label="应用止痛药">
+        <el-form-item label="">
+          <el-radio-group v-model="cureForm.is_xiyi">
+            <el-radio :label="true">是</el-radio>
+            <el-radio :label="false">否</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item v-show="cureForm.is_xiyi" label="应用止痛药">
           <el-radio-group v-model="cureForm.is_zhitong">
             <el-radio :label="true">是</el-radio>
             <el-radio :label="false">否</el-radio>
@@ -102,18 +114,18 @@
             -->
         </el-form-item>
 
-        <el-form-item v-show="cureForm.is_zhitong" label="具体药物-口服">
+        <el-form-item v-show="cureForm.is_zhitong&&cureForm.is_xiyi" label="具体药物-口服">
             <el-checkbox v-for="(val, key) in koufu_zt" :key="key" :label="val" v-model="cureForm[key]">
             </el-checkbox>
             <el-input v-model="cureForm.xi_medicine_qita"  placeholder="其他"></el-input>
         </el-form-item>
-        <el-form-item v-show="cureForm.is_zhitong" label="具体药物-注射">
+        <el-form-item v-show="cureForm.is_zhitong&&cureForm.is_xiyi" label="具体药物-注射">
             <el-checkbox v-for="(val, key) in zhushe_zt" :key="key" :label="val" v-model="cureForm[key]">
             </el-checkbox>
             <el-input v-model="cureForm.xi_zs_qita"  placeholder="其他"></el-input>
         </el-form-item>
 
-        <el-form-item label="口服避孕药">
+        <el-form-item v-show="cureForm.is_xiyi" label="口服避孕药">
           <el-radio-group v-model="cureForm.is_biyunyao">
             <el-radio :label="true">是</el-radio>
             <el-radio :label="false">否</el-radio>
@@ -122,12 +134,12 @@
             <el-switch v-model="cureForm.is_biyunyao" active-text="是" inactive-text="否"></el-switch>
             -->
         </el-form-item>
-        <el-form-item v-show="cureForm.is_biyunyao" label="避孕具体药物">
+        <el-form-item v-show="cureForm.is_biyunyao&&cureForm.is_xiyi" label="避孕具体药物">
             <el-checkbox v-for="(val, key) in biyun" :key="key" :label="val" v-model="cureForm[key]">
             </el-checkbox>
             <el-input v-model="cureForm.biyun_qita"  placeholder="其他"></el-input>
         </el-form-item>
-        <el-form-item label="西医其他治疗">
+        <el-form-item v-show="cureForm.is_xiyi" label="西医其他治疗">
             <el-input v-model="cureForm.other_cure" placeholder="其他"></el-input>
         </el-form-item>
     </div>
@@ -298,6 +310,8 @@ export default {
       },
       cureForm:{
         is_together_cure:false,
+        is_zhongyi:false,
+        is_xiyi:false,
         zcy:false,
         is_zhitong:false,
         is_biyunyao:false,
