@@ -49,26 +49,26 @@
         </p>
       <h4>既往手术史</h4>
         <p>
-          ①宫腔手术操作史：<el-checkbox v-model="historyForm.operation_gong">有</el-checkbox>
+          ①宫腔手术操作史：<el-switch v-model="historyForm.operation_gong" active-text="有" inactive-text="无"></el-switch>
           <el-checkbox v-for="(val, key) in operation_gong"
                     v-model="historyForm[key]"
                     :key="key" :label="val"
                     v-show="historyForm.operation_gong">
           </el-checkbox>
-          <el-input v-model="historyForm.operation_gong_qita" placeholder="其他"></el-input>
+          <el-input v-show="historyForm.operation_gong" v-model="historyForm.operation_gong_qita" placeholder="其他"></el-input>
         </p>
         <p>
-          ②盆腔手术史：<el-checkbox v-model="historyForm.operation_pen">有</el-checkbox>
+          ②盆腔手术史：<el-switch v-model="historyForm.operation_pen" active-text="有" inactive-text="无"></el-switch>
           <el-checkbox v-for="(val, key) in operation_pen"
                     v-model="historyForm[key]"
                     :key="key" :label="val"
                     v-show="historyForm.operation_pen">
           </el-checkbox>
-          <el-input v-model="historyForm.operation_pen_qita" placeholder="其他"></el-input>
+          <el-input v-show="historyForm.operation_pen" v-model="historyForm.operation_pen_qita" placeholder="其他"></el-input>
         </p>
       <h4>性活动</h4>
         <p>
-          ①性生活：<el-checkbox v-model="historyForm.sex_life">有</el-checkbox>
+          ①性生活：<el-switch v-model="historyForm.sex_life" active-text="有" inactive-text="无"></el-switch>
         </p>
         <p>
           ②初次性生活年龄：
@@ -84,7 +84,7 @@
           ④性伴侣个数（个）：
           <el-radio v-model="historyForm.sex_lover_number" label="1"></el-radio>
           <el-radio v-model="historyForm.sex_lover_number" label="2"></el-radio>
-          <el-radio v-model="historyForm.sex_lover_number" label="3"></el-radio>
+          <el-radio v-model="historyForm.sex_lover_number" label="≥3"></el-radio>
         </p>
         <p>
           ⑤性生活频次：
@@ -93,7 +93,8 @@
           <el-radio v-model="historyForm.sex_life_times" label="＞3次/周"></el-radio>
         </p>
         <p>
-          ⑥性伴侣是否伴有性传播疾病：<el-checkbox v-model="historyForm.sex_lover_disease">是</el-checkbox>
+          ⑥性伴侣是否伴有性传播疾病：
+          <el-switch v-model="historyForm.sex_lover_disease" active-text="有" inactive-text="无"></el-switch>
         </p>
       <h4>避孕措施</h4>
         <el-checkbox v-for="(val, key) in contraception"
@@ -104,7 +105,7 @@
       <h4>性卫生不良</h4>
           <p>
             ①经期同房：
-            <el-checkbox v-model="historyForm.bad_jingqi">有</el-checkbox>
+            <el-switch v-model="historyForm.bad_jingqi" active-text="有" inactive-text="无"></el-switch>
             <span v-show="historyForm.bad_jingqi">
               (
               <el-radio v-model="historyForm['bad_jingqi' + '_exist']" label="偶尔"></el-radio>
@@ -115,7 +116,7 @@
           </p>
           <p>
             ②产褥期（产后42天内）同房：
-            <el-checkbox v-model="historyForm.bad_chanru">有</el-checkbox>
+            <el-switch v-model="historyForm.bad_chanru" active-text="有" inactive-text="无"></el-switch>
             <span v-show="historyForm.bad_chanru">
               (
               <el-radio v-model="historyForm['bad_chanru' + '_exist']" label="偶尔"></el-radio>
@@ -126,7 +127,7 @@
           </p>
           <p>
             ③流产后同房（流产1月内）：
-            <el-checkbox v-model="historyForm.bad_liuchan">有</el-checkbox>
+            <el-switch v-model="historyForm.bad_liuchan" active-text="有" inactive-text="无"></el-switch>
             <span v-show="historyForm.bad_liuchan">
               (
               <el-radio v-model="historyForm['bad_liuchan' + '_exist']" label="偶尔"></el-radio>
@@ -137,11 +138,11 @@
           </p>
           <p>
             ④经期使用不洁卫生巾
-            <el-checkbox v-model="historyForm.bad_bujie">有</el-checkbox>
+            <el-switch v-model="historyForm.bad_bujie" active-text="有" inactive-text="无"></el-switch>
           </p>
           <p>
             ⑤阴道冲洗器使用
-            <el-checkbox v-model="historyForm.bad_yindao">有</el-checkbox>
+            <el-switch v-model="historyForm.bad_yindao"  active-text="有" inactive-text="无"></el-switch>
             <span v-show="historyForm.bad_yindao">
               (
               <el-radio v-model="historyForm['bad_yindao' + '_exist']" label="偶尔"></el-radio>
@@ -224,7 +225,7 @@ export default {
           "contraception_an":"安全期避孕",
           "contraception_wai":"体外射精",
           "contraception_ji":"激素避孕药",
-          "contraception_kou":"口服短效",
+          "contraception_kou":"口服短效避孕药",
           "contraception_chang":"长效避孕药",
           "contraception_jin":"紧急避孕药",
           "contraception_zhen":"避孕针",

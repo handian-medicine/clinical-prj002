@@ -63,7 +63,7 @@
         </p>
         <p class="prj005-summary">
           其他&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <el-input v-model="summaryForm.main_qita" style="width:250px;">
+          <el-input v-model="summaryForm.main_qita" style="width:250px;" placeholder="其他">
             <!-- <el-select v-model="summaryForm.main_qita_unit" slot="append" placeholder="单位">
               <el-option label="天" value="天"></el-option>
               <el-option label="月" value="月"></el-option>
@@ -77,7 +77,7 @@
                   v-model="summaryForm[key]"
                   :key="key" :label="val">
         </el-checkbox>
-        <el-input v-model="summaryForm.part_qita"></el-input>
+        <el-input v-model="summaryForm.part_qita" placeholder="其他"></el-input>
       <h4>疼痛持续时间</h4>
         <el-checkbox v-for="(val, key) in duration"
                   v-model="summaryForm[key]"
@@ -88,7 +88,7 @@
                   v-model="summaryForm[key]"
                   :key="key" :label="val">
         </el-checkbox>
-        <el-input v-model="summaryForm.pain_qita"></el-input>
+        <el-input v-model="summaryForm.pain_qita" placeholder="其他"></el-input>
       <h4>疼痛加重及缓解因素</h4>
         <el-checkbox v-for="(val, key) in pain_more"
                   v-model="summaryForm[key]"
@@ -120,7 +120,7 @@
                   v-for="item in fever_status"
                   :key="item" :label="item">
         </el-radio>
-        <el-input v-model="summaryForm.fever_status_qita"></el-input>
+        <el-input v-model="summaryForm.fever_status_qita" placeholder="其他"></el-input>
       <h4>带下异常情况</h4>
         <p>
           ①白带量：
@@ -135,7 +135,7 @@
                     v-model="summaryForm[key]"
                     :key="key" :label="val">
           </el-checkbox>
-          <el-input v-model="summaryForm.leucorrhea_color_qita"></el-input>
+          <el-input v-model="summaryForm.leucorrhea_color_qita" placeholder="其他"></el-input>
         </p>
         <p>
           ③白带性状
@@ -143,7 +143,7 @@
                     v-for="item in leucorrhea_character"
                     :key="item" :label="item">
           </el-radio>
-          <el-input v-model="summaryForm.leucorrhea_character_qita"></el-input>
+          <el-input v-model="summaryForm.leucorrhea_character_qita" placeholder="其他"></el-input>
         </p>
         <p>
           ④白带气味
@@ -151,7 +151,7 @@
                     v-for="item in leucorrhea_smell"
                     :key="item" :label="item">
           </el-radio>
-          <el-input v-model="summaryForm.leucorrhea_smell_qita"></el-input>
+          <el-input v-model="summaryForm.leucorrhea_smell_qita" placeholder="其他"></el-input>
         </p>
 
       <h4>月经异常情况</h4>
@@ -178,7 +178,7 @@
               <el-radio v-model="summaryForm.menses_quantity_less" label="2/3"></el-radio>
               <el-radio v-model="summaryForm.menses_quantity_less" label="点滴即净"></el-radio>）
             </span>
-          <el-input v-model="summaryForm.menses_quantity_qita"></el-input>
+          <el-input v-model="summaryForm.menses_quantity_qita" placeholder="其他"></el-input>
         </p>
         <p>
           ③末次月经颜色
@@ -186,7 +186,7 @@
                     v-for="item in menses_color"
                     :key="item" :label="item">
           </el-radio>
-          <el-input v-model="summaryForm.menses_color_qita"></el-input>
+          <el-input v-model="summaryForm.menses_color_qita" placeholder="其他"></el-input>
         </p>
         <p>
           ④末次月经质地
@@ -198,7 +198,7 @@
       <h4>主要症状出现的频率</h4>
           <p v-for="(val, key) in rate" :key="val">
             {{val}}：
-            <el-checkbox v-model="summaryForm[key]">有</el-checkbox>
+            <el-switch v-model="summaryForm[key]" active-text="有" inactive-text="无"></el-switch>
             <span v-show="summaryForm[key]">
               (
               <el-radio v-model="summaryForm[key + '_exist']" label="偶尔"></el-radio>
@@ -212,54 +212,56 @@
                   v-model="summaryForm[key]"
                   :key="key" :label="val">
         </el-checkbox>
-        <el-input v-model="summaryForm.spirit_qita"></el-input>
+        <el-input v-model="summaryForm.spirit_qita" placeholder="其他"></el-input>
       <h4>汗出</h4>
         <el-checkbox v-for="(val, key) in perspire"
                   v-model="summaryForm[key]"
                   :key="key" :label="val">
         </el-checkbox>
-        <el-input v-model="summaryForm.perspire_qita"></el-input>
+        <el-input v-model="summaryForm.perspire_qita" placeholder="其他"></el-input>
       <h4>面色</h4>
         <el-checkbox v-for="(val, key) in face"
                   v-model="summaryForm[key]"
                   :key="key" :label="val">
         </el-checkbox>
+        <el-input v-model="summaryForm.face_qita" placeholder="其他"></el-input>
+
       <h4>头面部症状</h4>
         <el-checkbox v-for="(val, key) in head"
                   v-model="summaryForm[key]"
                   :key="key" :label="val">
         </el-checkbox>
-        <el-input v-model="summaryForm.head_qita"></el-input>
+        <el-input v-model="summaryForm.head_qita" placeholder="其他"></el-input>
       <h4>口咽部</h4>
         <el-checkbox v-for="(val, key) in mouth"
                   v-model="summaryForm[key]"
                   :key="key" :label="val">
         </el-checkbox>
-        <el-input v-model="summaryForm.mouth_qita"></el-input>
+        <el-input v-model="summaryForm.mouth_qita" placeholder="其他"></el-input>
       <h4>胸胁</h4>
         <el-checkbox v-for="(val, key) in chest"
                   v-model="summaryForm[key]"
                   :key="key" :label="val">
         </el-checkbox>
-        <el-input v-model="summaryForm.chest_qita"></el-input>
+        <el-input v-model="summaryForm.chest_qita" placeholder="其他"></el-input>
       <h4>四肢</h4>
         <el-checkbox v-for="(val, key) in limbs"
                   v-model="summaryForm[key]"
                   :key="key" :label="val">
         </el-checkbox>
-        <el-input v-model="summaryForm.limbs_qita"></el-input>
+        <el-input v-model="summaryForm.limbs_qita" placeholder="其他"></el-input>
       <h4>饮食</h4>
         <el-checkbox v-for="(val, key) in diet"
                   v-model="summaryForm[key]"
                   :key="key" :label="val">
         </el-checkbox>
-        <el-input v-model="summaryForm.diet_qita"></el-input>
+        <el-input v-model="summaryForm.diet_qita" placeholder="其他"></el-input>
       <h4>睡眠</h4>
         <el-checkbox v-for="(val, key) in sleep"
                   v-model="summaryForm[key]"
                   :key="key" :label="val">
         </el-checkbox>
-        <el-input v-model="summaryForm.sleep_qita"></el-input>
+        <el-input v-model="summaryForm.sleep_qita" placeholder="其他"></el-input>
       <h4>性欲</h4>
         <el-radio v-model="summaryForm.sexuality"
                   v-for="item in sexuality"
@@ -268,15 +270,21 @@
       <h4>二便情况</h4>
         <p>
           ①大便：
-          <el-checkbox v-for="(val, key) in feces"
-                    v-model="summaryForm[key]"
-                    :key="key" :label="val">
-          </el-checkbox>
-          <br>
-          <el-radio v-show="summaryForm.feces_times" v-model="summaryForm.feces_times_choices" label="2-3日1次"></el-radio>
-          <el-radio v-show="summaryForm.feces_times" v-model="summaryForm.feces_times_choices" label="3日以上1次"></el-radio>
-          <el-radio v-show="summaryForm.feces_times" v-model="summaryForm.feces_times_choices" label="1日2-3次"></el-radio>
-          <el-radio v-show="summaryForm.feces_times" v-model="summaryForm.feces_times_choices" label="1日3次以上"></el-radio>
+          <el-checkbox v-model="summaryForm.feces_zc" label="正常"></el-checkbox>
+          <el-checkbox v-model="summaryForm.feces_times" label="大便次数"></el-checkbox>
+            <span v-show="summaryForm.feces_times == true">
+              （<el-radio v-model="summaryForm.feces_times_choices" label="2-3日1次"></el-radio>
+              <el-radio v-model="summaryForm.feces_times_choices" label="3日以上1次"></el-radio>
+              <el-radio v-model="summaryForm.feces_times_choices" label="1日2-3次"></el-radio>
+              <el-radio v-model="summaryForm.feces_times_choices" label="1日3次以上"></el-radio>）
+            </span>
+          <el-checkbox v-model="summaryForm.feces_gan" label="便干结"></el-checkbox>
+          <el-checkbox v-model="summaryForm.feces_shi" label="时干时稀"></el-checkbox>
+          <el-checkbox v-model="summaryForm.feces_bu" label="大便不成形"></el-checkbox>
+          <el-checkbox v-model="summaryForm.feces_xie" label="溏泄"></el-checkbox>
+          <el-checkbox v-model="summaryForm.feces_jin" label="质黏，排不尽"></el-checkbox>
+          <el-checkbox v-model="summaryForm.feces_jia" label="夹杂未消化食物"></el-checkbox>
+
         </p>
         <p>
           ②小便：
@@ -284,7 +292,7 @@
                     v-model="summaryForm[key]"
                     :key="key" :label="val">
           </el-checkbox>
-          <el-input v-model="summaryForm.pee_qita"></el-input>
+          <el-input v-model="summaryForm.pee_qita" placeholder="其他"></el-input>
         </p>
       <h4>舌象</h4>
         <p>
@@ -293,7 +301,7 @@
                     v-model="summaryForm[key]"
                     :key="key" :label="val">
           </el-checkbox>
-          <el-input v-model="summaryForm.texture_qita"></el-input>
+          <el-input v-model="summaryForm.texture_qita" placeholder="其他"></el-input>
         </p>
         <p>
           ②舌苔
@@ -301,7 +309,7 @@
                     v-model="summaryForm[key]"
                     :key="key" :label="val">
           </el-checkbox>
-          <el-input v-model="summaryForm.coating_qita"></el-input>
+          <el-input v-model="summaryForm.coating_qita" placeholder="其他"></el-input>
         </p>
         <p>
           ③舌体
@@ -309,13 +317,14 @@
                     v-model="summaryForm[key]"
                     :key="key" :label="val">
           </el-checkbox>
-          <el-input v-model="summaryForm.tongue_qita"></el-input>
+          <el-input v-model="summaryForm.tongue_qita" placeholder="其他"></el-input>
         </p>
       <h4>脉象</h4>
           <el-checkbox v-for="(val, key) in pulse"
                     v-model="summaryForm[key]"
                     :key="key" :label="val">
           </el-checkbox>
+          <el-input v-model="summaryForm.pulse_qita" placeholder="其他"></el-input>
 
 
     </el-form>
@@ -537,23 +546,24 @@ export default {
             "texture_zihong":"紫红",
             "texture_anhong":"黯红",
             "texture_zian":"紫黯",
+            "texture_danan":"淡黯",
             "texture_yudian":"有瘀点或瘀斑",
             "texture_jianhong":"边尖红",
       },
       "coating":{
               "coating_bai":"白",
               "coating_huang":"黄",
-              "coating_bo":"薄",
               "coating_bohuang":"薄黄",
               "coating_hui":"灰黑",
+              "coating_bo":"薄",
               "coating_hou":"厚",
               "coating_ni":"腻",
-              "coating_run":"润",
               "coating_hua":"滑",
+              "coating_run":"润",
               "coating_gan":"干",
               "coating_shaotai":"少苔",
-              "coating_huabo":"花剥",
               "coating_wutai":"无苔",
+              "coating_huabo":"花剥",
               "coating_lie":"有裂纹",
       },
       "tongue":{
