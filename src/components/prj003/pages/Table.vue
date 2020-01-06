@@ -8,7 +8,7 @@
             <el-form-item v-for="(val, key, index) in search" :key="index">
               <el-input v-if="key!='check_status' && key!='owner__user_name' && key!='owner__hospital'" v-model="search[key]" :placeholder="searchName[key]"></el-input>
             </el-form-item>
-            <el-form-item v-for="(val, key, index) in search" :key="index">
+            <el-form-item v-for="(val, key, index) in search" :key="'user' + index">
               <el-input v-if="(key=='owner__user_name' && is_admin) || (key=='owner__hospital' && is_admin)"
                         v-model="search[key]" :placeholder="searchName[key]"></el-input>
             </el-form-item>
