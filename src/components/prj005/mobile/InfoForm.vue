@@ -61,9 +61,15 @@
                 value-format="yyyy-MM">
         </el-date-picker>
       <h4>身高</h4>
-        <el-input v-model="infoForm.patient_height" placeholder="身高"></el-input>
+        <el-input v-model="infoForm.patient_height" placeholder="身高">
+          <span slot="append">cm</span>
+        </el-input>
+
       <h4>体重</h4>
-        <el-input v-model="infoForm.patient_weight" placeholder="体重"></el-input>
+        <el-input v-model="infoForm.patient_weight" placeholder="体重">
+          <span slot="append">kg</span>
+        </el-input>
+
       <h4>民族</h4>
         <el-select v-model="infoForm.nation" placeholder="请选择">
           <el-option v-for="item in nationSelection" :key="item" :label="item" :value="item">
@@ -74,6 +80,7 @@
           <el-option v-for="item in careerSelection" :key="item" :label="item" :value="item">
           </el-option>
         </el-select>
+        <p><el-input v-if="infoForm.patient_career=='其它'" v-model="infoForm.patient_career_qita" placeholder="其它职业"></el-input></p>
       <h4>文化程度</h4>
         <el-select v-model="infoForm.patient_culture" prop="culture" placeholder="请选择">
           <el-option v-for="item in cultureSelection" :key="item" :label="item" :value="item">
@@ -109,7 +116,8 @@
         <el-checkbox v-model="infoForm.hobby_kafei" label="咖啡"></el-checkbox>
         <el-input v-model="infoForm.hobby_qita" placeholder="其他"></el-input>
       <h4>传染病史</h4>
-        <el-checkbox v-model="infoForm.is_infection">有</el-checkbox>
+        <el-switch v-model="infoForm.is_infection" active-text="有" inactive-text="无"></el-switch>
+        <!-- <el-checkbox v-model="infoForm.is_infection">有</el-checkbox> -->
         <p v-show="infoForm.is_infection">
           <el-checkbox v-for="(val, key) in infection" :key="key"
                         v-model="infoForm[key]" :label="val">
@@ -150,7 +158,8 @@
         <p>⑦经期伴随症状：</p>
           <p v-for="(val, key) in accompany" :key="val">
             {{val}}：
-            <el-checkbox v-model="infoForm[key]">有</el-checkbox>
+            <el-switch v-model="infoForm[key]" active-text="有" inactive-text="无"></el-switch>
+            <!-- <el-checkbox v-model="infoForm[key]">有</el-checkbox> -->
             <span v-show="infoForm[key]">
               (
               <el-radio v-model="infoForm[key + '_exist']" label="偶尔"></el-radio>
@@ -185,21 +194,21 @@
           <el-radio v-model="infoForm.leukorrheal_color" label="正常" style="width:50px;"></el-radio>
           <el-radio v-model="infoForm.leukorrheal_color" label="异常" style="width:50px;"></el-radio>
           <span v-show="infoForm.leukorrheal_color == '异常'">
-            <el-input v-model="infoForm.leukorrheal_color_qita" style="width:150px;" placeholder="其他"></el-input>
+            <el-input v-model="infoForm.leukorrheal_color_qita" style="width:150px;" placeholder="请具体描述"></el-input>
           </span>
         </p>
         <p>带下性状：
           <el-radio v-model="infoForm.leukorrheal_feature" label="正常" style="width:50px;"></el-radio>
           <el-radio v-model="infoForm.leukorrheal_feature" label="异常" style="width:50px;"></el-radio>
           <span v-show="infoForm.leukorrheal_feature == '异常'">
-            <el-input v-model="infoForm.leukorrheal_feature_qita" style="width:150px;" placeholder="其他"></el-input>
+            <el-input v-model="infoForm.leukorrheal_feature_qita" style="width:150px;" placeholder="请具体描述"></el-input>
           </span>
         </p>
         <p>带下气味：
           <el-radio v-model="infoForm.leukorrheal_smell" label="正常" style="width:50px;"></el-radio>
           <el-radio v-model="infoForm.leukorrheal_smell" label="异常" style="width:50px;"></el-radio>
           <span v-show="infoForm.leukorrheal_smell == '异常'">
-            <el-input v-model="infoForm.leukorrheal_smell_qita" style="width:150px;" placeholder="其他"></el-input>
+            <el-input v-model="infoForm.leukorrheal_smell_qita" style="width:150px;" placeholder="请具体描述"></el-input>
           </span>
         </p>
       <h4>婚姻状况</h4>
@@ -238,7 +247,10 @@
           </p>
         </div>
       <h4>家族史</h4>
-        <p>遗传病：<el-checkbox v-model="infoForm.is_history_disease">有</el-checkbox></p>
+        <p>遗传病：
+        <el-switch v-model="infoForm.is_history_disease" active-text="有" inactive-text="无"></el-switch>
+        </p>
+        <el-input v-if="infoForm.is_history_disease" v-model="infoForm.is_history_disease_qita"></el-input>
 
     </el-form>
 </template>
