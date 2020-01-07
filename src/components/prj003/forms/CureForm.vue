@@ -18,17 +18,6 @@
       </el-alert>
         <el-divider></el-divider>
 
-          <h3>中西医结合治疗</h3>
-          <el-form-item label="">
-            <el-radio-group v-model="cureForm.is_together_cure">
-              <el-radio :label="true">是</el-radio>
-              <el-radio :label="false">否</el-radio>
-            </el-radio-group>
-            <!--
-              <el-switch v-model="cureForm.is_together_cure" active-text="是" inactive-text="否"></el-switch>
-              -->
-          </el-form-item>
-
             <h3>I. 中医治疗</h3>
             <el-form-item label="">
               <el-radio-group v-model="cureForm.is_zhongyi">
