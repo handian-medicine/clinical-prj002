@@ -50,15 +50,21 @@
                        v-model="relevantForm[key]"
                        :key="key" :label="val">
               </el-checkbox>
-              <el-checkbox v-show="relevantForm.gynaecology_gong_abnormal" v-for="(val, key) in gynaecology_gong_abnormal_Checkbox"
-                       v-model="relevantForm[key]"
-                       :key="key" :label="val">
+              <el-checkbox v-show="relevantForm.gynaecology_gong_abnormal"
+                          v-model="relevantForm.gynaecology_gong_abnormal_shui" label="水肿">
+              </el-checkbox>
+              <el-checkbox v-show="relevantForm.gynaecology_gong_abnormal"
+                          v-model="relevantForm.gynaecology_gong_abnormal_mi" label="宫颈糜烂样改变">
               </el-checkbox>
                   <div v-show="relevantForm.gynaecology_gong_abnormal_mi">
                     （<el-radio v-model="relevantForm.gynaecology_gong_abnormal_mi_level" label="轻"></el-radio>
                     <el-radio v-model="relevantForm.gynaecology_gong_abnormal_mi_level" label="中"></el-radio>
                     <el-radio v-model="relevantForm.gynaecology_gong_abnormal_mi_level" label="重"></el-radio>）
                   </div>
+              <el-checkbox v-show="relevantForm.gynaecology_gong_abnormal" v-for="(val, key) in gynaecology_gong_abnormal_Checkbox"
+                       v-model="relevantForm[key]"
+                       :key="key" :label="val">
+              </el-checkbox>
               <el-input v-show="relevantForm.gynaecology_gong_abnormal" v-model="relevantForm.gynaecology_gong_abnormal_qita"  placeholder="其他"></el-input>
             </el-form-item>
             <el-form-item label="子宫体">
@@ -83,12 +89,12 @@
                         v-model="relevantForm[key]"
                         :key="key" :label="val">
               </el-checkbox>
-                  （<el-checkbox v-show="relevantForm.gynaecology_ren_abnormal"
-                                  v-model="relevantForm.gynaecology_ren_abnormal_zuo"
+                <div v-show="relevantForm.gynaecology_ren_abnormal">
+                  （<el-checkbox v-model="relevantForm.gynaecology_ren_abnormal_zuo"
                                   label="左侧增粗/触痛"></el-checkbox>
-                    <el-checkbox v-show="relevantForm.gynaecology_ren_abnormal"
-                                  v-model="relevantForm.gynaecology_ren_abnormal_you"
+                    <el-checkbox v-model="relevantForm.gynaecology_ren_abnormal_you"
                                   label="右侧增粗/触痛"></el-checkbox>）
+                </div>
               <el-input v-show="relevantForm.gynaecology_ren_abnormal" v-model="relevantForm.gynaecology_ren_abnormal_qita"  placeholder="其他"></el-input>
             </el-form-item>
             <el-form-item label="左附件">
@@ -309,9 +315,11 @@
               </el-form-item>
               <el-form-item v-show="relevantForm.check_ultrasound_zuoji" label="左侧输卵管积液">
                 <el-input v-model="relevantForm.check_ultrasound_zuoji_v">
+                  <span slot="append">cm</span>
                 </el-input>
               </el-form-item>
               <el-form-item v-show="relevantForm.check_ultrasound_youji" label="右侧输卵管积液">
+                  <span slot="append">cm</span>
                 <el-input v-model="relevantForm.check_ultrasound_youji_v">
                 </el-input>
               </el-form-item>
@@ -339,33 +347,38 @@
                 </el-input>
               </el-form-item>
 
+
               <el-form-item label="⑨其他检查">
               </el-form-item>
               <el-form-item label="阴道后穹隆穿刺">
-                <el-switch v-model="relevantForm.check_others_yin" active-text="有" inactive-text="无"></el-switch>
+                <el-checkbox v-model="relevantForm.wu_check_others_yin" label="无"></el-checkbox>
+                <el-checkbox v-model="relevantForm.check_others_yin" label="有"></el-checkbox>
                 <el-input v-show="relevantForm.check_others_yin"
                           v-model="relevantForm.check_others_yin_detail" placeholder="详情">
                 </el-input>
               </el-form-item>
               <el-form-item label="子宫内膜活组织检查">
-                <el-switch v-model="relevantForm.check_others_zi" active-text="有" inactive-text="无">
-                </el-switch>
+                <el-checkbox v-model="relevantForm.wu_check_others_zi" label="无"></el-checkbox>
+                <el-checkbox v-model="relevantForm.check_others_zi" label="有">
+                </el-checkbox>
                 <el-input v-show="relevantForm.check_others_zi"
                           v-model="relevantForm.check_others_zi_detail" placeholder="详情">
                 </el-input>
               </el-form-item>
               <el-form-item label="腹腔镜检查">
-               <el-switch v-model="relevantForm.check_others_fu" active-text="有" inactive-text="无">
-               </el-switch>
+                <el-checkbox v-model="relevantForm.wu_check_others_fu" label="无"></el-checkbox>
+               <el-checkbox v-model="relevantForm.check_others_fu" label="有">
+               </el-checkbox>
                <el-input v-show="relevantForm.check_others_fu"
-                         v-model="relevantForm.check_others_fu_detail" placeholder="详情">
+                          v-model="relevantForm.check_others_fu_detail" placeholder="详情">
                </el-input>
               </el-form-item>
               <el-form-item label="MRI检查">
-               <el-switch v-model="relevantForm.check_others_mri" active-text="有" inactive-text="无">
-               </el-switch>
+                <el-checkbox v-model="relevantForm.wu_check_others_mri" label="无"></el-checkbox>
+                <el-checkbox v-model="relevantForm.check_others_mri" label="有">
+               </el-checkbox>
                <el-input v-show="relevantForm.check_others_mri"
-                         v-model="relevantForm.check_others_mri_detail" placeholder="详情">
+                          v-model="relevantForm.check_others_mri_detail" placeholder="详情">
                </el-input>
               </el-form-item>
 
@@ -388,12 +401,12 @@ export default {
             },
             gynaecology_gong_Checkbox:{gynaecology_gong_normal:"正常",gynaecology_gong_abnormal:"异常"},
             gynaecology_gong_abnormal_Checkbox:{
-                      gynaecology_gong_abnormal_xue:"充血",
-                      gynaecology_gong_abnormal_shui:"水肿",
-                      gynaecology_gong_abnormal_ju:"举痛",
+                      // gynaecology_gong_abnormal_xue:"充血",
+                      // gynaecology_gong_abnormal_shui:"水肿",
+                      // gynaecology_gong_abnormal_mi:"宫颈糜烂样改变",
                       gynaecology_gong_abnormal_xi:"宫颈息肉",
                       gynaecology_gong_abnormal_fei:"宫颈肥大",
-                      gynaecology_gong_abnormal_mi:"宫颈糜烂样改变"},
+                      gynaecology_gong_abnormal_ju:"举痛"},
             gynaecology_zi_Checkbox:{gynaecology_zi_normal:"正常", gynaecology_zi_abnormal:"异常"},
             gynaecology_zi_abnorma_Checkbox:{gynaecology_zi_abnormal_da:"增大", gynaecology_zi_abnormal_ya:"压痛", gynaecology_zi_abnormal_huo:"活动受限"},
             gynaecology_zi_abnormal_zeng_Radio:["40天孕大", "50天孕大", "60天孕大", "90天孕大"],
