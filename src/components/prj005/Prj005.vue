@@ -84,7 +84,7 @@ export default {
     // 关于v-for v-if，data里未定义的变量遍历使用计算属性。否则使用v-for v-if配合使用
     routes: function() {
       return this.$router.options.routes.filter(function(item) {
-        return item.name == '多囊卵巢综合征';
+        return item.name == '盆腔炎性疾病及其后遗症';
       });
       // return this.$router.options.routes.filter(function(item) {
       //   return !item.hidden;

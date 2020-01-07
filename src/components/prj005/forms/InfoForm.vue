@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="一般情况" class="my-dialog" :rules="rules"
+  <el-dialog title="一般情况" class="my-dialog prj005-dialog" :rules="rules"
             :visible.sync="dialogVisible"
             :close-on-click-modal="false"
             width="90%" center>
@@ -20,7 +20,7 @@
       <p></p>
 
       <h4>病人现住址</h4>
-        <el-input v-model="infoForm.address"></el-input>
+        <el-input v-model="infoForm.address" placeholder="请按照 省、市、区/县、村 填写"></el-input>
 
       <h4>病人来源</h4>
         <el-radio v-model="infoForm.patient_source"
@@ -34,9 +34,13 @@
                 value-format="yyyy-MM">
         </el-date-picker>
       <h4>身高</h4>
-        <el-input v-model="infoForm.patient_height" placeholder="身高"></el-input>
+        <el-input v-model="infoForm.patient_height" placeholder="身高">
+          <span slot="append">cm</span>
+        </el-input>
       <h4>体重</h4>
-        <el-input v-model="infoForm.patient_weight" placeholder="体重"></el-input>
+        <el-input v-model="infoForm.patient_weight" placeholder="体重">
+          <span slot="append">kg</span>
+        </el-input>
       <h4>民族</h4>
         <el-select v-model="infoForm.nation" placeholder="请选择">
           <el-option v-for="item in nationSelection" :key="item" :label="item" :value="item">
@@ -47,6 +51,7 @@
           <el-option v-for="item in careerSelection" :key="item" :label="item" :value="item">
           </el-option>
         </el-select>
+        <p><el-input v-if="infoForm.patient_career=='其它'" v-model="infoForm.patient_career_qita" placeholder="其它职业"></el-input></p>
       <h4>文化程度</h4>
         <el-select v-model="infoForm.patient_culture" prop="culture" placeholder="请选择">
           <el-option v-for="item in cultureSelection" :key="item" :label="item" :value="item">
@@ -62,11 +67,6 @@
                       v-model="infoForm[key]" :label="val">
         </el-checkbox>
         <el-input v-model="infoForm.special_qita" placeholder="其他"></el-input>
-      <h4>职业体力劳动强度</h4>
-          <p><el-radio v-model="infoForm.patient_work" label="I">I级（轻劳动）：坐姿、手工作业、仪器操作控制等</el-radio></p>
-          <p><el-radio v-model="infoForm.patient_work" label="II">II级（中等劳动）：护工、保洁、运输、搬运中等重物、粉刷、除草、锄田等</el-radio></p>
-          <p><el-radio v-model="infoForm.patient_work" label="III">III级（重劳动）：搬重物、挖掘、锤锻等</el-radio></p>
-          <p><el-radio v-model="infoForm.patient_work" label="IV">IV级（极重劳动）：大强度的挖掘、搬运等</el-radio></p>
       <h4>生活工作方式</h4>
         <el-checkbox v-for="(val, key) in workstyle" :key="key"
                       v-model="infoForm[key]" :label="val">
@@ -78,14 +78,17 @@
         </el-checkbox>
         <el-input v-model="infoForm.eat_qita" placeholder="其他"></el-input>
       <h4>特殊嗜好</h4>
-        <el-checkbox v-model="infoForm.hobby_wu" label="无"></el-checkbox>
+        <el-checkbox v-model="infoForm.hobby_wu" label="无特殊"></el-checkbox>
         <el-checkbox v-model="infoForm.hobby_xi" label="吸烟"></el-checkbox>
         <span v-show="infoForm.hobby_xi == true"><el-input v-model="infoForm.hobby_xi_num" style="width:50px;"></el-input>支/日</span>
         <el-checkbox v-model="infoForm.hobby_yin" label="饮酒"></el-checkbox>
         <span v-show="infoForm.hobby_yin == true"><el-input v-model="infoForm.hobby_yin_num" style="width:50px;"></el-input>ml/日</span>
+        <el-checkbox v-model="infoForm.hobby_cha" label="饮茶"></el-checkbox>
+        <el-checkbox v-model="infoForm.hobby_kafei" label="咖啡"></el-checkbox>
         <el-input v-model="infoForm.hobby_qita" placeholder="其他"></el-input>
       <h4>传染病史</h4>
-        <el-checkbox v-model="infoForm.is_infection">有</el-checkbox>
+        <el-switch v-model="infoForm.is_infection" active-text="有" inactive-text="无"></el-switch>
+        <!-- <el-checkbox v-model="infoForm.is_infection">有</el-checkbox> -->
         <p v-show="infoForm.is_infection">
           <el-checkbox v-for="(val, key) in infection" :key="key"
                         v-model="infoForm[key]" :label="val">
@@ -117,14 +120,16 @@
           <el-radio v-model="infoForm.blood_color" label="正常" style="width:50px;"></el-radio>
           <el-radio v-model="infoForm.blood_color" label="异常" style="width:50px;"></el-radio>
         </p>
+          <el-input v-if="infoForm.blood_color=='异常'" v-model="infoForm.blood_color_abnormal" style="width:200px;"></el-input>
         <p>⑥经血质地：
           <el-radio v-model="infoForm.blood_quality" label="正常" style="width:50px;"></el-radio>
           <el-radio v-model="infoForm.blood_quality" label="异常" style="width:50px;"></el-radio>
         </p>
+          <el-input v-if="infoForm.blood_quality=='异常'" v-model="infoForm.blood_quality_abnormal" style="width:200px;"></el-input>
         <p>⑦经期伴随症状：</p>
           <p v-for="(val, key) in accompany" :key="val">
             {{val}}：
-            <el-checkbox v-model="infoForm[key]">有</el-checkbox>
+            <el-switch v-model="infoForm[key]" active-text="有" inactive-text="无"></el-switch>
             <span v-show="infoForm[key]">
               (
               <el-radio v-model="infoForm[key + '_exist']" label="偶尔"></el-radio>
@@ -150,8 +155,8 @@
           <el-radio v-model="infoForm.leukorrheal_quantity" label="异常" style="width:50px;"></el-radio>
           <span v-show="infoForm.leukorrheal_quantity == '异常'">
             （
-            <el-radio v-model="infoForm.leukorrheal_quantity2" label="量多" style="width:50px;"></el-radio>
-            <el-radio v-model="infoForm.leukorrheal_quantity2" label="量少" style="width:50px;"></el-radio>
+            <el-radio v-model="infoForm.leukorrheal_quantity_more" label="量多" style="width:50px;"></el-radio>
+            <el-radio v-model="infoForm.leukorrheal_quantity_more" label="量少" style="width:50px;"></el-radio>
             ）
           </span>
         </p>
@@ -159,28 +164,29 @@
           <el-radio v-model="infoForm.leukorrheal_color" label="正常" style="width:50px;"></el-radio>
           <el-radio v-model="infoForm.leukorrheal_color" label="异常" style="width:50px;"></el-radio>
           <span v-show="infoForm.leukorrheal_color == '异常'">
-            <el-input v-model="infoForm.leukorrheal_color_qita" style="width:150px;" placeholder="其他"></el-input>
+            <el-input v-model="infoForm.leukorrheal_color_qita" style="width:150px;" placeholder="请具体描述"></el-input>
           </span>
         </p>
         <p>带下性状：
           <el-radio v-model="infoForm.leukorrheal_feature" label="正常" style="width:50px;"></el-radio>
           <el-radio v-model="infoForm.leukorrheal_feature" label="异常" style="width:50px;"></el-radio>
           <span v-show="infoForm.leukorrheal_feature == '异常'">
-            <el-input v-model="infoForm.leukorrheal_feature_qita" style="width:150px;" placeholder="其他"></el-input>
+            <el-input v-model="infoForm.leukorrheal_feature_qita" style="width:150px;" placeholder="请具体描述"></el-input>
           </span>
         </p>
         <p>带下气味：
           <el-radio v-model="infoForm.leukorrheal_smell" label="正常" style="width:50px;"></el-radio>
           <el-radio v-model="infoForm.leukorrheal_smell" label="异常" style="width:50px;"></el-radio>
           <span v-show="infoForm.leukorrheal_smell == '异常'">
-            <el-input v-model="infoForm.leukorrheal_smell_qita" style="width:150px;" placeholder="其他"></el-input>
+            <el-input v-model="infoForm.leukorrheal_smell_qita" style="width:150px;" placeholder="请具体描述"></el-input>
           </span>
         </p>
       <h4>婚姻状况</h4>
         1、
         <el-radio v-model="infoForm.marriage" label="未婚"></el-radio>
         <el-radio v-model="infoForm.marriage" label="已婚"></el-radio>
-        <el-radio v-model="infoForm.marriage" label="离异或丧偶"></el-radio>
+        <el-radio v-model="infoForm.marriage" label="离异"></el-radio>
+        <el-radio v-model="infoForm.marriage" label="丧偶"></el-radio>
         <el-radio v-model="infoForm.marriage" label="再婚"></el-radio>
         <el-input v-model="infoForm.marriage_qita" style="width:150px;" placeholder="其他"></el-input>
         <p></p>
@@ -201,7 +207,7 @@
             清宫术<el-input v-model="infoForm.pregnancy_qing" style="width:50px;"></el-input>次、
           <el-input v-model="infoForm.pregnancy_qita" placeholder="其他"></el-input>
           <p class="prj005-info">
-            未孕者，未避孕未孕
+            不孕症者，未避孕未孕
             <el-input v-model="infoForm.pregnancy_nerver" style="width:250px;">
               <el-select v-model="infoForm.pregnancy_nerver_unit" slot="append">
                 <el-option label="年" value="年"></el-option>
@@ -211,7 +217,10 @@
           </p>
         </div>
       <h4>家族史</h4>
-        <p>遗传病：<el-checkbox v-model="infoForm.is_history_disease">有</el-checkbox></p>
+        <p>遗传病：
+        <el-switch v-model="infoForm.is_history_disease" active-text="有" inactive-text="无"></el-switch>
+        </p>
+        <el-input v-if="infoForm.is_history_disease" v-model="infoForm.is_history_disease_qita" style="width:250px;"></el-input>
 
     </el-form>
     <span slot="footer">
@@ -249,10 +258,10 @@ export default {
                   },
       "dietCheckbox":{"eat_wu":"无特殊","eat_suan":"酸","eat_tian":"甜","eat_xian":"咸",
                       "eat_la":"辛辣","eat_you":"油腻","eat_sheng":"生冷","eat_ka":"含咖啡因食物或饮品","eat_su":"素食"},
-      "hobby":{"hobby_wu":"无","hobby_xi":"吸烟","hobby_yin":"饮酒"},
+      "hobby":{"hobby_wu":"无特殊","hobby_xi":"吸烟","hobby_yin":"饮酒"},
       "infection":{"infection_bing":"病毒性肝炎","infection_jie":"结核","infection_lin":"淋病",
                     "infection_mei":"梅毒","infection_ai":"艾滋病"},
-      "other":{"other_jiliu":"子宫肌瘤","other_yiwei":"子宫内膜异位症","other_xianji":"子宫腺肌病","other_yuxue":"盆腔淤血综合征",
+      "other":{"other_wu":"无","other_jiliu":"子宫肌瘤","other_yiwei":"子宫内膜异位症","other_xianji":"子宫腺肌病","other_yuxue":"盆腔淤血综合征",
                 "other_chuxue":"异常子宫出血","other_kangjin":"甲状腺功能亢进","other_dixia":"甲状腺功能低下",
                 "other_hongban":"系统性红斑狼疮","other_yiyu":"焦虑症/抑郁症"},
       "accompany":{"symptom_futong":"经行腹痛","symptom_yinu":"经行烦躁易怒","symptom_toutong":"经行头痛",
@@ -305,7 +314,7 @@ export default {
   },
   created() {
       this.$on("openEvent", (data)=>{
-        console.log('一般情况获取到的数据',data)
+        // console.log('一般情况获取到的数据',data)
         this.dialogVisible = true
         this.exist = data.exist
         this.formName = data.formName
@@ -326,6 +335,11 @@ export default {
 .prj005-info {
   .el-input-group__append, .el-input-group__prepend {
     width: 50px;
+  }
+}
+.prj005-dialog {
+  h4 {
+    color:cornflowerblue;
   }
 }
 </style>

@@ -1,7 +1,10 @@
 <template>
     <el-form ref="resultsForm" :model="resultsForm" :rules="rules"
             label-width="110px" label-position="left" class="mobile">
-
+            
+      <el-alert  title="没有治疗者不填"
+                        type="info" :closable="false" show-icon>
+      </el-alert>
       <el-form-item label="VAS评分（与治疗前比较）" label-width="100%"></el-form-item>
         <label>说明：数字0—10代表痛经程度依次递增，0代表无痛经；10代表极度疼痛甚则晕厥</label>
         <p></p>

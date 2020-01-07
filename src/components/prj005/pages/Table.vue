@@ -6,7 +6,11 @@
         <el-row>
           <el-col>
             <el-form-item v-for="(val, key, index) in search" :key="index">
-              <el-input v-if="key!='check_status'" v-model="search[key]" :placeholder="searchName[key]"></el-input>
+              <el-input v-if="key!='check_status' && key!='owner__user_name' && key!='owner__hospital'" v-model="search[key]" :placeholder="searchName[key]"></el-input>
+            </el-form-item>
+            <el-form-item v-for="(val, key, index) in search" :key="'user' + index">
+              <el-input v-if="(key=='owner__user_name' && is_admin) || (key=='owner__hospital' && is_admin)"
+                        v-model="search[key]" :placeholder="searchName[key]"></el-input>
             </el-form-item>
             <el-form-item>
               <el-select v-model="search.check_status" placeholder="查询数据状态">
@@ -166,9 +170,12 @@ export default {
       expandFlag:true,
       is_admin:true,
       search: {
-        patient_name: '', patient_phone:'', hospital_name:'', patient_birth:'', check_status:''//career:'',birth:''
+        patient_name: '', patient_phone:'', hospital_name:'', patient_birth:'',
+        owner__user_name:'', owner__hospital:'',
+        check_status:''
       },
-      searchName: {patient_name:'姓名',patient_phone:'电话',hospital_name:'医院',patient_birth:'出生年月'},//career:'职业',birth:'出生日期',
+      searchName: {patient_name:'姓名',patient_phone:'电话',hospital_name:'医院',patient_birth:'出生年月',
+                  owner__user_name:'医生姓名', owner__hospital:'医生所在医院'},
       patientsList: [], // 数据列表
       totalNum: 0, // 数据总条数
       page: 1, //当前页码
@@ -189,7 +196,7 @@ export default {
     exportFile () {
       this.pagination_flag = false
       apiExportFile( ).then( (res) => {
-        console.log('导出路径',res.data.path)
+        // console.log('导出路径',res.data.path)
         window.location.href = "http://" + res.data.path
       })
     },
@@ -263,7 +270,7 @@ export default {
     },
     // 搜索功能
     searchPatient () {
-      console.log('搜索字段',this.search)
+      // console.log('搜索字段',this.search)
       let para = {
         page: this.search_page,
         search: this.search
@@ -282,23 +289,24 @@ export default {
       } )
     },
     handleListPagination (currentPage) {
-      console.log('分页',currentPage)
+      // console.log('分页',currentPage)
       this.page = currentPage,
       this.getPatients()
     },
     handleSearchPagination (currentPage) {
-      console.log('分页',currentPage)
+      // console.log('分页',currentPage)
       this.search_page = currentPage
       this.searchPatient()
     },
     // 获取患者列表
     getPatients () {
-      this.search = {patient_name: '', patient_phone:'', hospital_name:'', patient_birth:'', check_status:''}//career:'', birth:''
+      this.search = {patient_name: '', patient_phone:'', hospital_name:'', patient_birth:'',
+                    owner__user_name:'', owner__hospital:'', check_status:''}
       let para = {page: this.page}
       this.listLoading = true
       this.expandFlag = true
       apiGetPatientsList(para).then((res) => {
-        console.log(res.data)
+        // console.log(res.data)
         this.patientsList = res.data.patientsList
         this.is_admin = res.data.is_admin
         this.totalNum = res.data.totalNum
@@ -316,23 +324,23 @@ export default {
     openDataForm (index, row, formName) {
       var userinfo = JSON.parse(sessionStorage.getItem('userinfo'))
       var isOwnedByUser = (userinfo.id == row.owner_id)
-      console.log('isOwnedByUser',isOwnedByUser)
-      console.log('formName',formName)
+      // console.log('isOwnedByUser',isOwnedByUser)
+      // console.log('formName',formName)
       // 如果DataForm表未创建,不需要请求后端,直接显示空表
       if (row[formName] == null) {
-        console.log('创建流程',formName)
+        // console.log('创建流程',formName)
         // 传一个创建此DataForm的url进去,这个url是info的url
         this.$refs[formName].$emit("openEvent",
         {exist:false,isOwnedByUser:isOwnedByUser,formData:{info:row.info}, formName:formName, check_status:row.check_status } )
       } else {
       // 如果DataForm表已创建,需要请求后端,拿到数据
-        console.log('修改流程',formName)
+        // console.log('修改流程',formName)
         // 此时当前患者的DataForm已经存在
-        console.log('row[formName]',row[formName])
+        // console.log('row[formName]',row[formName])
         let para = {page: this.page, url: row[formName]}
         apiGetPatientDataForm(para)
         .then((res)=> {
-          console.log('拿到的已创建的DataForm表',res.data)
+          // console.log('拿到的已创建的DataForm表',res.data)
           this.$refs[formName].$emit("openEvent",
           {exist:true, isOwnedByUser:isOwnedByUser, formData:res.data, formName:formName, check_status:row.check_status})
         })
@@ -431,6 +439,9 @@ background:red;
 border:1px solid red;
 }
 .el-tag.el-tag--danger {
+  cursor: pointer;
+}
+.el-tag.el-tag--warning {
   cursor: pointer;
 }
 </style>

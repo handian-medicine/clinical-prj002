@@ -99,6 +99,14 @@ import { apiAddPatient } from '@/api/api-prj001'
 export default {
     name:'AddPatient',
     data () {
+      var birthAlert = (rule, value, callback) => {
+        var selectYear = Number(this.patientInfo.birth.split('-')[0]);
+        var thisYear = new Date().getFullYear();
+        if (selectYear >= thisYear) {
+          return callback(new Error('您选择的出生日期超出了范围'))
+        }
+        callback();
+      };
       return {
         mydata:{
             entranceSelection:["门诊","病房"],
@@ -109,7 +117,7 @@ export default {
                         "毛难族","仡佬族","锡伯族","阿昌族","普米族","塔吉克族","怒族","乌孜别克族","俄罗斯族","鄂温克族",
                         "崩龙族","保安族","裕固族","京族","塔塔尔族","独龙族","鄂伦春族","赫哲族","门巴族","珞巴族","基诺族","其它"],
             careerSelection: ["学生","个体","农民","军人","工人","财会人员","技术人员","服务业","科教文卫","行政管理","无业","其它"],
-            cultureSelection: ["未接受国家教育(文盲)","小学及以下","初中","高中","大专","本科","研究生及以上"],
+            cultureSelection: ["未接受国家教育(文盲)","小学及以下","初中","高中/中专","大专","本科","研究生及以上"],
             specialCheckbox: {"gaowen":"高温","diwen":"低温","yeban":"夜班","zaosheng":"噪声","fushe":"辐射","huagongyinran":"化工污染","julieyundong":"剧烈运动","qiyou":"汽油","gaokong":"高空","wu":"无"},
             dietCheckbox:    {"wuteshu":"无特殊","sushi":"素食","suan":"酸","xian":"咸","xinla":"辛辣","you":"油","shengleng":"生冷","cafei":"含咖啡因食物或饮品"},
         },
@@ -159,7 +167,8 @@ export default {
           entrance:  [{required: true, message: '请填写就诊机构'}],
           nation:  [{required: true, message: '请填写民族'}],
           culture:  [{required: true, message: '请填写最高学历'}],
-          birth:  [{required: true, message: '请填写出生年月'}],
+          birth:  [{required: true, message: '请填写出生年月'},
+                    {validator:birthAlert,trigger: 'blur' }],
           title:  [{required: true, message: '请填写专家职称'}],
           expert:  [{required: true, message: '请填写专家姓名'}],
         }

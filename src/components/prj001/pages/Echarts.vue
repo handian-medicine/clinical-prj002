@@ -148,7 +148,6 @@ export default {
         })
         // this.chartBar.hideLoading()
 
-        // console.log("drawPieChart1",chartData)
       }).catch();
     }
   },

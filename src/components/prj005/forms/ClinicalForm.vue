@@ -21,10 +21,12 @@
 
       <el-form-item label="中医诊断">
           <el-checkbox v-for="(val, key) in herbalist_Checkbox" :key="key" :label="val" v-model="clinicalForm[key]"></el-checkbox>
-          <el-input v-model="clinicalForm.herbalist_qita" placeholder="其他"></el-input>
       </el-form-item>
       <el-form-item v-show="clinicalForm.herbalist_bu" label="月经不调">
           <el-checkbox v-for="(val, key) in herbalist_bu_Checkbox" :key="key" :label="val" v-model="clinicalForm[key]"></el-checkbox>
+      </el-form-item>
+      <el-form-item>
+          <el-input v-model="clinicalForm.herbalist_qita" placeholder="其他"></el-input>
       </el-form-item>
 
         <el-form-item label="辨证分型">
@@ -67,7 +69,15 @@
             <template slot="append">次</template>
           </el-input>
       </el-form-item>
-
+      <el-form-item label="盆腔炎病程">
+          <el-input v-model="clinicalForm.western_how_long" >
+            <template slot="append">月/年</template>
+          </el-input>
+      </el-form-item>
+      <el-form-item label="初次发病时间">
+          <el-input v-model="clinicalForm.western_first_time" placeholder="年/月">
+          </el-input>
+      </el-form-item>
     </el-form>
 
     <span slot="footer">
@@ -84,7 +94,7 @@ export default {
   name:'ClinicalForm',
   data() {
     return {
-      herbalist_Checkbox:{herbalist_pen:"盆腔炎", herbalist_fu:"妇人腹痛", herbalist_re:"热入血室", herbalist_jing:"经病腹痛", herbalist_dai:"带下病", herbalist_xia:"癥瘕", herbalist_yun:"不孕症", herbalist_bu:"月经不调"},
+      herbalist_Checkbox:{herbalist_pen:"盆腔炎", herbalist_fu:"妇人腹痛", herbalist_re:"热入血室", herbalist_jing:"痛经", herbalist_dai:"带下病", herbalist_xia:"癥瘕", herbalist_yun:"不孕症", herbalist_bu:"月经不调"},
       herbalist_bu_Checkbox:{herbalist_bu_xian:"月经先期", herbalist_bu_duo:"月经过多", herbalist_bu_yan:"经期延长", herbalist_bu_lou:"崩漏", herbalist_bu_hou:"月经后期", herbalist_bu_shao:"月经过少"},
       discriminate_shi_Radio:["热毒炽盛证", "湿毒壅盛证", "湿热蕴结证", "瘀热内结证", "湿热瘀结证", "气滞血瘀证", "寒湿瘀阻证"],
       discriminate_xushi_Radio:["气虚血瘀证", "肾虚血瘀证"],

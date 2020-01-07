@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { apiCheckPatient } from '@/api/api-prj002'
+import { apiCheckPatient } from '@/api/api-prj005'
 export default {
     name:'CheckPatient',
     data () {
