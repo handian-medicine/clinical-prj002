@@ -75,9 +75,15 @@ export default {
             }
             apiAddPatient(para)
             .then( (res)=> {
-              this.$message({message: '提交成功',type: 'success'})
-              this.dialogVisible = false
-              this.$parent.getPatients()
+                if (res.statusCode == 201) {
+                  this.$message({message: '提交成功',type: 'success'})
+                  this.dialogVisible = false
+                  this.$parent.getPatients()
+                } else {
+                  this.$message({message: '您没有添加数据的权限',type: 'error'})
+                  this.dialogVisible = false
+                  this.$parent.getPatients()
+                }
               }
             )
             .catch()

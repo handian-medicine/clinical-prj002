@@ -50,7 +50,11 @@ router.post('/add', function (req, res, next) {
   console.log(options)
   request.post(options, function (error, response, body) {
     console.log("增加信息", body)
-    res.send({msg:'成功了'})
+    if (response.statusCode == 201 ) {
+      res.send({msg:"成功了",statusCode:201})
+    } else {
+      res.send({msg:"您没有添加数据的权限",statusCode:403})
+    }
   })
 
 })
