@@ -190,7 +190,7 @@ export default {
             }
             apiAddPatient(para)
             .then( (res)=> {
-                if (res.statusCode == 201) {
+                if (res.data.statusCode == 201) {
                   this.$message({message: '提交成功',type: 'success'})
                   this.dialogVisible = false
                   this.$parent.getPatients()
