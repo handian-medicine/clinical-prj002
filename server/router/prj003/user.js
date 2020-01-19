@@ -18,7 +18,7 @@ router.post('/search', function (req, res, next) {
     console.log("搜索option", options)
   request.post(options, function (error, response, body) {
     var bodyParse = JSON.parse(body)
-    console.log("搜索返回结果", bodyParse.count)
+    // console.log("搜索返回结果", bodyParse.count)
     var searchResultsNum = bodyParse.count
     var searchResults = bodyParse.results
     res.send({searchResults, searchResultsNum})

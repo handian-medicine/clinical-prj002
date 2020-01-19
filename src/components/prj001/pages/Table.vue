@@ -187,14 +187,14 @@ export default {
     exportFile () {
       this.search.types = 'download'
       this.$message({message: '数据量较大，请您耐心等待', type: 'success'})
-      console.log('搜索字段',this.search)
+      // console.log('搜索字段',this.search)
       let para = {
         page: this.search_page,
         search:this.search
       }
       this.pagination_flag = false
       apiExportFile(para).then( (res) => {
-        console.log('导出路径',res.data.path)
+        // console.log('导出路径',res.data.path)
         window.location.href = "http://" + res.data.path
         this.$message({message: '导出成功', type: 'success'})
       })
@@ -222,7 +222,7 @@ export default {
     },
     // 搜索功能
     searchPatient () {
-      console.log('搜索字段',this.search)
+      // console.log('搜索字段',this.search)
       let para = {
         page: this.search_page,
         search:this.search
@@ -254,7 +254,7 @@ export default {
       this.listLoading = true
       this.expandFlag = true
       apiGetPatientsList(para).then((res) => {
-        console.log(res.data)
+        // console.log(res.data)
         this.patientsList = res.data.patientsList
         this.is_admin = res.data.is_admin
         this.totalNum = res.data.totalNum
@@ -293,12 +293,12 @@ export default {
       /* ****** */
 
       if (row[formName]==null) {
-        console.log('创建流程', formName)
+        // console.log('创建流程', formName)
         // 传一个创建此DataForm的url进去,这个url是info的url
         this.$refs[formName].$emit("openEvent", {exist:false, formData:{info:row.url}, formName:formName } )
       } else {
       // 如果DataForm表已创建,需要请求后端,拿到数据
-        console.log('修改流程', formName)
+        // console.log('修改流程', formName)
         // 此时当前患者的DataForm已经存在
         let para = {page: this.page, url: row[formName]}
         apiGetPatientDataForm(para)

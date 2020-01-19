@@ -64,7 +64,7 @@
       </el-table-column>
       <el-table-column prop="serial" label="编码" width="125">
       </el-table-column>
-      <el-table-column prop="hospital_name" label="医院" width="150">
+      <el-table-column prop="hospital_name" label="患者所属医院" width="150">
       </el-table-column>
       <el-table-column prop="address" label="住址" width="150">
       </el-table-column>
@@ -179,7 +179,7 @@ export default {
         owner__user_name:'', owner__hospital:'',
         check_status:''
       },
-      searchName: {patient_name:'姓名',patient_phone:'电话',hospital_name:'医院',patient_birth:'出生年月',
+      searchName: {patient_name:'姓名',patient_phone:'电话',hospital_name:'患者所属医院',patient_birth:'出生年月',
                   owner__user_name:'医生姓名', owner__hospital:'医生所在医院'},
       patientsList: [], // 数据列表
       totalNum: 0, // 数据总条数

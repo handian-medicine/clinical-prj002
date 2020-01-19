@@ -6,6 +6,14 @@
     <el-form ref="patientInfo" :model="patientInfo" :rules="rules" label-width="130px" label-position="left">
 
       <!-- format表示显示在页面的日期格式, value-format表示传递给后台的真实的数据格式 -->
+      <el-form-item label="就诊日期"  prop="recdate">
+        <!-- format表示显示在页面的日期格式, value-format表示传递给后台的真实的数据格式 -->
+        <el-date-picker v-model="patientInfo.recdate"
+                        type="date" placeholder="选择日期"
+                        format="yyyy 年 MM 月 dd 日"
+                        value-format="yyyy-MM-dd">
+        </el-date-picker>
+      </el-form-item>
       <el-form-item label="医院名称" prop="hospital">
         <el-input v-model="patientInfo.hospital"></el-input>
       </el-form-item>
@@ -139,6 +147,7 @@ export default {
         //     'birth': '2000-01'
         // },
         patientInfo: {
+            'recdate':'',
             'owner':'',
             'hospital':'',
             'expert':'',
